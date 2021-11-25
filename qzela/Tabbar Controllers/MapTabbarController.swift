@@ -15,21 +15,33 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
     var savLatitude: Double = 0.0
     var savLongitude: Double = 0.0
 
-    @IBOutlet weak var btLocationCenter: UIButton!
     @IBOutlet weak var mapView: GMSMapView!
+    @IBOutlet weak var btMyLocation: UIButton!
+    @IBOutlet weak var btViewMap: UIButton!
+    @IBOutlet weak var btNewIncident: UIButton!
+    @IBOutlet weak var btSavedImage: UIButton!
     
-    @IBAction func btGotoPreview(_ sender: Any) {
+    @IBAction func btnClick(_ sender: UIButton) {
         
-        gotoViewControllerWithBack(viewController: "PreviewViewController")
+        switch sender.restorationIdentifier {
+        case "btMyLocation":
+            print("btMyLocation")
+            mapView.animate(to: GMSCameraPosition.camera(withLatitude: savLatitude, longitude: savLongitude, zoom: 18.0))
+       case "btViewMap":
+            print("btViewMap")
+        case "btNewIncident":
+            print("btNewIncident")
+        case "btSavedImage":
+            print("btSavedImage")
+        default:
+            print(sender.restorationIdentifier ?? "no restoration Identifier defined")
+        }
 
     }
-    
-    @IBOutlet weak var btGotoPreview: UIButton!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        btGotoPreview.setShadowWithCornerRadius(cornerRadius: btGotoPreview.frame.width * 0.5, shadowColor: .gray, shadowRadius: 5)
+//        btSavedImage.isHidden = true
         
         locationManager.delegate = self
         if CLLocationManager.locationServicesEnabled() {
@@ -87,6 +99,7 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
         self.view.window?.rootViewController = viewController
         self.view.window?.makeKeyAndVisible()
     }
+    
     func gotoViewControllerWithBack(viewController: String) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let nextViewController = storyBoard.instantiateViewController(withIdentifier: viewController)
