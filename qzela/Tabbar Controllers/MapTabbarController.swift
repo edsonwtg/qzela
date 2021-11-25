@@ -11,12 +11,12 @@ import UIKit
 
 class MapTabbarController: UIViewController, CLLocationManagerDelegate {
     
-    let manager = CLLocationManager()
+    let locationManager = CLLocationManager()
     var savLatitude: Double = 0.0
     var savLongitude: Double = 0.0
 
     @IBOutlet weak var btLocationCenter: UIButton!
-    @IBOutlet weak var mapView: UIView!
+    @IBOutlet weak var mapView: GMSMapView!
     
     @IBAction func btGotoPreview(_ sender: Any) {
         
@@ -31,29 +31,53 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
         
         btGotoPreview.setShadowWithCornerRadius(cornerRadius: btGotoPreview.frame.width * 0.5, shadowColor: .gray, shadowRadius: 5)
         
-        manager.delegate = self
-        manager.requestWhenInUseAuthorization()
-        manager.startUpdatingLocation()
+        locationManager.delegate = self
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.requestLocation()
+        } else {
+            locationManager.requestWhenInUseAuthorization()
+        }
+        
+        locationManager.startUpdatingLocation()
 
     }
     
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedAlways:
+            return
+        case .authorizedWhenInUse:
+            return
+        case .denied:
+            return
+        case .restricted:
+            locationManager.requestWhenInUseAuthorization()
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        default:
+            locationManager.requestWhenInUseAuthorization()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+    }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
         guard let location = locations.first else {return}
         
         savLatitude = location.coordinate.latitude
         savLongitude = location.coordinate.longitude
-     
-        let camera = GMSCameraPosition.camera(withLatitude: savLatitude, longitude: savLongitude, zoom: 18.0)
-        let googleMap = GMSMapView.map(withFrame: mapView.frame, camera: camera)
-        mapView.addSubview(googleMap)
+        
+        mapView.camera = GMSCameraPosition.camera(withLatitude: savLatitude, longitude: savLongitude, zoom: 18.0)
 
-        // Creates a marker in the center of the map.
         let marker = GMSMarker()
         marker.position = location.coordinate
         marker.title = "São Paulo"
         marker.snippet = "Brasil"
-        marker.map = googleMap
- 
+        marker.map = mapView
+
     }
     
 
