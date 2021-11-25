@@ -1,24 +1,473 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="10x-Ao-IMq">
+    <device id="retina6_1" orientation="landscape" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--SplashViewController-->
+        <scene sceneID="O8r-ff-Rhl">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <viewController restorationIdentifier="SplashViewController" storyboardIdentifier="SplashViewController" id="10x-Ao-IMq" userLabel="SplashViewController" customClass="SplashViewController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wFz-fr-w2s">
+                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Splash" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m2T-a6-SVG">
+                                <rect key="frame" x="353.5" y="171" width="189" height="72"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bdD-Yo-RZO">
+                                <rect key="frame" x="400.5" y="268" width="95" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Goto Login">
+                                    <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="btGotoLogin:" destination="10x-Ao-IMq" eventType="touchUpInside" id="7Cd-oU-WNm"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Lu1-BN-H4H"/>
+                        <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                        <constraints>
+                            <constraint firstItem="bdD-Yo-RZO" firstAttribute="top" secondItem="m2T-a6-SVG" secondAttribute="bottom" constant="25" id="E5b-Hc-DPi"/>
+                            <constraint firstItem="m2T-a6-SVG" firstAttribute="centerY" secondItem="wFz-fr-w2s" secondAttribute="centerY" id="Sdn-Pd-GiI"/>
+                            <constraint firstItem="m2T-a6-SVG" firstAttribute="centerX" secondItem="wFz-fr-w2s" secondAttribute="centerX" id="Ste-xb-feE"/>
+                            <constraint firstItem="bdD-Yo-RZO" firstAttribute="centerX" secondItem="wFz-fr-w2s" secondAttribute="centerX" id="yFE-NJ-j03"/>
+                        </constraints>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NEj-Rq-rRT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-14349.275362318842" y="-2651.1160714285711"/>
+        </scene>
+        <!--LoginViewController-->
+        <scene sceneID="zFO-4G-qRX">
+            <objects>
+                <viewController restorationIdentifier="LoginViewController" storyboardIdentifier="LoginViewController" id="KaQ-TB-VBU" userLabel="LoginViewController" customClass="LoginViewController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="WiR-1x-1HC">
+                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hlx-PN-VFX">
+                                <rect key="frame" x="371.5" y="171" width="153" height="72"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zg4-KH-5lz">
+                                <rect key="frame" x="392" y="268" width="112" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Go to Tab Bar">
+                                    <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="btGotoTabbar:" destination="KaQ-TB-VBU" eventType="touchUpInside" id="GOR-gk-guw"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ni8-dY-9ZD"/>
+                        <color key="backgroundColor" systemColor="tintColor"/>
+                        <constraints>
+                            <constraint firstItem="Zg4-KH-5lz" firstAttribute="top" secondItem="hlx-PN-VFX" secondAttribute="bottom" constant="25" id="XCA-IQ-SaE"/>
+                            <constraint firstItem="hlx-PN-VFX" firstAttribute="centerX" secondItem="WiR-1x-1HC" secondAttribute="centerX" id="ge4-Xl-mKN"/>
+                            <constraint firstItem="Zg4-KH-5lz" firstAttribute="centerX" secondItem="WiR-1x-1HC" secondAttribute="centerX" id="oXB-Aj-lMq"/>
+                            <constraint firstItem="hlx-PN-VFX" firstAttribute="centerY" secondItem="WiR-1x-1HC" secondAttribute="centerY" id="zFh-vO-rnR"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hzc-sn-ZfF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-13699" y="-2651"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="mv4-lx-jcY">
+            <objects>
+                <tabBarController restorationIdentifier="TabBarController" storyboardIdentifier="TabBarController" automaticallyAdjustsScrollViewInsets="NO" id="2pa-D5-7Vo" customClass="TabBarController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" itemPositioning="centered" id="Dvl-bA-0CS">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.060760982329999998" green="0.1758275926" blue="0.40394788980000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="tintColor" red="0.86608070140000004" green="0.34754854439999999" blue="0.0034717270169999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="barTintColor" red="0.060760982329999998" green="0.1758275926" blue="0.40394788980000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="selectedImageTintColor" red="0.86608070140000004" green="0.34754854439999999" blue="0.0034717270169999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="Aee-KM-AoL" kind="relationship" relationship="viewControllers" id="aor-o3-7Bv"/>
+                        <segue destination="1hT-pu-Vj4" kind="relationship" relationship="viewControllers" id="iw6-Ho-cBc"/>
+                        <segue destination="s3p-X1-4zQ" kind="relationship" relationship="viewControllers" id="Sk5-I6-EmZ"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lXN-a6-D2b" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-12770" y="-2651"/>
+        </scene>
+        <!--Dashboard-->
+        <scene sceneID="Xih-1K-DAA">
+            <objects>
+                <viewController restorationIdentifier="DashboardTabbarController" storyboardIdentifier="DashboardTabbarController" id="Aee-KM-AoL" customClass="DashboardTabbarController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tvf-wd-c0A">
+                        <rect key="frame" x="0.0" y="0.0" width="896" height="344"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ebv-ok-wde">
+                                <rect key="frame" x="402.5" y="156.5" width="91.5" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Go to Map"/>
+                                <connections>
+                                    <action selector="btnGotoMap:" destination="Aee-KM-AoL" eventType="touchUpInside" id="d2v-OA-be5"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U81-bc-nnr">
+                                <rect key="frame" x="391" y="212.5" width="114" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Go to Preview">
+                                    <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="btGotoNotification:" destination="Aee-KM-AoL" eventType="touchUpInside" id="TZJ-XP-Nzf"/>
+                                    <action selector="btGotoNotification:" destination="qtM-I9-seE" eventType="touchUpInside" id="bcN-G9-hmc"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ibb-vQ-N1X"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="U81-bc-nnr" firstAttribute="centerX" secondItem="tvf-wd-c0A" secondAttribute="centerX" id="8SY-tL-nCe"/>
+                            <constraint firstItem="Ebv-ok-wde" firstAttribute="centerY" secondItem="tvf-wd-c0A" secondAttribute="centerY" id="OC6-fL-1yc"/>
+                            <constraint firstItem="Ebv-ok-wde" firstAttribute="centerX" secondItem="tvf-wd-c0A" secondAttribute="centerX" id="PGl-5J-krD"/>
+                            <constraint firstItem="U81-bc-nnr" firstAttribute="top" secondItem="Ebv-ok-wde" secondAttribute="bottom" constant="25" id="jTy-rE-1O5"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Dashboard" id="8t8-Xb-bW9">
+                        <imageReference key="image" image="gauge" catalog="system" symbolScale="large"/>
+                    </tabBarItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CWc-ic-A1x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-13380" y="-1925"/>
+        </scene>
+        <!--Map-->
+        <scene sceneID="9k7-yn-bar">
+            <objects>
+                <viewController restorationIdentifier="MapTabbarController" storyboardIdentifier="MapTabbarController" id="1hT-pu-Vj4" customClass="MapTabbarController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rch-LW-VbF">
+                        <rect key="frame" x="0.0" y="0.0" width="896" height="344"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UWp-UC-MKS">
+                                <rect key="frame" x="0.0" y="0.0" width="896" height="344"/>
+                                <color key="backgroundColor" systemColor="systemGray4Color"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="xon-eq-Bcv" userLabel="Goto Preview">
+                                <rect key="frame" x="87" y="391" width="240" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="contentStretch" x="0.80000000000000004" y="0.0" width="1" height="1"/>
+                                <size key="titleShadowOffset" width="0.0" height="14"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Go to Preview">
+                                    <color key="baseForegroundColor" systemColor="labelColor"/>
+                                    <color key="baseBackgroundColor" systemColor="systemBackgroundColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="btGotoPreview:" destination="1hT-pu-Vj4" eventType="touchUpInside" id="PaY-7J-uAD"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="FQp-1u-3gC">
+                                <rect key="frame" x="777" y="222" width="45" height="100"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1PL-I1-P36" userLabel="Location Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="45" id="JhC-n9-A9b"/>
+                                            <constraint firstAttribute="height" constant="45" id="tmM-DC-eeg"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="scope" catalog="system" cornerStyle="dynamic">
+                                            <backgroundConfiguration key="background" cornerRadius="30" strokeWidth="1" strokeOutset="0.0">
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="strokeColor" systemColor="systemGrayColor"/>
+                                            </backgroundConfiguration>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="20" scale="default" weight="bold"/>
+                                            <color key="baseForegroundColor" systemColor="secondaryLabelColor"/>
+                                        </buttonConfiguration>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mWE-4o-lZL" userLabel="Map Button">
+                                        <rect key="frame" x="0.0" y="55" width="45" height="45"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="45" id="MKj-dI-SFQ"/>
+                                            <constraint firstAttribute="height" constant="45" id="ySK-Xn-xUC"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="map" catalog="system" cornerStyle="dynamic">
+                                            <backgroundConfiguration key="background" cornerRadius="30" strokeWidth="1" strokeOutset="0.0">
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="strokeColor" systemColor="systemGrayColor"/>
+                                            </backgroundConfiguration>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="20" scale="default" weight="bold"/>
+                                            <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rgS-qf-diO" userLabel="Add Button">
+                                <rect key="frame" x="413" y="239" width="75" height="75"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="ahD-g1-CYY"/>
+                                    <constraint firstAttribute="width" constant="75" id="sPC-Kd-Om2"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" cornerStyle="dynamic">
+                                    <backgroundConfiguration key="background" cornerRadius="45" strokeWidth="1" strokeOutset="0.0">
+                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="strokeColor" systemColor="systemGrayColor"/>
+                                    </backgroundConfiguration>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30" scale="default" weight="bold"/>
+                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="phf-bW-Eoe" userLabel="SaveImage Button">
+                                <rect key="frame" x="523" y="249" width="55" height="55"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="55" id="WnU-S1-aRb"/>
+                                    <constraint firstAttribute="height" constant="55" id="jR7-fW-mn8"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="film" catalog="system" cornerStyle="dynamic">
+                                    <backgroundConfiguration key="background" cornerRadius="40" strokeWidth="1" strokeOutset="0.0">
+                                        <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                        <color key="strokeColor" systemColor="systemGrayColor"/>
+                                    </backgroundConfiguration>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="25" scale="default" weight="bold"/>
+                                    <color key="baseForegroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="tfm-Bj-cz9"/>
+                        <color key="backgroundColor" systemColor="systemTealColor"/>
+                        <constraints>
+                            <constraint firstItem="FQp-1u-3gC" firstAttribute="centerY" secondItem="rch-LW-VbF" secondAttribute="centerY" constant="100" id="1f2-Eq-b4r"/>
+                            <constraint firstItem="UWp-UC-MKS" firstAttribute="leading" secondItem="rch-LW-VbF" secondAttribute="leading" id="DGi-4U-hta"/>
+                            <constraint firstItem="tfm-Bj-cz9" firstAttribute="trailing" secondItem="FQp-1u-3gC" secondAttribute="trailing" constant="30" id="NRU-sO-yGV"/>
+                            <constraint firstAttribute="trailing" secondItem="UWp-UC-MKS" secondAttribute="trailing" id="RE1-IF-DXq"/>
+                            <constraint firstItem="rgS-qf-diO" firstAttribute="centerX" secondItem="rch-LW-VbF" secondAttribute="centerX" constant="2.5" id="hzO-Ec-M6k"/>
+                            <constraint firstItem="UWp-UC-MKS" firstAttribute="top" secondItem="rch-LW-VbF" secondAttribute="top" id="jU0-DZ-sED"/>
+                            <constraint firstItem="rgS-qf-diO" firstAttribute="centerY" secondItem="phf-bW-Eoe" secondAttribute="centerY" id="m8O-sr-MMb"/>
+                            <constraint firstAttribute="bottom" secondItem="UWp-UC-MKS" secondAttribute="bottom" id="sFv-Gd-6JZ"/>
+                            <constraint firstItem="rgS-qf-diO" firstAttribute="centerX" secondItem="phf-bW-Eoe" secondAttribute="centerX" constant="-100" id="uvD-Sb-cgt"/>
+                            <constraint firstItem="tfm-Bj-cz9" firstAttribute="bottom" secondItem="rgS-qf-diO" secondAttribute="bottom" constant="30" id="wMt-UZ-sJi"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Map" id="bKI-Bn-rAm">
+                        <imageReference key="image" image="map" catalog="system" symbolScale="large"/>
+                    </tabBarItem>
+                    <connections>
+                        <outlet property="btGotoPreview" destination="xon-eq-Bcv" id="SnO-ef-yFe"/>
+                        <outlet property="mapView" destination="UWp-UC-MKS" id="Fbt-db-1Ob"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OJb-XG-gBJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-12772.463768115944" y="-1926.5625"/>
+        </scene>
+        <!--Profile-->
+        <scene sceneID="x6o-sx-ywH">
+            <objects>
+                <viewController restorationIdentifier="ProfileTabbarController" storyboardIdentifier="ProfileTabbarController" id="s3p-X1-4zQ" customClass="ProfileTabbarController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ehn-Es-Zyw">
+                        <rect key="frame" x="0.0" y="0.0" width="896" height="344"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Hm-YJ-y0k">
+                                <rect key="frame" x="385" y="156.5" width="126" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Go to Dasboard"/>
+                                <connections>
+                                    <action selector="btnGotoDashboard:" destination="s3p-X1-4zQ" eventType="touchUpInside" id="5JP-bE-TmM"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bs5-xD-yt5">
+                                <rect key="frame" x="391" y="212.5" width="114" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Go to Preview">
+                                    <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="btGotoNotification:" destination="s3p-X1-4zQ" eventType="touchUpInside" id="O1G-2t-QV7"/>
+                                    <action selector="btGotoNotification:" destination="qtM-I9-seE" eventType="touchUpInside" id="bnP-nh-Eo3"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="0Hb-aM-aYB"/>
+                        <color key="backgroundColor" systemColor="systemYellowColor"/>
+                        <constraints>
+                            <constraint firstItem="9Hm-YJ-y0k" firstAttribute="centerX" secondItem="Ehn-Es-Zyw" secondAttribute="centerX" id="NLG-WH-1Zq"/>
+                            <constraint firstItem="bs5-xD-yt5" firstAttribute="top" secondItem="9Hm-YJ-y0k" secondAttribute="bottom" constant="25" id="OHh-ux-Xi9"/>
+                            <constraint firstItem="9Hm-YJ-y0k" firstAttribute="centerY" secondItem="Ehn-Es-Zyw" secondAttribute="centerY" id="bJf-aL-NYp"/>
+                            <constraint firstItem="bs5-xD-yt5" firstAttribute="centerX" secondItem="Ehn-Es-Zyw" secondAttribute="centerX" id="crg-dc-Z51"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Profile" id="X32-Qc-8Kf">
+                        <imageReference key="image" image="person.fill" catalog="system" symbolScale="large"/>
+                    </tabBarItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gZW-BN-idi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-12151" y="-1925"/>
+        </scene>
+        <!--NotificationViewController-->
+        <scene sceneID="eAf-Ei-N38">
+            <objects>
+                <viewController restorationIdentifier="NotificationViewController" storyboardIdentifier="NotificationViewController" id="XBU-CF-Pn5" userLabel="NotificationViewController" customClass="NotificationViewController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xlL-Ht-DHR">
+                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notification" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kQz-WP-ryg">
+                                <rect key="frame" x="286.5" y="171" width="323" height="72"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XNc-t9-t3R">
+                                <rect key="frame" x="384" y="268" width="128" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Back to Preview">
+                                    <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="btBacktoPreview:" destination="XBU-CF-Pn5" eventType="touchUpInside" id="upa-Bk-YeH"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3sH-Ch-p4s">
+                                <rect key="frame" x="385" y="324" width="126" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Back to Tab Bar">
+                                    <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="btBacktoTabbar:" destination="XBU-CF-Pn5" eventType="touchUpInside" id="BxB-hL-5To"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Ouo-zh-UgQ"/>
+                        <color key="backgroundColor" systemColor="systemPurpleColor"/>
+                        <constraints>
+                            <constraint firstItem="kQz-WP-ryg" firstAttribute="centerY" secondItem="xlL-Ht-DHR" secondAttribute="centerY" id="0JF-X0-fG4"/>
+                            <constraint firstItem="3sH-Ch-p4s" firstAttribute="top" secondItem="XNc-t9-t3R" secondAttribute="bottom" constant="25" id="8Jh-1y-NBp"/>
+                            <constraint firstItem="XNc-t9-t3R" firstAttribute="top" secondItem="kQz-WP-ryg" secondAttribute="bottom" constant="25" id="Cgn-La-nqs"/>
+                            <constraint firstItem="XNc-t9-t3R" firstAttribute="centerX" secondItem="xlL-Ht-DHR" secondAttribute="centerX" id="VuA-7i-TFS"/>
+                            <constraint firstItem="3sH-Ch-p4s" firstAttribute="centerX" secondItem="xlL-Ht-DHR" secondAttribute="centerX" id="Yos-Sd-7vW"/>
+                            <constraint firstItem="kQz-WP-ryg" firstAttribute="centerX" secondItem="xlL-Ht-DHR" secondAttribute="centerX" id="brQ-Nf-9Pr"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dsm-lD-vsT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-10980" y="-2651"/>
+        </scene>
+        <!--PreviewViewController-->
+        <scene sceneID="gxw-cJ-YI5">
+            <objects>
+                <viewController restorationIdentifier="PreviewViewController" storyboardIdentifier="PreviewViewController" id="qtM-I9-seE" userLabel="PreviewViewController" customClass="PreviewViewController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JdX-q2-O4K">
+                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Preview" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p9O-2T-Mf7">
+                                <rect key="frame" x="338.5" y="171" width="219" height="72"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lDI-bG-fZ6">
+                                <rect key="frame" x="379" y="268" width="138" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Go to Notification">
+                                    <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="btGotoNotification:" destination="qtM-I9-seE" eventType="touchUpInside" id="DKZ-ws-AdR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bpE-0e-f6k">
+                                <rect key="frame" x="385.5" y="324" width="125" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Back to Tab bar">
+                                    <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="btBackTabbar:" destination="qtM-I9-seE" eventType="touchUpInside" id="Wim-Qq-W25"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Z8Y-7r-h5v"/>
+                        <color key="backgroundColor" systemColor="systemGreenColor"/>
+                        <constraints>
+                            <constraint firstItem="bpE-0e-f6k" firstAttribute="top" secondItem="lDI-bG-fZ6" secondAttribute="bottom" constant="25" id="15d-fk-x8s"/>
+                            <constraint firstItem="p9O-2T-Mf7" firstAttribute="centerX" secondItem="JdX-q2-O4K" secondAttribute="centerX" id="2gJ-It-bgB"/>
+                            <constraint firstItem="lDI-bG-fZ6" firstAttribute="centerX" secondItem="JdX-q2-O4K" secondAttribute="centerX" id="RYd-9z-IOd"/>
+                            <constraint firstItem="p9O-2T-Mf7" firstAttribute="centerY" secondItem="JdX-q2-O4K" secondAttribute="centerY" id="Tg9-kW-JjH"/>
+                            <constraint firstItem="lDI-bG-fZ6" firstAttribute="top" secondItem="p9O-2T-Mf7" secondAttribute="bottom" constant="25" id="Yr8-Pf-j7N"/>
+                            <constraint firstItem="bpE-0e-f6k" firstAttribute="centerX" secondItem="JdX-q2-O4K" secondAttribute="centerX" id="bge-Ql-ST7"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Sle-Ko-OzR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-11826" y="-2651"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="film" catalog="system" width="128" height="93"/>
+        <image name="gauge" catalog="system" width="128" height="121"/>
+        <image name="map" catalog="system" width="128" height="110"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="scope" catalog="system" width="128" height="122"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray4Color">
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemPurpleColor">
+            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemTealColor">
+            <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tintColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>
