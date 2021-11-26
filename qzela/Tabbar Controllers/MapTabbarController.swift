@@ -12,9 +12,13 @@ import UIKit
 class MapTabbarController: UIViewController, CLLocationManagerDelegate {
     
     let locationManager = CLLocationManager()
-    var savLatitude: Double = 0.0
-    var savLongitude: Double = 0.0
-
+    var savLatitude: Double = -23.612992
+    var savLongitude: Double = -46.682762
+    
+    // Rua Florida, 1758
+    // var savLatitude: Double = -23.6072598
+    // var savLongitude: Double = -46.6951241
+  
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var btMyLocation: UIButton!
     @IBOutlet weak var btViewMap: UIButton!
@@ -27,7 +31,7 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
         case "btMyLocation":
             print("btMyLocation")
             mapView.animate(to: GMSCameraPosition.camera(withLatitude: savLatitude, longitude: savLongitude, zoom: 18.0))
-       case "btViewMap":
+        case "btViewMap":
             print("btViewMap")
         case "btNewIncident":
             print("btNewIncident")
@@ -36,12 +40,12 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
         default:
             print(sender.restorationIdentifier ?? "no restoration Identifier defined")
         }
-
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        btSavedImage.isHidden = true
+        //        btSavedImage.isHidden = true
         
         locationManager.delegate = self
         if CLLocationManager.locationServicesEnabled() {
@@ -51,7 +55,6 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
         }
         
         locationManager.startUpdatingLocation()
-
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -83,16 +86,15 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
         savLongitude = location.coordinate.longitude
         
         mapView.camera = GMSCameraPosition.camera(withLatitude: savLatitude, longitude: savLongitude, zoom: 18.0)
-
+        
         let marker = GMSMarker()
         marker.position = location.coordinate
         marker.title = "São Paulo"
         marker.snippet = "Brasil"
         marker.map = mapView
-
     }
     
-
+    
     func gotoNewRootViewController(viewController: String) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let viewController = storyBoard.instantiateViewController(withIdentifier: viewController)
@@ -112,9 +114,9 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
         super.willTransition(to: newCollection, with: coordinator)
         
         coordinator.animate(alongsideTransition: { (context) in
-
+            
             print("Orientation change")
-
+            
             guard let windowInterfaceOrientation = self.windowInterfaceOrientation else { return }
             
             if windowInterfaceOrientation.isLandscape {
@@ -130,14 +132,14 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
     private var windowInterfaceOrientation: UIInterfaceOrientation? {
         return UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
     }
-
+    
     
 }
 
 extension UIView {
     func setShadowWithCornerRadius( cornerRadius: CGFloat, shadowColor: UIColor, shadowOffset: CGSize = .zero, shadowOpacity: Float = 1, shadowRadius: CGFloat) {
         layer.cornerRadius = cornerRadius
-//        layer.masksToBounds = true
+        //        layer.masksToBounds = true
         layer.shadowColor = shadowColor.cgColor
         layer.shadowOffset = shadowOffset
         layer.shadowOpacity = shadowOpacity

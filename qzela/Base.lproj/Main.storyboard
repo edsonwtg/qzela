@@ -270,7 +270,8 @@
                     <connections>
                         <outlet property="btMyLocation" destination="1PL-I1-P36" id="wXK-ch-Iiz"/>
                         <outlet property="btNewIncident" destination="rgS-qf-diO" id="yiY-9g-kj6"/>
-                        <outlet property="btSavedImage" destination="mWE-4o-lZL" id="Bil-Z8-hWO"/>
+                        <outlet property="btSavedImage" destination="phf-bW-Eoe" id="aag-Th-du9"/>
+                        <outlet property="btViewMap" destination="mWE-4o-lZL" id="Fo5-kY-97S"/>
                         <outlet property="mapView" destination="UWp-UC-MKS" id="Fbt-db-1Ob"/>
                     </connections>
                 </viewController>
