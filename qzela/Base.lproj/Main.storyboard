@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="10x-Ao-IMq">
-    <device id="retina6_1" orientation="landscape" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Image references" minToolsVersion="12.0"/>
@@ -14,17 +14,17 @@
             <objects>
                 <viewController restorationIdentifier="SplashViewController" storyboardIdentifier="SplashViewController" id="10x-Ao-IMq" userLabel="SplashViewController" customClass="SplashViewController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wFz-fr-w2s">
-                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Splash" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m2T-a6-SVG">
-                                <rect key="frame" x="353.5" y="171" width="189" height="72"/>
+                                <rect key="frame" x="112.5" y="412" width="189" height="72"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bdD-Yo-RZO">
-                                <rect key="frame" x="400.5" y="268" width="95" height="31"/>
+                                <rect key="frame" x="159.5" y="509" width="95" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Goto Login">
                                     <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
@@ -53,17 +53,17 @@
             <objects>
                 <viewController restorationIdentifier="LoginViewController" storyboardIdentifier="LoginViewController" id="KaQ-TB-VBU" userLabel="LoginViewController" customClass="LoginViewController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WiR-1x-1HC">
-                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hlx-PN-VFX">
-                                <rect key="frame" x="371.5" y="171" width="153" height="72"/>
+                                <rect key="frame" x="130.5" y="412" width="153" height="72"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zg4-KH-5lz">
-                                <rect key="frame" x="392" y="268" width="112" height="31"/>
+                                <rect key="frame" x="151" y="509" width="112" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Go to Tab Bar">
                                     <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
@@ -115,11 +115,11 @@
             <objects>
                 <viewController restorationIdentifier="DashboardTabbarController" storyboardIdentifier="DashboardTabbarController" id="Aee-KM-AoL" customClass="DashboardTabbarController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tvf-wd-c0A">
-                        <rect key="frame" x="0.0" y="0.0" width="896" height="344"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ebv-ok-wde">
-                                <rect key="frame" x="402.5" y="156.5" width="91.5" height="31"/>
+                                <rect key="frame" x="161" y="391" width="92" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Go to Map"/>
                                 <connections>
@@ -127,7 +127,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U81-bc-nnr">
-                                <rect key="frame" x="391" y="212.5" width="114" height="31"/>
+                                <rect key="frame" x="150" y="447" width="114" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Go to Preview">
                                     <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
@@ -160,31 +160,17 @@
             <objects>
                 <viewController restorationIdentifier="MapTabbarController" storyboardIdentifier="MapTabbarController" id="1hT-pu-Vj4" customClass="MapTabbarController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rch-LW-VbF">
-                        <rect key="frame" x="0.0" y="0.0" width="896" height="344"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UWp-UC-MKS">
-                                <rect key="frame" x="0.0" y="0.0" width="896" height="344"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UWp-UC-MKS" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                                 <color key="backgroundColor" systemColor="systemGray4Color"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="xon-eq-Bcv" userLabel="Goto Preview">
-                                <rect key="frame" x="87" y="391" width="240" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <rect key="contentStretch" x="0.80000000000000004" y="0.0" width="1" height="1"/>
-                                <size key="titleShadowOffset" width="0.0" height="14"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Go to Preview">
-                                    <color key="baseForegroundColor" systemColor="labelColor"/>
-                                    <color key="baseBackgroundColor" systemColor="systemBackgroundColor"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="btGotoPreview:" destination="1hT-pu-Vj4" eventType="touchUpInside" id="PaY-7J-uAD"/>
-                                </connections>
-                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="FQp-1u-3gC">
-                                <rect key="frame" x="777" y="222" width="45" height="100"/>
+                                <rect key="frame" x="339" y="456.5" width="45" height="100"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1PL-I1-P36" userLabel="Location Button">
+                                    <button opaque="NO" tag="1001" contentMode="scaleToFill" restorationIdentifier="btMyLocation" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1PL-I1-P36" userLabel="Location Button">
                                         <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="45" id="JhC-n9-A9b"/>
@@ -197,10 +183,13 @@
                                                 <color key="strokeColor" systemColor="systemGrayColor"/>
                                             </backgroundConfiguration>
                                             <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="20" scale="default" weight="bold"/>
-                                            <color key="baseForegroundColor" systemColor="secondaryLabelColor"/>
+                                            <color key="baseForegroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="btnClick:" destination="1hT-pu-Vj4" eventType="touchUpInside" id="Syu-mq-AwB"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mWE-4o-lZL" userLabel="Map Button">
+                                    <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="btViewMap" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mWE-4o-lZL" userLabel="Map Button">
                                         <rect key="frame" x="0.0" y="55" width="45" height="45"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="45" id="MKj-dI-SFQ"/>
@@ -213,16 +202,19 @@
                                                 <color key="strokeColor" systemColor="systemGrayColor"/>
                                             </backgroundConfiguration>
                                             <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="20" scale="default" weight="bold"/>
-                                            <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="baseForegroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="btnClick:" destination="1hT-pu-Vj4" eventType="touchUpInside" id="7in-dr-QHI"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rgS-qf-diO" userLabel="Add Button">
-                                <rect key="frame" x="413" y="239" width="75" height="75"/>
+                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="btNewIncident" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rgS-qf-diO" userLabel="Add Button">
+                                <rect key="frame" x="172" y="708" width="70" height="70"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="75" id="ahD-g1-CYY"/>
-                                    <constraint firstAttribute="width" constant="75" id="sPC-Kd-Om2"/>
+                                    <constraint firstAttribute="height" constant="70" id="ahD-g1-CYY"/>
+                                    <constraint firstAttribute="width" constant="70" id="sPC-Kd-Om2"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" cornerStyle="dynamic">
@@ -233,9 +225,12 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30" scale="default" weight="bold"/>
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="btnClick:" destination="1hT-pu-Vj4" eventType="touchUpInside" id="zCS-eg-RZC"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="phf-bW-Eoe" userLabel="SaveImage Button">
-                                <rect key="frame" x="523" y="249" width="55" height="55"/>
+                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="btSavedImage" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="phf-bW-Eoe" userLabel="SaveImage Button">
+                                <rect key="frame" x="282" y="718" width="55" height="55"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="55" id="WnU-S1-aRb"/>
                                     <constraint firstAttribute="height" constant="55" id="jR7-fW-mn8"/>
@@ -249,6 +244,9 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="25" scale="default" weight="bold"/>
                                     <color key="baseForegroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="btnClick:" destination="1hT-pu-Vj4" eventType="touchUpInside" id="uYz-AS-SIG"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="tfm-Bj-cz9"/>
@@ -258,19 +256,21 @@
                             <constraint firstItem="UWp-UC-MKS" firstAttribute="leading" secondItem="rch-LW-VbF" secondAttribute="leading" id="DGi-4U-hta"/>
                             <constraint firstItem="tfm-Bj-cz9" firstAttribute="trailing" secondItem="FQp-1u-3gC" secondAttribute="trailing" constant="30" id="NRU-sO-yGV"/>
                             <constraint firstAttribute="trailing" secondItem="UWp-UC-MKS" secondAttribute="trailing" id="RE1-IF-DXq"/>
-                            <constraint firstItem="rgS-qf-diO" firstAttribute="centerX" secondItem="rch-LW-VbF" secondAttribute="centerX" constant="2.5" id="hzO-Ec-M6k"/>
+                            <constraint firstItem="rgS-qf-diO" firstAttribute="centerX" secondItem="rch-LW-VbF" secondAttribute="centerX" id="hzO-Ec-M6k"/>
                             <constraint firstItem="UWp-UC-MKS" firstAttribute="top" secondItem="rch-LW-VbF" secondAttribute="top" id="jU0-DZ-sED"/>
-                            <constraint firstItem="rgS-qf-diO" firstAttribute="centerY" secondItem="phf-bW-Eoe" secondAttribute="centerY" id="m8O-sr-MMb"/>
+                            <constraint firstItem="rgS-qf-diO" firstAttribute="centerY" secondItem="phf-bW-Eoe" secondAttribute="centerY" constant="-2.5" id="m8O-sr-MMb"/>
                             <constraint firstAttribute="bottom" secondItem="UWp-UC-MKS" secondAttribute="bottom" id="sFv-Gd-6JZ"/>
-                            <constraint firstItem="rgS-qf-diO" firstAttribute="centerX" secondItem="phf-bW-Eoe" secondAttribute="centerX" constant="-100" id="uvD-Sb-cgt"/>
-                            <constraint firstItem="tfm-Bj-cz9" firstAttribute="bottom" secondItem="rgS-qf-diO" secondAttribute="bottom" constant="30" id="wMt-UZ-sJi"/>
+                            <constraint firstItem="rgS-qf-diO" firstAttribute="centerX" secondItem="phf-bW-Eoe" secondAttribute="centerX" constant="-102.5" id="uvD-Sb-cgt"/>
+                            <constraint firstItem="tfm-Bj-cz9" firstAttribute="bottom" secondItem="rgS-qf-diO" secondAttribute="bottom" constant="35" id="wMt-UZ-sJi"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" id="bKI-Bn-rAm">
                         <imageReference key="image" image="map" catalog="system" symbolScale="large"/>
                     </tabBarItem>
                     <connections>
-                        <outlet property="btGotoPreview" destination="xon-eq-Bcv" id="SnO-ef-yFe"/>
+                        <outlet property="btMyLocation" destination="1PL-I1-P36" id="wXK-ch-Iiz"/>
+                        <outlet property="btNewIncident" destination="rgS-qf-diO" id="yiY-9g-kj6"/>
+                        <outlet property="btSavedImage" destination="mWE-4o-lZL" id="Bil-Z8-hWO"/>
                         <outlet property="mapView" destination="UWp-UC-MKS" id="Fbt-db-1Ob"/>
                     </connections>
                 </viewController>
@@ -283,11 +283,11 @@
             <objects>
                 <viewController restorationIdentifier="ProfileTabbarController" storyboardIdentifier="ProfileTabbarController" id="s3p-X1-4zQ" customClass="ProfileTabbarController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ehn-Es-Zyw">
-                        <rect key="frame" x="0.0" y="0.0" width="896" height="344"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Hm-YJ-y0k">
-                                <rect key="frame" x="385" y="156.5" width="126" height="31"/>
+                                <rect key="frame" x="144" y="391" width="126" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Go to Dasboard"/>
                                 <connections>
@@ -295,7 +295,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bs5-xD-yt5">
-                                <rect key="frame" x="391" y="212.5" width="114" height="31"/>
+                                <rect key="frame" x="150" y="447" width="114" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Go to Preview">
                                     <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
@@ -328,17 +328,17 @@
             <objects>
                 <viewController restorationIdentifier="NotificationViewController" storyboardIdentifier="NotificationViewController" id="XBU-CF-Pn5" userLabel="NotificationViewController" customClass="NotificationViewController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xlL-Ht-DHR">
-                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notification" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kQz-WP-ryg">
-                                <rect key="frame" x="286.5" y="171" width="323" height="72"/>
+                                <rect key="frame" x="45.5" y="412" width="323" height="72"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XNc-t9-t3R">
-                                <rect key="frame" x="384" y="268" width="128" height="31"/>
+                                <rect key="frame" x="143" y="509" width="128" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Back to Preview">
                                     <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
@@ -348,7 +348,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3sH-Ch-p4s">
-                                <rect key="frame" x="385" y="324" width="126" height="31"/>
+                                <rect key="frame" x="144" y="565" width="126" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Back to Tab Bar">
                                     <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
@@ -379,17 +379,17 @@
             <objects>
                 <viewController restorationIdentifier="PreviewViewController" storyboardIdentifier="PreviewViewController" id="qtM-I9-seE" userLabel="PreviewViewController" customClass="PreviewViewController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JdX-q2-O4K">
-                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Preview" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p9O-2T-Mf7">
-                                <rect key="frame" x="338.5" y="171" width="219" height="72"/>
+                                <rect key="frame" x="97.5" y="412" width="219" height="72"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lDI-bG-fZ6">
-                                <rect key="frame" x="379" y="268" width="138" height="31"/>
+                                <rect key="frame" x="138" y="509" width="138" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Go to Notification">
                                     <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
@@ -399,7 +399,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bpE-0e-f6k">
-                                <rect key="frame" x="385.5" y="324" width="125" height="31"/>
+                                <rect key="frame" x="144.5" y="565" width="125" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Back to Tab bar">
                                     <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
@@ -433,12 +433,6 @@
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="scope" catalog="system" width="128" height="122"/>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="secondaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

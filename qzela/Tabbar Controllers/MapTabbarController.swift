@@ -11,49 +11,85 @@ import UIKit
 
 class MapTabbarController: UIViewController, CLLocationManagerDelegate {
     
-    let manager = CLLocationManager()
+    let locationManager = CLLocationManager()
     var savLatitude: Double = 0.0
     var savLongitude: Double = 0.0
 
-    @IBOutlet weak var btLocationCenter: UIButton!
-    @IBOutlet weak var mapView: UIView!
+    @IBOutlet weak var mapView: GMSMapView!
+    @IBOutlet weak var btMyLocation: UIButton!
+    @IBOutlet weak var btViewMap: UIButton!
+    @IBOutlet weak var btNewIncident: UIButton!
+    @IBOutlet weak var btSavedImage: UIButton!
     
-    @IBAction func btGotoPreview(_ sender: Any) {
+    @IBAction func btnClick(_ sender: UIButton) {
         
-        gotoViewControllerWithBack(viewController: "PreviewViewController")
+        switch sender.restorationIdentifier {
+        case "btMyLocation":
+            print("btMyLocation")
+            mapView.animate(to: GMSCameraPosition.camera(withLatitude: savLatitude, longitude: savLongitude, zoom: 18.0))
+       case "btViewMap":
+            print("btViewMap")
+        case "btNewIncident":
+            print("btNewIncident")
+        case "btSavedImage":
+            print("btSavedImage")
+        default:
+            print(sender.restorationIdentifier ?? "no restoration Identifier defined")
+        }
 
     }
-    
-    @IBOutlet weak var btGotoPreview: UIButton!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        btGotoPreview.setShadowWithCornerRadius(cornerRadius: btGotoPreview.frame.width * 0.5, shadowColor: .gray, shadowRadius: 5)
+//        btSavedImage.isHidden = true
         
-        manager.delegate = self
-        manager.requestWhenInUseAuthorization()
-        manager.startUpdatingLocation()
+        locationManager.delegate = self
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.requestLocation()
+        } else {
+            locationManager.requestWhenInUseAuthorization()
+        }
+        
+        locationManager.startUpdatingLocation()
 
     }
     
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedAlways:
+            return
+        case .authorizedWhenInUse:
+            return
+        case .denied:
+            return
+        case .restricted:
+            locationManager.requestWhenInUseAuthorization()
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        default:
+            locationManager.requestWhenInUseAuthorization()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+    }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
         guard let location = locations.first else {return}
         
         savLatitude = location.coordinate.latitude
         savLongitude = location.coordinate.longitude
-     
-        let camera = GMSCameraPosition.camera(withLatitude: savLatitude, longitude: savLongitude, zoom: 18.0)
-        let googleMap = GMSMapView.map(withFrame: mapView.frame, camera: camera)
-        mapView.addSubview(googleMap)
+        
+        mapView.camera = GMSCameraPosition.camera(withLatitude: savLatitude, longitude: savLongitude, zoom: 18.0)
 
-        // Creates a marker in the center of the map.
         let marker = GMSMarker()
         marker.position = location.coordinate
         marker.title = "São Paulo"
         marker.snippet = "Brasil"
-        marker.map = googleMap
- 
+        marker.map = mapView
+
     }
     
 
@@ -63,6 +99,7 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
         self.view.window?.rootViewController = viewController
         self.view.window?.makeKeyAndVisible()
     }
+    
     func gotoViewControllerWithBack(viewController: String) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let nextViewController = storyBoard.instantiateViewController(withIdentifier: viewController)
