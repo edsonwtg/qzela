@@ -167,8 +167,25 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                                 <color key="backgroundColor" systemColor="systemGray4Color"/>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="234" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mnL-Vh-YgK">
+                                <rect key="frame" x="172" y="64" width="70" height="35"/>
+                                <color key="backgroundColor" red="0.8666666666666667" green="0.34509803921568627" blue="0.0039215686274509803" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="5JX-F6-MK2"/>
+                                    <constraint firstAttribute="width" constant="70" id="g41-RR-WMR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="FQp-1u-3gC">
-                                <rect key="frame" x="339" y="456.5" width="45" height="100"/>
+                                <rect key="frame" x="339" y="436.5" width="45" height="100"/>
                                 <subviews>
                                     <button opaque="NO" tag="1001" contentMode="scaleToFill" restorationIdentifier="btMyLocation" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1PL-I1-P36" userLabel="Location Button">
                                         <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
@@ -211,10 +228,10 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="btNewIncident" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rgS-qf-diO" userLabel="Add Button">
-                                <rect key="frame" x="172" y="708" width="70" height="70"/>
+                                <rect key="frame" x="172" y="708" width="60" height="60"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="ahD-g1-CYY"/>
-                                    <constraint firstAttribute="width" constant="70" id="sPC-Kd-Om2"/>
+                                    <constraint firstAttribute="height" constant="60" id="ahD-g1-CYY"/>
+                                    <constraint firstAttribute="width" constant="60" id="sPC-Kd-Om2"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" cornerStyle="dynamic">
@@ -230,10 +247,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="btSavedImage" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="phf-bW-Eoe" userLabel="SaveImage Button">
-                                <rect key="frame" x="282" y="718" width="55" height="55"/>
+                                <rect key="frame" x="259.5" y="718" width="45" height="45"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="55" id="WnU-S1-aRb"/>
-                                    <constraint firstAttribute="height" constant="55" id="jR7-fW-mn8"/>
+                                    <constraint firstAttribute="width" constant="45" id="WnU-S1-aRb"/>
+                                    <constraint firstAttribute="height" constant="45" id="jR7-fW-mn8"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="film" catalog="system" cornerStyle="dynamic">
@@ -252,16 +269,19 @@
                         <viewLayoutGuide key="safeArea" id="tfm-Bj-cz9"/>
                         <color key="backgroundColor" systemColor="systemTealColor"/>
                         <constraints>
-                            <constraint firstItem="FQp-1u-3gC" firstAttribute="centerY" secondItem="rch-LW-VbF" secondAttribute="centerY" constant="100" id="1f2-Eq-b4r"/>
+                            <constraint firstItem="FQp-1u-3gC" firstAttribute="centerY" secondItem="rch-LW-VbF" secondAttribute="centerY" constant="80" id="1f2-Eq-b4r"/>
                             <constraint firstItem="UWp-UC-MKS" firstAttribute="leading" secondItem="rch-LW-VbF" secondAttribute="leading" id="DGi-4U-hta"/>
+                            <constraint firstItem="mnL-Vh-YgK" firstAttribute="top" secondItem="tfm-Bj-cz9" secondAttribute="top" constant="20" id="KKz-bB-Rxt"/>
                             <constraint firstItem="tfm-Bj-cz9" firstAttribute="trailing" secondItem="FQp-1u-3gC" secondAttribute="trailing" constant="30" id="NRU-sO-yGV"/>
+                            <constraint firstItem="mnL-Vh-YgK" firstAttribute="centerX" secondItem="rch-LW-VbF" secondAttribute="centerX" id="Q6T-vq-qth"/>
                             <constraint firstAttribute="trailing" secondItem="UWp-UC-MKS" secondAttribute="trailing" id="RE1-IF-DXq"/>
-                            <constraint firstItem="rgS-qf-diO" firstAttribute="centerX" secondItem="rch-LW-VbF" secondAttribute="centerX" id="hzO-Ec-M6k"/>
+                            <constraint firstItem="rgS-qf-diO" firstAttribute="centerX" secondItem="rch-LW-VbF" secondAttribute="centerX" constant="-5" id="hzO-Ec-M6k"/>
+                            <constraint firstItem="UWp-UC-MKS" firstAttribute="centerX" secondItem="rch-LW-VbF" secondAttribute="centerX" id="jIR-qf-hog"/>
                             <constraint firstItem="UWp-UC-MKS" firstAttribute="top" secondItem="rch-LW-VbF" secondAttribute="top" id="jU0-DZ-sED"/>
                             <constraint firstItem="rgS-qf-diO" firstAttribute="centerY" secondItem="phf-bW-Eoe" secondAttribute="centerY" constant="-2.5" id="m8O-sr-MMb"/>
                             <constraint firstAttribute="bottom" secondItem="UWp-UC-MKS" secondAttribute="bottom" id="sFv-Gd-6JZ"/>
-                            <constraint firstItem="rgS-qf-diO" firstAttribute="centerX" secondItem="phf-bW-Eoe" secondAttribute="centerX" constant="-102.5" id="uvD-Sb-cgt"/>
-                            <constraint firstItem="tfm-Bj-cz9" firstAttribute="bottom" secondItem="rgS-qf-diO" secondAttribute="bottom" constant="35" id="wMt-UZ-sJi"/>
+                            <constraint firstItem="rgS-qf-diO" firstAttribute="centerX" secondItem="phf-bW-Eoe" secondAttribute="centerX" constant="-80" id="uvD-Sb-cgt"/>
+                            <constraint firstItem="tfm-Bj-cz9" firstAttribute="bottom" secondItem="rgS-qf-diO" secondAttribute="bottom" constant="45" id="wMt-UZ-sJi"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" id="bKI-Bn-rAm">
@@ -272,6 +292,7 @@
                         <outlet property="btNewIncident" destination="rgS-qf-diO" id="yiY-9g-kj6"/>
                         <outlet property="btSavedImage" destination="phf-bW-Eoe" id="aag-Th-du9"/>
                         <outlet property="btViewMap" destination="mWE-4o-lZL" id="Fo5-kY-97S"/>
+                        <outlet property="lbQzelaPoints" destination="mnL-Vh-YgK" id="QOB-2i-3fy"/>
                         <outlet property="mapView" destination="UWp-UC-MKS" id="Fbt-db-1Ob"/>
                     </connections>
                 </viewController>

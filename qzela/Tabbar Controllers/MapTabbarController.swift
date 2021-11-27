@@ -20,6 +20,7 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
     // var savLongitude: Double = -46.6951241
   
     @IBOutlet weak var mapView: GMSMapView!
+    @IBOutlet weak var lbQzelaPoints: UILabel!
     @IBOutlet weak var btMyLocation: UIButton!
     @IBOutlet weak var btViewMap: UIButton!
     @IBOutlet weak var btNewIncident: UIButton!
@@ -55,6 +56,8 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
         }
         
         locationManager.startUpdatingLocation()
+        let qzelaPoints = 1000
+        lbQzelaPoints.addTrailing(image: UIImage(named: "ic_trophy") ?? UIImage(), text: String(qzelaPoints)+" ")
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -98,8 +101,8 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
     func gotoNewRootViewController(viewController: String) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let viewController = storyBoard.instantiateViewController(withIdentifier: viewController)
-        self.view.window?.rootViewController = viewController
-        self.view.window?.makeKeyAndVisible()
+        view.window?.rootViewController = viewController
+        view.window?.makeKeyAndVisible()
     }
     
     func gotoViewControllerWithBack(viewController: String) {
@@ -107,7 +110,7 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
         let nextViewController = storyBoard.instantiateViewController(withIdentifier: viewController)
         nextViewController.modalPresentationStyle = .fullScreen
         nextViewController.modalTransitionStyle = .flipHorizontal
-        self.present(nextViewController, animated:true)
+        present(nextViewController, animated:true)
     }
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -130,7 +133,7 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
     }
     
     private var windowInterfaceOrientation: UIInterfaceOrientation? {
-        return UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+        UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
     }
     
     
@@ -145,5 +148,32 @@ extension UIView {
         layer.shadowOpacity = shadowOpacity
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath
         layer.shadowRadius = shadowRadius
+    }
+}
+
+extension UILabel {
+    
+    func addTrailing(image: UIImage, text:String) {
+        let attachment = NSTextAttachment()
+        attachment.image = image
+
+        let attachmentString = NSAttributedString(attachment: attachment)
+        let string = NSMutableAttributedString(string: text, attributes: [:])
+
+        string.append(attachmentString)
+        self.attributedText = string
+    }
+    
+    func addLeading(image: UIImage, text:String) {
+        let attachment = NSTextAttachment()
+        attachment.image = image
+
+        let attachmentString = NSAttributedString(attachment: attachment)
+        let mutableAttributedString = NSMutableAttributedString()
+        mutableAttributedString.append(attachmentString)
+        
+        let string = NSMutableAttributedString(string: text, attributes: [:])
+        mutableAttributedString.append(string)
+        self.attributedText = mutableAttributedString
     }
 }
