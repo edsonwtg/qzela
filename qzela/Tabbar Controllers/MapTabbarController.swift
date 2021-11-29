@@ -14,6 +14,10 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
     let locationManager = CLLocationManager()
     var savLatitude: Double = -23.612992
     var savLongitude: Double = -46.682762
+    var savCoordinate = CLLocationCoordinate2D()
+
+    var markerIcon: Array<GMSMarker> = []
+    var markerCircle: Array<GMSMarker> = []
     
     // Rua Florida, 1758
     // var savLatitude: Double = -23.6072598
@@ -47,6 +51,8 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         
         //        btSavedImage.isHidden = true
+        
+        savCoordinate = CLLocationCoordinate2D(latitude: savLatitude, longitude: savLongitude)
         
         locationManager.delegate = self
         if CLLocationManager.locationServicesEnabled() {
@@ -85,19 +91,39 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
         
         guard let location = locations.first else {return}
         
-        savLatitude = location.coordinate.latitude
-        savLongitude = location.coordinate.longitude
+//        savLatitude = location.coordinate.latitude
+//        savLongitude = location.coordinate.longitude
+//        savCordinate =  location.coordinate
         
+        mapView.isMyLocationEnabled = true
         mapView.camera = GMSCameraPosition.camera(withLatitude: savLatitude, longitude: savLongitude, zoom: 18.0)
         
-        let marker = GMSMarker()
-        marker.position = location.coordinate
+        let marker = GMSMarker(position: savCoordinate)
         marker.title = "São Paulo"
         marker.snippet = "Brasil"
+        marker.icon = UIImage(named: "0")
+        marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
+        marker.groundAnchor = CGPoint(x: 0.5,y: 1.15)
         marker.map = mapView
+
+        let markerStatus = GMSMarker(position: savCoordinate)
+        markerStatus.icon = UIImage(named: "circle_blue")
+        markerStatus.setIconSize(scaledToSize: .init(width: 12, height: 12))
+        markerStatus.map = mapView
+        
+        
+        
+                
     }
     
-    
+    func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+        image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+
     func gotoNewRootViewController(viewController: String) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let viewController = storyBoard.instantiateViewController(withIdentifier: viewController)
@@ -135,7 +161,6 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
     private var windowInterfaceOrientation: UIInterfaceOrientation? {
         UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
     }
-    
     
 }
 
@@ -175,5 +200,15 @@ extension UILabel {
         let string = NSMutableAttributedString(string: text, attributes: [:])
         mutableAttributedString.append(string)
         self.attributedText = mutableAttributedString
+    }
+}
+
+extension GMSMarker {
+    func setIconSize(scaledToSize newSize: CGSize) {
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+        icon?.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        icon = newImage
     }
 }

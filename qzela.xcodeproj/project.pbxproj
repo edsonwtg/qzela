@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		34CD2ED78909A3B7708BED4B /* Pods_qzela.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 885B18319CAA7E194A5AE6FC /* Pods_qzela.framework */; };
+		6FA4DC3C2754F4D8004B5441 /* GpsLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA4DC3B2754F4D8004B5441 /* GpsLocation.swift */; };
 		6FDE7620274816AE0050510C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE761F274816AE0050510C /* AppDelegate.swift */; };
 		6FDE7622274816AE0050510C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE7621274816AE0050510C /* SceneDelegate.swift */; };
 		6FDE7624274816AE0050510C /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE7623274816AE0050510C /* TabBarController.swift */; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		1FE902AEABB518A74248056A /* Pods-qzela.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qzela.release.xcconfig"; path = "Target Support Files/Pods-qzela/Pods-qzela.release.xcconfig"; sourceTree = "<group>"; };
+		6FA4DC3B2754F4D8004B5441 /* GpsLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpsLocation.swift; sourceTree = "<group>"; };
 		6FDE761C274816AE0050510C /* qzela.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qzela.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FDE761F274816AE0050510C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6FDE7621274816AE0050510C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -62,8 +64,15 @@
 				B71A0B62F87AE2EF3302AE73 /* Pods-qzela.debug.xcconfig */,
 				1FE902AEABB518A74248056A /* Pods-qzela.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		6FA4DC3A2754F4A4004B5441 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				6FA4DC3B2754F4D8004B5441 /* GpsLocation.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		6FDE7613274816AD0050510C = {
@@ -87,6 +96,7 @@
 		6FDE761E274816AE0050510C /* qzela */ = {
 			isa = PBXGroup;
 			children = (
+				6FA4DC3A2754F4A4004B5441 /* Helpers */,
 				6FDE761F274816AE0050510C /* AppDelegate.swift */,
 				6FDE7621274816AE0050510C /* SceneDelegate.swift */,
 				6FDE7625274816AE0050510C /* Main.storyboard */,
@@ -258,6 +268,7 @@
 				6FDE7646274976950050510C /* Config.swift in Sources */,
 				6FDE764827498E6C0050510C /* LoginViewController.swift in Sources */,
 				6FDE764A27498E830050510C /* NotificationViewController.swift in Sources */,
+				6FA4DC3C2754F4D8004B5441 /* GpsLocation.swift in Sources */,
 				6FDE76432748541A0050510C /* ProfileTabbarController.swift in Sources */,
 				6FDE7620274816AE0050510C /* AppDelegate.swift in Sources */,
 				6FDE7622274816AE0050510C /* SceneDelegate.swift in Sources */,
