@@ -7,43 +7,63 @@
 
 import Foundation
 import CoreLocation
+import UIKit
 
-class GpsLocation: NSObject, CLLocationManagerDelegate {
-    
-    static let shared = GpsLocation()
-    
-    let locationManager = CLLocationManager()
-    
-    var completion: ((CLLocation) ->Void)?
-    
-    public func getLocation(completion: @escaping ((CLLocation) -> Void)) {
+public protocol GpsLocationDelegate: AnyObject {
+    func didUpdateLocation(_ sender: CLLocation)
+}
 
-        self.completion = completion
-        
-        locationManager.delegate = self
+public class GpsLocation: NSObject {
+
+    public weak var delegate: GpsLocationDelegate?
+    public static var shared = GpsLocation()
+    
+    private lazy var locationManager: CLLocationManager = {
+        let locationManager = CLLocationManager()
         if CLLocationManager.locationServicesEnabled() {
             locationManager.requestLocation()
         } else {
             locationManager.requestWhenInUseAuthorization()
         }
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        return locationManager
+    }()
+
+    private var currentLocation: CLLocationCoordinate2D?
+
+    public func startLocationUpdates() {
+        locationManager.delegate = self
         locationManager.startUpdatingLocation()
-
-
     }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        guard let location = locations.first else {return}
-        
-        completion?(location)
+
+    public func stopLocationUpdates() {
         locationManager.stopUpdatingLocation()
-        
-//        savLatitude = location.coordinate.latitude
-//        savLongitude = location.coordinate.longitude
-//        savCordinate =  location.coordinate
+    }
+
+    public func getCoordinate() -> CLLocationCoordinate2D? {
+        return currentLocation
+    }
+
+    public func getLat() -> Double{
+        return currentLocation?.latitude ?? 0.0
+    }
+
+    public func getLon() -> Double{
+        return currentLocation?.longitude ?? 0.0
+    }
+
+ }
+
+extension GpsLocation: CLLocationManagerDelegate {
+
+    public func locationManager(_: CLLocationManager, didUpdateLocations locations: [CLLocation]){
+        guard let location = locations.first else { return }
+        currentLocation = location.coordinate
+        print("[Update location at - \(Date())] with - lat: \(currentLocation!.latitude), lng: \(currentLocation!.longitude)")
+        delegate?.didUpdateLocation(location)
     }
     
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .authorizedAlways:
             return
@@ -60,8 +80,8 @@ class GpsLocation: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
     }
 
- }
+}

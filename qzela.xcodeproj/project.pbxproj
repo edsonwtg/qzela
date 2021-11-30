@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		34CD2ED78909A3B7708BED4B /* Pods_qzela.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 885B18319CAA7E194A5AE6FC /* Pods_qzela.framework */; };
 		6FA4DC3C2754F4D8004B5441 /* GpsLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA4DC3B2754F4D8004B5441 /* GpsLocation.swift */; };
+		6FA4DC3E27556383004B5441 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA4DC3D27556383004B5441 /* LocationManager.swift */; };
 		6FDE7620274816AE0050510C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE761F274816AE0050510C /* AppDelegate.swift */; };
 		6FDE7622274816AE0050510C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE7621274816AE0050510C /* SceneDelegate.swift */; };
 		6FDE7624274816AE0050510C /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE7623274816AE0050510C /* TabBarController.swift */; };
@@ -22,11 +23,13 @@
 		6FDE764A27498E830050510C /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE764927498E830050510C /* NotificationViewController.swift */; };
 		6FDE764C27498E940050510C /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE764B27498E940050510C /* PreviewViewController.swift */; };
 		6FDE764E27498EA80050510C /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE764D27498EA80050510C /* SplashViewController.swift */; };
+		B2D3E7237D3B243ED42B4D73 /* GPSTrackerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3ED601C88EF9BE044AECD /* GPSTrackerManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1FE902AEABB518A74248056A /* Pods-qzela.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qzela.release.xcconfig"; path = "Target Support Files/Pods-qzela/Pods-qzela.release.xcconfig"; sourceTree = "<group>"; };
 		6FA4DC3B2754F4D8004B5441 /* GpsLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpsLocation.swift; sourceTree = "<group>"; };
+		6FA4DC3D27556383004B5441 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		6FDE761C274816AE0050510C /* qzela.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qzela.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FDE761F274816AE0050510C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6FDE7621274816AE0050510C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +46,7 @@
 		6FDE764B27498E940050510C /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		6FDE764D27498EA80050510C /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		885B18319CAA7E194A5AE6FC /* Pods_qzela.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_qzela.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2D3ED601C88EF9BE044AECD /* GPSTrackerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPSTrackerManager.swift; sourceTree = "<group>"; };
 		B71A0B62F87AE2EF3302AE73 /* Pods-qzela.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qzela.debug.xcconfig"; path = "Target Support Files/Pods-qzela/Pods-qzela.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,6 +75,8 @@
 			isa = PBXGroup;
 			children = (
 				6FA4DC3B2754F4D8004B5441 /* GpsLocation.swift */,
+				6FA4DC3D27556383004B5441 /* LocationManager.swift */,
+				B2D3ED601C88EF9BE044AECD /* GPSTrackerManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -273,6 +279,8 @@
 				6FDE7620274816AE0050510C /* AppDelegate.swift in Sources */,
 				6FDE7622274816AE0050510C /* SceneDelegate.swift in Sources */,
 				6FDE764E27498EA80050510C /* SplashViewController.swift in Sources */,
+				6FA4DC3E27556383004B5441 /* LocationManager.swift in Sources */,
+				B2D3E7237D3B243ED42B4D73 /* GPSTrackerManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

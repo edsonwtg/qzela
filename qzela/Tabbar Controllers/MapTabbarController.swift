@@ -5,24 +5,22 @@
 //  Created by Edson Rocha on 19/11/21.
 //
 
-import CoreLocation
 import GoogleMaps
 import UIKit
 
-class MapTabbarController: UIViewController, CLLocationManagerDelegate {
+class MapTabbarController: UIViewController {
     
-    let locationManager = CLLocationManager()
     var savLatitude: Double = -23.612992
     var savLongitude: Double = -46.682762
     var savCoordinate = CLLocationCoordinate2D()
-
+    var tracking = GPSTrackingManager()
     var markerIcon: Array<GMSMarker> = []
     var markerCircle: Array<GMSMarker> = []
     
     // Rua Florida, 1758
     // var savLatitude: Double = -23.6072598
     // var savLongitude: Double = -46.6951241
-  
+    
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var lbQzelaPoints: UILabel!
     @IBOutlet weak var btMyLocation: UIButton!
@@ -35,6 +33,8 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
         switch sender.restorationIdentifier {
         case "btMyLocation":
             print("btMyLocation")
+            savLatitude = tracking.getLat()
+            savLongitude = tracking.getLon()
             mapView.animate(to: GMSCameraPosition.camera(withLatitude: savLatitude, longitude: savLongitude, zoom: 18.0))
         case "btViewMap":
             print("btViewMap")
@@ -49,71 +49,36 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //        btSavedImage.isHidden = true
-        
-        savCoordinate = CLLocationCoordinate2D(latitude: savLatitude, longitude: savLongitude)
-        
-        locationManager.delegate = self
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.requestLocation()
-        } else {
-            locationManager.requestWhenInUseAuthorization()
-        }
-        
-        locationManager.startUpdatingLocation()
-        let qzelaPoints = 1000
-        lbQzelaPoints.addTrailing(image: UIImage(named: "ic_trophy") ?? UIImage(), text: String(qzelaPoints)+" ")
-    }
-    
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        switch manager.authorizationStatus {
-        case .authorizedAlways:
-            return
-        case .authorizedWhenInUse:
-            return
-        case .denied:
-            return
-        case .restricted:
-            locationManager.requestWhenInUseAuthorization()
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-        default:
-            locationManager.requestWhenInUseAuthorization()
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error)
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        guard let location = locations.first else {return}
-        
-//        savLatitude = location.coordinate.latitude
-//        savLongitude = location.coordinate.longitude
-//        savCordinate =  location.coordinate
-        
-        mapView.isMyLocationEnabled = true
-        mapView.camera = GMSCameraPosition.camera(withLatitude: savLatitude, longitude: savLongitude, zoom: 18.0)
-        
-        let marker = GMSMarker(position: savCoordinate)
-        marker.title = "São Paulo"
-        marker.snippet = "Brasil"
-        marker.icon = UIImage(named: "0")
-        marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
-        marker.groundAnchor = CGPoint(x: 0.5,y: 1.15)
-        marker.map = mapView
 
-        let markerStatus = GMSMarker(position: savCoordinate)
-        markerStatus.icon = UIImage(named: "circle_blue")
-        markerStatus.setIconSize(scaledToSize: .init(width: 12, height: 12))
-        markerStatus.map = mapView
+        tracking.startTracking()
+
+         //        btSavedImage.isHidden = true
         
-        
-        
-                
+//        savCoordinate = CLLocationCoordinate2D(latitude: savLatitude, longitude: savLongitude)
+//
+//
+//        savLatitude = GpsLocation.shared.getLat()
+//        savLongitude = GpsLocation.shared.getLon()
+//        savCoordinate =  GpsLocation.shared.getCoordinate()!
+//
+//        mapView.isMyLocationEnabled = true
+//        mapView.camera = GMSCameraPosition.camera(withLatitude: savLatitude, longitude: savLongitude, zoom: 18.0)
+//
+//        let marker = GMSMarker(position: savCoordinate)
+//        marker.title = "São Paulo"
+//        marker.snippet = "Brasil"
+//        marker.icon = UIImage(named: "0")
+//        marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
+//        marker.groundAnchor = CGPoint(x: 0.5,y: 1.15)
+//        marker.map = mapView
+//
+//        let markerStatus = GMSMarker(position: savCoordinate)
+//        markerStatus.icon = UIImage(named: "circle_blue")
+//        markerStatus.setIconSize(scaledToSize: .init(width: 12, height: 12))
+//        markerStatus.map = mapView
+//
+//        let qzelaPoints = 1000
+//        lbQzelaPoints.addTrailing(image: UIImage(named: "ic_trophy") ?? UIImage(), text: String(qzelaPoints)+" ")
     }
     
     func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
@@ -123,7 +88,7 @@ class MapTabbarController: UIViewController, CLLocationManagerDelegate {
         UIGraphicsEndImageContext()
         return newImage
     }
-
+    
     func gotoNewRootViewController(viewController: String) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let viewController = storyBoard.instantiateViewController(withIdentifier: viewController)
@@ -181,25 +146,25 @@ extension UILabel {
     func addTrailing(image: UIImage, text:String) {
         let attachment = NSTextAttachment()
         attachment.image = image
-
+        
         let attachmentString = NSAttributedString(attachment: attachment)
         let string = NSMutableAttributedString(string: text, attributes: [:])
-
+        
         string.append(attachmentString)
-        self.attributedText = string
+        attributedText = string
     }
     
     func addLeading(image: UIImage, text:String) {
         let attachment = NSTextAttachment()
         attachment.image = image
-
+        
         let attachmentString = NSAttributedString(attachment: attachment)
         let mutableAttributedString = NSMutableAttributedString()
         mutableAttributedString.append(attachmentString)
         
         let string = NSMutableAttributedString(string: text, attributes: [:])
         mutableAttributedString.append(string)
-        self.attributedText = mutableAttributedString
+        attributedText = mutableAttributedString
     }
 }
 

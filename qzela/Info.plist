@@ -6,6 +6,10 @@
 	<string>Please allow access  to see your location</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Please allow access  to see your location</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Please allow access  to see your location</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Please allow access  to see your location</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
