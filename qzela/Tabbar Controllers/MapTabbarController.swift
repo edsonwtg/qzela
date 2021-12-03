@@ -15,6 +15,7 @@ class MapTabbarController: UIViewController {
     var gpsLocation = qzela.GPSLocation()
     var markerIcon: Array<GMSMarker> = []
     var markerCircle: Array<GMSMarker> = []
+    var segmentIcon: [Int: UIImage] = [:]
     
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var lbQzelaPoints: UILabel!
@@ -58,18 +59,26 @@ class MapTabbarController: UIViewController {
         // Initialize Map definitions and Style
         mapInit()
 
-        let marker = GMSMarker(position: Config.savCoordinate)
-        marker.title = "São Paulo"
-        marker.snippet = "Brasil"
+
+        let marker = GMSMarker()
+        marker.position = Config.savCoordinate
+        marker.snippet = "048085048048504"
         marker.icon = UIImage(named: "0")
         marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
         marker.groundAnchor = CGPoint(x: 0.5,y: 1.15)
+        markerIcon.append(marker)
         marker.map = mapView
 
-        let markerStatus = GMSMarker(position: Config.savCoordinate)
+        let markerStatus = GMSMarker()
+        markerStatus.position = Config.savCoordinate
         markerStatus.icon = UIImage(named: "circle_blue")
         markerStatus.setIconSize(scaledToSize: .init(width: 12, height: 12))
+        markerCircle.append(markerStatus)
         markerStatus.map = mapView
+//        markerIcon[0].map = nil
+//        markerIcon.remove(at: 0)
+//        markerCircle[0].map = nil
+//        markerCircle.remove(at: 0)
     }
 
     @IBAction func btnClick(_ sender: UIButton) {
@@ -127,6 +136,10 @@ class MapTabbarController: UIViewController {
         )
     }
 
+    func clearMap() {
+        mapView.clear()
+    }
+
     func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
         image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
@@ -170,7 +183,10 @@ class MapTabbarController: UIViewController {
     }
 
     private var windowInterfaceOrientation: UIInterfaceOrientation? {
-        UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+
+        let orientation = view.window?.windowScene?.interfaceOrientation
+        return orientation
+        
     }
     
 }
@@ -244,11 +260,13 @@ extension MapTabbarController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
         
         print("****** MOVE MAP *****")
+
     }
 
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        print("****** CLICK MARKER *****")
 
+        print("****** CLICK MARKER *****")
+        print(marker.snippet! as String)
         return true
     }
 
