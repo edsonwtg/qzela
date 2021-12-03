@@ -22,7 +22,56 @@ class MapTabbarController: UIViewController {
     @IBOutlet weak var btViewMap: UIButton!
     @IBOutlet weak var btNewIncident: UIButton!
     @IBOutlet weak var btSavedImage: UIButton!
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("***** viewWillAppear *****")
+        gpsLocation.startLocationUpdates()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        print("***** viewDidDisappear *****")
+        gpsLocation.stopLocationUpdates()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print("***** viewDidLoad *****")
+        // Hide Image saved Button
+        btSavedImage.isHidden = true
+
+        let qzelaPoints = 1000
+        lbQzelaPoints.addTrailing(image: UIImage(named: "ic_trophy") ?? UIImage(), text: String(qzelaPoints)+" ")
+
+        // GPSLocation by protocol delegate
+        gpsLocation.delegate = self
+        // Home
+        //         Config.savCoordinate = CLLocationCoordinate2D(latitude: -23.612992, longitude: -46.682762)
+        // Rua Florida, 1758
+        //         Config.savCoordinate = CLLocationCoordinate2D(latitude:-23.6072598, longitude: -46.6951241)
+        // Get Coordinates
+        Config.savCoordinate = gpsLocation.getCoordinate()
+
+        // Google Maps events delegate
+        mapView.delegate = self
+        // Initialize Map definitions and Style
+        mapInit()
+
+        let marker = GMSMarker(position: Config.savCoordinate)
+        marker.title = "São Paulo"
+        marker.snippet = "Brasil"
+        marker.icon = UIImage(named: "0")
+        marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
+        marker.groundAnchor = CGPoint(x: 0.5,y: 1.15)
+        marker.map = mapView
+
+        let markerStatus = GMSMarker(position: Config.savCoordinate)
+        markerStatus.icon = UIImage(named: "circle_blue")
+        markerStatus.setIconSize(scaledToSize: .init(width: 12, height: 12))
+        markerStatus.map = mapView
+    }
+
     @IBAction func btnClick(_ sender: UIButton) {
         
         switch sender.restorationIdentifier {
@@ -39,71 +88,35 @@ class MapTabbarController: UIViewController {
             print(sender.restorationIdentifier ?? "no restoration Identifier defined")
         }
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("***** viewWillAppear *****")
-        gpsLocation.startLocationUpdates()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        print("***** viewDidDisappear *****")
-        gpsLocation.stopLocationUpdates()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        print("***** viewDidLoad *****")
 
-        let qzelaPoints = 1000
-        lbQzelaPoints.addTrailing(image: UIImage(named: "ic_trophy") ?? UIImage(), text: String(qzelaPoints)+" ")
-
-        // Hide Image saved Button
-        btSavedImage.isHidden = true
-        
-        // Google Maps events delegate
-        mapView.delegate = self
-        
-        // GPSLocation by protocol delegate
-        gpsLocation.delegate = self
-        
-        // Home
-        //         Config.savCoordinate = CLLocationCoordinate2D(latitude: -23.612992, longitude: -46.682762)
-        // Rua Florida, 1758
-        //         Config.savCoordinate = CLLocationCoordinate2D(latitude:-23.6072598, longitude: -46.6951241)
-        // Get Coordinates
-        Config.savCoordinate = gpsLocation.getCoordinate()
-
+    func mapInit() {
+        print("***** MAP INIT *****")
+        // Load Map style from json file
+        do{
+            if let styleURL = Bundle.main.url(forResource: "mapstyle", withExtension: "json")
+            {
+                mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+                print("mapstyle.json Load...")
+            }else{
+                print("unable to find mapstyle.json")
+            }
+        }catch{
+            print("One or more of the map styles failed to load.\(error)")
+        }
         // Enable center point of my location
         mapView.isMyLocationEnabled = true
         mapView.setMinZoom(Config.MIN_ZOOM_MAP, maxZoom: Config.MAX_ZOOM_MAP)
-        // Load Map style from json file
-        loadMapStyle()
         // Set camera bounds for limit map view
         mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
                 centerCoordinate: Config.savCoordinate,
                 radiusInMeter: Config.LOCATION_DISTANCE
         )
         mapView.camera = GMSCameraPosition.camera(
-            withLatitude: Config.savCoordinate.latitude,
-            longitude: Config.savCoordinate.longitude, zoom: Config.ZOOM_INITIAL
+                withLatitude: Config.savCoordinate.latitude,
+                longitude: Config.savCoordinate.longitude, zoom: Config.ZOOM_INITIAL
         )
-        
-        let marker = GMSMarker(position: Config.savCoordinate)
-        marker.title = "São Paulo"
-        marker.snippet = "Brasil"
-        marker.icon = UIImage(named: "0")
-        marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
-        marker.groundAnchor = CGPoint(x: 0.5,y: 1.15)
-        marker.map = mapView
-        
-        let markerStatus = GMSMarker(position: Config.savCoordinate)
-        markerStatus.icon = UIImage(named: "circle_blue")
-        markerStatus.setIconSize(scaledToSize: .init(width: 12, height: 12))
-        markerStatus.map = mapView
     }
-    
+
     func gotoMyLocation() {
         Config.savCoordinate = gpsLocation.getCoordinate()
         mapView.cameraTargetBounds = nil
@@ -156,20 +169,6 @@ class MapTabbarController: UIViewController {
         })
     }
 
-    func loadMapStyle() {
-        do{
-            if let styleURL = Bundle.main.url(forResource: "mapstyle", withExtension: "json")
-            {
-                mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
-                print("mapstyle.json Load...")
-            }else{
-                print("unable to find mapstyle.json")
-            }
-        }catch{
-            print("One or more of the map styles failed to load.\(error)")
-        }
-    }
-    
     private var windowInterfaceOrientation: UIInterfaceOrientation? {
         UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
     }
@@ -238,12 +237,22 @@ extension MapTabbarController: GPSLocationDelegate {
         //        }
     }
 }
-
+//  Events of Maps
 extension MapTabbarController: GMSMapViewDelegate {
-    
+
+    // Move Map
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
         
-        print("****** MAP MOVE *****")
+        print("****** MOVE MAP *****")
     }
-    
+
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        print("****** CLICK MARKER *****")
+
+        return true
+    }
+
+    open func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        print("****** CLICK ON MAP *******")
+    }
 }
