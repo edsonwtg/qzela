@@ -5,21 +5,16 @@
 //  Created by Edson Rocha on 19/11/21.
 //
 
-import GoogleMaps
 import UIKit
+import GoogleMaps
+import MapKit
+import CoreLocation
 
 class MapTabbarController: UIViewController {
     
-    var savLatitude: Double = -23.612992
-    var savLongitude: Double = -46.682762
-    var savCoordinate = CLLocationCoordinate2D()
-    var tracking = GPSTrackingManager()
+    var gpsLocation = qzela.GPSLocation()
     var markerIcon: Array<GMSMarker> = []
     var markerCircle: Array<GMSMarker> = []
-    
-    // Rua Florida, 1758
-    // var savLatitude: Double = -23.6072598
-    // var savLongitude: Double = -46.6951241
     
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var lbQzelaPoints: UILabel!
@@ -33,9 +28,7 @@ class MapTabbarController: UIViewController {
         switch sender.restorationIdentifier {
         case "btMyLocation":
             print("btMyLocation")
-            savLatitude = tracking.getLat()
-            savLongitude = tracking.getLon()
-            mapView.animate(to: GMSCameraPosition.camera(withLatitude: savLatitude, longitude: savLongitude, zoom: 18.0))
+            gotoMyLocation()
         case "btViewMap":
             print("btViewMap")
         case "btNewIncident":
@@ -47,40 +40,80 @@ class MapTabbarController: UIViewController {
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        tracking.startTracking()
-
-         //        btSavedImage.isHidden = true
-        
-//        savCoordinate = CLLocationCoordinate2D(latitude: savLatitude, longitude: savLongitude)
-//
-//
-//        savLatitude = GpsLocation.shared.getLat()
-//        savLongitude = GpsLocation.shared.getLon()
-//        savCoordinate =  GpsLocation.shared.getCoordinate()!
-//
-//        mapView.isMyLocationEnabled = true
-//        mapView.camera = GMSCameraPosition.camera(withLatitude: savLatitude, longitude: savLongitude, zoom: 18.0)
-//
-//        let marker = GMSMarker(position: savCoordinate)
-//        marker.title = "São Paulo"
-//        marker.snippet = "Brasil"
-//        marker.icon = UIImage(named: "0")
-//        marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
-//        marker.groundAnchor = CGPoint(x: 0.5,y: 1.15)
-//        marker.map = mapView
-//
-//        let markerStatus = GMSMarker(position: savCoordinate)
-//        markerStatus.icon = UIImage(named: "circle_blue")
-//        markerStatus.setIconSize(scaledToSize: .init(width: 12, height: 12))
-//        markerStatus.map = mapView
-//
-//        let qzelaPoints = 1000
-//        lbQzelaPoints.addTrailing(image: UIImage(named: "ic_trophy") ?? UIImage(), text: String(qzelaPoints)+" ")
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("***** viewWillAppear *****")
+        gpsLocation.startLocationUpdates()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        print("***** viewDidDisappear *****")
+        gpsLocation.stopLocationUpdates()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print("***** viewDidLoad *****")
+
+        let qzelaPoints = 1000
+        lbQzelaPoints.addTrailing(image: UIImage(named: "ic_trophy") ?? UIImage(), text: String(qzelaPoints)+" ")
+
+        // Hide Image saved Button
+        btSavedImage.isHidden = true
+        
+        // Google Maps events delegate
+        mapView.delegate = self
+        
+        // GPSLocation by protocol delegate
+        gpsLocation.delegate = self
+        
+        // Home
+        //         Config.savCoordinate = CLLocationCoordinate2D(latitude: -23.612992, longitude: -46.682762)
+        // Rua Florida, 1758
+        //         Config.savCoordinate = CLLocationCoordinate2D(latitude:-23.6072598, longitude: -46.6951241)
+        // Get Coordinates
+        Config.savCoordinate = gpsLocation.getCoordinate()
+
+        // Enable center point of my location
+        mapView.isMyLocationEnabled = true
+        mapView.setMinZoom(Config.MIN_ZOOM_MAP, maxZoom: Config.MAX_ZOOM_MAP)
+        // Load Map style from json file
+        loadMapStyle()
+        // Set camera bounds for limit map view
+        mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
+                centerCoordinate: Config.savCoordinate,
+                radiusInMeter: Config.LOCATION_DISTANCE
+        )
+        mapView.camera = GMSCameraPosition.camera(
+            withLatitude: Config.savCoordinate.latitude,
+            longitude: Config.savCoordinate.longitude, zoom: Config.ZOOM_INITIAL
+        )
+        
+        let marker = GMSMarker(position: Config.savCoordinate)
+        marker.title = "São Paulo"
+        marker.snippet = "Brasil"
+        marker.icon = UIImage(named: "0")
+        marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
+        marker.groundAnchor = CGPoint(x: 0.5,y: 1.15)
+        marker.map = mapView
+        
+        let markerStatus = GMSMarker(position: Config.savCoordinate)
+        markerStatus.icon = UIImage(named: "circle_blue")
+        markerStatus.setIconSize(scaledToSize: .init(width: 12, height: 12))
+        markerStatus.map = mapView
+    }
+    
+    func gotoMyLocation() {
+        Config.savCoordinate = gpsLocation.getCoordinate()
+        mapView.cameraTargetBounds = nil
+        mapView.camera = GMSCameraPosition.camera(withTarget: Config.savCoordinate, zoom: Config.ZOOM_LOCATION)
+        mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
+                centerCoordinate: Config.savCoordinate,
+                radiusInMeter: Config.LOCATION_DISTANCE
+        )
+    }
+
     func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
         image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
@@ -121,6 +154,20 @@ class MapTabbarController: UIViewController {
                 // activate portrait changes
             }
         })
+    }
+
+    func loadMapStyle() {
+        do{
+            if let styleURL = Bundle.main.url(forResource: "mapstyle", withExtension: "json")
+            {
+                mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+                print("mapstyle.json Load...")
+            }else{
+                print("unable to find mapstyle.json")
+            }
+        }catch{
+            print("One or more of the map styles failed to load.\(error)")
+        }
     }
     
     private var windowInterfaceOrientation: UIInterfaceOrientation? {
@@ -176,4 +223,27 @@ extension GMSMarker {
         UIGraphicsEndImageContext()
         icon = newImage
     }
+}
+// get Update Position from GPSLocation by Protocol
+extension MapTabbarController: GPSLocationDelegate {
+    
+    func GPSLocation(didUpdate locations: [CLLocation]) {
+        
+        guard let location = locations.first else { return }
+        mapView.animate(to: GMSCameraPosition.camera(
+            withLatitude: location.coordinate.latitude,
+            longitude: location.coordinate.longitude, zoom: 18.0))
+        //        for currentLocation in locations {
+        //            print("Update Location:\(currentLocation)")
+        //        }
+    }
+}
+
+extension MapTabbarController: GMSMapViewDelegate {
+    
+    func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
+        
+        print("****** MAP MOVE *****")
+    }
+    
 }
