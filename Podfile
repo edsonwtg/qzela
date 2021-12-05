@@ -5,6 +5,7 @@ target 'qzela' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-   pod 'GoogleMaps', '~> 5.2.0'
-   
+  pod 'GoogleMaps', '~> 6.0.0'
+  pod 'Firebase/Storage'
+
 end

@@ -6,6 +6,7 @@
 //
 import UIKit
 import CoreLocation
+import FirebaseStorage
 
 class Config {
     static let MENU_ITEM_DASHBOARD: Int = 0
@@ -23,4 +24,17 @@ class Config {
     static let LATLNG_REDUCE_BOUNDS_PERCENTAGE_SAVED_INCIDENT: Double = 30 // Reduce bonds percentage of view port for saved incidents
 
     static var savCoordinate: CLLocationCoordinate2D!
+    static let FIREBASE_INCIDENTS_BUCKET_URI: String = "gs://qz-user-data/"
+    static let FIREBASE_INCIDENTS_SIGNED_URL: String = "https://storage.cloud.google.com/qz-user-data/"
+    static let FIREBASE_INCIDENTS_PUBLIC_URL: String = "https://storage.googleapis.com/qz-user-data/"
+    static let FIREBASE_BUCKET_URI: String = "gs://assets.qzela.com.br/"
+//    static let INCIDENTS_IMAGES_PATH: String = "images/dev/"
+    static let INCIDENTS_IMAGES_PATH: String = "images/stg/"
+//    static let INCIDENTS_IMAGES_PATH: String = "images/prd/"
+    static let SEGMENTS_ICONS_PATH: String = "images/app/icons/"
+    static let MARKERS_ICONS_PATH: String = "images/markers/"
+    static let MAXBYTES: Int64 = 1 * 160 * 160
+    
+    static let FIREBASE_INCIDENTS_STORAGE = Storage.storage(url: FIREBASE_INCIDENTS_BUCKET_URI).reference()
+    static let FIREBASE_ICONS_STORAGE = Storage.storage(url: FIREBASE_BUCKET_URI).reference()
 }

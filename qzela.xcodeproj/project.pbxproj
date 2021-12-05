@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		34CD2ED78909A3B7708BED4B /* Pods_qzela.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 885B18319CAA7E194A5AE6FC /* Pods_qzela.framework */; };
 		6F99B4612759727800B8A6FC /* mapstyle.json in Resources */ = {isa = PBXBuildFile; fileRef = 6F99B4602759727800B8A6FC /* mapstyle.json */; };
+		6FA6AA8B275CED400099F318 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6FA6AA8A275CED400099F318 /* GoogleService-Info.plist */; };
 		6FDE7620274816AE0050510C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE761F274816AE0050510C /* AppDelegate.swift */; };
 		6FDE7622274816AE0050510C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE7621274816AE0050510C /* SceneDelegate.swift */; };
 		6FDE7624274816AE0050510C /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE7623274816AE0050510C /* TabBarController.swift */; };
@@ -28,6 +29,7 @@
 /* Begin PBXFileReference section */
 		1FE902AEABB518A74248056A /* Pods-qzela.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qzela.release.xcconfig"; path = "Target Support Files/Pods-qzela/Pods-qzela.release.xcconfig"; sourceTree = "<group>"; };
 		6F99B4602759727800B8A6FC /* mapstyle.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mapstyle.json; sourceTree = "<group>"; };
+		6FA6AA8A275CED400099F318 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6FDE761C274816AE0050510C /* qzela.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qzela.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FDE761F274816AE0050510C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6FDE7621274816AE0050510C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 		6FDE7613274816AD0050510C = {
 			isa = PBXGroup;
 			children = (
+				6FA6AA8A275CED400099F318 /* GoogleService-Info.plist */,
 				6F99B4602759727800B8A6FC /* mapstyle.json */,
 				6FDE761E274816AE0050510C /* qzela */,
 				6FDE761D274816AE0050510C /* Products */,
@@ -162,6 +165,7 @@
 				6FDE7619274816AE0050510C /* Frameworks */,
 				6FDE761A274816AE0050510C /* Resources */,
 				E575E83D079DCF8B40C38071 /* [CP] Copy Pods Resources */,
+				B2CBB655DA2B7B6AF1EBE609 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -210,6 +214,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FA6AA8B275CED400099F318 /* GoogleService-Info.plist in Resources */,
 				6F99B4612759727800B8A6FC /* mapstyle.json in Resources */,
 				6FDE7629274816AF0050510C /* Assets.xcassets in Resources */,
 				6FDE7627274816AE0050510C /* Main.storyboard in Resources */,
@@ -219,6 +224,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		B2CBB655DA2B7B6AF1EBE609 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-qzela/Pods-qzela-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-qzela/Pods-qzela-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-qzela/Pods-qzela-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D0F5401F4F1B4C4695EA4F5F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
