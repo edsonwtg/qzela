@@ -2,53 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c9849a8-4a2b-49e5-81b2-d7dc8747624f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/Podfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Base/Frameworks/GoogleMapsBase.framework/GoogleMapsBase" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Base/Frameworks/GoogleMapsBase.framework/GoogleMapsBase" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Example/GoogleMapsDemos.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Example/GoogleMapsDemos.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Example/GoogleMapsDemos/DemoAppDelegate.m" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Example/GoogleMapsDemos/DemoAppDelegate.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Example/GoogleMapsDemos/MasterViewController.m" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Example/GoogleMapsDemos/MasterViewController.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Example/GoogleMapsDemos/Samples/MarkersViewController.m" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Example/GoogleMapsDemos/Samples/MarkersViewController.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Example/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Example/Podfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/GoogleMaps" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/GoogleMaps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSAddress.h" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSAddress.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSCircle.h" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSCircle.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSMarker.h" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSMarker.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSOrientation.h" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSOrientation.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSProjection.h" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSProjection.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSStampStyle.h" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSStampStyle.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GoogleMaps.h" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GoogleMaps.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle/GMSCacheStorage.momd/VersionInfo.plist" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle/GMSCacheStorage.momd/VersionInfo.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle/GMSCoreResources.bundle/Assets.car" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle/GMSCoreResources.bundle/Assets.car" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle/GMSCoreResources.bundle/GMSShaders.metallib" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle/GMSCoreResources.bundle/GMSShaders.metallib" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle/GMSCoreResources.bundle/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle/GMSCoreResources.bundle/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle/GMSCoreResources.bundle/da.lproj/GMSCore.strings" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle/GMSCoreResources.bundle/da.lproj/GMSCore.strings" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle/oss_licenses_maps.txt.gz" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle/oss_licenses_maps.txt.gz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMapsCore.framework/GoogleMapsCore" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/Maps/Frameworks/GoogleMapsCore.framework/GoogleMapsCore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/SwiftExample/GoogleMapsSwiftDemos.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/SwiftExample/GoogleMapsSwiftDemos.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/SwiftExample/GoogleMapsSwiftDemos/Swift/SampleListViewController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/SwiftExample/GoogleMapsSwiftDemos/Swift/SampleListViewController.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/GoogleMaps/SwiftExample/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/GoogleMaps/SwiftExample/Podfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Manifest.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Manifest.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/erocha.xcuserdatad/xcschemes/xcschememanagement.plist" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/erocha.xcuserdatad/xcschemes/xcschememanagement.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-acknowledgements.markdown" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-acknowledgements.markdown" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-acknowledgements.plist" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-acknowledgements.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks-Debug-input-files.xcfilelist" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks-Debug-input-files.xcfilelist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks-Debug-output-files.xcfilelist" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks-Debug-output-files.xcfilelist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks-Release-input-files.xcfilelist" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks-Release-input-files.xcfilelist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks-Release-output-files.xcfilelist" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks-Release-output-files.xcfilelist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks.sh" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela.debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela.debug.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela.release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela.release.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/qzela.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela.xcodeproj/xcshareddata/xcschemes/qzela.xcscheme" beforeDir="false" afterPath="$PROJECT_DIR$/qzela.xcodeproj/xcshareddata/xcschemes/qzela.xcscheme" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela/AppDelegate.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/AppDelegate.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela/Models/Config.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Models/Config.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,7 +81,7 @@
       <workItem from="1638535947395" duration="3481000" />
       <workItem from="1638539872146" duration="7116000" />
       <workItem from="1638708761212" duration="204000" />
-      <workItem from="1638710611707" duration="930000" />
+      <workItem from="1638710611707" duration="1421000" />
     </task>
     <task id="LOCAL-00001" summary="Google Maps Scroll Ok">
       <created>1638535989367</created>
@@ -178,7 +132,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638707671589</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Firebase Add Ok&#10;.gitignore add /Pod">
+      <created>1638711874810</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1638711874810</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -200,7 +161,8 @@
     <MESSAGE value="Google Maps Scroll Ok" />
     <MESSAGE value="Google Maps Markers Ok" />
     <MESSAGE value="Updade workspace" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updade workspace" />
+    <MESSAGE value="Firebase Add Ok&#10;.gitignore add /Pod" />
+    <option name="LAST_COMMIT_MESSAGE" value="Firebase Add Ok&#10;.gitignore add /Pod" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
