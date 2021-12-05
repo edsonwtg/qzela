@@ -7,5 +7,7 @@ target 'qzela' do
 
   pod 'GoogleMaps', '~> 6.0.0'
   pod 'Firebase/Storage'
+  pod "Apollo"
+  pod "Apollo/WebSocket"
 
 end

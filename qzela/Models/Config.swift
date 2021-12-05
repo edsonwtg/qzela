@@ -24,6 +24,8 @@ class Config {
     static let LATLNG_REDUCE_BOUNDS_PERCENTAGE_SAVED_INCIDENT: Double = 30 // Reduce bonds percentage of view port for saved incidents
 
     static var savCoordinate: CLLocationCoordinate2D!
+    
+    // FIREBASE GOOGLE CLOUD
     static let FIREBASE_INCIDENTS_BUCKET_URI: String = "gs://qz-user-data/"
     static let FIREBASE_INCIDENTS_SIGNED_URL: String = "https://storage.cloud.google.com/qz-user-data/"
     static let FIREBASE_INCIDENTS_PUBLIC_URL: String = "https://storage.googleapis.com/qz-user-data/"
@@ -37,4 +39,14 @@ class Config {
     
     static let FIREBASE_INCIDENTS_STORAGE = Storage.storage(url: FIREBASE_INCIDENTS_BUCKET_URI).reference()
     static let FIREBASE_ICONS_STORAGE = Storage.storage(url: FIREBASE_BUCKET_URI).reference()
+    
+    // CONNECTION QZELA GRAPHQL API
+//     static let GRAPHQL_ENDPOINT: String = "https://corp.qzela.com.br:3000/v2i/graphql";
+//     static let GRAPHQL_WEBSOCKET: String = "wss://corp.qzela.com.br:3000/graphql";
+    static let GRAPHQL_ENDPOINT: String = "https://stg-corp.qzela.com.br:4000/v2i/graphql";
+     static let GRAPHQL_WEBSOCKET: String = "wss://stg-corp.qzela.com.br:4000/graphql";
+//     static let GRAPHQL_ENDPOINT: String = "http://10.0.2.2:4000/v2i/graphql";
+//     static let GRAPHQL_WEBSOCKET: String = "ws://10.0.2.2:4000/graphql";
+
+
 }

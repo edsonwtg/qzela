@@ -1,4 +1,9 @@
 PODS:
+  - Apollo (0.50.0):
+    - Apollo/Core (= 0.50.0)
+  - Apollo/Core (0.50.0)
+  - Apollo/WebSocket (0.50.0):
+    - Apollo/Core
   - Firebase/CoreOnly (8.10.0):
     - FirebaseCore (= 8.10.0)
   - Firebase/Storage (8.10.0):
@@ -38,11 +43,14 @@ PODS:
   - PromisesObjC (2.0.0)
 
 DEPENDENCIES:
+  - Apollo
+  - Apollo/WebSocket
   - Firebase/Storage
   - GoogleMaps (~> 6.0.0)
 
 SPEC REPOS:
   trunk:
+    - Apollo
     - Firebase
     - FirebaseCore
     - FirebaseCoreDiagnostics
@@ -55,6 +63,7 @@ SPEC REPOS:
     - PromisesObjC
 
 SPEC CHECKSUMS:
+  Apollo: 5e4476a3236bd576686085b7cd99655c788e4d74
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
   FirebaseCore: 04186597c095da37d90ff9fd3e53bc61a1ff2440
   FirebaseCoreDiagnostics: 56fb7216d87e0e6ec2feddefa9d8a392fe8b2c18
@@ -66,6 +75,6 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
 
-PODFILE CHECKSUM: 82b9ca0422d8091c956099142d9fabe5769b9e29
+PODFILE CHECKSUM: 5ec49f3ed36a6ce52bf7a52487ec637ee8ccb113
 
 COCOAPODS: 1.11.2

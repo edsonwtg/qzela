@@ -10,6 +10,8 @@ import GoogleMaps
 import MapKit
 import CoreLocation
 import FirebaseStorage
+import Apollo
+
 
 class MapTabbarController: UIViewController {
     
@@ -17,6 +19,8 @@ class MapTabbarController: UIViewController {
     var markerIcon: Array<GMSMarker> = []
     var markerCircle: Array<GMSMarker> = []
     var segmentIcon: [Int: UIImage] = [:]
+    
+//    let apollo = ApolloClient(url: URL(string: Config.GRAPHQL_ENDPOINT)!)
     
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var lbQzelaPoints: UILabel!
@@ -60,7 +64,25 @@ class MapTabbarController: UIViewController {
         // Initialize Map definitions and Style
         mapInit()
         mapAddMarkers()
-                
+        
+//        self.apollo.fetch(query: HealthQuery()) {result in
+//            switch result {
+//            case .success(let graphQLResult):
+//              print("Success! Result: \(graphQLResult)")
+//            case .failure(let error):
+//              print("Failure! Error: \(error)")
+//            }
+//        }
+        
+        Apollo.shared.apollo.fetch(query: HealthQuery()) {result in
+            switch result {
+            case .success(let graphQLResult):
+              print("Success! Result: \(graphQLResult)")
+            case .failure(let error):
+              print("Failure! Error: \(error)")
+            }
+        }
+        
     }
     
     @IBAction func btnClick(_ sender: UIButton) {
