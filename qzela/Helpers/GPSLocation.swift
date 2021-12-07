@@ -44,19 +44,25 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
     }
 
     func getCoordinate() -> CLLocationCoordinate2D? {
-        let coor = locationManager.location?.coordinate ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
+        // TODO: Home location for development test
+        let coor = CLLocationCoordinate2D(latitude: -23.612992, longitude: -46.682762)
+//        let coor = locationManager.location?.coordinate ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
         print("Coordenate: \(coor)")
         return coor
     }
 
     func getLat() -> Double{
-        let lat = locationManager.location?.coordinate.latitude ?? 0.0
+        // TODO: Home location for development test
+        let lat = -23.612992
+//        let lat = locationManager.location?.coordinate.latitude ?? 0.0
         print("Latitude: \(lat)")
         return lat
     }
 
     func getLon() -> Double{
-        let lon = locationManager.location?.coordinate.longitude ?? 0.0
+        // TODO: Home location for development test
+        let lon = -46.682762
+//        let lon = locationManager.location?.coordinate.longitude ?? 0.0
         print("Longitude: \(lon)")
         return lon
     }
@@ -76,7 +82,20 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
 
     }
 
-    func getDistanceInMeters(coordinateOrigin: CLLocation, coordinateDestiny: CLLocation  ) -> Float {
+    func reduceBounds(bounds: GMSCoordinateBounds, percentage: Double)-> GMSCoordinateBounds? {
+        let north: Double = bounds.northEast.latitude
+        let south: Double = bounds.southWest.latitude
+        let east: Double = bounds.northEast.longitude
+        let west: Double = bounds.southWest.longitude
+        let lowerFactor: Double = percentage / 2 / 100
+        let upperFactor: Double = (100 - percentage / 2) / 100
+        return GMSCoordinateBounds(
+                coordinate: CLLocationCoordinate2D(latitude: south + (north - south) * lowerFactor, longitude: west + (east - west) * lowerFactor),
+                coordinate: CLLocationCoordinate2D(latitude: south + (north - south) * upperFactor, longitude: west + (east - west) * upperFactor))
+    }
+
+
+func getDistanceInMeters(coordinateOrigin: CLLocation, coordinateDestiny: CLLocation  ) -> Float {
 
         Float(coordinateOrigin.distance(from: coordinateDestiny)) // result is in meters
     }

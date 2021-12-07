@@ -2,27 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c9849a8-4a2b-49e5-81b2-d7dc8747624f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/qzela/API.swift" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qzela/Graphql/Apollo.swift" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qzela/Health.graphql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qzela/schema.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/qzela/GetSegments.graphql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/qzela/GetViewport.graphql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/Podfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Manifest.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Manifest.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/erocha.xcuserdatad/xcschemes/xcschememanagement.plist" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/erocha.xcuserdatad/xcschemes/xcschememanagement.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-acknowledgements.markdown" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-acknowledgements.markdown" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-acknowledgements.plist" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-acknowledgements.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks-Debug-input-files.xcfilelist" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks-Debug-input-files.xcfilelist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks-Debug-output-files.xcfilelist" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks-Debug-output-files.xcfilelist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks-Release-input-files.xcfilelist" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks-Release-input-files.xcfilelist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks-Release-output-files.xcfilelist" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks-Release-output-files.xcfilelist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks.sh" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela-frameworks.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela.debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela.debug.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela.release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-qzela/Pods-qzela.release.xcconfig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qzela.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/qzela.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela/AppDelegate.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/AppDelegate.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela/API.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/API.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela/Base.lproj/Main.storyboard" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Main.storyboard" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela/Graphql/Apollo.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Graphql/Apollo.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela/Helpers/GPSLocation.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Helpers/GPSLocation.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qzela/Models/Config.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Models/Config.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" afterDir="false" />
     </list>
@@ -101,6 +88,8 @@
       <workItem from="1638539872146" duration="7116000" />
       <workItem from="1638708761212" duration="204000" />
       <workItem from="1638710611707" duration="1421000" />
+      <workItem from="1638794884088" duration="13574000" />
+      <workItem from="1638880410831" duration="17022000" />
     </task>
     <task id="LOCAL-00001" summary="Google Maps Scroll Ok">
       <created>1638535989367</created>
@@ -158,7 +147,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638711874810</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Apollo Add Ok">
+      <created>1638744111956</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1638744111956</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -181,7 +177,15 @@
     <MESSAGE value="Google Maps Markers Ok" />
     <MESSAGE value="Updade workspace" />
     <MESSAGE value="Firebase Add Ok&#10;.gitignore add /Pod" />
-    <option name="LAST_COMMIT_MESSAGE" value="Firebase Add Ok&#10;.gitignore add /Pod" />
+    <MESSAGE value="Apollo Add Ok" />
+    <option name="LAST_COMMIT_MESSAGE" value="Apollo Add Ok" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="AppleRunConfiguration">
+        <watch expression="swCoord[0]" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

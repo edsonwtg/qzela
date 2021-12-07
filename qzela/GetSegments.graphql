@@ -1,0 +1,9 @@
+query GetSegments {
+    getSegments (
+        stActive: true
+    ) {
+        cdSegment,
+        dcSegment,
+        stActive
+    }
+}

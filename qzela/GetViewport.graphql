@@ -1,0 +1,22 @@
+query GetViewport ( $neCoord : Coordinate!,$swCoord : Coordinate!, $already: [ID]!, $isOpen: Boolean){
+    getIncidentsByViewport(
+        northEastCoordinates: $neCoord
+        southWestCoordinates: $swCoord
+        incidentIdsAlreadyObtained: $already
+        isOpen: $isOpen
+    ) {
+        data {
+            _id
+            stIncident
+            vlLatitude
+            vlLongitude
+            cdSegment
+            segments {
+                dcSegment,
+                dcOccurrence,
+                stActive
+            }
+        }
+    }
+}
+

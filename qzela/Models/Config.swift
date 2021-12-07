@@ -4,6 +4,7 @@
 //
 //  Created by Edson Rocha on 20/11/21.
 //
+
 import UIKit
 import CoreLocation
 import FirebaseStorage
@@ -13,7 +14,7 @@ class Config {
     static let MENU_ITEM_MAP: Int = 1
     static let MENU_ITEM_PROFILE: Int = 2
 
-    static let ZOOM_INITIAL: Float  = 18.0
+    static let ZOOM_INITIAL: Float = 18.0
     static let ZOOM_LOCATION: Float = 19.0
     static let MIN_ZOOM_LOCATION: Float = 18.0
     static let MIN_ZOOM_MAP: Float = 17.5
@@ -24,7 +25,7 @@ class Config {
     static let LATLNG_REDUCE_BOUNDS_PERCENTAGE_SAVED_INCIDENT: Double = 30 // Reduce bonds percentage of view port for saved incidents
 
     static var savCoordinate: CLLocationCoordinate2D!
-    
+
     // FIREBASE GOOGLE CLOUD
     static let FIREBASE_INCIDENTS_BUCKET_URI: String = "gs://qz-user-data/"
     static let FIREBASE_INCIDENTS_SIGNED_URL: String = "https://storage.cloud.google.com/qz-user-data/"
@@ -36,17 +37,17 @@ class Config {
     static let SEGMENTS_ICONS_PATH: String = "images/app/icons/"
     static let MARKERS_ICONS_PATH: String = "images/markers/"
     static let MAXBYTES: Int64 = 1 * 160 * 160
-    
+
     static let FIREBASE_INCIDENTS_STORAGE = Storage.storage(url: FIREBASE_INCIDENTS_BUCKET_URI).reference()
     static let FIREBASE_ICONS_STORAGE = Storage.storage(url: FIREBASE_BUCKET_URI).reference()
-    
+
     // CONNECTION QZELA GRAPHQL API
 //     static let GRAPHQL_ENDPOINT: String = "https://corp.qzela.com.br:3000/v2i/graphql";
 //     static let GRAPHQL_WEBSOCKET: String = "wss://corp.qzela.com.br:3000/graphql";
-    static let GRAPHQL_ENDPOINT: String = "https://stg-corp.qzela.com.br:4000/v2i/graphql";
-     static let GRAPHQL_WEBSOCKET: String = "wss://stg-corp.qzela.com.br:4000/graphql";
-//     static let GRAPHQL_ENDPOINT: String = "http://10.0.2.2:4000/v2i/graphql";
-//     static let GRAPHQL_WEBSOCKET: String = "ws://10.0.2.2:4000/graphql";
+//    static let GRAPHQL_ENDPOINT: String = "https://stg-corp.qzela.com.br:4000/v2i/graphql";
+//    static let GRAPHQL_WEBSOCKET: String = "wss://stg-corp.qzela.com.br:4000/graphql";
+    static let GRAPHQL_ENDPOINT: String = "http://localhost:4000/v2i/graphql";
+    static let GRAPHQL_WEBSOCKET: String = "ws://localhost:4000/graphql";
 
 
 }
