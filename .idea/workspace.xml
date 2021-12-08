@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1c9849a8-4a2b-49e5-81b2-d7dc8747624f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/qzela/GetSegments.graphql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qzela/GetViewport.graphql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/qzela.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela/API.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/API.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela/Base.lproj/Main.storyboard" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Main.storyboard" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela/Graphql/Apollo.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Graphql/Apollo.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela/Helpers/GPSLocation.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Helpers/GPSLocation.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela/Models/Config.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Models/Config.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" afterDir="false" />
-    </list>
+    <list default="true" id="1c9849a8-4a2b-49e5-81b2-d7dc8747624f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -89,7 +78,7 @@
       <workItem from="1638708761212" duration="204000" />
       <workItem from="1638710611707" duration="1421000" />
       <workItem from="1638794884088" duration="13574000" />
-      <workItem from="1638880410831" duration="17022000" />
+      <workItem from="1638880410831" duration="17098000" />
     </task>
     <task id="LOCAL-00001" summary="Google Maps Scroll Ok">
       <created>1638535989367</created>
@@ -154,7 +143,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638744111956</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Apollo GraphQL Ok&#10;getIncidentViewport OK">
+      <created>1638918872031</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1638918872031</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -178,7 +174,8 @@
     <MESSAGE value="Updade workspace" />
     <MESSAGE value="Firebase Add Ok&#10;.gitignore add /Pod" />
     <MESSAGE value="Apollo Add Ok" />
-    <option name="LAST_COMMIT_MESSAGE" value="Apollo Add Ok" />
+    <MESSAGE value="Apollo GraphQL Ok&#10;getIncidentViewport OK" />
+    <option name="LAST_COMMIT_MESSAGE" value="Apollo GraphQL Ok&#10;getIncidentViewport OK" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
