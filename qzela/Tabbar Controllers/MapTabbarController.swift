@@ -13,9 +13,12 @@ import FirebaseStorage
 import Apollo
 
 
-class MapTabbarController: UIViewController {
+class MapTabbarController: UIViewController, NetworkManagerDelegate {
 
+    let config = Config()
+    var networkManager = NetworkManager()
     var gpsLocation = qzela.GPSLocation()
+    var alreadyGetIncidents: Array<String> = []
     var markerIcon: Array<GMSMarker> = []
     var markerCircle: Array<GMSMarker> = []
     var segmentIcon: [Int: UIImage] = [:]
@@ -25,6 +28,7 @@ class MapTabbarController: UIViewController {
 
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var lbQzelaPoints: UILabel!
+    @IBOutlet weak var ivNoInternet: UIImageView!
     @IBOutlet weak var btMyLocation: UIButton!
     @IBOutlet weak var btViewMap: UIButton!
     @IBOutlet weak var btNewIncident: UIButton!
@@ -39,6 +43,7 @@ class MapTabbarController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         print("***** viewDidDisappear *****")
+        
         gpsLocation.stopLocationUpdates()
     }
 
@@ -50,6 +55,10 @@ class MapTabbarController: UIViewController {
 
         let qzelaPoints = 1000
         lbQzelaPoints.addTrailing(image: UIImage(named: "ic_trophy") ?? UIImage(), text: String(qzelaPoints) + " ")
+
+        // NetworkManaget by Protocol delegate
+        networkManager.delegate = self
+        networkManager.startNetworkReachabilityObserver()
 
         // GPSLocation by protocol delegate
         gpsLocation.delegate = self
@@ -64,7 +73,6 @@ class MapTabbarController: UIViewController {
         mapView.delegate = self
         // Initialize Map definitions and Style
         mapInit()
-        getIncidentViewport()
 
     }
 
@@ -113,6 +121,13 @@ class MapTabbarController: UIViewController {
     }
 
     func gotoMyLocation() {
+
+        if (!networkManager.isInternetAvailable()) {
+            print("******** NO INTERNET CONNECTION *********")
+            return
+        } else {
+            ivNoInternet.isHidden = true
+        }
         Config.savCoordinate = gpsLocation.getCoordinate()
         mapView.cameraTargetBounds = nil
         mapView.camera = GMSCameraPosition.camera(withTarget: Config.savCoordinate, zoom: Config.ZOOM_LOCATION)
@@ -125,31 +140,45 @@ class MapTabbarController: UIViewController {
 
     func getIncidentViewport() {
 
-        if (!markerIcon.isEmpty) {
-            markerIcon[0].map = nil
-            markerIcon.remove(at: 0)
-            markerCircle[0].map = nil
-            markerCircle.remove(at: 0)
-        }
-
-        let bounds = gpsLocation.reduceBounds(bounds: GMSCoordinateBounds(region: mapView.projection.visibleRegion()), percentage: Config.LATLNG_REDUCE_BOUNDS_PERCENTAGE)
+        let bounds = gpsLocation.reduceBounds(
+                bounds: GMSCoordinateBounds(region: mapView.projection.visibleRegion()),
+                percentage: Config.LATLNG_REDUCE_BOUNDS_PERCENTAGE
+        )
 //        let bounds = GMSCoordinateBounds(region: mapView.projection.visibleRegion())
         let neCoord: Coordinate = [ bounds!.northEast.longitude,bounds!.northEast.latitude ]
         let swCoord: Coordinate = [ bounds!.southWest.longitude,bounds!.southWest.latitude ]
 //        let neCoord: Coordinate = [ -46.68188021890819, -23.611375575025296 ]
 //        let swCoord: Coordinate = [ -46.68377610482275, -23.61438067888537 ]
 
+        if (alreadyGetIncidents.isEmpty) {
+            clearMap()
+        } else {
+            var index = 0
+            while index < markerIcon.count {
+                if (!(bounds!.contains(markerIcon[index].position))) {
+                    markerIcon[index].map = nil
+                    markerIcon.remove(at: index)
+                    markerCircle[index].map = nil
+                    markerCircle.remove(at: index)
+                    alreadyGetIncidents.remove(at: index)
+                    index -= 1
+                }
+                index += 1
+            }
+        }
+        
 //        var viewportResult = [GetViewportQuery.Data.GetIncidentsByViewport.Datum]()
         Apollo.shared.apollo.fetch(query: GetViewportQuery(
                 neCoord: neCoord,
                 swCoord: swCoord,
-                already: []), cachePolicy: .fetchIgnoringCacheData) { result in
+                already: alreadyGetIncidents), cachePolicy: .fetchIgnoringCacheData) { [weak self] result in
             switch result {
             case .success(let graphQLResult):
-                print("Success! Result: \(graphQLResult)")
+//                print("Success! Result: \(graphQLResult)")
                 if let viewport = graphQLResult.data?.getIncidentsByViewport.data.compactMap({ $0 }) {
                     for resultApi in viewport {
-                        self.mapAddMarkers(
+                        self?.alreadyGetIncidents.append(resultApi._id);
+                        self?.mapAddMarkers(
                                 latitude: resultApi.vlLatitude,
                                 longitude: resultApi.vlLongitude,
                                 segment: resultApi.cdSegment,
@@ -157,6 +186,7 @@ class MapTabbarController: UIViewController {
                                 idIncident: resultApi._id
                         )
                     }
+                    print(self!.alreadyGetIncidents.count)
 //                    viewportResult.append(contentsOf: viewport)
 //                    for xxx in viewportResult {
 //                        print("Id: \(xxx._id) - Lat: \(xxx.vlLatitude) - Lng: \(xxx.vlLongitude) - Segment: \(xxx.cdSegment), stIncident: \(xxx.stIncident)")
@@ -190,35 +220,94 @@ class MapTabbarController: UIViewController {
             break;
         }
 
-        // Get Segment Marker Icon by FIREBASE on Google Cloud
-        let imagesRef = Config.FIREBASE_ICONS_STORAGE.child(Config.MARKERS_ICONS_PATH + String(segment)+".png")
-        // Download in memory with size 160 bytes a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-        imagesRef.getData(maxSize: Config.MAXBYTES) { markerIcon, error in
-            if let error = error {
-                print("ERROR: \(error)")
-            } else {
-                // Segment Icon Marker
-                var marker = GMSMarker()
-                marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                marker.snippet = idIncident
-                marker.icon = UIImage(data: markerIcon!)
-                marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
-                marker.groundAnchor = CGPoint(x: 0.5, y: 1.15)
-                self.markerIcon.append(marker)
-                marker.map = self.mapView
-                // Incident status Circle Marker
-                marker = GMSMarker()
-                marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                marker.icon = markerStatus
-                marker.setIconSize(scaledToSize: .init(width: 12, height: 12))
-                self.markerCircle.append(marker)
-                marker.map = self.mapView
+        if (segmentIcon[segment] != nil) {
+            var marker = GMSMarker()
+            marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            marker.snippet = idIncident
+            marker.icon = segmentIcon[segment]
+            marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
+            marker.groundAnchor = CGPoint(x: 0.5, y: 1.15)
+            self.markerIcon.append(marker)
+            marker.map = self.mapView
+            // Incident status Circle Marker
+            marker = GMSMarker()
+            marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            marker.snippet = idIncident
+            marker.icon = markerStatus
+            marker.setIconSize(scaledToSize: .init(width: 12, height: 12))
+            self.markerCircle.append(marker)
+            marker.map = self.mapView
+            print("Mermory segment icon: \(segment)")
+        } else {
+            // Get Segment Marker Icon by FIREBASE on Google Cloud
+            let imagesRef = Config.FIREBASE_ICONS_STORAGE.child(Config.MARKERS_ICONS_PATH + String(segment) + ".png")
+            // Download in memory with size 160 bytes a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+            imagesRef.getData(maxSize: Config.MAXBYTES) { markerIcon, error in
+                if let error = error {
+                    print("ERROR: \(error)")
+                } else {
+                    // Segment Icon Marker
+                    self.segmentIcon[segment] = UIImage(data: markerIcon!)
+
+                    var marker = GMSMarker()
+                    marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                    marker.snippet = idIncident
+                    marker.icon = UIImage(data: markerIcon!)
+                    marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
+                    marker.groundAnchor = CGPoint(x: 0.5, y: 1.15)
+                    self.markerIcon.append(marker)
+                    marker.map = self.mapView
+                    // Incident status Circle Marker
+                    marker = GMSMarker()
+                    marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                    marker.snippet = idIncident
+                    marker.icon = markerStatus
+                    marker.setIconSize(scaledToSize: .init(width: 12, height: 12))
+                    self.markerCircle.append(marker)
+                    marker.map = self.mapView
+                    print("Firebase segment icon: \(segment)")
+                }
             }
         }
     }
 
+    func clearMarkers() {
+        markerIcon[0].map = nil
+        markerIcon.remove(at: 0)
+        markerCircle[0].map = nil
+        markerCircle.remove(at: 0)
+        alreadyGetIncidents.removeAll()
+    }
+
     func clearMap() {
         mapView.clear()
+    }
+    
+    // get update network state
+    func networkRechabilityStatus(status: NetworkManagerStatus) {
+        
+        switch status {
+        case .notReachable:
+            do {
+                print("[RECHABILITY] The network is not reachable")
+                config.showHideNoInternet(view: ivNoInternet, show: true)
+            }
+        case .unknown :
+            print("[RECHABILITY] It is unknown whether the network is reachable")
+        case .ethernetOrWiFi:
+            do {
+                print("[RECHABILITY] The network is reachable over the WiFi connection")
+                config.showHideNoInternet(view: ivNoInternet, show: false)
+            }
+        case .cellular:
+            do {
+                print("[RECHABILITY] The network is reachable over the WWAN connection")
+                config.showHideNoInternet(view: ivNoInternet, show: true)
+            }
+            
+        }
+
+//        networkManager.stopNetworkReachabilityObserver()
     }
 
     func imageWithImage(image: UIImage, scaledToSize newSize: CGSize) -> UIImage {
@@ -284,6 +373,18 @@ extension UIView {
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath
         layer.shadowRadius = shadowRadius
     }
+    
+    func fadeIn(_ duration: TimeInterval = 0.5, delay: TimeInterval = 0.0, completion: @escaping ((Bool) -> Void) = {(finished: Bool) -> Void in}) {
+        UIView.animate(withDuration: duration, delay: delay, options: UIView.AnimationOptions.curveEaseIn, animations: {
+            self.alpha = 1.0
+    }, completion: completion)  }
+
+    func fadeOut(_ duration: TimeInterval = 0.5, delay: TimeInterval = 1.0, completion: @escaping (Bool) -> Void = {(finished: Bool) -> Void in}) {
+        UIView.animate(withDuration: duration, delay: delay, options: UIView.AnimationOptions.curveEaseIn, animations: {
+            self.alpha = 0.3
+    }, completion: completion)
+   }
+
 }
 
 extension UILabel {
@@ -342,16 +443,17 @@ extension MapTabbarController: GPSLocationDelegate {
         mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
                 centerCoordinate: Config.savCoordinate, radiusInMeter: Config.LOCATION_DISTANCE
         )
+        getIncidentViewport()
     }
 }
 
 //  Events of Maps
 extension MapTabbarController: GMSMapViewDelegate {
 
-    // Move Map
-    func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
+    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
 
-        print("****** MOVE MAP *****")
+        print("****** MSP IDLE *****")
+        getIncidentViewport()
 
     }
 

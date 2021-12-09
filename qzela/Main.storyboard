@@ -184,6 +184,14 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </label>
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="ivNoInternet" image="wifi.slash" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="5Bb-Gc-pz6">
+                                <rect key="frame" x="182" y="109" width="50" height="48"/>
+                                <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Dww-7m-hRK"/>
+                                    <constraint firstAttribute="width" constant="50" id="lFH-cf-gUQ"/>
+                                </constraints>
+                            </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="FQp-1u-3gC">
                                 <rect key="frame" x="339" y="436.5" width="45" height="100"/>
                                 <subviews>
@@ -275,12 +283,14 @@
                             <constraint firstItem="tfm-Bj-cz9" firstAttribute="trailing" secondItem="FQp-1u-3gC" secondAttribute="trailing" constant="30" id="NRU-sO-yGV"/>
                             <constraint firstItem="mnL-Vh-YgK" firstAttribute="centerX" secondItem="rch-LW-VbF" secondAttribute="centerX" id="Q6T-vq-qth"/>
                             <constraint firstAttribute="trailing" secondItem="UWp-UC-MKS" secondAttribute="trailing" id="RE1-IF-DXq"/>
+                            <constraint firstItem="5Bb-Gc-pz6" firstAttribute="centerX" secondItem="rch-LW-VbF" secondAttribute="centerX" id="f9Y-OJ-7Ms"/>
                             <constraint firstItem="rgS-qf-diO" firstAttribute="centerX" secondItem="rch-LW-VbF" secondAttribute="centerX" constant="-5" id="hzO-Ec-M6k"/>
                             <constraint firstItem="UWp-UC-MKS" firstAttribute="centerX" secondItem="rch-LW-VbF" secondAttribute="centerX" id="jIR-qf-hog"/>
                             <constraint firstItem="UWp-UC-MKS" firstAttribute="top" secondItem="rch-LW-VbF" secondAttribute="top" id="jU0-DZ-sED"/>
                             <constraint firstItem="rgS-qf-diO" firstAttribute="centerY" secondItem="phf-bW-Eoe" secondAttribute="centerY" constant="-2.5" id="m8O-sr-MMb"/>
                             <constraint firstAttribute="bottom" secondItem="UWp-UC-MKS" secondAttribute="bottom" id="sFv-Gd-6JZ"/>
                             <constraint firstItem="rgS-qf-diO" firstAttribute="centerX" secondItem="phf-bW-Eoe" secondAttribute="centerX" constant="-80" id="uvD-Sb-cgt"/>
+                            <constraint firstItem="5Bb-Gc-pz6" firstAttribute="top" secondItem="mnL-Vh-YgK" secondAttribute="bottom" constant="10" id="uxE-YV-VjK"/>
                             <constraint firstItem="tfm-Bj-cz9" firstAttribute="bottom" secondItem="rgS-qf-diO" secondAttribute="bottom" constant="45" id="wMt-UZ-sJi"/>
                         </constraints>
                     </view>
@@ -292,6 +302,7 @@
                         <outlet property="btNewIncident" destination="rgS-qf-diO" id="yiY-9g-kj6"/>
                         <outlet property="btSavedImage" destination="phf-bW-Eoe" id="aag-Th-du9"/>
                         <outlet property="btViewMap" destination="mWE-4o-lZL" id="Fo5-kY-97S"/>
+                        <outlet property="ivNoInternet" destination="5Bb-Gc-pz6" id="vDk-mu-TKC"/>
                         <outlet property="lbQzelaPoints" destination="mnL-Vh-YgK" id="QOB-2i-3fy"/>
                         <outlet property="mapView" destination="UWp-UC-MKS" id="Fbt-db-1Ob"/>
                     </connections>
@@ -455,6 +466,7 @@
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="scope" catalog="system" width="128" height="122"/>
+        <image name="wifi.slash" catalog="system" width="128" height="102"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

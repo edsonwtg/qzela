@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		34CD2ED78909A3B7708BED4B /* Pods_qzela.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 885B18319CAA7E194A5AE6FC /* Pods_qzela.framework */; };
+		6F2FC9BB27622EE9004FDF52 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2FC9BA27622EE9004FDF52 /* NetworkManager.swift */; };
 		6F99B4612759727800B8A6FC /* mapstyle.json in Resources */ = {isa = PBXBuildFile; fileRef = 6F99B4602759727800B8A6FC /* mapstyle.json */; };
 		6FA6AA8B275CED400099F318 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6FA6AA8A275CED400099F318 /* GoogleService-Info.plist */; };
 		6FA6AA92275D27240099F318 /* Apollo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA6AA91275D27240099F318 /* Apollo.swift */; };
@@ -30,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		1FE902AEABB518A74248056A /* Pods-qzela.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qzela.release.xcconfig"; path = "Target Support Files/Pods-qzela/Pods-qzela.release.xcconfig"; sourceTree = "<group>"; };
+		6F2FC9BA27622EE9004FDF52 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		6F99B4602759727800B8A6FC /* mapstyle.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mapstyle.json; sourceTree = "<group>"; };
 		6FA6AA8A275CED400099F318 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6FA6AA91275D27240099F318 /* Apollo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apollo.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				B2D3ED601C88EF9BE044AECD /* GPSLocation.swift */,
+				6F2FC9BA27622EE9004FDF52 /* NetworkManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -182,9 +185,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6FDE7630274816AF0050510C /* Build configuration list for PBXNativeTarget "qzela" */;
 			buildPhases = (
+				D0F5401F4F1B4C4695EA4F5F /* [CP] Check Pods Manifest.lock */,
 				E575E83D079DCF8B40C38071 /* [CP] Copy Pods Resources */,
 				B2CBB655DA2B7B6AF1EBE609 /* [CP] Embed Pods Frameworks */,
-				D0F5401F4F1B4C4695EA4F5F /* [CP] Check Pods Manifest.lock */,
 				6FA6AA8C275D0EF30099F318 /* Generate Apollo GraphQL API */,
 				6FDE7618274816AE0050510C /* Sources */,
 				6FDE7619274816AE0050510C /* Frameworks */,
@@ -340,6 +343,7 @@
 				6FDE76432748541A0050510C /* ProfileTabbarController.swift in Sources */,
 				6FDE7620274816AE0050510C /* AppDelegate.swift in Sources */,
 				6FDE7622274816AE0050510C /* SceneDelegate.swift in Sources */,
+				6F2FC9BB27622EE9004FDF52 /* NetworkManager.swift in Sources */,
 				6FDE764E27498EA80050510C /* SplashViewController.swift in Sources */,
 				B2D3E7237D3B243ED42B4D73 /* GPSLocation.swift in Sources */,
 			);

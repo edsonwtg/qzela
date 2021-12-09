@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (5.4.4)
   - Apollo (0.50.0):
     - Apollo/Core (= 0.50.0)
   - Apollo/Core (0.50.0)
@@ -43,6 +44,7 @@ PODS:
   - PromisesObjC (2.0.0)
 
 DEPENDENCIES:
+  - Alamofire (~> 5.4)
   - Apollo
   - Apollo/WebSocket
   - Firebase/Storage
@@ -50,6 +52,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - Apollo
     - Firebase
     - FirebaseCore
@@ -63,6 +66,7 @@ SPEC REPOS:
     - PromisesObjC
 
 SPEC CHECKSUMS:
+  Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
   Apollo: 5e4476a3236bd576686085b7cd99655c788e4d74
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
   FirebaseCore: 04186597c095da37d90ff9fd3e53bc61a1ff2440
@@ -75,6 +79,6 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
 
-PODFILE CHECKSUM: 5ec49f3ed36a6ce52bf7a52487ec637ee8ccb113
+PODFILE CHECKSUM: b86b6e908393bb100c5eeb97320c77d43cf6d1f6
 
 COCOAPODS: 1.11.2

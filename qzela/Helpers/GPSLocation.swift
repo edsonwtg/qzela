@@ -95,7 +95,7 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
     }
 
 
-func getDistanceInMeters(coordinateOrigin: CLLocation, coordinateDestiny: CLLocation  ) -> Float {
+    func getDistanceInMeters(coordinateOrigin: CLLocation, coordinateDestiny: CLLocation  ) -> Float {
 
         Float(coordinateOrigin.distance(from: coordinateDestiny)) // result is in meters
     }
