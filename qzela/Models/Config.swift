@@ -49,30 +49,18 @@ class Config {
     static let GRAPHQL_ENDPOINT: String = "http://localhost:4000/v2i/graphql";
     static let GRAPHQL_WEBSOCKET: String = "ws://localhost:4000/graphql";
     
-
-    func fadeViewInThenOut(view : UIView, delay: TimeInterval) {
-
-        let animationDuration = 1.5
-
-        UIView.animate(withDuration: animationDuration, delay: delay, options: [UIView.AnimationOptions.autoreverse, UIView.AnimationOptions.repeat], animations: {
-            view.alpha = 0
-        }, completion: nil)
-
-    }
-
-    func showHideNoInternet(view : UIImageView, show: Bool) {
+    func showHideNoInternet(view: UIImageView, show: Bool) {
 
         if (show) {
-        view.isHidden = false
-        UIView.animate(withDuration: 1.5, delay: 0, options: [UIView.AnimationOptions.autoreverse, UIView.AnimationOptions.repeat], animations: {
-            view.alpha = 0
-        }, completion: nil)
+            view.isHidden = false
+            UIView.animate(withDuration: 1.5, delay: 0, options: [UIView.AnimationOptions.autoreverse, UIView.AnimationOptions.repeat], animations: {
+                view.alpha = 0
+            }, completion: nil)
         } else {
             view.isHidden = true
             view.stopAnimating()
         }
 
     }
-
 
 }

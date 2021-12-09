@@ -124,9 +124,10 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
 
         if (!networkManager.isInternetAvailable()) {
             print("******** NO INTERNET CONNECTION *********")
+            config.showHideNoInternet(view: ivNoInternet, show: true)
             return
         } else {
-            ivNoInternet.isHidden = true
+            config.showHideNoInternet(view: ivNoInternet, show: false)
         }
         Config.savCoordinate = gpsLocation.getCoordinate()
         mapView.cameraTargetBounds = nil
