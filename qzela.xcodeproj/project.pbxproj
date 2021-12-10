@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		34CD2ED78909A3B7708BED4B /* Pods_qzela.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 885B18319CAA7E194A5AE6FC /* Pods_qzela.framework */; };
 		6F2FC9BB27622EE9004FDF52 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2FC9BA27622EE9004FDF52 /* NetworkManager.swift */; };
+		6F66DDA22763A4C100FE0A7B /* LocationHome.gpx in Resources */ = {isa = PBXBuildFile; fileRef = B2D3EE38F3162EC9AE1EAEBE /* LocationHome.gpx */; };
 		6F99B4612759727800B8A6FC /* mapstyle.json in Resources */ = {isa = PBXBuildFile; fileRef = 6F99B4602759727800B8A6FC /* mapstyle.json */; };
 		6FA6AA8B275CED400099F318 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6FA6AA8A275CED400099F318 /* GoogleService-Info.plist */; };
 		6FA6AA92275D27240099F318 /* Apollo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA6AA91275D27240099F318 /* Apollo.swift */; };
@@ -26,6 +27,7 @@
 		6FDE764C27498E940050510C /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE764B27498E940050510C /* PreviewViewController.swift */; };
 		6FDE764E27498EA80050510C /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE764D27498EA80050510C /* SplashViewController.swift */; };
 		B2D3E3518B63C2035ABBDB71 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2D3E22C054A35B8E76D21EC /* Main.storyboard */; };
+		B2D3E556D83D200B40C4F280 /* HomeMoving.gpx in Resources */ = {isa = PBXBuildFile; fileRef = B2D3E12913FCACC0982F50C2 /* HomeMoving.gpx */; };
 		B2D3E7237D3B243ED42B4D73 /* GPSLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3ED601C88EF9BE044AECD /* GPSLocation.swift */; };
 /* End PBXBuildFile section */
 
@@ -55,8 +57,10 @@
 		6FDE764B27498E940050510C /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		6FDE764D27498EA80050510C /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		885B18319CAA7E194A5AE6FC /* Pods_qzela.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_qzela.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2D3E12913FCACC0982F50C2 /* HomeMoving.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = HomeMoving.gpx; sourceTree = "<group>"; };
 		B2D3E22C054A35B8E76D21EC /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B2D3ED601C88EF9BE044AECD /* GPSLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPSLocation.swift; sourceTree = "<group>"; };
+		B2D3EE38F3162EC9AE1EAEBE /* LocationHome.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = LocationHome.gpx; sourceTree = "<group>"; };
 		B71A0B62F87AE2EF3302AE73 /* Pods-qzela.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qzela.debug.xcconfig"; path = "Target Support Files/Pods-qzela/Pods-qzela.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +90,8 @@
 			children = (
 				B2D3ED601C88EF9BE044AECD /* GPSLocation.swift */,
 				6F2FC9BA27622EE9004FDF52 /* NetworkManager.swift */,
+				B2D3EE38F3162EC9AE1EAEBE /* LocationHome.gpx */,
+				B2D3E12913FCACC0982F50C2 /* HomeMoving.gpx */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -240,10 +246,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F66DDA22763A4C100FE0A7B /* LocationHome.gpx in Resources */,
 				6FA6AA8B275CED400099F318 /* GoogleService-Info.plist in Resources */,
 				6F99B4612759727800B8A6FC /* mapstyle.json in Resources */,
 				6FDE7629274816AF0050510C /* Assets.xcassets in Resources */,
 				B2D3E3518B63C2035ABBDB71 /* Main.storyboard in Resources */,
+				B2D3E556D83D200B40C4F280 /* HomeMoving.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

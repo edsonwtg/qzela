@@ -122,21 +122,38 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
 
     func gotoMyLocation() {
 
-        if (!networkManager.isInternetAvailable()) {
-            print("******** NO INTERNET CONNECTION *********")
-            config.showHideNoInternet(view: ivNoInternet, show: true)
-            return
-        } else {
-            config.showHideNoInternet(view: ivNoInternet, show: false)
+        if gpsLocation.isGpsEnable() {
+            if (!networkManager.isInternetAvailable()) {
+                print("******** NO INTERNET CONNECTION *********")
+                config.showHideNoInternet(view: ivNoInternet, show: true)
+                return
+            } else {
+                config.showHideNoInternet(view: ivNoInternet, show: false)
+            }
+            Config.savCoordinate = gpsLocation.getCoordinate()
+            mapView.cameraTargetBounds = nil
+            mapView.camera = GMSCameraPosition.camera(withTarget: Config.savCoordinate, zoom: Config.ZOOM_LOCATION)
+            mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
+                    centerCoordinate: Config.savCoordinate,
+                    radiusInMeter: Config.LOCATION_DISTANCE
+            )
+            getIncidentViewport()
         }
-        Config.savCoordinate = gpsLocation.getCoordinate()
-        mapView.cameraTargetBounds = nil
-        mapView.camera = GMSCameraPosition.camera(withTarget: Config.savCoordinate, zoom: Config.ZOOM_LOCATION)
-        mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
-                centerCoordinate: Config.savCoordinate,
-                radiusInMeter: Config.LOCATION_DISTANCE
-        )
-        getIncidentViewport()
+        else {
+            let alertController = UIAlertController(title: "Location Permission Required", message: "Please enable location permissions in settings.", preferredStyle: .alert)
+
+            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+                //Redirect to Settings app
+                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
+            })
+
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+            alertController.addAction(cancelAction)
+
+            alertController.addAction(okAction)
+
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
 
     func getIncidentViewport() {
@@ -187,7 +204,7 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
                                 idIncident: resultApi._id
                         )
                     }
-                    print(self!.alreadyGetIncidents.count)
+//                    print(self!.alreadyGetIncidents.count)
 //                    viewportResult.append(contentsOf: viewport)
 //                    for xxx in viewportResult {
 //                        print("Id: \(xxx._id) - Lat: \(xxx.vlLatitude) - Lng: \(xxx.vlLongitude) - Segment: \(xxx.cdSegment), stIncident: \(xxx.stIncident)")
@@ -238,7 +255,6 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
             marker.setIconSize(scaledToSize: .init(width: 12, height: 12))
             self.markerCircle.append(marker)
             marker.map = self.mapView
-            print("Mermory segment icon: \(segment)")
         } else {
             // Get Segment Marker Icon by FIREBASE on Google Cloud
             let imagesRef = Config.FIREBASE_ICONS_STORAGE.child(Config.MARKERS_ICONS_PATH + String(segment) + ".png")
@@ -266,7 +282,6 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
                     marker.setIconSize(scaledToSize: .init(width: 12, height: 12))
                     self.markerCircle.append(marker)
                     marker.map = self.mapView
-                    print("Firebase segment icon: \(segment)")
                 }
             }
         }
@@ -435,8 +450,8 @@ extension MapTabbarController: GPSLocationDelegate {
         }
 
         // TODO: Home location for development test
-        Config.savCoordinate = CLLocationCoordinate2D(latitude: -23.612992, longitude: -46.682762)
-//        Config.savCoordinate = location.coordinate
+//        Config.savCoordinate = CLLocationCoordinate2D(latitude: -23.612992, longitude: -46.682762)
+        Config.savCoordinate = location.coordinate
         mapView.cameraTargetBounds = nil
         mapView.animate(to: GMSCameraPosition.camera(
                 withLatitude: Config.savCoordinate.latitude,

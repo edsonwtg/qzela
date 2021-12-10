@@ -2,7 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c9849a8-4a2b-49e5-81b2-d7dc8747624f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/qzela/Models/Config.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Models/Config.swift" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/home.gpx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/qzela.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/qzela.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/qzela.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela.xcodeproj/xcshareddata/xcschemes/qzela.xcscheme" beforeDir="false" afterPath="$PROJECT_DIR$/qzela.xcodeproj/xcshareddata/xcschemes/qzela.xcscheme" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela.xcworkspace/contents.xcworkspacedata" beforeDir="false" afterPath="$PROJECT_DIR$/qzela.xcworkspace/contents.xcworkspacedata" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela/Graphql/Apollo.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Graphql/Apollo.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela/Helpers/GPSLocation.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Helpers/GPSLocation.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -12,7 +19,7 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="iphonesimulator_3352C432-1182-4A92-ACD0-F6CA4AAC9D5F" />
   <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="AddFirebase" />
+    <option name="BRANCH" value="MapMarkers" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -29,6 +36,12 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/qzela/Graphql/Apollo.swift" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/qzela/Helpers/GPSLocation.swift" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/qzela/Models/Config.swift" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="21SQZA5C1Q04zN6t0hcSJn0esb1" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -50,7 +63,7 @@
     <property name="cidr.known.project.marker" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="project.scopes" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
   <component name="RunManager">
     <configuration name="qzela" type="AppleRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="qzela" TARGET_NAME="qzela" CONFIG_NAME="Debug" SCHEME_NAME="qzela" IS_LOCATION_SIMULATION_ALLOWED="true" APPLICATION_LANGUAGE="IDELaunchSchemeLanguageUseSystemLanguage" APPLICATION_REGION="" RUN_TARGET_PROJECT_NAME="qzela" RUN_TARGET_NAME="qzela" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
@@ -91,6 +104,9 @@
       <workItem from="1638794884088" duration="13574000" />
       <workItem from="1638880410831" duration="17098000" />
       <workItem from="1639048350689" duration="4797000" />
+      <workItem from="1639135941944" duration="253000" />
+      <workItem from="1639139732860" duration="4985000" />
+      <workItem from="1639148890116" duration="270000" />
     </task>
     <task id="LOCAL-00001" summary="Google Maps Scroll Ok">
       <created>1638535989367</created>
@@ -162,7 +178,21 @@
       <option name="project" value="LOCAL" />
       <updated>1638918872031</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Network check ok&#10;image noInternet Ok">
+      <created>1639090404943</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1639090404943</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Network check ok&#10;image noInternet Ok">
+      <created>1639090411656</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1639090411656</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

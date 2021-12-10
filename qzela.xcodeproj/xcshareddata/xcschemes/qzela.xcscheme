@@ -50,9 +50,16 @@
             ReferencedContainer = "container:qzela.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "OS_ACTIVITY_MODE"
+            value = "disable"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <LocationScenarioReference
-         identifier = "Rio de Janeiro, Brazil"
-         referenceType = "1">
+         identifier = "../qzela/Helpers/HomeMoving.gpx"
+         referenceType = "0">
       </LocationScenarioReference>
    </LaunchAction>
    <ProfileAction

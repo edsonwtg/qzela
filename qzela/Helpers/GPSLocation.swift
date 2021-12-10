@@ -45,24 +45,24 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
 
     func getCoordinate() -> CLLocationCoordinate2D? {
         // TODO: Home location for development test
-        let coor = CLLocationCoordinate2D(latitude: -23.612992, longitude: -46.682762)
-//        let coor = locationManager.location?.coordinate ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
+//        let coor = CLLocationCoordinate2D(latitude: -23.612992, longitude: -46.682762)
+        let coor = locationManager.location?.coordinate ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
         print("Coordenate: \(coor)")
         return coor
     }
 
     func getLat() -> Double{
         // TODO: Home location for development test
-        let lat = -23.612992
-//        let lat = locationManager.location?.coordinate.latitude ?? 0.0
+//        let lat = -23.612992
+        let lat = locationManager.location?.coordinate.latitude ?? 0.0
         print("Latitude: \(lat)")
         return lat
     }
 
     func getLon() -> Double{
         // TODO: Home location for development test
-        let lon = -46.682762
-//        let lon = locationManager.location?.coordinate.longitude ?? 0.0
+//        let lon = -46.682762
+        let lon = locationManager.location?.coordinate.longitude ?? 0.0
         print("Longitude: \(lon)")
         return lon
     }
@@ -105,41 +105,54 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
         locationManager.location?.horizontalAccuracy ?? 0
     }
 
+    func isGpsEnable() -> Bool {
+        var hasPermission = false
+        let manager = CLLocationManager()
+
+        if CLLocationManager.locationServicesEnabled() {
+            switch manager.authorizationStatus {
+            case .notDetermined, .restricted, .denied:
+                hasPermission = false
+            case .authorizedAlways, .authorizedWhenInUse:
+                hasPermission = true
+            @unknown default:
+                break
+            }
+        } else {
+            hasPermission = false
+        }
+
+        return hasPermission
+    }
+
    internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 
         guard let location = locations.first else { return }
+
+        print("****** UPDATE LOCATION ******* Coord.: \(location.coordinate)")
 
         // here we call it for closure:
         updatedLocations?(locations)
 
         // calling the delegate method for Protocol
         delegate?.GPSLocation(didUpdate: locations)
+   }
+    
+    internal func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
 
-        if CLLocationCoordinate2DIsValid(location.coordinate) {
-            print(location.coordinate)
-        }
-        //println("locations = \(locationManager)")
-        let latValue = location.coordinate.latitude
-        let lonValue = location.coordinate.longitude
-//        var latValue = locationManager.location?.coordinate.latitude
-//        var lonValue = locationManager.location?.coordinate.longitude
-
-        print(latValue)
-        print(lonValue)
-    }
+        guard let region1 = region else { return }
+        print(" ****** monitoringDidFailFor Region: \(region1) - Error: \(error)")
+      }
 
     private func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        guard let erro = error else { return }
+        print(" ****** didFailWithError Error: \(erro)")
         locationManager.stopUpdatingLocation()
-        if ((error) != nil) {
-            if (seenError == false) {
-                seenError = true
-                print(error!)
-            }
-        }
     }
 
     internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
 
+        print(" ****** didChangeAuthorization Status: \(status)")
         switch manager.authorizationStatus {
             case .authorizedAlways:
                 return
@@ -155,6 +168,4 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
                 locationManager.requestWhenInUseAuthorization()
         }
     }
-
-
 }
