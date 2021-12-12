@@ -15,7 +15,7 @@ class Config {
     static let MENU_ITEM_PROFILE: Int = 2
 
     static let ZOOM_INITIAL: Float = 18.0
-    static let ZOOM_LOCATION: Float = 19.0
+    static let ZOOM_LOCATION: Float = 18.0
     static let MIN_ZOOM_LOCATION: Float = 18.0
     static let MIN_ZOOM_MAP: Float = 17.5
     static let MAX_ZOOM_MAP: Float = 20.5
@@ -46,8 +46,8 @@ class Config {
 //     static let GRAPHQL_WEBSOCKET: String = "wss://corp.qzela.com.br:3000/graphql";
 //    static let GRAPHQL_ENDPOINT: String = "https://stg-corp.qzela.com.br:4000/v2i/graphql";
 //    static let GRAPHQL_WEBSOCKET: String = "wss://stg-corp.qzela.com.br:4000/graphql";
-    static let GRAPHQL_ENDPOINT: String = "http://localhost:4000/v2i/graphql";
-    static let GRAPHQL_WEBSOCKET: String = "ws://localhost:4000/graphql";
+    static let GRAPHQL_ENDPOINT: String = "http://192.168.10.22:4000/v2i/graphql";
+    static let GRAPHQL_WEBSOCKET: String = "ws://192.168.10.22:4000/graphql";
     
     func showHideNoInternet(view: UIImageView, show: Bool) {
 

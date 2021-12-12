@@ -121,6 +121,20 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
         } else {
             hasPermission = false
         }
+        
+        if (locationManager.location!.horizontalAccuracy < 0){
+            print("no signal");
+        }
+        else if (locationManager.location!.horizontalAccuracy > 163){
+            print("poor signal");
+        }
+        else if (locationManager.location!.horizontalAccuracy > 48){
+            print("average signal");
+        }
+        else{
+            print("full signal");
+        }
+
 
         return hasPermission
     }

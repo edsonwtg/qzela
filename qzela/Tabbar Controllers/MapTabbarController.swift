@@ -18,6 +18,7 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
     let config = Config()
     var networkManager = NetworkManager()
     var gpsLocation = qzela.GPSLocation()
+    var viewportBounds = GMSCoordinateBounds()
     var alreadyGetIncidents: Array<String> = []
     var markerIcon: Array<GMSMarker> = []
     var markerCircle: Array<GMSMarker> = []
@@ -29,6 +30,7 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var lbQzelaPoints: UILabel!
     @IBOutlet weak var ivNoInternet: UIImageView!
+    @IBOutlet weak var ivNoGps: UIImageView!
     @IBOutlet weak var btMyLocation: UIButton!
     @IBOutlet weak var btViewMap: UIButton!
     @IBOutlet weak var btNewIncident: UIButton!
@@ -162,6 +164,10 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
                 bounds: GMSCoordinateBounds(region: mapView.projection.visibleRegion()),
                 percentage: Config.LATLNG_REDUCE_BOUNDS_PERCENTAGE
         )
+        if (bounds == viewportBounds) {return}
+        viewportBounds = bounds!
+        print("******** getIncidentViewport **********")
+
 //        let bounds = GMSCoordinateBounds(region: mapView.projection.visibleRegion())
         let neCoord: Coordinate = [ bounds!.northEast.longitude,bounds!.northEast.latitude ]
         let swCoord: Coordinate = [ bounds!.southWest.longitude,bounds!.southWest.latitude ]
@@ -309,16 +315,21 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
                 config.showHideNoInternet(view: ivNoInternet, show: true)
             }
         case .unknown :
-            print("[RECHABILITY] It is unknown whether the network is reachable")
+            do {
+                print("[RECHABILITY] It is unknown whether the network is reachable")
+                config.showHideNoInternet(view: ivNoInternet, show: true)
+            }
         case .ethernetOrWiFi:
             do {
                 print("[RECHABILITY] The network is reachable over the WiFi connection")
                 config.showHideNoInternet(view: ivNoInternet, show: false)
+                getIncidentViewport()
             }
         case .cellular:
             do {
                 print("[RECHABILITY] The network is reachable over the WWAN connection")
-                config.showHideNoInternet(view: ivNoInternet, show: true)
+                config.showHideNoInternet(view: ivNoInternet, show: false)
+                getIncidentViewport()
             }
             
         }
@@ -445,8 +456,23 @@ extension MapTabbarController: GPSLocationDelegate {
 
     func GPSLocation(didUpdate locations: [CLLocation]) {
 
-        guard let location = locations.first else {
-            return
+        guard let location = locations.first else { return }
+        
+        if (location.horizontalAccuracy < 0){
+            print("no signal");
+            config.showHideNoInternet(view: ivNoGps, show: true)
+        }
+        else if (location.horizontalAccuracy > 163){
+            print("poor signal");
+            config.showHideNoInternet(view: ivNoGps, show: true)
+        }
+        else if (location.horizontalAccuracy > 48){
+            print("average signal");
+            config.showHideNoInternet(view: ivNoGps, show: false)
+       }
+        else{
+            print("full signal");
+            config.showHideNoInternet(view: ivNoGps, show: false)
         }
 
         // TODO: Home location for development test
@@ -455,11 +481,10 @@ extension MapTabbarController: GPSLocationDelegate {
         mapView.cameraTargetBounds = nil
         mapView.animate(to: GMSCameraPosition.camera(
                 withLatitude: Config.savCoordinate.latitude,
-                longitude: Config.savCoordinate.longitude, zoom: 18.0))
+                longitude: Config.savCoordinate.longitude, zoom: Config.ZOOM_LOCATION))
         mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
                 centerCoordinate: Config.savCoordinate, radiusInMeter: Config.LOCATION_DISTANCE
         )
-        getIncidentViewport()
     }
 }
 

@@ -58,7 +58,7 @@
          </EnvironmentVariable>
       </EnvironmentVariables>
       <LocationScenarioReference
-         identifier = "../qzela/Helpers/HomeMoving.gpx"
+         identifier = "../qzela/Helpers/LocationHome.gpx"
          referenceType = "0">
       </LocationScenarioReference>
    </LaunchAction>
