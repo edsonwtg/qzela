@@ -18,20 +18,10 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
     let config = Config()
     var networkManager = NetworkManager()
     var gpsLocation = qzela.GPSLocation()
-    var viewportBounds = GMSCoordinateBounds()
     var alreadyGetIncidents: Array<String> = []
     var markerIcon: Array<GMSMarker> = []
     var markerCircle: Array<GMSMarker> = []
     var segmentIcon: [Int: UIImage] = [:]
-
-    var apolloResult = Apollo.shared.apollo.fetch(query: GetViewportQuery(
-            neCoord: [],
-            swCoord: [],
-            already: []), cachePolicy: .fetchIgnoringCacheData)
-
-
-
-//    let apollo = ApolloClient(url: URL(string: Config.GRAPHQL_ENDPOINT)!)
 
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var lbQzelaPoints: UILabel!
@@ -168,14 +158,13 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
 
     func getIncidentViewport() {
 
-//        guard let initApp = Config.savApiCoordinate else {
-//        }
-
+        // check if App start
         if Config.savApiCoordinate != nil {
             let distance = gpsLocation.getDistanceInMeters(
                     coordinateOrigin: Config.savCoordinate,
                     coordinateDestiny: Config.savApiCoordinate!)
             print("Distance: \(distance)")
+            // check if need load data from API
             if ( distance > (Config.PERCENTAGE_DISTANCE_BOUNDS * 1.5)) {
                 Config.savApiCoordinate = Config.savCoordinate
             } else {
@@ -185,27 +174,15 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
             Config.savApiCoordinate = Config.savCoordinate
         }
 
-
-
+        print("******** getIncidentViewport **********")
 
         let bounds = gpsLocation.increaseBounds(
                 bounds: GMSCoordinateBounds(region: mapView.projection.visibleRegion()),
                 percentage: Config.PERCENTAGE_DISTANCE_BOUNDS
         )
 
-//        let bounds = gpsLocation.reduceBounds(
-//                bounds: GMSCoordinateBounds(region: mapView.projection.visibleRegion()),
-//                percentage: Config.LATLNG_REDUCE_BOUNDS_PERCENTAGE
-//        )
-        if (bounds == viewportBounds) {return}
-        viewportBounds = bounds!
-        print("******** getIncidentViewport **********")
-
-//        let bounds = GMSCoordinateBounds(region: mapView.projection.visibleRegion())
         let neCoord: Coordinate = [ bounds!.northEast.longitude,bounds!.northEast.latitude ]
         let swCoord: Coordinate = [ bounds!.southWest.longitude,bounds!.southWest.latitude ]
-//        let neCoord: Coordinate = [ -46.68188021890819, -23.611375575025296 ]
-//        let swCoord: Coordinate = [ -46.68377610482275, -23.61438067888537 ]
 
         if (alreadyGetIncidents.isEmpty) {
             clearMap()
@@ -224,16 +201,10 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
             }
         }
 
-//        apolloResult.cancel()
-//        var viewportResult = [GetViewportQuery.Data.GetIncidentsByViewport.Datum]()
         Apollo.shared.apollo.fetch(query: GetViewportQuery(
                 neCoord: neCoord,
                 swCoord: swCoord,
                 already: alreadyGetIncidents), cachePolicy: .fetchIgnoringCacheData){ [unowned self] result in
-//        apolloResult = Apollo.shared.apollo.fetch(query: GetViewportQuery(
-//                neCoord: neCoord,
-//                swCoord: swCoord,
-//                already: alreadyGetIncidents), cachePolicy: .fetchIgnoringCacheData){ [weak self] result in
             switch result {
             case .success(let graphQLResult):
 //                print("Success! Result: \(graphQLResult)")
@@ -248,13 +219,7 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
                                 idIncident: resultApi._id
                         )
                     }
-//                    print(self!.alreadyGetIncidents.count)
-//                    viewportResult.append(contentsOf: viewport)
-//                    for xxx in viewportResult {
-//                        print("Id: \(xxx._id) - Lat: \(xxx.vlLatitude) - Lng: \(xxx.vlLongitude) - Segment: \(xxx.cdSegment), stIncident: \(xxx.stIncident)")
-//                    }
                 }
-
             case .failure(let error):
                 print("Failure! Error: \(error)")
             }
@@ -291,7 +256,6 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
             var marker = GMSMarker()
             marker.position = coordinate
             marker.snippet = idIncident
-            marker.title = String(distance)
             marker.icon = segmentIcon[segment]
             marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
             marker.groundAnchor = CGPoint(x: 0.5, y: 1.15)
@@ -304,7 +268,6 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
             marker = GMSMarker()
             marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
             marker.snippet = idIncident
-            marker.title = String(distance)
             marker.icon = markerStatus
             marker.setIconSize(scaledToSize: .init(width: 12, height: 12))
             markerCircle.append(marker)
@@ -325,7 +288,6 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
                     var marker = GMSMarker()
                     marker.position = coordinate
                     marker.snippet = idIncident
-                    marker.title = "Index: \(self.markerIcon.count)"
                     marker.icon = UIImage(data: markerIcon!)
                     marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
                     marker.groundAnchor = CGPoint(x: 0.5, y: 1.15)
@@ -338,7 +300,6 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
                     marker = GMSMarker()
                     marker.position = coordinate
                     marker.snippet = idIncident
-                    marker.title = "Index: \(self.markerCircle.count)"
                     marker.icon = markerStatus
                     marker.setIconSize(scaledToSize: .init(width: 12, height: 12))
                     self.markerCircle.append(marker)
@@ -357,7 +318,6 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
             let distance = gpsLocation.getDistanceInMeters(
                     coordinateOrigin: Config.savCoordinate,
                     coordinateDestiny: markerIcon[index].position)
-//            print("Distance: \(distance) Index: \(index)")
             if (distance <= Config.LOCATION_RESTRICT_DISTANCE) {
                 markerIcon[index].map = mapView
                 markerCircle[index].map = mapView
@@ -371,11 +331,12 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
     func clearMarkers() {
         for index in 0..<markerIcon.count {
             self.markerIcon[index].map = nil
-//        markerIcon.remove(at: 0)
             self.markerCircle[index].map = nil
-//        markerCircle.remove(at: 0)
-//        alreadyGetIncidents.removeAll()
         }
+        markerIcon.removeAll()
+        markerCircle.removeAll()
+        alreadyGetIncidents.removeAll()
+        Config.savApiCoordinate = nil
     }
 
     func clearMap() {
@@ -383,35 +344,33 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
     }
     
     // get update network state
-    func networkRechabilityStatus(status: NetworkManagerStatus) {
+    func networkReachabilityStatus(status: NetworkManagerStatus) {
         
         switch status {
         case .notReachable:
             do {
-                print("[RECHABILITY] The network is not reachable")
+                print("[REACHABILITY] The network is not reachable")
                 config.showHideNoInternet(view: ivNoInternet, show: true)
             }
         case .unknown :
             do {
-                print("[RECHABILITY] It is unknown whether the network is reachable")
+                print("[REACHABILITY] It is unknown whether the network is reachable")
                 config.showHideNoInternet(view: ivNoInternet, show: true)
             }
         case .ethernetOrWiFi:
             do {
-                print("[RECHABILITY] The network is reachable over the WiFi connection")
+                print("[REACHABILITY] The network is reachable over the WiFi connection")
                 config.showHideNoInternet(view: ivNoInternet, show: false)
                 getIncidentViewport()
             }
         case .cellular:
             do {
-                print("[RECHABILITY] The network is reachable over the WWAN connection")
+                print("[REACHABILITY] The network is reachable over the WWAN connection")
                 config.showHideNoInternet(view: ivNoInternet, show: false)
                 getIncidentViewport()
             }
             
         }
-
-//        networkManager.stopNetworkReachabilityObserver()
     }
 
     func imageWithImage(image: UIImage, scaledToSize newSize: CGSize) -> UIImage {

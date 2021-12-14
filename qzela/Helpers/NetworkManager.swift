@@ -35,7 +35,7 @@ class NetworkManager {
                 case .reachable(.cellular):
                     networkStatus = .cellular
             }
-            self?.delegate?.networkRechabilityStatus(status: networkStatus)
+            self?.delegate?.networkReachabilityStatus(status: networkStatus)
             
         })
         
@@ -54,5 +54,5 @@ class NetworkManager {
 }
 
 protocol NetworkManagerDelegate: AnyObject {
-    func networkRechabilityStatus(status: NetworkManagerStatus)
+    func networkReachabilityStatus(status: NetworkManagerStatus)
 }
