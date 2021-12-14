@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c9849a8-4a2b-49e5-81b2-d7dc8747624f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela/Helpers/NetworkManager.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Helpers/NetworkManager.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela/Main.storyboard" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Main.storyboard" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,7 +11,7 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="iphonesimulator_3352C432-1182-4A92-ACD0-F6CA4AAC9D5F" />
   <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="MapMarkers" />
+    <option name="BRANCH" value="GPSCheck" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
