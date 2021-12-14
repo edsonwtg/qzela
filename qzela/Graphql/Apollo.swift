@@ -48,9 +48,10 @@ class CustomInterceptor: ApolloInterceptor {
         request.addHeader(name: "X-QZelaAccessToken", value: token)
         request.addHeader(name: "X-QZelaUserId", value: userId)
 
-//        print("request :\(request)")
-//        print("response :\(String(describing: response))")
-        
+        print("request :\(request)")
+        print("response :\(String(describing: response))")
+        print("Completion :\(String(describing: completion))")
+
         chain.proceedAsync(request: request,
                            response: response,
                            completion: completion)

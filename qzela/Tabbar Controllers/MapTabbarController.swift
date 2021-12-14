@@ -24,6 +24,12 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
     var markerCircle: Array<GMSMarker> = []
     var segmentIcon: [Int: UIImage] = [:]
 
+    var apolloResult = Apollo.shared.apollo.fetch(query: GetViewportQuery(
+            neCoord: [],
+            swCoord: [],
+            already: []), cachePolicy: .fetchIgnoringCacheData)
+
+
 
 //    let apollo = ApolloClient(url: URL(string: Config.GRAPHQL_ENDPOINT)!)
 
@@ -53,7 +59,7 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
         super.viewDidLoad()
         print("***** viewDidLoad *****")
         // Hide Image saved Button
-        btSavedImage.isHidden = true
+//        btSavedImage.isHidden = true
 
         let qzelaPoints = 1000
         lbQzelaPoints.addTrailing(image: UIImage(named: "ic_trophy") ?? UIImage(), text: String(qzelaPoints) + " ")
@@ -85,11 +91,13 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
             print("btMyLocation")
             gotoMyLocation()
         case "btViewMap":
-            print("btViewMap")
+            print("btViewMap Clear Markers")
+            clearMarkers()
         case "btNewIncident":
             print("btNewIncident")
         case "btSavedImage":
-            print("btSavedImage")
+            print("btSavedImage ShowMarkers")
+            showMarkers()
         default:
             print(sender.restorationIdentifier ?? "no restoration Identifier defined")
         }
@@ -112,10 +120,10 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
         mapView.isMyLocationEnabled = true
         mapView.setMinZoom(Config.MIN_ZOOM_MAP, maxZoom: Config.MAX_ZOOM_MAP)
         // Set camera bounds for limit map view
-        mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
-                centerCoordinate: Config.savCoordinate,
-                radiusInMeter: Config.LOCATION_DISTANCE
-        )
+//        mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
+//                centerCoordinate: Config.savCoordinate,
+//                radiusInMeter: Config.LOCATION_DISTANCE
+//        )
         mapView.camera = GMSCameraPosition.camera(
                 withLatitude: Config.savCoordinate.latitude,
                 longitude: Config.savCoordinate.longitude, zoom: Config.ZOOM_INITIAL
@@ -135,10 +143,10 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
             Config.savCoordinate = gpsLocation.getCoordinate()
             mapView.cameraTargetBounds = nil
             mapView.camera = GMSCameraPosition.camera(withTarget: Config.savCoordinate, zoom: Config.ZOOM_LOCATION)
-            mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
-                    centerCoordinate: Config.savCoordinate,
-                    radiusInMeter: Config.LOCATION_DISTANCE
-            )
+//            mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
+//                    centerCoordinate: Config.savCoordinate,
+//                    radiusInMeter: Config.LOCATION_DISTANCE
+//            )
             getIncidentViewport()
         }
         else {
@@ -154,16 +162,41 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
 
             alertController.addAction(okAction)
 
-            self.present(alertController, animated: true, completion: nil)
+            present(alertController, animated: true, completion: nil)
         }
     }
 
     func getIncidentViewport() {
 
-        let bounds = gpsLocation.reduceBounds(
+//        guard let initApp = Config.savApiCoordinate else {
+//        }
+
+        if Config.savApiCoordinate != nil {
+            let distance = gpsLocation.getDistanceInMeters(
+                    coordinateOrigin: Config.savCoordinate,
+                    coordinateDestiny: Config.savApiCoordinate!)
+            print("Distance: \(distance)")
+            if ( distance > (Config.PERCENTAGE_DISTANCE_BOUNDS * 1.5)) {
+                Config.savApiCoordinate = Config.savCoordinate
+            } else {
+                return
+            }
+        } else {
+            Config.savApiCoordinate = Config.savCoordinate
+        }
+
+
+
+
+        let bounds = gpsLocation.increaseBounds(
                 bounds: GMSCoordinateBounds(region: mapView.projection.visibleRegion()),
-                percentage: Config.LATLNG_REDUCE_BOUNDS_PERCENTAGE
+                percentage: Config.PERCENTAGE_DISTANCE_BOUNDS
         )
+
+//        let bounds = gpsLocation.reduceBounds(
+//                bounds: GMSCoordinateBounds(region: mapView.projection.visibleRegion()),
+//                percentage: Config.LATLNG_REDUCE_BOUNDS_PERCENTAGE
+//        )
         if (bounds == viewportBounds) {return}
         viewportBounds = bounds!
         print("******** getIncidentViewport **********")
@@ -190,19 +223,24 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
                 index += 1
             }
         }
-        
+
+//        apolloResult.cancel()
 //        var viewportResult = [GetViewportQuery.Data.GetIncidentsByViewport.Datum]()
         Apollo.shared.apollo.fetch(query: GetViewportQuery(
                 neCoord: neCoord,
                 swCoord: swCoord,
-                already: alreadyGetIncidents), cachePolicy: .fetchIgnoringCacheData) { [weak self] result in
+                already: alreadyGetIncidents), cachePolicy: .fetchIgnoringCacheData){ [unowned self] result in
+//        apolloResult = Apollo.shared.apollo.fetch(query: GetViewportQuery(
+//                neCoord: neCoord,
+//                swCoord: swCoord,
+//                already: alreadyGetIncidents), cachePolicy: .fetchIgnoringCacheData){ [weak self] result in
             switch result {
             case .success(let graphQLResult):
 //                print("Success! Result: \(graphQLResult)")
                 if let viewport = graphQLResult.data?.getIncidentsByViewport.data.compactMap({ $0 }) {
                     for resultApi in viewport {
-                        self?.alreadyGetIncidents.append(resultApi._id);
-                        self?.mapAddMarkers(
+                        alreadyGetIncidents.append(resultApi._id);
+                        mapAddMarkers(
                                 latitude: resultApi.vlLatitude,
                                 longitude: resultApi.vlLongitude,
                                 segment: resultApi.cdSegment,
@@ -215,7 +253,6 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
 //                    for xxx in viewportResult {
 //                        print("Id: \(xxx._id) - Lat: \(xxx.vlLatitude) - Lng: \(xxx.vlLongitude) - Segment: \(xxx.cdSegment), stIncident: \(xxx.stIncident)")
 //                    }
-
                 }
 
             case .failure(let error):
@@ -244,23 +281,37 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
             break;
         }
 
+        let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let distance = self.gpsLocation.getDistanceInMeters(
+                coordinateOrigin: Config.savCoordinate,
+                coordinateDestiny: coordinate)
+
+
         if (segmentIcon[segment] != nil) {
             var marker = GMSMarker()
-            marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            marker.position = coordinate
             marker.snippet = idIncident
+            marker.title = String(distance)
             marker.icon = segmentIcon[segment]
             marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
             marker.groundAnchor = CGPoint(x: 0.5, y: 1.15)
-            self.markerIcon.append(marker)
-            marker.map = self.mapView
+            markerIcon.append(marker)
+            if (distance <= Config.LOCATION_RESTRICT_DISTANCE) {
+                marker.map = mapView
+            }
+//            marker.map = mapView
             // Incident status Circle Marker
             marker = GMSMarker()
             marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
             marker.snippet = idIncident
+            marker.title = String(distance)
             marker.icon = markerStatus
             marker.setIconSize(scaledToSize: .init(width: 12, height: 12))
-            self.markerCircle.append(marker)
-            marker.map = self.mapView
+            markerCircle.append(marker)
+            if (distance <= Config.LOCATION_RESTRICT_DISTANCE) {
+                marker.map = mapView
+            }
+//            marker.map = mapView
         } else {
             // Get Segment Marker Icon by FIREBASE on Google Cloud
             let imagesRef = Config.FIREBASE_ICONS_STORAGE.child(Config.MARKERS_ICONS_PATH + String(segment) + ".png")
@@ -271,34 +322,60 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
                 } else {
                     // Segment Icon Marker
                     self.segmentIcon[segment] = UIImage(data: markerIcon!)
-
                     var marker = GMSMarker()
-                    marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                    marker.position = coordinate
                     marker.snippet = idIncident
+                    marker.title = "Index: \(self.markerIcon.count)"
                     marker.icon = UIImage(data: markerIcon!)
                     marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
                     marker.groundAnchor = CGPoint(x: 0.5, y: 1.15)
                     self.markerIcon.append(marker)
-                    marker.map = self.mapView
+                    if (distance <= Config.LOCATION_RESTRICT_DISTANCE) {
+                        marker.map = self.mapView
+                    }
+//                    marker.map = self.mapView
                     // Incident status Circle Marker
                     marker = GMSMarker()
-                    marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                    marker.position = coordinate
                     marker.snippet = idIncident
+                    marker.title = "Index: \(self.markerCircle.count)"
                     marker.icon = markerStatus
                     marker.setIconSize(scaledToSize: .init(width: 12, height: 12))
                     self.markerCircle.append(marker)
-                    marker.map = self.mapView
+                    if (distance <= Config.LOCATION_RESTRICT_DISTANCE) {
+                        marker.map = self.mapView
+                    }
+//                    marker.map = self.mapView
                 }
             }
         }
     }
 
+    func showMarkers() {
+
+        for index in 0..<markerIcon.count {
+            let distance = gpsLocation.getDistanceInMeters(
+                    coordinateOrigin: Config.savCoordinate,
+                    coordinateDestiny: markerIcon[index].position)
+//            print("Distance: \(distance) Index: \(index)")
+            if (distance <= Config.LOCATION_RESTRICT_DISTANCE) {
+                markerIcon[index].map = mapView
+                markerCircle[index].map = mapView
+            } else {
+                markerIcon[index].map = nil
+                markerCircle[index].map = nil
+            }
+        }
+     }
+
     func clearMarkers() {
-        markerIcon[0].map = nil
-        markerIcon.remove(at: 0)
-        markerCircle[0].map = nil
-        markerCircle.remove(at: 0)
-        alreadyGetIncidents.removeAll()
+        for index in 0..<markerIcon.count {
+            self.markerIcon[index].map = nil
+//        markerIcon.remove(at: 0)
+            self.markerCircle[index].map = nil
+//        markerCircle.remove(at: 0)
+//        alreadyGetIncidents.removeAll()
+        }
     }
 
     func clearMap() {
@@ -401,7 +478,7 @@ extension UIView {
         layer.shadowRadius = shadowRadius
     }
     
-    func fadeIn(_ duration: TimeInterval = 0.5, delay: TimeInterval = 0.0, completion: @escaping ((Bool) -> Void) = {(finished: Bool) -> Void in}) {
+    func fadeIn(_ duration: TimeInterval = 0.5, delay: TimeInterval = 0.0, completion: @escaping (Bool) -> Void = {(finished: Bool) -> Void in}) {
         UIView.animate(withDuration: duration, delay: delay, options: UIView.AnimationOptions.curveEaseIn, animations: {
             self.alpha = 1.0
     }, completion: completion)  }
@@ -478,13 +555,14 @@ extension MapTabbarController: GPSLocationDelegate {
         // TODO: Home location for development test
 //        Config.savCoordinate = CLLocationCoordinate2D(latitude: -23.612992, longitude: -46.682762)
         Config.savCoordinate = location.coordinate
+        showMarkers()
         mapView.cameraTargetBounds = nil
         mapView.animate(to: GMSCameraPosition.camera(
                 withLatitude: Config.savCoordinate.latitude,
-                longitude: Config.savCoordinate.longitude, zoom: Config.ZOOM_LOCATION))
-        mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
-                centerCoordinate: Config.savCoordinate, radiusInMeter: Config.LOCATION_DISTANCE
-        )
+                longitude: Config.savCoordinate.longitude, zoom: Config.savCurrentZoom ))
+//        mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
+//                centerCoordinate: Config.savCoordinate, radiusInMeter: Config.LOCATION_DISTANCE
+//        )
     }
 }
 
@@ -493,15 +571,17 @@ extension MapTabbarController: GMSMapViewDelegate {
 
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
 
-        print("****** MSP IDLE *****")
+        print("****** MAP IDLE *****")
+        Config.savCurrentZoom =  mapView.camera.zoom
+        print("******* Current Zoom: \(Config.savCurrentZoom)")
         getIncidentViewport()
-
     }
 
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
 
         print("****** CLICK MARKER *****")
         print(marker.snippet! as String)
+        print(marker.title! as String)
         return true
     }
 

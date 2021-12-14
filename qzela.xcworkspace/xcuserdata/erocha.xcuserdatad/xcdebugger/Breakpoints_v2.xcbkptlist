@@ -7,15 +7,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2B89571A-C1C7-414B-B8DB-45C392E87629"
-            shouldBeEnabled = "No"
+            uuid = "A6921FCF-FBF2-44C8-971F-9380A9EE0D4D"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "qzela/Tabbar Controllers/MapTabbarController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "242"
-            endingLineNumber = "242"
+            startingLineNumber = "310"
+            endingLineNumber = "310"
             landmarkName = "mapAddMarkers(latitude:longitude:segment:stIncident:idIncident:)"
             landmarkType = "7">
          </BreakpointContent>
