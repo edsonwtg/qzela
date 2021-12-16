@@ -134,7 +134,6 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
 //                    centerCoordinate: Config.savCoordinate,
 //                    radiusInMeter: Config.LOCATION_DISTANCE
 //            )
-            if ()
             Config.savApiCoordinate = nil
             getIncidentViewport()
         }
