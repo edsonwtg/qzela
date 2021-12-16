@@ -351,28 +351,15 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
         
         switch status {
         case .notReachable:
-            do {
-                print("[REACHABILITY] The network is not reachable")
-                config.showHideNoInternet(view: ivNoInternet, show: true)
-            }
+            config.showHideNoInternet(view: ivNoInternet, show: true)
         case .unknown :
-            do {
-                print("[REACHABILITY] It is unknown whether the network is reachable")
-                config.showHideNoInternet(view: ivNoInternet, show: true)
-            }
+            config.showHideNoInternet(view: ivNoInternet, show: true)
         case .ethernetOrWiFi:
-            do {
-                print("[REACHABILITY] The network is reachable over the WiFi connection")
-                config.showHideNoInternet(view: ivNoInternet, show: false)
-                getIncidentViewport()
-            }
+            config.showHideNoInternet(view: ivNoInternet, show: false)
+            getIncidentViewport()
         case .cellular:
-            do {
-                print("[REACHABILITY] The network is reachable over the WWAN connection")
-                config.showHideNoInternet(view: ivNoInternet, show: false)
-                getIncidentViewport()
-            }
-            
+            config.showHideNoInternet(view: ivNoInternet, show: false)
+            getIncidentViewport()
         }
     }
 

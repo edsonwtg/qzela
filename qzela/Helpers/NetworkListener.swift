@@ -1,5 +1,9 @@
 import Network
 
+protocol NetworkListenerDelegate {
+    func didChangeStatus(status: ConnectionType)
+}
+
 public enum ConnectionType {
     case wifi
     case ethernet
@@ -9,7 +13,7 @@ public enum ConnectionType {
 
 class NetworkListener {
     
-    weak var delegate: NetworkListenerDelegate? = nil
+    var networkListenerDelegate: NetworkListenerDelegate!
     
     //    static public let shared = NetworkListener()
     var monitor: NWPathMonitor
@@ -57,11 +61,8 @@ class NetworkListener {
             }
         }
 
-        self.delegate?.networkListenerStatus(status: networkStatus)
+        networkListenerDelegate!.didChangeStatus(status: networkStatus)
         
     }
 }
 
-protocol NetworkListenerDelegate: AnyObject {
-    func networkListenerStatus(status: ConnectionType)
-}
