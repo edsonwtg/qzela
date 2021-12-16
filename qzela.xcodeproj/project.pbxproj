@@ -30,6 +30,7 @@
 		B2D3E3518B63C2035ABBDB71 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2D3E22C054A35B8E76D21EC /* Main.storyboard */; };
 		B2D3E556D83D200B40C4F280 /* HomeMoving.gpx in Resources */ = {isa = PBXBuildFile; fileRef = B2D3E12913FCACC0982F50C2 /* HomeMoving.gpx */; };
 		B2D3E606B79624A8328A4765 /* NearHome.gpx in Resources */ = {isa = PBXBuildFile; fileRef = B2D3E77BAEA6EF84235E53B8 /* NearHome.gpx */; };
+		B2D3E6DFE8E199621B066A34 /* NetworkListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E7542E8F732C5F399FA3 /* NetworkListener.swift */; };
 		B2D3E7237D3B243ED42B4D73 /* GPSLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3ED601C88EF9BE044AECD /* GPSLocation.swift */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +62,7 @@
 		885B18319CAA7E194A5AE6FC /* Pods_qzela.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_qzela.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2D3E12913FCACC0982F50C2 /* HomeMoving.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = HomeMoving.gpx; sourceTree = "<group>"; };
 		B2D3E22C054A35B8E76D21EC /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		B2D3E7542E8F732C5F399FA3 /* NetworkListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkListener.swift; sourceTree = "<group>"; };
 		B2D3E77BAEA6EF84235E53B8 /* NearHome.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = NearHome.gpx; sourceTree = "<group>"; };
 		B2D3EC3FA1A2DFB430A52E3A /* LocationOther.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = LocationOther.gpx; sourceTree = "<group>"; };
 		B2D3ED601C88EF9BE044AECD /* GPSLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPSLocation.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				B2D3E12913FCACC0982F50C2 /* HomeMoving.gpx */,
 				B2D3EC3FA1A2DFB430A52E3A /* LocationOther.gpx */,
 				B2D3E77BAEA6EF84235E53B8 /* NearHome.gpx */,
+				B2D3E7542E8F732C5F399FA3 /* NetworkListener.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -362,6 +365,7 @@
 				6F2FC9BB27622EE9004FDF52 /* NetworkManager.swift in Sources */,
 				6FDE764E27498EA80050510C /* SplashViewController.swift in Sources */,
 				B2D3E7237D3B243ED42B4D73 /* GPSLocation.swift in Sources */,
+				B2D3E6DFE8E199621B066A34 /* NetworkListener.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

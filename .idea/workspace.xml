@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c9849a8-4a2b-49e5-81b2-d7dc8747624f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/qzela/Helpers/GPSLocation.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Helpers/GPSLocation.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela/Models/Config.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Models/Config.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/qzela/Helpers/NetworkListener.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/qzela.xcodeproj/project.pbxproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
