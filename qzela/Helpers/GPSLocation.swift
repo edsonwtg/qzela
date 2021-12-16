@@ -135,26 +135,15 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
                 hasPermission = false
             case .authorizedAlways, .authorizedWhenInUse:
                 hasPermission = true
+                // trigger CLLocationManager didUpdateLocations
+                locationManager.stopUpdatingLocation()
+                locationManager.startUpdatingLocation()
             @unknown default:
                 break
             }
         } else {
             hasPermission = false
         }
-        
-        if (locationManager.location!.horizontalAccuracy < 0){
-            print("no signal");
-        }
-        else if (locationManager.location!.horizontalAccuracy > 163){
-            print("poor signal");
-        }
-        else if (locationManager.location!.horizontalAccuracy > 48){
-            print("average signal");
-        }
-        else{
-            print("full signal");
-        }
-
 
         return hasPermission
     }

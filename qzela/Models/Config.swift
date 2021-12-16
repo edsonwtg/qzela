@@ -45,12 +45,12 @@ class Config {
     static let FIREBASE_ICONS_STORAGE = Storage.storage(url: FIREBASE_BUCKET_URI).reference()
 
     // CONNECTION QZELA GRAPHQL API
-//     static let GRAPHQL_ENDPOINT: String = "https://corp.qzela.com.br:3000/v2i/graphql";
-//     static let GRAPHQL_WEBSOCKET: String = "wss://corp.qzela.com.br:3000/graphql";
-//    static let GRAPHQL_ENDPOINT: String = "https://stg-corp.qzela.com.br:4000/v2i/graphql";
-//    static let GRAPHQL_WEBSOCKET: String = "wss://stg-corp.qzela.com.br:4000/graphql";
-    static let GRAPHQL_ENDPOINT: String = "http://192.168.10.22:4000/v2i/graphql";
-    static let GRAPHQL_WEBSOCKET: String = "ws://192.168.10.22:4000/graphql";
+//    static let GRAPHQL_ENDPOINT: String = "https://corp.qzela.com.br:3000/v2i/graphql";
+//    static let GRAPHQL_WEBSOCKET: String = "wss://corp.qzela.com.br:3000/graphql";
+    static let GRAPHQL_ENDPOINT: String = "https://stg-corp.qzela.com.br:4000/v2i/graphql";
+    static let GRAPHQL_WEBSOCKET: String = "wss://stg-corp.qzela.com.br:4000/graphql";
+//    static let GRAPHQL_ENDPOINT: String = "http://192.168.10.22:4000/v2i/graphql";
+//    static let GRAPHQL_WEBSOCKET: String = "ws://192.168.10.22:4000/graphql";
     
     func showHideNoInternet(view: UIImageView, show: Bool) {
 

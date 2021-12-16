@@ -125,10 +125,7 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
         if gpsLocation.isGpsEnable() {
             if (!networkManager.isInternetAvailable()) {
                 print("******** NO INTERNET CONNECTION *********")
-                config.showHideNoInternet(view: ivNoInternet, show: true)
                 return
-            } else {
-                config.showHideNoInternet(view: ivNoInternet, show: false)
             }
             Config.savCoordinate = gpsLocation.getCoordinate()
             mapView.cameraTargetBounds = nil
@@ -158,6 +155,11 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
 
     func getIncidentViewport() {
 
+        // check Internet
+        if (!networkListener.isNetworkAvailable()) {
+            print("******** NO INTERNET CONNECTION *********")
+            return
+        }
         // check if App start
         if Config.savApiCoordinate != nil {
             let distance = gpsLocation.getDistanceInMeters(
