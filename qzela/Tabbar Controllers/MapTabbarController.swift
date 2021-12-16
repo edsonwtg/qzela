@@ -134,6 +134,8 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
 //                    centerCoordinate: Config.savCoordinate,
 //                    radiusInMeter: Config.LOCATION_DISTANCE
 //            )
+            if ()
+            Config.savApiCoordinate = nil
             getIncidentViewport()
         }
         else {
@@ -156,10 +158,10 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
     func getIncidentViewport() {
 
         // check Internet
-        if (!networkListener.isNetworkAvailable()) {
-            print("******** NO INTERNET CONNECTION *********")
-            return
-        }
+//        if (!networkListener.isNetworkAvailable()) {
+//            print("******** NO INTERNET CONNECTION *********")
+//            return
+//        }
         // check if App start
         if Config.savApiCoordinate != nil {
             let distance = gpsLocation.getDistanceInMeters(
