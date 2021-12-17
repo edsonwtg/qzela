@@ -1,6 +1,7 @@
 import Network
+import Foundation
 
-protocol NetworkListenerDelegate {
+protocol NetworkListenerDelegate: AnyObject {
     func didChangeStatus(status: ConnectionType)
 }
 
@@ -12,9 +13,7 @@ public enum ConnectionType {
 }
 
 class NetworkListener {
-    
-    var networkListenerDelegate: NetworkListenerDelegate!
-    
+
     //    static public let shared = NetworkListener()
     var monitor: NWPathMonitor
     var path: NWPath?
@@ -29,7 +28,8 @@ class NetworkListener {
         }
     }
     var connType: ConnectionType = .wifi
-    
+    weak var networkListenerDelegate: NetworkListenerDelegate! = nil
+
     init() {
         monitor = NWPathMonitor()
 //        monitor.pathUpdateHandler = pathUpdateHandler
@@ -38,7 +38,6 @@ class NetworkListener {
         }
         self.monitor.start(queue: DispatchQueue.global(qos: .background))
     }
-    
 
     func isNetworkAvailable() -> Bool {
         self.checkConnectionTypeForPath(monitor.currentPath)
@@ -47,9 +46,33 @@ class NetworkListener {
         }
         return false
     }
-    
+
+    func isApiAvailable() -> Bool {
+        htmlGetRequest(address: Config.QZELA_API_ADDRESS+"/health")
+    }
+
+    func htmlGetRequest(address: String) -> Bool {
+        let url = URL(string: address)
+        let semaphore = DispatchSemaphore(value: 0)
+
+        var result: Bool = false
+
+        let task = URLSession.shared.dataTask(with: url!) {(data, response, error) in
+
+            if let resp = data {
+                if (String(data: resp, encoding: String.Encoding.utf8) == "{\"status\":\"ok\"}") {
+                    result = true
+                }
+            }
+            semaphore.signal()
+        }
+        task.resume()
+        semaphore.wait()
+        return result
+    }
+
     func checkConnectionTypeForPath(_ path: NWPath) {
-        
+
         var networkStatus: ConnectionType = .unknown
         if monitor.currentPath.status == NWPath.Status.satisfied {
             if path.usesInterfaceType(.wifi) {
@@ -61,8 +84,11 @@ class NetworkListener {
             }
         }
 
-        networkListenerDelegate!.didChangeStatus(status: networkStatus)
-        
+        DispatchQueue.main.async {
+            self.networkListenerDelegate.didChangeStatus(status: networkStatus)
+        }
+
     }
+
 }
 

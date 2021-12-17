@@ -13,11 +13,11 @@ import FirebaseStorage
 import Apollo
 
 
-class MapTabbarController: UIViewController, NetworkManagerDelegate {
+class MapTabbarController: UIViewController {
 
     let config = Config()
-    var networkManager = NetworkManager()
     var gpsLocation = qzela.GPSLocation()
+    var networkListener = NetworkListener()
     var alreadyGetIncidents: Array<String> = []
     var markerIcon: Array<GMSMarker> = []
     var markerCircle: Array<GMSMarker> = []
@@ -54,9 +54,8 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
         let qzelaPoints = 1000
         lbQzelaPoints.addTrailing(image: UIImage(named: "ic_trophy") ?? UIImage(), text: String(qzelaPoints) + " ")
 
-        // NetworkManaget by Protocol delegate
-        networkManager.delegate = self
-        networkManager.startNetworkReachabilityObserver()
+        // NetworkListener delegate
+        networkListener.networkListenerDelegate = self
 
         // GPSLocation by protocol delegate
         gpsLocation.delegate = self
@@ -123,7 +122,7 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
     func gotoMyLocation() {
 
         if gpsLocation.isGpsEnable() {
-            if (!networkManager.isInternetAvailable()) {
+            if (!networkListener.isNetworkAvailable()) {
                 print("******** NO INTERNET CONNECTION *********")
                 return
             }
@@ -347,21 +346,21 @@ class MapTabbarController: UIViewController, NetworkManagerDelegate {
     }
     
     // get update network state
-    func networkReachabilityStatus(status: NetworkManagerStatus) {
-        
-        switch status {
-        case .notReachable:
-            config.showHideNoInternet(view: ivNoInternet, show: true)
-        case .unknown :
-            config.showHideNoInternet(view: ivNoInternet, show: true)
-        case .ethernetOrWiFi:
-            config.showHideNoInternet(view: ivNoInternet, show: false)
-            getIncidentViewport()
-        case .cellular:
-            config.showHideNoInternet(view: ivNoInternet, show: false)
-            getIncidentViewport()
-        }
-    }
+//    func networkReachabilityStatus(status: NetworkManagerStatus) {
+//
+//        switch status {
+//        case .notReachable:
+//            config.showHideNoInternet(view: ivNoInternet, show: true)
+//        case .unknown :
+//            config.showHideNoInternet(view: ivNoInternet, show: true)
+//        case .ethernetOrWiFi:
+//            config.showHideNoInternet(view: ivNoInternet, show: false)
+//            getIncidentViewport()
+//        case .cellular:
+//            config.showHideNoInternet(view: ivNoInternet, show: false)
+//            getIncidentViewport()
+//        }
+//    }
 
     func imageWithImage(image: UIImage, scaledToSize newSize: CGSize) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
@@ -512,6 +511,29 @@ extension MapTabbarController: GPSLocationDelegate {
 //        mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
 //                centerCoordinate: Config.savCoordinate, radiusInMeter: Config.LOCATION_DISTANCE
 //        )
+    }
+}
+
+// Events of Network
+extension MapTabbarController: NetworkListenerDelegate {
+    func didChangeStatus(status: ConnectionType) {
+
+        print("********* Connection \(status)  ***********")
+        switch status {
+        case .unknown:
+            config.showHideNoInternet(view: ivNoInternet, show: true)
+        case .ethernet:
+            config.showHideNoInternet(view: ivNoInternet, show: false)
+            getIncidentViewport()
+        case .wifi:
+            config.showHideNoInternet(view: ivNoInternet, show: false)
+            getIncidentViewport()
+        case .cellular:
+            config.showHideNoInternet(view: ivNoInternet, show: false)
+            getIncidentViewport()
+        }
+
+
     }
 }
 
