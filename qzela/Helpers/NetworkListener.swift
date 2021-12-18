@@ -1,5 +1,6 @@
 import Network
 import Foundation
+import Apollo
 
 protocol NetworkListenerDelegate: AnyObject {
     func didChangeStatus(status: ConnectionType)

@@ -35,13 +35,16 @@ class MapTabbarController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("***** viewWillAppear *****")
-        gpsLocation.startLocationUpdates()
+        // check if App start
+        if Config.savApiCoordinate != nil {
+            print("***** startLocationUpdates *****")
+            gpsLocation.startLocationUpdates()
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         print("***** viewDidDisappear *****")
-        
         gpsLocation.stopLocationUpdates()
     }
 
@@ -49,7 +52,7 @@ class MapTabbarController: UIViewController {
         super.viewDidLoad()
         print("***** viewDidLoad *****")
         // Hide Image saved Button
-//        btSavedImage.isHidden = true
+        btSavedImage.isHidden = true
 
         let qzelaPoints = 1000
         lbQzelaPoints.addTrailing(image: UIImage(named: "ic_trophy") ?? UIImage(), text: String(qzelaPoints) + " ")
@@ -59,17 +62,19 @@ class MapTabbarController: UIViewController {
 
         // GPSLocation by protocol delegate
         gpsLocation.delegate = self
+        gpsLocation.startLocationUpdates()
+
+        // Initialize Map definitions and Style
+        mapInit()
+
         // Home
         //         Config.savCoordinate = CLLocationCoordinate2D(latitude: -23.612992, longitude: -46.682762)
         // Rua Florida, 1758
         //         Config.savCoordinate = CLLocationCoordinate2D(latitude:-23.6072598, longitude: -46.6951241)
-        // Get Coordinates
-        Config.savCoordinate = gpsLocation.getCoordinate()
 
-        // Google Maps events delegate
-        mapView.delegate = self
-        // Initialize Map definitions and Style
-        mapInit()
+//        let timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { [unowned self] (timer) in
+//        }
+//        RunLoop.current.add(timer, forMode: .common)
 
     }
 
@@ -93,7 +98,7 @@ class MapTabbarController: UIViewController {
     }
 
     func mapInit() {
-        print("***** MAP INIT *****")
+        print("***** MAP INIT - START *****")
         // Load Map style from json file
         do {
             if let styleURL = Bundle.main.url(forResource: "mapstyle", withExtension: "json") {
@@ -105,61 +110,71 @@ class MapTabbarController: UIViewController {
         } catch {
             print("One or more of the map styles failed to load.\(error)")
         }
+        // Get Coordinates
+        Config.savCoordinate = gpsLocation.getCoordinate()
         // Enable center point of my location
         mapView.isMyLocationEnabled = true
         mapView.setMinZoom(Config.MIN_ZOOM_MAP, maxZoom: Config.MAX_ZOOM_MAP)
         // Set camera bounds for limit map view
-//        mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
-//                centerCoordinate: Config.savCoordinate,
-//                radiusInMeter: Config.LOCATION_DISTANCE
-//        )
+        mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
+                centerCoordinate: Config.savCoordinate,
+                radiusInMeter: Config.LOCATION_DISTANCE
+        )
         mapView.camera = GMSCameraPosition.camera(
                 withLatitude: Config.savCoordinate.latitude,
                 longitude: Config.savCoordinate.longitude, zoom: Config.ZOOM_INITIAL
         )
+        // Google Maps events delegate
+        mapView.delegate = self
+        print("***** MAP INIT - END *****")
     }
 
     func gotoMyLocation() {
 
+        print("********* gotoMyLocation - START ********")
+
         if gpsLocation.isGpsEnable() {
-            if (!networkListener.isNetworkAvailable()) {
-                print("******** NO INTERNET CONNECTION *********")
-                return
-            }
             Config.savCoordinate = gpsLocation.getCoordinate()
-            mapView.cameraTargetBounds = nil
-            mapView.camera = GMSCameraPosition.camera(withTarget: Config.savCoordinate, zoom: Config.ZOOM_LOCATION)
-//            mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
-//                    centerCoordinate: Config.savCoordinate,
-//                    radiusInMeter: Config.LOCATION_DISTANCE
-//            )
-            Config.savApiCoordinate = nil
+            // If not load data from API opn Start.
+            if (markerIcon.count == 0) {
+                Config.savApiCoordinate = nil
+            }
             getIncidentViewport()
         }
         else {
             let alertController = UIAlertController(title: "Location Permission Required", message: "Please enable location permissions in settings.", preferredStyle: .alert)
-
             let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
                 //Redirect to Settings app
                 UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
             })
-
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
             alertController.addAction(cancelAction)
-
             alertController.addAction(okAction)
-
             present(alertController, animated: true, completion: nil)
         }
+        print("********* gotoMyLocation - END ********")
     }
 
     func getIncidentViewport() {
 
+        print("******** getIncidentViewport - START **********")
+
         // check Internet
-//        if (!networkListener.isNetworkAvailable()) {
-//            print("******** NO INTERNET CONNECTION *********")
-//            return
-//        }
+        if (!networkListener.isNetworkAvailable()) {
+            print("******** NO INTERNET CONNECTION *********")
+            let alertController = UIAlertController(title: "No Internet", message: "Please, verify your internet connection!", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Got it!", style: .cancel)
+            alertController.addAction(okAction)
+            present(alertController, animated: true, completion: nil)
+            return
+        }
+        if (!networkListener.isApiAvailable()) {
+            let alertController = UIAlertController(title: "Server off-line", message: "Please, try again later.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Got it!", style: .default)
+            alertController.addAction(okAction)
+            present(alertController, animated: true, completion: nil)
+            return
+        }
         // check if App start
         if Config.savApiCoordinate != nil {
             let distance = gpsLocation.getDistanceInMeters(
@@ -167,7 +182,7 @@ class MapTabbarController: UIViewController {
                     coordinateDestiny: Config.savApiCoordinate!)
             print("Distance: \(distance)")
             // check if need load data from API
-            if ( distance > (Config.PERCENTAGE_DISTANCE_BOUNDS * 1.5)) {
+            if (distance > (Config.PERCENTAGE_DISTANCE_BOUNDS * 1.5)) {
                 Config.savApiCoordinate = Config.savCoordinate
             } else {
                 return
@@ -176,15 +191,13 @@ class MapTabbarController: UIViewController {
             Config.savApiCoordinate = Config.savCoordinate
         }
 
-        print("******** getIncidentViewport **********")
-
         let bounds = gpsLocation.increaseBounds(
                 bounds: GMSCoordinateBounds(region: mapView.projection.visibleRegion()),
                 percentage: Config.PERCENTAGE_DISTANCE_BOUNDS
         )
 
-        let neCoord: Coordinate = [ bounds!.northEast.longitude,bounds!.northEast.latitude ]
-        let swCoord: Coordinate = [ bounds!.southWest.longitude,bounds!.southWest.latitude ]
+        let neCoord: Coordinate = [bounds!.northEast.longitude, bounds!.northEast.latitude]
+        let swCoord: Coordinate = [bounds!.southWest.longitude, bounds!.southWest.latitude]
 
         if (alreadyGetIncidents.isEmpty) {
             clearMap()
@@ -203,6 +216,7 @@ class MapTabbarController: UIViewController {
             }
         }
 
+        print("******** GetViewport - START **********")
         Apollo.shared.apollo.fetch(query: GetViewportQuery(
                 neCoord: neCoord,
                 swCoord: swCoord,
@@ -221,12 +235,14 @@ class MapTabbarController: UIViewController {
                                 idIncident: resultApi._id
                         )
                     }
+                    print("******** GetViewport - END **********")
                 }
             case .failure(let error):
                 print("Failure! Error: \(error)")
             }
         }
 
+        print("******** getIncidentViewport - END **********")
     }
 
     func mapAddMarkers(latitude: Double, longitude: Double, segment: Int, stIncident: Int, idIncident: String) {
@@ -265,7 +281,6 @@ class MapTabbarController: UIViewController {
             if (distance <= Config.LOCATION_RESTRICT_DISTANCE) {
                 marker.map = mapView
             }
-//            marker.map = mapView
             // Incident status Circle Marker
             marker = GMSMarker()
             marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -276,7 +291,6 @@ class MapTabbarController: UIViewController {
             if (distance <= Config.LOCATION_RESTRICT_DISTANCE) {
                 marker.map = mapView
             }
-//            marker.map = mapView
         } else {
             // Get Segment Marker Icon by FIREBASE on Google Cloud
             let imagesRef = Config.FIREBASE_ICONS_STORAGE.child(Config.MARKERS_ICONS_PATH + String(segment) + ".png")
@@ -297,7 +311,6 @@ class MapTabbarController: UIViewController {
                     if (distance <= Config.LOCATION_RESTRICT_DISTANCE) {
                         marker.map = self.mapView
                     }
-//                    marker.map = self.mapView
                     // Incident status Circle Marker
                     marker = GMSMarker()
                     marker.position = coordinate
@@ -308,7 +321,6 @@ class MapTabbarController: UIViewController {
                     if (distance <= Config.LOCATION_RESTRICT_DISTANCE) {
                         marker.map = self.mapView
                     }
-//                    marker.map = self.mapView
                 }
             }
         }
@@ -345,23 +357,6 @@ class MapTabbarController: UIViewController {
         mapView.clear()
     }
     
-    // get update network state
-//    func networkReachabilityStatus(status: NetworkManagerStatus) {
-//
-//        switch status {
-//        case .notReachable:
-//            config.showHideNoInternet(view: ivNoInternet, show: true)
-//        case .unknown :
-//            config.showHideNoInternet(view: ivNoInternet, show: true)
-//        case .ethernetOrWiFi:
-//            config.showHideNoInternet(view: ivNoInternet, show: false)
-//            getIncidentViewport()
-//        case .cellular:
-//            config.showHideNoInternet(view: ivNoInternet, show: false)
-//            getIncidentViewport()
-//        }
-//    }
-
     func imageWithImage(image: UIImage, scaledToSize newSize: CGSize) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
         image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
@@ -481,22 +476,20 @@ extension MapTabbarController: GPSLocationDelegate {
 
     func GPSLocation(didUpdate locations: [CLLocation]) {
 
+        print("******** MapTabbarController - Delegate GPS Location")
+
         guard let location = locations.first else { return }
         
         if (location.horizontalAccuracy < 0){
-            print("no signal");
             config.showHideNoInternet(view: ivNoGps, show: true)
         }
         else if (location.horizontalAccuracy > 163){
-            print("poor signal");
             config.showHideNoInternet(view: ivNoGps, show: true)
         }
         else if (location.horizontalAccuracy > 48){
-            print("average signal");
             config.showHideNoInternet(view: ivNoGps, show: false)
        }
         else{
-            print("full signal");
             config.showHideNoInternet(view: ivNoGps, show: false)
         }
 
@@ -508,9 +501,9 @@ extension MapTabbarController: GPSLocationDelegate {
         mapView.animate(to: GMSCameraPosition.camera(
                 withLatitude: Config.savCoordinate.latitude,
                 longitude: Config.savCoordinate.longitude, zoom: Config.savCurrentZoom ))
-//        mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
-//                centerCoordinate: Config.savCoordinate, radiusInMeter: Config.LOCATION_DISTANCE
-//        )
+        mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
+                centerCoordinate: Config.savCoordinate, radiusInMeter: Config.LOCATION_DISTANCE
+        )
     }
 }
 
@@ -518,19 +511,16 @@ extension MapTabbarController: GPSLocationDelegate {
 extension MapTabbarController: NetworkListenerDelegate {
     func didChangeStatus(status: ConnectionType) {
 
-        print("********* Connection \(status)  ***********")
+        print("******* MapTabbarController - Network Listener ********")
         switch status {
         case .unknown:
             config.showHideNoInternet(view: ivNoInternet, show: true)
         case .ethernet:
             config.showHideNoInternet(view: ivNoInternet, show: false)
-            getIncidentViewport()
         case .wifi:
             config.showHideNoInternet(view: ivNoInternet, show: false)
-            getIncidentViewport()
         case .cellular:
             config.showHideNoInternet(view: ivNoInternet, show: false)
-            getIncidentViewport()
         }
 
 
@@ -562,7 +552,6 @@ extension MapTabbarController: GMSMapViewDelegate {
 }
 
 public typealias Coordinate = [Double]
-
 extension Array: JSONDecodable {
     /// Custom `init` extension so Apollo can decode custom scalar type `CurrentMissionChallenge `
     public init(jsonValue value: JSONValue) throws {
@@ -573,4 +562,3 @@ extension Array: JSONDecodable {
         return
     }
 }
-

@@ -2,9 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c9849a8-4a2b-49e5-81b2-d7dc8747624f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/qzela/GetHealth.graphql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/qzela.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela.xcworkspace/xcuserdata/erocha.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" beforeDir="false" afterPath="$PROJECT_DIR$/qzela.xcworkspace/xcuserdata/erocha.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela/API.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/API.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela/Graphql/Apollo.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Graphql/Apollo.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela/Health.graphql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela/Helpers/GPSLocation.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Helpers/GPSLocation.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qzela/Helpers/NetworkListener.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Helpers/NetworkListener.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela/Models/Config.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Models/Config.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -119,6 +125,8 @@
       <workItem from="1639742252292" duration="166000" />
       <workItem from="1639743530120" duration="866000" />
       <workItem from="1639745959712" duration="12349000" />
+      <workItem from="1639766877158" duration="10342000" />
+      <workItem from="1639833385728" duration="15188000" />
     </task>
     <task id="LOCAL-00001" summary="Google Maps Scroll Ok">
       <created>1638535989367</created>
@@ -246,7 +254,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639694285231</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="NetworkListener Ok">
+      <created>1639767011451</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1639767011451</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -275,14 +290,15 @@
     <MESSAGE value="Add check GPS signal" />
     <MESSAGE value="GPS show/hide moving markers" />
     <MESSAGE value="Network Manager Ok" />
-    <option name="LAST_COMMIT_MESSAGE" value="Network Manager Ok" />
+    <MESSAGE value="NetworkListener Ok" />
+    <option name="LAST_COMMIT_MESSAGE" value="NetworkListener Ok" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/qzela/Helpers/GPSLocation.swift</url>
-          <line>89</line>
+          <line>88</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
@@ -297,5 +313,8 @@
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="CidrCoverage/qzela/qzela.json" NAME="qzela Coverage Results" MODIFIED="1639841907469" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="llvm-cov" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
