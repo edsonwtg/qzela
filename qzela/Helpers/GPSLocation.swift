@@ -30,12 +30,11 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.distanceFilter = kCLLocationAccuracyNearestTenMeters
             locationManager.requestAlwaysAuthorization()
-//            locationManager.startUpdatingLocation()
         }
     }
 
     public func startLocationUpdates() {
-        print("")
+        print("***** GPSLocation - startLocationUpdates *****")
         locationManager.startUpdatingLocation()
     }
 
@@ -47,7 +46,7 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
         // TODO: Home location for development test
 //        let coor = CLLocationCoordinate2D(latitude: -23.612992, longitude: -46.682762)
         let coor = locationManager.location?.coordinate ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
-        print("GET Coordenate: \(coor)")
+        print("***** GPSLocation - GET Coordenate: \(coor)")
         return coor
     }
 
@@ -152,7 +151,7 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
 
         guard let location = locations.first else { return }
 
-        print("****** UPDATE LOCATION ******* Coord.: \(location.coordinate)")
+        print("****** GPSLocation - didUpdateLocations ******* Coord.: \(location.coordinate)")
 
         // here we call it for closure:
         updatedLocations?(locations)

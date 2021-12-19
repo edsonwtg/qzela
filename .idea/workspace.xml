@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c9849a8-4a2b-49e5-81b2-d7dc8747624f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/qzela.xcworkspace/xcuserdata/erocha.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" beforeDir="false" afterPath="$PROJECT_DIR$/qzela.xcworkspace/xcuserdata/erocha.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela/Models/Config.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Models/Config.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,7 +18,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="NetworkListener" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -35,6 +37,9 @@
     <setting file="file://$PROJECT_DIR$/qzela/Graphql/Apollo.swift" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/qzela/Models/Config.swift" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="21SQZA5C1Q04zN6t0hcSJn0esb1" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -110,6 +115,11 @@
       <workItem from="1639408133504" duration="4513000" />
       <workItem from="1639419729967" duration="6684000" />
       <workItem from="1639483062249" duration="19588000" />
+      <workItem from="1639742252292" duration="166000" />
+      <workItem from="1639743530120" duration="866000" />
+      <workItem from="1639745959712" duration="12349000" />
+      <workItem from="1639766877158" duration="10342000" />
+      <workItem from="1639833385728" duration="17435000" />
     </task>
     <task id="LOCAL-00001" summary="Google Maps Scroll Ok">
       <created>1638535989367</created>
@@ -230,7 +240,28 @@
       <option name="project" value="LOCAL" />
       <updated>1639689189225</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Network Manager Ok">
+      <created>1639694285231</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1639694285231</updated>
+    </task>
+    <task id="LOCAL-00019" summary="NetworkListener Ok">
+      <created>1639767011451</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1639767011451</updated>
+    </task>
+    <task id="LOCAL-00020" summary="NetworkListener Ok&#10;Showalerts OK">
+      <created>1639851675893</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1639851675893</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -258,20 +289,18 @@
     <MESSAGE value="Add LocationHome.gpx&#10;Add HomeMoving.gpx" />
     <MESSAGE value="Add check GPS signal" />
     <MESSAGE value="GPS show/hide moving markers" />
-    <option name="LAST_COMMIT_MESSAGE" value="GPS show/hide moving markers" />
+    <MESSAGE value="Network Manager Ok" />
+    <MESSAGE value="NetworkListener Ok" />
+    <MESSAGE value="NetworkListener Ok&#10;Showalerts OK" />
+    <option name="LAST_COMMIT_MESSAGE" value="NetworkListener Ok&#10;Showalerts OK" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/qzela/Helpers/GPSLocation.swift</url>
-          <line>89</line>
+          <line>88</line>
           <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift</url>
-          <line>125</line>
-          <option name="timeStamp" value="39" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

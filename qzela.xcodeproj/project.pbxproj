@@ -41,10 +41,10 @@
 		6FA6AA8A275CED400099F318 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6FA6AA91275D27240099F318 /* Apollo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apollo.swift; sourceTree = "<group>"; };
 		6FA6AA9E275D6B740099F318 /* schema.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
-		6FA6AA9F275D6D520099F318 /* Health.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = Health.graphql; sourceTree = "<group>"; };
 		6FA6AAA0275D725C0099F318 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		6FA6AAA2275E42FB0099F318 /* GetViewport.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = GetViewport.graphql; sourceTree = "<group>"; };
 		6FA6AAA3275E45B20099F318 /* GetSegments.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = GetSegments.graphql; sourceTree = "<group>"; };
+		6FAFB9B3276D270300CD5C23 /* GetHealth.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = GetHealth.graphql; sourceTree = "<group>"; };
 		6FDE761C274816AE0050510C /* qzela.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qzela.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FDE761F274816AE0050510C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6FDE7621274816AE0050510C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -146,8 +146,8 @@
 				6FDE763C27484D7D0050510C /* Models */,
 				6FDE763D274853820050510C /* Tabbar Controllers */,
 				6FDE763B274837390050510C /* View Controllers */,
-				6FA6AA9F275D6D520099F318 /* Health.graphql */,
 				6FA6AAA2275E42FB0099F318 /* GetViewport.graphql */,
+				6FAFB9B3276D270300CD5C23 /* GetHealth.graphql */,
 				6FA6AAA3275E45B20099F318 /* GetSegments.graphql */,
 				B2D3E22C054A35B8E76D21EC /* Main.storyboard */,
 			);

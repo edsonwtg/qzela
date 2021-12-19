@@ -5,6 +5,7 @@
 //  Created by Edson Rocha on 20/11/21.
 //
 
+import Foundation
 import UIKit
 import CoreLocation
 import FirebaseStorage
@@ -45,13 +46,20 @@ class Config {
     static let FIREBASE_ICONS_STORAGE = Storage.storage(url: FIREBASE_BUCKET_URI).reference()
 
     // CONNECTION QZELA GRAPHQL API
-//    static let GRAPHQL_ENDPOINT: String = "https://corp.qzela.com.br:3000/v2i/graphql";
-//    static let GRAPHQL_WEBSOCKET: String = "wss://corp.qzela.com.br:3000/graphql";
-    static let GRAPHQL_ENDPOINT: String = "https://stg-corp.qzela.com.br:4000/v2i/graphql";
-    static let GRAPHQL_WEBSOCKET: String = "wss://stg-corp.qzela.com.br:4000/graphql";
-//    static let GRAPHQL_ENDPOINT: String = "http://192.168.10.22:4000/v2i/graphql";
-//    static let GRAPHQL_WEBSOCKET: String = "ws://192.168.10.22:4000/graphql";
-    
+    // Develpment
+//    static let QZELA_API_ADDRESS: String = "http://192.168.10.22:4000"
+//    static let QZELA_API_WEBSOCKET: String = "wss://192.168.10.22:4000"
+    // Staging
+    static let QZELA_API_ADDRESS: String = "https://stg-corp.qzela.com.br:4000"
+    static let QZELA_API_WEBSOCKET: String = "wss://stg-corp.qzela.com.br:4000"
+    //Production
+//    static let QZELA_API_ADDRESS: String = "https://corp.qzela.com.br:3000"
+//    static let QZELA_API_WEBSOCKET: String = "wss://corp.qzela.com.br:4000"
+
+    // GRAPHQL ADDRESS
+    static let GRAPHQL_ENDPOINT: String = QZELA_API_ADDRESS+"/v2i/graphql"
+    static let GRAPHQL_WEBSOCKET: String = QZELA_API_WEBSOCKET+"/graphql"
+
     func showHideNoInternet(view: UIImageView, show: Bool) {
 
         if (show) {
@@ -65,5 +73,5 @@ class Config {
         }
 
     }
-
 }
+
