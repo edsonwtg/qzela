@@ -32,6 +32,10 @@ class MapTabbarController: UIViewController {
     @IBOutlet weak var btNewIncident: UIButton!
     @IBOutlet weak var btSavedImage: UIButton!
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("***** viewWillAppear *****")
@@ -88,7 +92,36 @@ class MapTabbarController: UIViewController {
             print("btViewMap Clear Markers")
             clearMarkers()
         case "btNewIncident":
-            print("btNewIncident")
+            // check GPS
+            if (gpsLocation.isGpsEnable()) {
+                Config.savCoordinate = gpsLocation.getCoordinate()
+            }
+            else {
+                let actionHandler: (UIAlertAction) -> Void = { (action) in
+                    //Redirect to Settings app
+                    UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                }
+                showAlert(title: "Location Permission Required",
+                        message: "Please enable location permissions in settings.",
+                        actionTitles: ["Settings", "Cancel"],
+                        style: [.default, .cancel],
+                        actions: [actionHandler, nil])
+                return
+            }
+            // check Internet
+            if (!networkListener.isNetworkAvailable()) {
+                print("******** NO INTERNET CONNECTION *********")
+                let actionHandler: (UIAlertAction) -> Void = { (action) in
+                    //Redirect to Settings app
+                    print("btNewIncident")
+                }
+                showAlert(title: "No Internet",
+                        message: "It will only be possible to save the occurrence for later generation!",
+                        actionTitles: ["Cancel", "Continue"],
+                        style: [.cancel, .default],
+                        actions: [nil, actionHandler])
+           }
+
         case "btSavedImage":
             print("btSavedImage ShowMarkers")
             showMarkers()
@@ -142,15 +175,16 @@ class MapTabbarController: UIViewController {
             getIncidentViewport()
         }
         else {
-            let alertController = UIAlertController(title: "Location Permission Required", message: "Please enable location permissions in settings.", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "Settings", style: .default, handler: {(cAlertAction) in
+            let okSettings: (UIAlertAction) -> Void = { (action) in
                 //Redirect to Settings app
-                UIApplication.shared.open(URL(string:UIApplication.openSettingsURLString)!)
-            })
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-            alertController.addAction(cancelAction)
-            alertController.addAction(okAction)
-            present(alertController, animated: true, completion: nil)
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+            }
+            showAlert(title: "Location Permission Required",
+                    message: "Please enable location permissions in settings.",
+                    actionTitles: ["Settings", "Cancel"],
+                    style: [.default, .cancel],
+                    actions: [okSettings, nil],
+                    preferredActionIndex: 1)
         }
         print("********* gotoMyLocation - END ********")
     }
@@ -159,16 +193,6 @@ class MapTabbarController: UIViewController {
 
         print("******** getIncidentViewport - START **********")
 
-        // check Internet
-        if (!networkListener.isNetworkAvailable()) {
-            print("******** NO INTERNET CONNECTION *********")
-            showAlert(title: "No Internet", message: "Please, verify your internet connection!", actionTitles: ["Got it!"], style: [.default], actions: [nil])
-            return
-        }
-        if (!networkListener.isApiAvailable()) {
-            showAlert(title: "Server off-line", message: "Please, try again later.", actionTitles: ["Got it!"], style: [.default], actions: [nil])
-            return
-        }
         // check if App start
         if Config.savApiCoordinate != nil {
             let distance = gpsLocation.getDistanceInMeters(
@@ -183,6 +207,18 @@ class MapTabbarController: UIViewController {
             }
         } else {
             Config.savApiCoordinate = Config.savCoordinate
+        }
+
+        // check Internet
+        if (!networkListener.isNetworkAvailable()) {
+            print("******** NO INTERNET CONNECTION *********")
+            showAlert(title: "No Internet", message: "Please, verify your internet connection!", actionTitles: ["Got it!"], style: [.default], actions: [nil])
+            return
+        }
+        // check API
+        if (!networkListener.isApiAvailable()) {
+            showAlert(title: "Server off-line", message: "Please, try again later.", actionTitles: ["Got it!"], style: [.default], actions: [nil])
+            return
         }
 
         let bounds = gpsLocation.increaseBounds(
@@ -412,7 +448,7 @@ extension UIViewController {
 /// - Parameter actionTitles: List of action button titles(ex : "OK","Cancel" etc)
 /// - Parameter style: Style of the buttons
 /// - Parameter actions: actions repective to each actionTitles
-/// - Parameter preferredActionIndex: Index of the button that need to be shown in bold. If nil is passed then it takes cancel as default button.
+/// - Parameter preferredActionIndex: Index of the button that needs to be shown in bold. If nil is passed, default button will be cancel.
 
 /**
  Example usage:-

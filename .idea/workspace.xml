@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1c9849a8-4a2b-49e5-81b2-d7dc8747624f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qzela/Models/Config.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Models/Config.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qzela.xcworkspace/xcuserdata/erocha.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" beforeDir="false" afterPath="$PROJECT_DIR$/qzela.xcworkspace/xcuserdata/erocha.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/qzela/Tabbar Controllers/MapTabbarController.swift" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -11,9 +11,9 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="iphonesimulator_3DA3BB0E-F217-44EC-BFFC-FB274F767A95" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos_00008020-000D6D9634DA002E" />
   <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="GPSCheck" />
+    <option name="BRANCH" value="NetworkListener" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
