@@ -5,6 +5,7 @@
 //  Created by Edson Rocha on 20/11/21.
 //
 
+import Foundation
 import UIKit
 import CoreLocation
 import FirebaseStorage
@@ -72,5 +73,5 @@ class Config {
         }
 
     }
-
 }
+

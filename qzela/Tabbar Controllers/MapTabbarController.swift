@@ -162,17 +162,11 @@ class MapTabbarController: UIViewController {
         // check Internet
         if (!networkListener.isNetworkAvailable()) {
             print("******** NO INTERNET CONNECTION *********")
-            let alertController = UIAlertController(title: "No Internet", message: "Please, verify your internet connection!", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "Got it!", style: .cancel)
-            alertController.addAction(okAction)
-            present(alertController, animated: true, completion: nil)
+            showAlert(title: "No Internet", message: "Please, verify your internet connection!", actionTitles: ["Got it!"], style: [.default], actions: [nil])
             return
         }
         if (!networkListener.isApiAvailable()) {
-            let alertController = UIAlertController(title: "Server off-line", message: "Please, try again later.", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "Got it!", style: .default)
-            alertController.addAction(okAction)
-            present(alertController, animated: true, completion: nil)
+            showAlert(title: "Server off-line", message: "Please, try again later.", actionTitles: ["Got it!"], style: [.default], actions: [nil])
             return
         }
         // check if App start
@@ -408,6 +402,59 @@ class MapTabbarController: UIViewController {
 
     }
 
+}
+
+extension UIViewController {
+
+/// Show alert view
+/// - Parameter title: title of alert
+/// - Parameter message: message of alert
+/// - Parameter actionTitles: List of action button titles(ex : "OK","Cancel" etc)
+/// - Parameter style: Style of the buttons
+/// - Parameter actions: actions repective to each actionTitles
+/// - Parameter preferredActionIndex: Index of the button that need to be shown in bold. If nil is passed then it takes cancel as default button.
+
+/**
+ Example usage:-
+ Just make sure actionTitles and actions array the same count.
+
+ /********** 1. Pass nil if you don't need any action handler closure. **************/
+ self.showAlert(title: "Title", message: "message", actionTitles: ["OK"], style: [.deafult], actions: [nil])
+
+ /*********** 2. Alert view with one action **************/
+
+ ///     let okActionHandler: ((UIAlertAction) -> Void) = {(action) in
+ //Perform action of Ok here
+ }
+ self.showAlert(title: "Title", message: "message", actionTitles: ["OK", "CANCEL"], style: [.default, .cancel], actions: [okayActionHandler, nil])
+
+ /********** 3.Alert view with two actions **************/
+
+ let okActionHandler: ((UIAlertAction) -> Void) = {(action) in
+ //Perform action of ok here
+ }
+
+ let cancelActionHandler: ((UIAlertAction) -> Void) = {(action) in
+ //Perform action of cancel here
+ }
+
+ self.showAlert(title: "Title", message: "message", actionTitles: ["OK", "CANCEL"], style: [.default, .cancel], actions: [okActionHandler,cancelActionHandler], preferredActionIndex: 1)
+ */
+
+    public func showAlert(title: String?,
+                          message: String?,
+                          actionTitles: [String?],
+                          style: [UIAlertAction.Style],
+                          actions: [((UIAlertAction) -> Void)?],
+                          preferredActionIndex: Int? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        for (index, title) in actionTitles.enumerated() {
+            let action = UIAlertAction(title: title, style: style[index], handler: actions[index])
+            alert.addAction(action)
+        }
+        if let preferredActionIndex = preferredActionIndex { alert.preferredAction = alert.actions[preferredActionIndex] }
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 extension UIView {
