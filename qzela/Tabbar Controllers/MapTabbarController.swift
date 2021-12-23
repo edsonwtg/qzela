@@ -95,6 +95,8 @@ class MapTabbarController: UIViewController {
             // check GPS
             if (gpsLocation.isGpsEnable()) {
                 Config.savCoordinate = gpsLocation.getCoordinate()
+                gotoViewControllerWithBack(viewController: "PhotoViewController")
+
             }
             else {
                 let actionHandler: (UIAlertAction) -> Void = { (action) in
@@ -405,7 +407,7 @@ class MapTabbarController: UIViewController {
     func gotoViewControllerWithBack(viewController: String) {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let nextViewController = storyBoard.instantiateViewController(withIdentifier: viewController)
-        nextViewController.modalPresentationStyle = .fullScreen
+//        nextViewController.modalPresentationStyle = .fullScreen
         nextViewController.modalTransitionStyle = .flipHorizontal
         present(nextViewController, animated: true)
     }
@@ -625,7 +627,8 @@ extension MapTabbarController: GMSMapViewDelegate {
 
         print("****** CLICK MARKER *****")
         print(marker.snippet! as String)
-        print(marker.title! as String)
+        // return false - show marker info, return true - not show
+        gotoViewControllerWithBack(viewController: "PopUpMarkerViewController")
         return true
     }
 
