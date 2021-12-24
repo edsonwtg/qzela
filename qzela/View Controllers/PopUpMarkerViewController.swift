@@ -10,7 +10,7 @@ import UIKit
 class PopUpMarkerViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
     
-    var webSereiesImages: [String] = ["img_open_0", "img_open_1", "map"]
+    var webSereiesImages: [String] = ["img_open_0", "img_open_1", "open_img_0", "map", "0", "qzela_marker"]
     
     @IBOutlet weak var sliderCollectionView: UICollectionView!
     @IBOutlet weak var pageControl: UIPageControl!
