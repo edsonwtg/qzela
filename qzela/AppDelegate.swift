@@ -10,7 +10,7 @@ import GoogleMaps
 import Firebase
 import Apollo
 
-@main
+        @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 

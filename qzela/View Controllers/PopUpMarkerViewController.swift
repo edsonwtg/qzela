@@ -7,33 +7,45 @@
 
 import UIKit
 
-class PopUpMarkerViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class PopUpMarkerViewController: UIViewController {
 
-    
-    var webSereiesImages: [String] = ["img_open_0-1", "img_open_1-1", "img_open_2","open_img_0", "map", "0", "qzela_marker"]
-    
     @IBOutlet weak var sliderCollectionView: UICollectionView!
     @IBOutlet weak var pageControl: UIPageControl!
     
+    var slides: [IncidentSlide] =  []
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        slides = [
+            IncidentSlide(image: UIImage(named: "img_open_0-1")!, status: "Open"),
+            IncidentSlide(image: UIImage(named: "img_open_1-1")!, status: "Open"),
+            IncidentSlide(image: UIImage(named: "img_open_2")!, status: "Resolved"),
+            IncidentSlide(image: UIImage(named: "img_open_0")!, status: "Registered"),
+            IncidentSlide(image: UIImage(named: "map")!, status: "Open")
+        ]
+        pageControl.numberOfPages = slides.count
+
+    }
+
     @IBAction func btClose(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        pageControl.numberOfPages = webSereiesImages.count
-
-    }
+}
+    
+extension PopUpMarkerViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return webSereiesImages.count
+        
+        return slides.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell=collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MyCollectionViewCell
-        cell.mywebSeriesImage.image=UIImage(named: webSereiesImages[indexPath.row])
-        cell.mywebSeriesImage.layer.cornerRadius=50.0
-
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: IncidentCollectionViewCell.identifier, for: indexPath) as! IncidentCollectionViewCell
+        
+        cell.setup(slides[indexPath.row])
         return cell
     }
     
@@ -47,26 +59,10 @@ class PopUpMarkerViewController: UIViewController, UICollectionViewDelegate, UIC
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.row)
     }
-}
     
-
-extension PopUpMarkerViewController: UICollectionViewDelegateFlowLayout {
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-//    }
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let size = sliderCollectionView.frame.size
-//        print("size.width: \(size.width) size.height: \(size.height)")
-//        return CGSize(width: size.width-20, height: size.height)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0.0
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 20.0
-//    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let size = sliderCollectionView.frame.size
+        print("size.width: \(size.width) size.height: \(size.height)")
+        return CGSize(width: size.width, height: size.height)
+    }
 }

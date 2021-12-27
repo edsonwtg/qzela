@@ -12,3 +12,11 @@ target 'qzela' do
   pod 'Alamofire', '~> 5.4'
 
 end
+
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['LD_NO_PIE'] = 'NO'
+        end
+    end
+end

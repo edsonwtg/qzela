@@ -9,10 +9,13 @@
 /* Begin PBXBuildFile section */
 		34CD2ED78909A3B7708BED4B /* Pods_qzela.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 885B18319CAA7E194A5AE6FC /* Pods_qzela.framework */; };
 		6F2FC9BB27622EE9004FDF52 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2FC9BA27622EE9004FDF52 /* NetworkManager.swift */; };
+		6F4992652779D90700C2515F /* IncidentSlide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4992642779D90700C2515F /* IncidentSlide.swift */; };
+		6F499267277A31D500C2515F /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F499266277A31D500C2515F /* UILabelExtension.swift */; };
+		6F499269277A373700C2515F /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F499268277A373700C2515F /* UIViewExtension.swift */; };
 		6F573203276F9FE2007CF84C /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F573202276F9FE2007CF84C /* PhotoViewController.swift */; };
 		6F5732052770A36B007CF84C /* PopUpMarkerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5732042770A36B007CF84C /* PopUpMarkerViewController.swift */; };
 		6F66DDA22763A4C100FE0A7B /* LocationHome.gpx in Resources */ = {isa = PBXBuildFile; fileRef = B2D3EE38F3162EC9AE1EAEBE /* LocationHome.gpx */; };
-		6F72E8962774CDBE008C30F8 /* MyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F72E8952774CDBE008C30F8 /* MyCollectionViewCell.swift */; };
+		6F72E8962774CDBE008C30F8 /* IncidentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F72E8952774CDBE008C30F8 /* IncidentCollectionViewCell.swift */; };
 		6F99B4612759727800B8A6FC /* mapstyle.json in Resources */ = {isa = PBXBuildFile; fileRef = 6F99B4602759727800B8A6FC /* mapstyle.json */; };
 		6FA6AA8B275CED400099F318 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6FA6AA8A275CED400099F318 /* GoogleService-Info.plist */; };
 		6FA6AA92275D27240099F318 /* Apollo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA6AA91275D27240099F318 /* Apollo.swift */; };
@@ -40,9 +43,12 @@
 /* Begin PBXFileReference section */
 		1FE902AEABB518A74248056A /* Pods-qzela.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qzela.release.xcconfig"; path = "Target Support Files/Pods-qzela/Pods-qzela.release.xcconfig"; sourceTree = "<group>"; };
 		6F2FC9BA27622EE9004FDF52 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		6F4992642779D90700C2515F /* IncidentSlide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentSlide.swift; sourceTree = "<group>"; };
+		6F499266277A31D500C2515F /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
+		6F499268277A373700C2515F /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		6F573202276F9FE2007CF84C /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		6F5732042770A36B007CF84C /* PopUpMarkerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpMarkerViewController.swift; sourceTree = "<group>"; };
-		6F72E8952774CDBE008C30F8 /* MyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCollectionViewCell.swift; sourceTree = "<group>"; };
+		6F72E8952774CDBE008C30F8 /* IncidentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentCollectionViewCell.swift; sourceTree = "<group>"; };
 		6F99B4602759727800B8A6FC /* mapstyle.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mapstyle.json; sourceTree = "<group>"; };
 		6FA6AA8A275CED400099F318 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6FA6AA91275D27240099F318 /* Apollo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apollo.swift; sourceTree = "<group>"; };
@@ -100,6 +106,8 @@
 		6F72E8942774A823008C30F8 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				6F499266277A31D500C2515F /* UILabelExtension.swift */,
+				6F499268277A373700C2515F /* UIViewExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -107,6 +115,7 @@
 		6FA4DC3A2754F4A4004B5441 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				6F72E8952774CDBE008C30F8 /* IncidentCollectionViewCell.swift */,
 				B2D3ED601C88EF9BE044AECD /* GPSLocation.swift */,
 				6F2FC9BA27622EE9004FDF52 /* NetworkManager.swift */,
 				B2D3EE38F3162EC9AE1EAEBE /* LocationHome.gpx */,
@@ -114,7 +123,6 @@
 				B2D3EC3FA1A2DFB430A52E3A /* LocationOther.gpx */,
 				B2D3E77BAEA6EF84235E53B8 /* NearHome.gpx */,
 				B2D3E7542E8F732C5F399FA3 /* NetworkListener.swift */,
-				6F72E8952774CDBE008C30F8 /* MyCollectionViewCell.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -187,6 +195,7 @@
 			children = (
 				6FDE7628274816AF0050510C /* Assets.xcassets */,
 				6FDE7645274976950050510C /* Config.swift */,
+				6F4992642779D90700C2515F /* IncidentSlide.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -369,9 +378,12 @@
 			files = (
 				6FDE7641274853FF0050510C /* MapTabbarController.swift in Sources */,
 				6FDE763F274853D20050510C /* DashboardTabbarController.swift in Sources */,
+				6F499269277A373700C2515F /* UIViewExtension.swift in Sources */,
 				6FDE7624274816AE0050510C /* TabBarController.swift in Sources */,
 				6FDE764C27498E940050510C /* PreviewViewController.swift in Sources */,
+				6F499267277A31D500C2515F /* UILabelExtension.swift in Sources */,
 				6FDE7646274976950050510C /* Config.swift in Sources */,
+				6F4992652779D90700C2515F /* IncidentSlide.swift in Sources */,
 				6FA6AA92275D27240099F318 /* Apollo.swift in Sources */,
 				6FA6AAA1275D725C0099F318 /* API.swift in Sources */,
 				6FDE764827498E6C0050510C /* LoginViewController.swift in Sources */,
@@ -382,7 +394,7 @@
 				6FDE7622274816AE0050510C /* SceneDelegate.swift in Sources */,
 				6F2FC9BB27622EE9004FDF52 /* NetworkManager.swift in Sources */,
 				6FDE764E27498EA80050510C /* SplashViewController.swift in Sources */,
-				6F72E8962774CDBE008C30F8 /* MyCollectionViewCell.swift in Sources */,
+				6F72E8962774CDBE008C30F8 /* IncidentCollectionViewCell.swift in Sources */,
 				6F5732052770A36B007CF84C /* PopUpMarkerViewController.swift in Sources */,
 				B2D3E7237D3B243ED42B4D73 /* GPSLocation.swift in Sources */,
 				B2D3E6DFE8E199621B066A34 /* NetworkListener.swift in Sources */,
