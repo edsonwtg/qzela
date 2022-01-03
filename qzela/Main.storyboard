@@ -6,6 +6,7 @@
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -118,30 +119,137 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zG1-oX-NF7">
-                                <rect key="frame" x="160.5" y="781" width="93" height="31"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bzb-TO-zIZ" userLabel="IncidentView">
+                                <rect key="frame" x="32" y="76" width="350" height="657"/>
+                                <subviews>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="l8O-Ge-lbJ">
+                                        <rect key="frame" x="0.0" y="10" width="350" height="200"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="200" id="IRn-RC-y4b"/>
+                                        </constraints>
+                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="B90-dg-qmw">
+                                            <size key="itemSize" width="350" height="200"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells>
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="IncidentCollectionViewCell" id="PwC-CR-N40" customClass="IncidentCollectionViewCell" customModule="qzela" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="350" height="200"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="5Py-Wg-sCK">
+                                                    <rect key="frame" x="0.0" y="0.0" width="350" height="200"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2Oi-lA-Nid">
+                                                            <rect key="frame" x="5" y="0.0" width="340" height="200"/>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                    <real key="value" value="50"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Registrada" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XkN-5X-OpC" customClass="EdgeInsetLabel" customModule="qzela" customModuleProvider="target">
+                                                            <rect key="frame" x="210.5" y="152" width="89.5" height="28"/>
+                                                            <color key="backgroundColor" systemColor="tintColor"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <nil key="highlightedColor"/>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="leftTextInset">
+                                                                    <real key="value" value="8"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="rightTextInset">
+                                                                    <real key="value" value="8"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="topTextInset">
+                                                                    <real key="value" value="5"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="bottomTextInset">
+                                                                    <real key="value" value="5"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadiusV">
+                                                                    <real key="value" value="10"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidthV">
+                                                                    <real key="value" value="1"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="borderColorV">
+                                                                    <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </label>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="XkN-5X-OpC" secondAttribute="bottom" constant="20" id="4JP-9j-5h7"/>
+                                                        <constraint firstAttribute="trailing" secondItem="2Oi-lA-Nid" secondAttribute="trailing" constant="5" id="NtT-GX-f7S"/>
+                                                        <constraint firstItem="2Oi-lA-Nid" firstAttribute="leading" secondItem="5Py-Wg-sCK" secondAttribute="leading" constant="5" id="ZjM-TF-0Cg"/>
+                                                        <constraint firstAttribute="bottom" secondItem="2Oi-lA-Nid" secondAttribute="bottom" id="nu5-d9-ww2"/>
+                                                        <constraint firstItem="2Oi-lA-Nid" firstAttribute="top" secondItem="5Py-Wg-sCK" secondAttribute="top" id="tQW-TS-jYh"/>
+                                                        <constraint firstAttribute="trailing" secondItem="XkN-5X-OpC" secondAttribute="trailing" constant="50" id="tRm-Ay-Bzl"/>
+                                                    </constraints>
+                                                </collectionViewCellContentView>
+                                                <size key="customSize" width="350" height="200"/>
+                                                <connections>
+                                                    <outlet property="slideImageView" destination="2Oi-lA-Nid" id="Nji-Of-6o6"/>
+                                                    <outlet property="slideStatusLbl" destination="XkN-5X-OpC" id="T8k-kX-PXY"/>
+                                                </connections>
+                                            </collectionViewCell>
+                                        </cells>
+                                        <connections>
+                                            <outlet property="dataSource" destination="7dM-Zx-Ro9" id="0Vy-I6-sx1"/>
+                                            <outlet property="delegate" destination="7dM-Zx-Ro9" id="b6o-YS-STC"/>
+                                        </connections>
+                                    </collectionView>
+                                    <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="I4I-dY-Cjx">
+                                        <rect key="frame" x="117" y="184" width="116" height="26"/>
+                                        <color key="pageIndicatorTintColor" systemColor="systemGrayColor"/>
+                                        <color key="currentPageIndicatorTintColor" red="0.86666666670000003" green="0.34509803919999998" blue="0.0039215686269999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    </pageControl>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zG1-oX-NF7">
+                                        <rect key="frame" x="145" y="576" width="60.5" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Close"/>
+                                        <connections>
+                                            <action selector="btClose:" destination="7dM-Zx-Ro9" eventType="touchUpInside" id="nTw-ZT-pRg"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="93" id="9Xa-4U-gpw"/>
-                                    <constraint firstAttribute="height" constant="31" id="h4u-MR-R2S"/>
+                                    <constraint firstItem="zG1-oX-NF7" firstAttribute="centerX" secondItem="Bzb-TO-zIZ" secondAttribute="centerX" id="D1O-Dq-po7"/>
+                                    <constraint firstItem="I4I-dY-Cjx" firstAttribute="bottom" secondItem="l8O-Ge-lbJ" secondAttribute="bottom" id="Ecd-TY-8i4"/>
+                                    <constraint firstItem="l8O-Ge-lbJ" firstAttribute="centerX" secondItem="Bzb-TO-zIZ" secondAttribute="centerX" id="Yu4-aO-B10"/>
+                                    <constraint firstAttribute="bottom" secondItem="zG1-oX-NF7" secondAttribute="bottom" constant="50" id="g4s-vC-qDZ" userLabel="bottom = Close.bottom + 50"/>
+                                    <constraint firstItem="l8O-Ge-lbJ" firstAttribute="width" secondItem="Bzb-TO-zIZ" secondAttribute="width" id="kdm-hL-SfE"/>
+                                    <constraint firstItem="l8O-Ge-lbJ" firstAttribute="top" secondItem="Bzb-TO-zIZ" secondAttribute="top" constant="10" id="vVc-pJ-Q7a"/>
+                                    <constraint firstItem="I4I-dY-Cjx" firstAttribute="centerX" secondItem="l8O-Ge-lbJ" secondAttribute="centerX" id="yYs-Oo-4wd"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Close"/>
-                                <connections>
-                                    <action selector="btClose:" destination="7dM-Zx-Ro9" eventType="touchUpInside" id="nTw-ZT-pRg"/>
-                                </connections>
-                            </button>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Ned-0s-KQV"/>
-                        <color key="backgroundColor" red="0.83921568627450982" green="0.83743780850000005" blue="0.83742713930000001" alpha="0.52000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.83921568627450982" green="0.83743780850000005" blue="0.83742713930000001" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="zG1-oX-NF7" firstAttribute="centerX" secondItem="DnR-0y-wAg" secondAttribute="centerX" id="Noi-xd-qfe"/>
-                            <constraint firstItem="Ned-0s-KQV" firstAttribute="bottom" secondItem="zG1-oX-NF7" secondAttribute="bottom" constant="50" id="Z7c-br-892"/>
+                            <constraint firstItem="Ned-0s-KQV" firstAttribute="bottom" secondItem="Bzb-TO-zIZ" secondAttribute="bottom" constant="129" id="DeD-MV-eBE"/>
+                            <constraint firstItem="Ned-0s-KQV" firstAttribute="trailing" secondItem="Bzb-TO-zIZ" secondAttribute="trailing" constant="32" id="DsG-ws-PmZ"/>
+                            <constraint firstItem="Bzb-TO-zIZ" firstAttribute="leading" secondItem="Ned-0s-KQV" secondAttribute="leading" constant="32" id="N1u-5t-e9h"/>
+                            <constraint firstItem="Bzb-TO-zIZ" firstAttribute="top" secondItem="Ned-0s-KQV" secondAttribute="top" constant="32" id="OsB-IV-syj"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="pageControl" destination="I4I-dY-Cjx" id="ucC-AA-UTN"/>
+                        <outlet property="sliderCollectionView" destination="l8O-Ge-lbJ" id="O4a-BR-x5x"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T2C-ot-iy8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-12772.463768115944" y="-1260.2678571428571"/>
+            <point key="canvasLocation" x="-12772.463768115944" y="-1217.4107142857142"/>
         </scene>
         <!--Dashboard-->
         <scene sceneID="Xih-1K-DAA">
@@ -544,6 +652,11 @@
             <point key="canvasLocation" x="-11826" y="-2651"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="XkN-5X-OpC">
+            <size key="intrinsicContentSize" width="89.5" height="28"/>
+        </designable>
+    </designables>
     <resources>
         <image name="film" catalog="system" width="128" height="93"/>
         <image name="gauge" catalog="system" width="128" height="121"/>

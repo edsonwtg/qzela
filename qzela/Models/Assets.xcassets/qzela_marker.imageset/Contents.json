@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "qzela_marker.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "qzela_marker.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
