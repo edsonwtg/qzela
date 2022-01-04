@@ -4142,7 +4142,7 @@
 				5ABE063F77BC272732A4C28D299FE045 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		36BD8B3AEC92BA803EC7C6CDC3E3909C /* Build configuration list for PBXNativeTarget "FirebaseCore" */ = {
 			isa = XCConfigurationList;
@@ -4151,7 +4151,7 @@
 				FE5317CDD066C786C03664E561D09122 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		46921981F609C5BA3CB72EC4EA41299D /* Build configuration list for PBXAggregateTarget "GoogleMaps" */ = {
 			isa = XCConfigurationList;
@@ -4160,7 +4160,7 @@
 				FAD95AA7CDFAD96FA4035B88B54EA6F1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
@@ -4169,7 +4169,7 @@
 				9553C89E183877A5CB2F3C6801BEC129 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		5CD28667D869FA8D5A1E3EC5F3D161DE /* Build configuration list for PBXNativeTarget "FirebaseCoreDiagnostics" */ = {
 			isa = XCConfigurationList;
@@ -4178,7 +4178,7 @@
 				D7E76745EBC3F31884CAE88F8F2449F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		5FC69B87928374F07F9314D773159D97 /* Build configuration list for PBXNativeTarget "Pods-qzela" */ = {
 			isa = XCConfigurationList;
@@ -4187,7 +4187,7 @@
 				B2A09CA8A35786B9223642592F529AB1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		7AD9E821DFC5E6BFD2A844C793A1BB69 /* Build configuration list for PBXNativeTarget "Apollo" */ = {
 			isa = XCConfigurationList;
@@ -4196,7 +4196,7 @@
 				FBEE1555036E5AEE89A8C78DD9C21C0B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		8A212264186B8822192F9C369D7DE4BB /* Build configuration list for PBXNativeTarget "Alamofire" */ = {
 			isa = XCConfigurationList;
@@ -4205,7 +4205,7 @@
 				90A4588B06F8745E7FCD1B00204D6241 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		B25337701961FF70C2C1F75A3A239775 /* Build configuration list for PBXAggregateTarget "Firebase" */ = {
 			isa = XCConfigurationList;
@@ -4214,7 +4214,7 @@
 				F7844F866F49D38FB3D63600A2056D65 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		BA7EBA5023708BE0B392608DCC640D9C /* Build configuration list for PBXNativeTarget "GoogleDataTransport" */ = {
 			isa = XCConfigurationList;
@@ -4223,7 +4223,7 @@
 				A6F14AB73A0E04A21F3F7039839BA76A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		C118772C3756D39402FE8A10CEF3B183 /* Build configuration list for PBXNativeTarget "GoogleUtilities" */ = {
 			isa = XCConfigurationList;
@@ -4232,7 +4232,7 @@
 				A13A4CD94E4DAC83D70B44B469653067 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		EC9214627B589789F91A88A6D26DADD6 /* Build configuration list for PBXNativeTarget "FirebaseStorage" */ = {
 			isa = XCConfigurationList;
@@ -4241,7 +4241,7 @@
 				A343B24EA41E42700BF68C9C3AE5A6C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		F61F43AFB4F4BD333D174C677B7E283A /* Build configuration list for PBXNativeTarget "nanopb" */ = {
 			isa = XCConfigurationList;
@@ -4250,7 +4250,7 @@
 				FAE9D659B5414C2FC17AC1FB6AFC3F78 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		FB0107274C8A13D3EC444BA1041E34DE /* Build configuration list for PBXNativeTarget "PromisesObjC" */ = {
 			isa = XCConfigurationList;
@@ -4259,7 +4259,7 @@
 				440675C8D2E36F595B77F40AED92451F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

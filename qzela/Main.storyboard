@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="2pa-D5-7Vo">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Image references" minToolsVersion="12.0"/>
@@ -15,17 +15,17 @@
             <objects>
                 <viewController restorationIdentifier="SplashViewController" storyboardIdentifier="SplashViewController" id="10x-Ao-IMq" userLabel="SplashViewController" customClass="SplashViewController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wFz-fr-w2s">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Splash" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m2T-a6-SVG">
-                                <rect key="frame" x="112.5" y="412" width="189" height="72"/>
+                                <rect key="frame" x="93" y="370" width="189" height="72"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bdD-Yo-RZO">
-                                <rect key="frame" x="159.5" y="509" width="95" height="31"/>
+                                <rect key="frame" x="140" y="467" width="95" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Goto Login">
                                     <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
@@ -54,17 +54,17 @@
             <objects>
                 <viewController restorationIdentifier="LoginViewController" storyboardIdentifier="LoginViewController" id="KaQ-TB-VBU" userLabel="LoginViewController" customClass="LoginViewController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WiR-1x-1HC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hlx-PN-VFX">
-                                <rect key="frame" x="130.5" y="412" width="153" height="72"/>
+                                <rect key="frame" x="111" y="370" width="153" height="72"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zg4-KH-5lz">
-                                <rect key="frame" x="151" y="509" width="112" height="31"/>
+                                <rect key="frame" x="131.66666666666666" y="467" width="112" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Go to Tab Bar">
                                     <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
@@ -116,14 +116,14 @@
             <objects>
                 <viewController restorationIdentifier="PopUpMarkerViewController" storyboardIdentifier="PopUpMarkerViewController" id="7dM-Zx-Ro9" customClass="PopUpMarkerViewController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DnR-0y-wAg">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bzb-TO-zIZ" userLabel="IncidentView">
-                                <rect key="frame" x="32" y="76" width="350" height="657"/>
+                                <rect key="frame" x="32" y="76" width="311" height="573"/>
                                 <subviews>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="l8O-Ge-lbJ">
-                                        <rect key="frame" x="0.0" y="10" width="350" height="200"/>
+                                        <rect key="frame" x="0.0" y="10" width="311" height="200"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="IRn-RC-y4b"/>
@@ -151,7 +151,7 @@
                                                             </userDefinedRuntimeAttributes>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Registrada" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XkN-5X-OpC" customClass="EdgeInsetLabel" customModule="qzela" customModuleProvider="target">
-                                                            <rect key="frame" x="210.5" y="152" width="89.5" height="28"/>
+                                                            <rect key="frame" x="210.33333333333334" y="152" width="89.666666666666657" height="28"/>
                                                             <color key="backgroundColor" systemColor="tintColor"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -203,12 +203,12 @@
                                         </connections>
                                     </collectionView>
                                     <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="I4I-dY-Cjx">
-                                        <rect key="frame" x="117" y="184" width="116" height="26"/>
+                                        <rect key="frame" x="99.333333333333343" y="185" width="112.66666666666666" height="25"/>
                                         <color key="pageIndicatorTintColor" systemColor="systemGrayColor"/>
                                         <color key="currentPageIndicatorTintColor" red="0.86666666670000003" green="0.34509803919999998" blue="0.0039215686269999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </pageControl>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zG1-oX-NF7">
-                                        <rect key="frame" x="145" y="576" width="60.5" height="31"/>
+                                        <rect key="frame" x="125.33333333333336" y="492" width="60.666666666666671" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Close"/>
                                         <connections>
@@ -256,11 +256,11 @@
             <objects>
                 <viewController restorationIdentifier="DashboardTabbarController" storyboardIdentifier="DashboardTabbarController" id="Aee-KM-AoL" customClass="DashboardTabbarController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tvf-wd-c0A">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="729"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ebv-ok-wde">
-                                <rect key="frame" x="161" y="391" width="92" height="31"/>
+                                <rect key="frame" x="141.66666666666666" y="349" width="92" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Go to Map"/>
                                 <connections>
@@ -268,7 +268,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U81-bc-nnr">
-                                <rect key="frame" x="150" y="447" width="114" height="31"/>
+                                <rect key="frame" x="130.66666666666666" y="405" width="114" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Go to Preview">
                                     <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
@@ -301,15 +301,15 @@
             <objects>
                 <viewController restorationIdentifier="MapTabbarController" storyboardIdentifier="MapTabbarController" id="1hT-pu-Vj4" customClass="MapTabbarController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rch-LW-VbF">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="729"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UWp-UC-MKS" customClass="GMSMapView">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="729"/>
                                 <color key="backgroundColor" systemColor="systemGray4Color"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="234" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mnL-Vh-YgK">
-                                <rect key="frame" x="172.5" y="44" width="69" height="35"/>
+                                <rect key="frame" x="153" y="44" width="69" height="35"/>
                                 <color key="backgroundColor" red="0.8666666666666667" green="0.34509803921568627" blue="0.0039215686274509803" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="rGa-7H-FSm"/>
@@ -326,7 +326,7 @@
                                 </userDefinedRuntimeAttributes>
                             </label>
                             <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="ivNoInternet" image="wifi.slash" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="5Bb-Gc-pz6" userLabel="No Internet">
-                                <rect key="frame" x="182" y="84" width="50" height="48"/>
+                                <rect key="frame" x="162.66666666666666" y="84.333333333333314" width="50" height="47.666666666666686"/>
                                 <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="IfA-mt-eSp"/>
@@ -334,7 +334,7 @@
                                 </constraints>
                             </imageView>
                             <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="ivNoGps" image="location.slash.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="hN4-7k-GSh" userLabel="No GPS">
-                                <rect key="frame" x="187" y="140" width="40" height="38.5"/>
+                                <rect key="frame" x="167.66666666666666" y="140" width="40" height="38.333333333333329"/>
                                 <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="XJl-Rv-huB"/>
@@ -342,7 +342,7 @@
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="FQp-1u-3gC">
-                                <rect key="frame" x="339" y="456.5" width="45" height="100"/>
+                                <rect key="frame" x="304" y="414.66666666666669" width="45" height="100.00000000000006"/>
                                 <subviews>
                                     <button opaque="NO" tag="1001" contentMode="scaleToFill" restorationIdentifier="btMyLocation" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1PL-I1-P36" userLabel="Location Button">
                                         <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
@@ -385,7 +385,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="btNewIncident" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rgS-qf-diO" userLabel="Add Button">
-                                <rect key="frame" x="177" y="733" width="60" height="60"/>
+                                <rect key="frame" x="157.66666666666666" y="649" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="hqL-kS-yaz"/>
                                     <constraint firstAttribute="height" constant="60" id="ltJ-93-zPl"/>
@@ -404,7 +404,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="btSavedImage" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="phf-bW-Eoe" userLabel="SaveImage Button">
-                                <rect key="frame" x="257" y="740.5" width="45" height="45"/>
+                                <rect key="frame" x="237.66666666666663" y="656.66666666666663" width="45" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="45" id="Eag-Ad-ARd"/>
                                     <constraint firstAttribute="height" constant="45" id="cnp-tx-061"/>
@@ -469,11 +469,11 @@
             <objects>
                 <viewController restorationIdentifier="ProfileTabbarController" storyboardIdentifier="ProfileTabbarController" id="s3p-X1-4zQ" customClass="ProfileTabbarController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ehn-Es-Zyw">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="729"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Hm-YJ-y0k">
-                                <rect key="frame" x="144" y="391" width="126" height="31"/>
+                                <rect key="frame" x="124.66666666666669" y="349" width="126" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Go to Dasboard"/>
                                 <connections>
@@ -481,7 +481,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bs5-xD-yt5">
-                                <rect key="frame" x="150" y="447" width="114" height="31"/>
+                                <rect key="frame" x="130.66666666666666" y="405" width="114" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Go to Preview">
                                     <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
@@ -514,17 +514,17 @@
             <objects>
                 <viewController storyboardIdentifier="PhotoViewController" id="PTx-Fg-QVt" customClass="PhotoViewController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DJs-YT-5Va">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Photo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bKx-6K-HNX">
-                                <rect key="frame" x="125" y="412" width="164" height="72"/>
+                                <rect key="frame" x="105.66666666666669" y="370" width="164" height="72"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9dq-a9-Kkl">
-                                <rect key="frame" x="144.5" y="509" width="125" height="31"/>
+                                <rect key="frame" x="125" y="467" width="125" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Back to Tab bar">
                                     <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
@@ -554,17 +554,17 @@
             <objects>
                 <viewController restorationIdentifier="NotificationViewController" storyboardIdentifier="NotificationViewController" id="XBU-CF-Pn5" userLabel="NotificationViewController" customClass="NotificationViewController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xlL-Ht-DHR">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notification" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kQz-WP-ryg">
-                                <rect key="frame" x="45.5" y="412" width="323" height="72"/>
+                                <rect key="frame" x="26" y="370" width="323" height="72"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XNc-t9-t3R">
-                                <rect key="frame" x="143" y="509" width="128" height="31"/>
+                                <rect key="frame" x="123.66666666666669" y="467" width="128" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Back to Preview">
                                     <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
@@ -574,7 +574,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3sH-Ch-p4s">
-                                <rect key="frame" x="144" y="565" width="126" height="31"/>
+                                <rect key="frame" x="124.66666666666669" y="523" width="126" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Back to Tab Bar">
                                     <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
@@ -605,17 +605,17 @@
             <objects>
                 <viewController restorationIdentifier="PreviewViewController" storyboardIdentifier="PreviewViewController" id="qtM-I9-seE" userLabel="PreviewViewController" customClass="PreviewViewController" customModule="qzela" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JdX-q2-O4K">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Preview" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p9O-2T-Mf7">
-                                <rect key="frame" x="97.5" y="412" width="219" height="72"/>
+                                <rect key="frame" x="78" y="370" width="219" height="72"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lDI-bG-fZ6">
-                                <rect key="frame" x="138" y="509" width="138" height="31"/>
+                                <rect key="frame" x="118.66666666666669" y="467" width="138" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Go to Notification">
                                     <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
@@ -625,7 +625,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bpE-0e-f6k">
-                                <rect key="frame" x="144.5" y="565" width="125" height="31"/>
+                                <rect key="frame" x="125" y="523" width="125" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Back to Tab bar">
                                     <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
@@ -654,7 +654,7 @@
     </scenes>
     <designables>
         <designable name="XkN-5X-OpC">
-            <size key="intrinsicContentSize" width="89.5" height="28"/>
+            <size key="intrinsicContentSize" width="89.666666666666671" height="28"/>
         </designable>
     </designables>
     <resources>
