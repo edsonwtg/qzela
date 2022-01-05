@@ -10,6 +10,7 @@ target 'qzela' do
   pod "Apollo"
   pod "Apollo/WebSocket"
   pod 'Alamofire', '~> 5.4'
+  pod 'NVActivityIndicatorView'
 
 end
 

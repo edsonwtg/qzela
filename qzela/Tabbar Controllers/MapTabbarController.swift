@@ -11,6 +11,7 @@ import MapKit
 import CoreLocation
 import FirebaseStorage
 import Apollo
+import NVActivityIndicatorView
 
 
 class MapTabbarController: UIViewController {
@@ -32,8 +33,12 @@ class MapTabbarController: UIViewController {
     @IBOutlet weak var btNewIncident: UIButton!
     @IBOutlet weak var btSavedImage: UIButton!
 
+    @IBOutlet weak var aiLoadingData: NVActivityIndicatorView!
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .darkContent
+        aiLoadingData.type = .ballRotateChase
+        aiLoadingData.color = .blue
+
+        return .lightContent
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -76,10 +81,14 @@ class MapTabbarController: UIViewController {
         // Rua Florida, 1758
         //         Config.savCoordinate = CLLocationCoordinate2D(latitude:-23.6072598, longitude: -46.6951241)
 
-//        let timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { [unowned self] (timer) in
-//        }
-//        RunLoop.current.add(timer, forMode: .common)
+        //        let timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { [unowned self] (timer) in
+        //        }
+        //        RunLoop.current.add(timer, forMode: .common)
 
+//        aiLoadingData.type = .ballRotateChase
+//        aiLoadingData.color = .blue
+        
+        
     }
 
     @IBAction func btnClick(_ sender: UIButton) {
@@ -223,6 +232,8 @@ class MapTabbarController: UIViewController {
             return
         }
 
+        aiLoadingData.startAnimating()
+
         let bounds = gpsLocation.increaseBounds(
                 bounds: GMSCoordinateBounds(region: mapView.projection.visibleRegion()),
                 percentage: Config.PERCENTAGE_DISTANCE_BOUNDS
@@ -267,7 +278,11 @@ class MapTabbarController: UIViewController {
                                 idIncident: resultApi._id
                         )
                     }
+                    aiLoadingData.stopAnimating()
                     print("******** GetViewport - END **********")
+                } else {
+                    aiLoadingData.stopAnimating()
+                    print("******** Stop Loading **********")
                 }
             case .failure(let error):
                 print("Failure! Error: \(error)")

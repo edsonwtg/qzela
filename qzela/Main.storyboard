@@ -341,6 +341,14 @@
                                     <constraint firstAttribute="height" constant="40" id="j81-Yc-S6j"/>
                                 </constraints>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ld7-Hb-MYX" customClass="NVActivityIndicatorView" customModule="NVActivityIndicatorView">
+                                <rect key="frame" x="147.66666666666666" y="189" width="80" height="50"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="3lW-2L-zRQ"/>
+                                    <constraint firstAttribute="height" constant="50" id="m1e-Wq-UOv"/>
+                                </constraints>
+                            </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="FQp-1u-3gC">
                                 <rect key="frame" x="304" y="414.66666666666669" width="45" height="100.00000000000006"/>
                                 <subviews>
@@ -427,6 +435,8 @@
                         <color key="backgroundColor" systemColor="systemTealColor"/>
                         <constraints>
                             <constraint firstItem="UWp-UC-MKS" firstAttribute="top" secondItem="rch-LW-VbF" secondAttribute="top" id="8uk-8S-VDx"/>
+                            <constraint firstItem="ld7-Hb-MYX" firstAttribute="top" secondItem="hN4-7k-GSh" secondAttribute="bottom" constant="10" id="CMc-gG-SQX"/>
+                            <constraint firstItem="ld7-Hb-MYX" firstAttribute="centerX" secondItem="tfm-Bj-cz9" secondAttribute="centerX" id="DHl-V0-hl5"/>
                             <constraint firstAttribute="bottom" secondItem="UWp-UC-MKS" secondAttribute="bottom" id="YJz-KF-Phc"/>
                             <constraint firstItem="phf-bW-Eoe" firstAttribute="leading" secondItem="rgS-qf-diO" secondAttribute="trailing" constant="20" id="Zym-6I-iA5"/>
                             <constraint firstItem="hN4-7k-GSh" firstAttribute="centerX" secondItem="rch-LW-VbF" secondAttribute="centerX" id="aXG-eE-4c5"/>
@@ -450,6 +460,7 @@
                         <imageReference key="image" image="map" catalog="system" symbolScale="large"/>
                     </tabBarItem>
                     <connections>
+                        <outlet property="aiLoadingData" destination="ld7-Hb-MYX" id="mRN-9k-21U"/>
                         <outlet property="btMyLocation" destination="1PL-I1-P36" id="wXK-ch-Iiz"/>
                         <outlet property="btNewIncident" destination="rgS-qf-diO" id="yiY-9g-kj6"/>
                         <outlet property="btSavedImage" destination="phf-bW-Eoe" id="aag-Th-du9"/>
@@ -462,7 +473,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OJb-XG-gBJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-12772.463768115944" y="-1926.5625"/>
+            <point key="canvasLocation" x="-12773.6" y="-1927.0935960591135"/>
         </scene>
         <!--Profile-->
         <scene sceneID="x6o-sx-ywH">
