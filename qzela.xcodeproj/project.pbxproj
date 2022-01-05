@@ -38,6 +38,7 @@
 		B2D3E606B79624A8328A4765 /* NearHome.gpx in Resources */ = {isa = PBXBuildFile; fileRef = B2D3E77BAEA6EF84235E53B8 /* NearHome.gpx */; };
 		B2D3E6DFE8E199621B066A34 /* NetworkListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E7542E8F732C5F399FA3 /* NetworkListener.swift */; };
 		B2D3E7237D3B243ED42B4D73 /* GPSLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3ED601C88EF9BE044AECD /* GPSLocation.swift */; };
+		B2D3EC20D55F8424E47351D4 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E046968EF6A49E0AAF99 /* UIColorExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +73,7 @@
 		6FDE764B27498E940050510C /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		6FDE764D27498EA80050510C /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		885B18319CAA7E194A5AE6FC /* Pods_qzela.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_qzela.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2D3E046968EF6A49E0AAF99 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		B2D3E12913FCACC0982F50C2 /* HomeMoving.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = HomeMoving.gpx; sourceTree = "<group>"; };
 		B2D3E22C054A35B8E76D21EC /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B2D3E7542E8F732C5F399FA3 /* NetworkListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkListener.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 			children = (
 				6F499266277A31D500C2515F /* UILabelExtension.swift */,
 				6F499268277A373700C2515F /* UIViewExtension.swift */,
+				B2D3E046968EF6A49E0AAF99 /* UIColorExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -398,6 +401,7 @@
 				6F5732052770A36B007CF84C /* PopUpMarkerViewController.swift in Sources */,
 				B2D3E7237D3B243ED42B4D73 /* GPSLocation.swift in Sources */,
 				B2D3E6DFE8E199621B066A34 /* NetworkListener.swift in Sources */,
+				B2D3EC20D55F8424E47351D4 /* UIColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

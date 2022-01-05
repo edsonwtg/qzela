@@ -14,8 +14,15 @@ class PopUpMarkerViewController: UIViewController {
     
     var slides: [IncidentSlide] =  []
 
+    // var to receive data from MapTabbarController
+    var incidentId: String?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if incidentId != nil {
+            print("Incident ID: \(incidentId!)")
+        }
         
         slides = [
             IncidentSlide(image: UIImage(named: "img_open_0-1")!, status: "Open"),
