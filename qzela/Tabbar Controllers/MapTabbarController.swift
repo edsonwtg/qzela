@@ -601,9 +601,8 @@ extension MapTabbarController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
 
         print("****** CLICK MARKER *****")
-        print(marker.snippet! as String)
 
-        let controller = storyboard?.instantiateViewController(withIdentifier: "PopUpMarkerViewController") as! PopUpMarkerViewController
+        let controller = storyboard?.instantiateViewController(withIdentifier: "DialogIncidentViewController") as! DialogIncidentViewController
         controller.modalTransitionStyle = .flipHorizontal
         // pass data to view controller
         controller.incidentId = marker.snippet

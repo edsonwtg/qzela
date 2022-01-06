@@ -1,5 +1,5 @@
 //
-//  PopUpMarkerViewController.swift
+//  DialogIncidentViewController.swift
 //  qzela
 //
 //  Created by Edson Rocha on 20/12/21.
@@ -7,10 +7,17 @@
 
 import UIKit
 
-class PopUpMarkerViewController: UIViewController {
+class DialogIncidentViewController: UIViewController {
 
     @IBOutlet weak var sliderCollectionView: UICollectionView!
     @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet weak var lblSegment: UILabel!
+    @IBOutlet weak var lblOpenDate: EdgeInsetLabel!
+    @IBOutlet weak var lblForwardedDate: EdgeInsetLabel!
+    @IBOutlet weak var lblResolvedDate: EdgeInsetLabel!
+    @IBOutlet weak var imageForwarded: UIImageView!
+    @IBOutlet weak var imageResolved: UIImageView!
+    @IBOutlet weak var pbStepIncident: UIProgressView!
     
     var slides: [IncidentSlide] =  []
 
@@ -19,6 +26,11 @@ class PopUpMarkerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        lblForwardedDate.isHidden = true
+        imageForwarded.isHidden = true
+        imageResolved.tintColor = UIColor.systemGray3
+        pbStepIncident.setProgress(0.0, animated: true)
 
         if incidentId != nil {
             print("Incident ID: \(incidentId!)")
@@ -41,7 +53,7 @@ class PopUpMarkerViewController: UIViewController {
     
 }
     
-extension PopUpMarkerViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension DialogIncidentViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -69,7 +81,6 @@ extension PopUpMarkerViewController: UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = sliderCollectionView.frame.size
-        print("size.width: \(size.width) size.height: \(size.height)")
         return CGSize(width: size.width, height: size.height)
     }
 }

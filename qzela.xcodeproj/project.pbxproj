@@ -13,7 +13,7 @@
 		6F499267277A31D500C2515F /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F499266277A31D500C2515F /* UILabelExtension.swift */; };
 		6F499269277A373700C2515F /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F499268277A373700C2515F /* UIViewExtension.swift */; };
 		6F573203276F9FE2007CF84C /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F573202276F9FE2007CF84C /* PhotoViewController.swift */; };
-		6F5732052770A36B007CF84C /* PopUpMarkerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5732042770A36B007CF84C /* PopUpMarkerViewController.swift */; };
+		6F5732052770A36B007CF84C /* DialogIncidentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5732042770A36B007CF84C /* DialogIncidentViewController.swift */; };
 		6F66DDA22763A4C100FE0A7B /* LocationHome.gpx in Resources */ = {isa = PBXBuildFile; fileRef = B2D3EE38F3162EC9AE1EAEBE /* LocationHome.gpx */; };
 		6F72E8962774CDBE008C30F8 /* IncidentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F72E8952774CDBE008C30F8 /* IncidentCollectionViewCell.swift */; };
 		6F8E4E172787391500D11B67 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F8E4E192787391500D11B67 /* Localizable.strings */; };
@@ -51,7 +51,7 @@
 		6F499266277A31D500C2515F /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
 		6F499268277A373700C2515F /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		6F573202276F9FE2007CF84C /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
-		6F5732042770A36B007CF84C /* PopUpMarkerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpMarkerViewController.swift; sourceTree = "<group>"; };
+		6F5732042770A36B007CF84C /* DialogIncidentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogIncidentViewController.swift; sourceTree = "<group>"; };
 		6F72E8952774CDBE008C30F8 /* IncidentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentCollectionViewCell.swift; sourceTree = "<group>"; };
 		6F8E4E13278711AF00D11B67 /* GetIncidentsById.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = GetIncidentsById.graphql; sourceTree = "<group>"; };
 		6F8E4E182787391500D11B67 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -212,7 +212,7 @@
 				6FDE764B27498E940050510C /* PreviewViewController.swift */,
 				6FDE764D27498EA80050510C /* SplashViewController.swift */,
 				6F573202276F9FE2007CF84C /* PhotoViewController.swift */,
-				6F5732042770A36B007CF84C /* PopUpMarkerViewController.swift */,
+				6F5732042770A36B007CF84C /* DialogIncidentViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -424,7 +424,7 @@
 				6F2FC9BB27622EE9004FDF52 /* NetworkManager.swift in Sources */,
 				6FDE764E27498EA80050510C /* SplashViewController.swift in Sources */,
 				6F72E8962774CDBE008C30F8 /* IncidentCollectionViewCell.swift in Sources */,
-				6F5732052770A36B007CF84C /* PopUpMarkerViewController.swift in Sources */,
+				6F5732052770A36B007CF84C /* DialogIncidentViewController.swift in Sources */,
 				B2D3E7237D3B243ED42B4D73 /* GPSLocation.swift in Sources */,
 				B2D3E6DFE8E199621B066A34 /* NetworkListener.swift in Sources */,
 				B2D3EC20D55F8424E47351D4 /* UIColorExtension.swift in Sources */,
