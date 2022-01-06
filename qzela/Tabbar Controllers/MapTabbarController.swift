@@ -104,17 +104,20 @@ class MapTabbarController: UIViewController {
             // check GPS
             if (gpsLocation.isGpsEnable()) {
                 Config.savCoordinate = gpsLocation.getCoordinate()
-                gotoViewControllerWithBack(viewController: "PhotoViewController")
-
+                // Go to Photo View Controller
+                let controller = storyboard?.instantiateViewController(withIdentifier: "PhotoViewController") as! PhotoViewController
+                controller.modalPresentationStyle = .fullScreen
+                controller.modalTransitionStyle = .crossDissolve
+                present(controller, animated: true)
             }
             else {
                 let actionHandler: (UIAlertAction) -> Void = { (action) in
                     //Redirect to Settings app
                     UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
                 }
-                showAlert(title: "Location Permission Required",
-                        message: "Please enable location permissions in settings.",
-                        actionTitles: ["Settings", "Cancel"],
+                showAlert(title: "text_gps_permission".localized(),
+                        message: "text_gps_never_permission".localized(),
+                        actionTitles: ["text_settings".localized(), "text_cancel".localized()],
                         style: [.default, .cancel],
                         actions: [actionHandler, nil])
                 return
@@ -126,9 +129,9 @@ class MapTabbarController: UIViewController {
                     //Redirect to Settings app
                     print("btNewIncident")
                 }
-                showAlert(title: "No Internet",
-                        message: "It will only be possible to save the occurrence for later generation!",
-                        actionTitles: ["Cancel", "Continue"],
+                showAlert(title: "text_no_internet".localized(),
+                        message: "text_only_save_occurrence".localized(),
+                        actionTitles: ["text_cancel".localized(), "text_continue".localized()],
                         style: [.cancel, .default],
                         actions: [nil, actionHandler])
            }
@@ -190,9 +193,9 @@ class MapTabbarController: UIViewController {
                 //Redirect to Settings app
                 UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
             }
-            showAlert(title: "Location Permission Required",
-                    message: "Please enable location permissions in settings.",
-                    actionTitles: ["Settings", "Cancel"],
+            showAlert(title: "text_no_gps_permission".localized(),
+                    message: "text_gps_permission".localized(),
+                    actionTitles: ["text_settings".localized(), "text_cancel".localized()],
                     style: [.default, .cancel],
                     actions: [okSettings, nil],
                     preferredActionIndex: 1)
@@ -223,12 +226,20 @@ class MapTabbarController: UIViewController {
         // check Internet
         if (!networkListener.isNetworkAvailable()) {
             print("******** NO INTERNET CONNECTION *********")
-            showAlert(title: "No Internet", message: "Please, verify your internet connection!", actionTitles: ["Got it!"], style: [.default], actions: [nil])
+            showAlert(title: "text_no_internet".localized(),
+                    message: "text_internet_off".localized(),
+                    actionTitles: ["text_got_it".localized()],
+                    style: [.default],
+                    actions: [nil])
             return
         }
         // check API
         if (!networkListener.isApiAvailable()) {
-            showAlert(title: "Server off-line", message: "Please, try again later.", actionTitles: ["Got it!"], style: [.default], actions: [nil])
+            showAlert(title: "text_service_out".localized(),
+                    message: "text_service_unavailable".localized(),
+                    actionTitles: ["text_got_it".localized()],
+                    style: [.default],
+                    actions: [nil])
             return
         }
 
@@ -312,7 +323,7 @@ class MapTabbarController: UIViewController {
         }
 
         let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        let distance = self.gpsLocation.getDistanceInMeters(
+        let distance = gpsLocation.getDistanceInMeters(
                 coordinateOrigin: Config.savCoordinate,
                 coordinateDestiny: coordinate)
 
@@ -391,8 +402,8 @@ class MapTabbarController: UIViewController {
 
     func clearMarkers() {
         for index in 0..<markerIcon.count {
-            self.markerIcon[index].map = nil
-            self.markerCircle[index].map = nil
+            markerIcon[index].map = nil
+            markerCircle[index].map = nil
         }
         markerIcon.removeAll()
         markerCircle.removeAll()
@@ -506,57 +517,7 @@ extension UIViewController {
             alert.addAction(action)
         }
         if let preferredActionIndex = preferredActionIndex { alert.preferredAction = alert.actions[preferredActionIndex] }
-        self.present(alert, animated: true, completion: nil)
-    }
-}
-
-extension UIView {
-    func setShadowWithCornerRadius(cornerRadius: CGFloat, shadowColor: UIColor, shadowOffset: CGSize = .zero, shadowOpacity: Float = 1, shadowRadius: CGFloat) {
-        layer.cornerRadius = cornerRadius
-        //        layer.masksToBounds = true
-        layer.shadowColor = shadowColor.cgColor
-        layer.shadowOffset = shadowOffset
-        layer.shadowOpacity = shadowOpacity
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath
-        layer.shadowRadius = shadowRadius
-    }
-    
-    func fadeIn(_ duration: TimeInterval = 0.5, delay: TimeInterval = 0.0, completion: @escaping (Bool) -> Void = {(finished: Bool) -> Void in}) {
-        UIView.animate(withDuration: duration, delay: delay, options: UIView.AnimationOptions.curveEaseIn, animations: {
-            self.alpha = 1.0
-    }, completion: completion)  }
-
-    func fadeOut(_ duration: TimeInterval = 0.5, delay: TimeInterval = 1.0, completion: @escaping (Bool) -> Void = {(finished: Bool) -> Void in}) {
-        UIView.animate(withDuration: duration, delay: delay, options: UIView.AnimationOptions.curveEaseIn, animations: {
-            self.alpha = 0.3
-    }, completion: completion)
-   }
-}
-
-extension UILabel {
-
-    func addTrailing(image: UIImage, text: String) {
-        let attachment = NSTextAttachment()
-        attachment.image = image
-
-        let attachmentString = NSAttributedString(attachment: attachment)
-        let string = NSMutableAttributedString(string: text, attributes: [:])
-
-        string.append(attachmentString)
-        attributedText = string
-    }
-
-    func addLeading(image: UIImage, text: String) {
-        let attachment = NSTextAttachment()
-        attachment.image = image
-
-        let attachmentString = NSAttributedString(attachment: attachment)
-        let mutableAttributedString = NSMutableAttributedString()
-        mutableAttributedString.append(attachmentString)
-
-        let string = NSMutableAttributedString(string: text, attributes: [:])
-        mutableAttributedString.append(string)
-        attributedText = mutableAttributedString
+        present(alert, animated: true, completion: nil)
     }
 }
 

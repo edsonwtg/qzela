@@ -1,0 +1,23 @@
+/*
+  Localizable.strings
+  qzela
+
+  Created by Edson Rocha on 06/01/22.
+
+  Language English - US
+  en-US
+
+*/
+
+"text_got_it" = "Got it!";
+"text_cancel" = "Cancel";
+"text_no_internet" = "No Internet";
+"text_internet_off" = "We can\'t access the Internet, please check your Internet connection and try again later.";
+"text_only_save_occurrence" = "No Internet access.\nCancel or save the incident for later generation";
+"text_no_gps_permission" = "Location Permission Required";
+"text_gps_permission" = "Location access is required for the application to work.\nPlease allow access.";
+"text_gps_never_permission" = "Location access is required for the application to work.\nPlease go to \"Settings - QZela - Localization - and click \"While using the App\"";
+"text_service_out" = "Service unavailable.";
+"text_service_unavailable" = "Service unavailable at the moment, please try again later.";
+"text_settings" = "Settings";
+"text_continue" = "Continue";

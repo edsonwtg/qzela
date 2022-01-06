@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  qzela
+
+  Created by Edson Rocha on 06/01/22.
+
+  Lingua Espanhol - Espanha
+  es-ES
+
+*/
+
+"text_got_it" = "Entendido!";
+"text_cancel" = "Cancelar";
+"text_no_internet" = "No hay Internet";
+"text_internet_off" = "No podemos acceder a Internet, por favor compruebe su conexión a Internet y vuelva a intentarlo más tarde.";
+"text_only_save_occurrence" = "No hay internet acceso.\nCancel o guarde el incidente para una generación posterior";
+"text_no_gps_permission" = "Se requiere permiso de ubicación";
+"text_gps_permission" = "Se requiere acceso a la ubicación para que la aplicación funcione.\nPermita el acceso.";
+"text_gps_never_permission" = "Se requiere acceso a la ubicación para que la aplicación funcione.\nVaya a \"Ajustes - QZelaApp - Localizaciones\", y clic \"Durante el uso de la App\"";
+"text_service_out" = "El servicio no está disponible";
+"text_service_unavailable" = "El servicio no está disponible en este momento, por favor inténtelo más tarde.";
+"text_settings" = "Ajustes";
+"text_continue" = "Continuar";
