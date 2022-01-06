@@ -38,6 +38,7 @@
 		B2D3E606B79624A8328A4765 /* NearHome.gpx in Resources */ = {isa = PBXBuildFile; fileRef = B2D3E77BAEA6EF84235E53B8 /* NearHome.gpx */; };
 		B2D3E6DFE8E199621B066A34 /* NetworkListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E7542E8F732C5F399FA3 /* NetworkListener.swift */; };
 		B2D3E7237D3B243ED42B4D73 /* GPSLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3ED601C88EF9BE044AECD /* GPSLocation.swift */; };
+		B2D3E7262F2984F7F2139C93 /* GraphqlScalarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3EE9A537C746BDEFEFAA2 /* GraphqlScalarExtension.swift */; };
 		B2D3EC20D55F8424E47351D4 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E046968EF6A49E0AAF99 /* UIColorExtension.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +51,7 @@
 		6F573202276F9FE2007CF84C /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		6F5732042770A36B007CF84C /* PopUpMarkerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpMarkerViewController.swift; sourceTree = "<group>"; };
 		6F72E8952774CDBE008C30F8 /* IncidentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentCollectionViewCell.swift; sourceTree = "<group>"; };
+		6F8E4E13278711AF00D11B67 /* GetIncidentsById.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = GetIncidentsById.graphql; sourceTree = "<group>"; };
 		6F99B4602759727800B8A6FC /* mapstyle.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mapstyle.json; sourceTree = "<group>"; };
 		6FA6AA8A275CED400099F318 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6FA6AA91275D27240099F318 /* Apollo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apollo.swift; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 		B2D3EC3FA1A2DFB430A52E3A /* LocationOther.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = LocationOther.gpx; sourceTree = "<group>"; };
 		B2D3ED601C88EF9BE044AECD /* GPSLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPSLocation.swift; sourceTree = "<group>"; };
 		B2D3EE38F3162EC9AE1EAEBE /* LocationHome.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = LocationHome.gpx; sourceTree = "<group>"; };
+		B2D3EE9A537C746BDEFEFAA2 /* GraphqlScalarExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphqlScalarExtension.swift; sourceTree = "<group>"; };
 		B71A0B62F87AE2EF3302AE73 /* Pods-qzela.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qzela.debug.xcconfig"; path = "Target Support Files/Pods-qzela/Pods-qzela.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,6 +114,7 @@
 				6F499266277A31D500C2515F /* UILabelExtension.swift */,
 				6F499268277A373700C2515F /* UIViewExtension.swift */,
 				B2D3E046968EF6A49E0AAF99 /* UIColorExtension.swift */,
+				B2D3EE9A537C746BDEFEFAA2 /* GraphqlScalarExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -173,6 +177,7 @@
 				6FDE763D274853820050510C /* Tabbar Controllers */,
 				6FDE763B274837390050510C /* View Controllers */,
 				6FA6AAA2275E42FB0099F318 /* GetViewport.graphql */,
+				6F8E4E13278711AF00D11B67 /* GetIncidentsById.graphql */,
 				6FAFB9B3276D270300CD5C23 /* GetHealth.graphql */,
 				6FA6AAA3275E45B20099F318 /* GetSegments.graphql */,
 				B2D3E22C054A35B8E76D21EC /* Main.storyboard */,
@@ -402,6 +407,7 @@
 				B2D3E7237D3B243ED42B4D73 /* GPSLocation.swift in Sources */,
 				B2D3E6DFE8E199621B066A34 /* NetworkListener.swift in Sources */,
 				B2D3EC20D55F8424E47351D4 /* UIColorExtension.swift in Sources */,
+				B2D3E7262F2984F7F2139C93 /* GraphqlScalarExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

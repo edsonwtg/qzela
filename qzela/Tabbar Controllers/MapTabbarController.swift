@@ -531,7 +531,6 @@ extension UIView {
             self.alpha = 0.3
     }, completion: completion)
    }
-
 }
 
 extension UILabel {
@@ -655,17 +654,5 @@ extension MapTabbarController: GMSMapViewDelegate {
 
     open func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         print("****** CLICK ON MAP *******")
-    }
-}
-
-public typealias Coordinate = [Double]
-extension Array: JSONDecodable {
-    /// Custom `init` extension so Apollo can decode custom scalar type `CurrentMissionChallenge `
-    public init(jsonValue value: JSONValue) throws {
-        guard let array = value as? Array else {
-            throw JSONDecodingError.couldNotConvert(value: value, to: Array.self)
-        }
-        self = array
-        return
     }
 }

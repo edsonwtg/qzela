@@ -48,6 +48,374 @@ public final class GetHealthQuery: GraphQLQuery {
   }
 }
 
+public final class GetIncidentByIdQuery: GraphQLQuery {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    query GetIncidentById($id: ID!) {
+      getIncidentById(incidentId: $id) {
+        __typename
+        _id
+        _idOpenCitizen
+        closureConfirms
+        likes
+        dislikes
+        dtOpen
+        updatedAt
+        dtClose
+        stIncident
+        dcAddress
+        nrAddress
+        dcNeighborhood
+        qtUpInteraction
+        qtDownInteraction
+        vlLatitude
+        vlLongitude
+        cdSegment
+        segments {
+          __typename
+          dcSegment
+          dcOccurrence
+        }
+        txComment
+        tpImage
+        mediaUrls
+      }
+    }
+    """
+
+  public let operationName: String = "GetIncidentById"
+
+  public var id: GraphQLID
+
+  public init(id: GraphQLID) {
+    self.id = id
+  }
+
+  public var variables: GraphQLMap? {
+    return ["id": id]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Query"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("getIncidentById", arguments: ["incidentId": GraphQLVariable("id")], type: .nonNull(.object(GetIncidentById.selections))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(getIncidentById: GetIncidentById) {
+      self.init(unsafeResultMap: ["__typename": "Query", "getIncidentById": getIncidentById.resultMap])
+    }
+
+    /// Exibe o Incidente pelo ID.
+    public var getIncidentById: GetIncidentById {
+      get {
+        return GetIncidentById(unsafeResultMap: resultMap["getIncidentById"]! as! ResultMap)
+      }
+      set {
+        resultMap.updateValue(newValue.resultMap, forKey: "getIncidentById")
+      }
+    }
+
+    public struct GetIncidentById: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["Incident"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("_idOpenCitizen", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("closureConfirms", type: .nonNull(.list(.nonNull(.scalar(String.self))))),
+          GraphQLField("likes", type: .nonNull(.list(.nonNull(.scalar(String.self))))),
+          GraphQLField("dislikes", type: .nonNull(.list(.nonNull(.scalar(String.self))))),
+          GraphQLField("dtOpen", type: .nonNull(.scalar(ISODate.self))),
+          GraphQLField("updatedAt", type: .nonNull(.scalar(ISODate.self))),
+          GraphQLField("dtClose", type: .scalar(ISODate.self)),
+          GraphQLField("stIncident", type: .nonNull(.scalar(Int.self))),
+          GraphQLField("dcAddress", type: .nonNull(.scalar(String.self))),
+          GraphQLField("nrAddress", type: .scalar(String.self)),
+          GraphQLField("dcNeighborhood", type: .nonNull(.scalar(String.self))),
+          GraphQLField("qtUpInteraction", type: .nonNull(.scalar(Int.self))),
+          GraphQLField("qtDownInteraction", type: .nonNull(.scalar(Int.self))),
+          GraphQLField("vlLatitude", type: .nonNull(.scalar(Double.self))),
+          GraphQLField("vlLongitude", type: .nonNull(.scalar(Double.self))),
+          GraphQLField("cdSegment", type: .nonNull(.scalar(Int.self))),
+          GraphQLField("segments", type: .nonNull(.list(.nonNull(.object(Segment.selections))))),
+          GraphQLField("txComment", type: .scalar(String.self)),
+          GraphQLField("tpImage", type: .nonNull(.scalar(String.self))),
+          GraphQLField("mediaUrls", type: .list(.nonNull(.scalar(String.self)))),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(_id: GraphQLID, _idOpenCitizen: GraphQLID, closureConfirms: [String], likes: [String], dislikes: [String], dtOpen: ISODate, updatedAt: ISODate, dtClose: ISODate? = nil, stIncident: Int, dcAddress: String, nrAddress: String? = nil, dcNeighborhood: String, qtUpInteraction: Int, qtDownInteraction: Int, vlLatitude: Double, vlLongitude: Double, cdSegment: Int, segments: [Segment], txComment: String? = nil, tpImage: String, mediaUrls: [String]? = nil) {
+        self.init(unsafeResultMap: ["__typename": "Incident", "_id": _id, "_idOpenCitizen": _idOpenCitizen, "closureConfirms": closureConfirms, "likes": likes, "dislikes": dislikes, "dtOpen": dtOpen, "updatedAt": updatedAt, "dtClose": dtClose, "stIncident": stIncident, "dcAddress": dcAddress, "nrAddress": nrAddress, "dcNeighborhood": dcNeighborhood, "qtUpInteraction": qtUpInteraction, "qtDownInteraction": qtDownInteraction, "vlLatitude": vlLatitude, "vlLongitude": vlLongitude, "cdSegment": cdSegment, "segments": segments.map { (value: Segment) -> ResultMap in value.resultMap }, "txComment": txComment, "tpImage": tpImage, "mediaUrls": mediaUrls])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      /// Propriedades que compõem o corpo do Incidente.
+      public var _id: GraphQLID {
+        get {
+          return resultMap["_id"]! as! GraphQLID
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "_id")
+        }
+      }
+
+      public var _idOpenCitizen: GraphQLID {
+        get {
+          return resultMap["_idOpenCitizen"]! as! GraphQLID
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "_idOpenCitizen")
+        }
+      }
+
+      public var closureConfirms: [String] {
+        get {
+          return resultMap["closureConfirms"]! as! [String]
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "closureConfirms")
+        }
+      }
+
+      public var likes: [String] {
+        get {
+          return resultMap["likes"]! as! [String]
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "likes")
+        }
+      }
+
+      public var dislikes: [String] {
+        get {
+          return resultMap["dislikes"]! as! [String]
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "dislikes")
+        }
+      }
+
+      public var dtOpen: ISODate {
+        get {
+          return resultMap["dtOpen"]! as! ISODate
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "dtOpen")
+        }
+      }
+
+      public var updatedAt: ISODate {
+        get {
+          return resultMap["updatedAt"]! as! ISODate
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "updatedAt")
+        }
+      }
+
+      public var dtClose: ISODate? {
+        get {
+          return resultMap["dtClose"] as? ISODate
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "dtClose")
+        }
+      }
+
+      public var stIncident: Int {
+        get {
+          return resultMap["stIncident"]! as! Int
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "stIncident")
+        }
+      }
+
+      public var dcAddress: String {
+        get {
+          return resultMap["dcAddress"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "dcAddress")
+        }
+      }
+
+      public var nrAddress: String? {
+        get {
+          return resultMap["nrAddress"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "nrAddress")
+        }
+      }
+
+      public var dcNeighborhood: String {
+        get {
+          return resultMap["dcNeighborhood"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "dcNeighborhood")
+        }
+      }
+
+      public var qtUpInteraction: Int {
+        get {
+          return resultMap["qtUpInteraction"]! as! Int
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "qtUpInteraction")
+        }
+      }
+
+      public var qtDownInteraction: Int {
+        get {
+          return resultMap["qtDownInteraction"]! as! Int
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "qtDownInteraction")
+        }
+      }
+
+      public var vlLatitude: Double {
+        get {
+          return resultMap["vlLatitude"]! as! Double
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "vlLatitude")
+        }
+      }
+
+      public var vlLongitude: Double {
+        get {
+          return resultMap["vlLongitude"]! as! Double
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "vlLongitude")
+        }
+      }
+
+      public var cdSegment: Int {
+        get {
+          return resultMap["cdSegment"]! as! Int
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "cdSegment")
+        }
+      }
+
+      public var segments: [Segment] {
+        get {
+          return (resultMap["segments"] as! [ResultMap]).map { (value: ResultMap) -> Segment in Segment(unsafeResultMap: value) }
+        }
+        set {
+          resultMap.updateValue(newValue.map { (value: Segment) -> ResultMap in value.resultMap }, forKey: "segments")
+        }
+      }
+
+      public var txComment: String? {
+        get {
+          return resultMap["txComment"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "txComment")
+        }
+      }
+
+      public var tpImage: String {
+        get {
+          return resultMap["tpImage"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "tpImage")
+        }
+      }
+
+      public var mediaUrls: [String]? {
+        get {
+          return resultMap["mediaUrls"] as? [String]
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "mediaUrls")
+        }
+      }
+
+      public struct Segment: GraphQLSelectionSet {
+        public static let possibleTypes: [String] = ["Occurrence"]
+
+        public static var selections: [GraphQLSelection] {
+          return [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("dcSegment", type: .nonNull(.scalar(String.self))),
+            GraphQLField("dcOccurrence", type: .nonNull(.scalar(String.self))),
+          ]
+        }
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(dcSegment: String, dcOccurrence: String) {
+          self.init(unsafeResultMap: ["__typename": "Occurrence", "dcSegment": dcSegment, "dcOccurrence": dcOccurrence])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var dcSegment: String {
+          get {
+            return resultMap["dcSegment"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "dcSegment")
+          }
+        }
+
+        public var dcOccurrence: String {
+          get {
+            return resultMap["dcOccurrence"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "dcOccurrence")
+          }
+        }
+      }
+    }
+  }
+}
+
 public final class GetSegmentsQuery: GraphQLQuery {
   /// The raw GraphQL definition of this operation.
   public let operationDefinition: String =

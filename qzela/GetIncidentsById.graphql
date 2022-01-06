@@ -1,0 +1,34 @@
+query GetIncidentById ( $id: ID! ) {
+    getIncidentById(
+        incidentId: $id
+    ) {
+        _id
+        _idOpenCitizen,
+#        _idCloseCitizen,
+        closureConfirms,
+        likes,
+        dislikes,
+        dtOpen,
+        updatedAt,
+        dtClose,
+        stIncident,
+#        stSend,
+#        stToCheck,
+        dcAddress,
+        nrAddress,
+        dcNeighborhood,
+#        qtClose
+        qtUpInteraction
+        qtDownInteraction,
+        vlLatitude,
+        vlLongitude,
+        cdSegment,
+        segments {
+            dcSegment,
+            dcOccurrence
+        },
+        txComment,
+        tpImage,
+        mediaUrls,
+    }
+}
