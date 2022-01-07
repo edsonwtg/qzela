@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct IncidentSlide {
+struct IncidentImageSlide {
     let image: UIImage
     let status: String
 }

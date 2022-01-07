@@ -15,18 +15,21 @@ IncidentCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var slideImageView: UIImageView!
     @IBOutlet weak var slideStatusLbl: UILabel!
     
-    func setup(_ slide: IncidentSlide) {
+    func setup(_ slide: IncidentImageSlide) {
         slideImageView.image = slide.image
         slideStatusLbl.text = slide.status
-//        slideImageView.layer.cornerRadius=50.0
+        
+        slideStatusLbl.textColor = .colorWhite
+        slideStatusLbl.font = UIFont.boldSystemFont(ofSize: 16.0)
+
         if slide.status == "Open" {
-            slideStatusLbl.backgroundColor = .orange
+            slideStatusLbl.backgroundColor = .qzelaOrange
         }
         if slide.status == "Registered" {
-            slideStatusLbl.backgroundColor = .blue
+            slideStatusLbl.backgroundColor = .colorBlue
         }
         if slide.status == "Resolved" {
-            slideStatusLbl.backgroundColor = .green
+            slideStatusLbl.backgroundColor = .colorGreen
         }
     }
     

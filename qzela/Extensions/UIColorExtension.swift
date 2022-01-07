@@ -7,7 +7,7 @@ import UIKit
 
 extension UIColor {
 
-    func hexUIColor(hex: String) -> UIColor {
+    static func hexUIColor(hex: String) -> UIColor {
         var cString: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
 
         if (cString.hasPrefix("#")) {
@@ -43,73 +43,73 @@ extension UIColor {
         return UIColor(red: 228 / 255, green: 228 / 255, blue: 228 / 255, alpha: 0.28)
     }
 
-    @IBInspectable var colorPrimary: UIColor {
+    static var colorPrimary: UIColor {
         return hexUIColor(hex: "#DD5801")
     }
-    var colorPrimaryDark: UIColor {
+    static var colorPrimaryDark: UIColor {
         return hexUIColor(hex: "#0F2E67")
     }
-    var colorAccent: UIColor {
+    static var colorAccent: UIColor {
         return hexUIColor(hex: "#1176B9")
     }
-    var colorWhite: UIColor {
+    static var colorWhite: UIColor {
         return hexUIColor(hex: "#FFFFFF")
     }
-    var colorRed: UIColor {
+    static var colorRed: UIColor {
         return hexUIColor(hex: "#FF0000")
     }
-    var colorGreen: UIColor {
+    static var colorGreen: UIColor {
         return hexUIColor(hex: "#39C60D")
     }
-    var colorLightGreen: UIColor {
+    static var colorLightGreen: UIColor {
         return hexUIColor(hex: "#0FEE56")
     }
-    var colorYellow: UIColor {
+    static var colorYellow: UIColor {
         return hexUIColor(hex: "#FFFF00")
     }
-    var colorBlue: UIColor {
+    static var colorBlue: UIColor {
         return hexUIColor(hex: "#1A73E8")
     }
-    var colorGray: UIColor {
+    static var colorGray: UIColor {
         return hexUIColor(hex: "#CCCCCC")
     }
-    var colorLightGray: UIColor {
+    static var colorLightGray: UIColor {
         return hexUIColor(hex: "#E4E4E4")
     }
-    var colorDrakGray: UIColor {
+    static var colorDrakGray: UIColor {
         return hexUIColor(hex: "#747474")
     }
-    var colorBlack: UIColor {
+    static var colorBlack: UIColor {
         return hexUIColor(hex: "#000000")
     }
-    var qzelaOrange: UIColor {
+    static var qzelaOrange: UIColor {
         return hexUIColor(hex: "#DD5801")
     }
-    var qzelaLightBlue: UIColor {
+    static var qzelaLightBlue: UIColor {
         return hexUIColor(hex: "#1176B9")
     }
-    var qzelaMediumBlue: UIColor {
+    static var qzelaMediumBlue: UIColor {
         return hexUIColor(hex: "#084694")
     }
-    var qzelaDarkBlue: UIColor {
+    static var qzelaDarkBlue: UIColor {
         return hexUIColor(hex: "#0F2E67")
     }
-    var qzelaGreen: UIColor {
+    static var qzelaGreen: UIColor {
         return hexUIColor(hex: "#8CC90E")
     }
-    var colorTextPrimary: UIColor {
+    static var colorTextPrimary: UIColor {
         return hexUIColor(hex: "#212121")
     }
-    var colorSuccess: UIColor {
+    static var colorSuccess: UIColor {
         return hexUIColor(hex: "#4BB543")
     }
-    var colorWarning: UIColor {
+    static var colorWarning: UIColor {
         return hexUIColor(hex: "#FFCC00")
     }
-    var colorNeutral: UIColor {
+    static var colorNeutral: UIColor {
         return hexUIColor(hex: "#434343")
     }
-    var colorError: UIColor {
+    static var colorError: UIColor {
         return hexUIColor(hex: "#CC0000")
     }
 

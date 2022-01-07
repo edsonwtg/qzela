@@ -19,7 +19,12 @@ class DialogIncidentViewController: UIViewController {
     @IBOutlet weak var imageResolved: UIImageView!
     @IBOutlet weak var pbStepIncident: UIProgressView!
     
-    var slides: [IncidentSlide] =  []
+    @IBOutlet weak var occurrenceCollectionView: UICollectionView!
+    
+    
+    var slides: [IncidentImageSlide] =  []
+    var selected = [String]()
+    var OccurenceTag: [String] = []
 
     // var to receive data from MapTabbarController
     var incidentId: String?
@@ -37,12 +42,26 @@ class DialogIncidentViewController: UIViewController {
         }
         
         slides = [
-            IncidentSlide(image: UIImage(named: "img_open_0-1")!, status: "Open"),
-            IncidentSlide(image: UIImage(named: "img_open_1-1")!, status: "Open"),
-            IncidentSlide(image: UIImage(named: "img_open_2")!, status: "Resolved"),
-            IncidentSlide(image: UIImage(named: "img_open_0")!, status: "Registered"),
-            IncidentSlide(image: UIImage(named: "map")!, status: "Open")
+            IncidentImageSlide(image: UIImage(named: "img_open_0-1")!, status: "Open"),
+            IncidentImageSlide(image: UIImage(named: "img_open_1-1")!, status: "Open"),
+            IncidentImageSlide(image: UIImage(named: "img_open_2")!, status: "Resolved"),
+            IncidentImageSlide(image: UIImage(named: "img_open_0")!, status: "Registered"),
+            IncidentImageSlide(image: UIImage(named: "map")!, status: "Open")
         ]
+        
+        OccurenceTag = [
+            "America",
+            "Bangladesh Bangladesh",
+            "China",
+            "Denmark",
+            "Egypt",
+            "Finland Finland",
+            "Germany 123",
+            "Holand",
+            "Italy",
+            "Japan"
+            ]
+        
         pageControl.numberOfPages = slides.count
 
     }
@@ -57,17 +76,35 @@ extension DialogIncidentViewController: UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return slides.count
+        if collectionView == self.sliderCollectionView {
+            return slides.count
+        } else {
+            return OccurenceTag[section].count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: IncidentCollectionViewCell.identifier, for: indexPath) as! IncidentCollectionViewCell
-        
-        cell.setup(slides[indexPath.row])
-        return cell
+        if collectionView == self.sliderCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: IncidentCollectionViewCell.identifier, for: indexPath) as! IncidentCollectionViewCell
+            
+            cell.setup(slides[indexPath.row])
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OccurrenceCollectionViewCell.identifier, for: indexPath) as! OccurrenceCollectionViewCell
+            
+            cell.tagLabel.text = OccurenceTag[indexPath.row]
+
+            return cell
+        }
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == self.sliderCollectionView {
+            print(indexPath.row)
+        }
+    }
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
        let witdh = scrollView.frame.width - (scrollView.contentInset.left*2)
        let index = scrollView.contentOffset.x / witdh
@@ -75,9 +112,6 @@ extension DialogIncidentViewController: UICollectionViewDelegate, UICollectionVi
        self.pageControl.currentPage = Int(roundedIndex)
    }
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.row)
-    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = sliderCollectionView.frame.size
