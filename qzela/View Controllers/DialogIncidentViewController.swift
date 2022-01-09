@@ -12,15 +12,22 @@ class DialogIncidentViewController: UIViewController {
     @IBOutlet weak var sliderCollectionView: UICollectionView!
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var lblSegment: UILabel!
-    @IBOutlet weak var lblOpenDate: EdgeInsetLabel!
-    @IBOutlet weak var lblForwardedDate: EdgeInsetLabel!
-    @IBOutlet weak var lblResolvedDate: EdgeInsetLabel!
+    @IBOutlet weak var lblOpenDate: UILabel!
+    @IBOutlet weak var lblForwardedDate: UILabel!
+    @IBOutlet weak var lblResolvedDate: UILabel!
     @IBOutlet weak var imageForwarded: UIImageView!
     @IBOutlet weak var imageResolved: UIImageView!
     @IBOutlet weak var pbStepIncident: UIProgressView!
     
     @IBOutlet weak var occurrenceCollectionView: UICollectionView!
     
+    @IBOutlet weak var stackViewProtocol: UIStackView!
+    @IBOutlet weak var lblHeadProtocol: UILabel!
+    @IBOutlet weak var lblProtocol: EdgeInsetLabel!
+    @IBOutlet weak var lblHeadAddress: UILabel!
+    @IBOutlet weak var lblAddress: UILabel!
+    @IBOutlet weak var lblHeadComments: UILabel!
+    @IBOutlet weak var lblComments: UILabel!
     
     var slides: [IncidentImageSlide] =  []
     var selected = [String]()
@@ -32,8 +39,8 @@ class DialogIncidentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        lblForwardedDate.isHidden = true
-        imageForwarded.isHidden = true
+//        lblForwardedDate.isHidden = true
+//        imageForwarded.isHidden = true
         imageResolved.tintColor = UIColor.systemGray3
         pbStepIncident.setProgress(0.0, animated: true)
 
