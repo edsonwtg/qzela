@@ -18,7 +18,7 @@ class OccurrenceCollectionViewCell: UICollectionViewCell {
         
         tagLabel.textColor = .white
         tagLabel.backgroundColor = .qzelaDarkBlue
-        tagLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
+        tagLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
         
         self.layer.borderColor = UIColor.qzelaDarkBlue.cgColor
         self.layer.borderWidth = 1
