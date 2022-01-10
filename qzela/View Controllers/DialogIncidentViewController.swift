@@ -13,6 +13,7 @@ class DialogIncidentViewController: UIViewController {
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var lblSegment: UILabel!
     @IBOutlet weak var lblOpenDate: UILabel!
+    @IBOutlet weak var stackViewForwarded: UIStackView!
     @IBOutlet weak var lblForwardedDate: UILabel!
     @IBOutlet weak var lblResolvedDate: UILabel!
     @IBOutlet weak var imageForwarded: UIImageView!
@@ -35,12 +36,17 @@ class DialogIncidentViewController: UIViewController {
 
     // var to receive data from MapTabbarController
     var incidentId: String?
-
+    
+    // Block rotate iPhone
+    override var shouldAutorotate: Bool {
+        false
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        stackViewForwarded.visibility = .gone
+//        stackViewProtocol.visibility = .gone
 
-//        lblForwardedDate.isHidden = true
-//        imageForwarded.isHidden = true
         imageResolved.tintColor = UIColor.systemGray3
         pbStepIncident.setProgress(0.0, animated: true)
 
@@ -74,7 +80,14 @@ class DialogIncidentViewController: UIViewController {
     }
 
     @IBAction func btClose(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        if (stackViewProtocol.visibility == .gone) {
+            stackViewProtocol.visibility = .visible
+            stackViewForwarded.visibility = .visible
+        } else {
+            stackViewProtocol.visibility = .gone
+            stackViewForwarded.visibility = .gone
+        }
+//        dismiss(animated: true, completion: nil)
     }
     
 }
