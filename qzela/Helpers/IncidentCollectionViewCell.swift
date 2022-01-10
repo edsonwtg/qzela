@@ -20,7 +20,7 @@ IncidentCollectionViewCell: UICollectionViewCell {
         slideStatusLbl.text = slide.status
         
         slideStatusLbl.textColor = .colorWhite
-        slideStatusLbl.font = UIFont.boldSystemFont(ofSize: 14.0)
+        slideStatusLbl.font = UIFont.boldSystemFont(ofSize: 12.0)
 
         if slide.status == "Open" {
             slideStatusLbl.backgroundColor = .qzelaOrange
