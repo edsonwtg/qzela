@@ -29,6 +29,11 @@ class DialogIncidentViewController: UIViewController {
     @IBOutlet weak var lblAddress: UILabel!
     @IBOutlet weak var lblHeadComments: UILabel!
     @IBOutlet weak var lblComments: UILabel!
+    @IBOutlet weak var btFeedback: UIButton!
+    @IBOutlet weak var stackViewButtons: UIStackView!
+    @IBOutlet weak var btLike: UIButton!
+    @IBOutlet weak var btDisLike: UIButton!
+    @IBOutlet weak var btSolver: UIButton!
     
     var slides: [IncidentImageSlide] =  []
     var selected = [String]()
@@ -44,9 +49,22 @@ class DialogIncidentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        stackViewForwarded.visibility = .gone
-//        stackViewProtocol.visibility = .gone
+        stackViewForwarded.visibility = .invisible
+        stackViewProtocol.visibility = .invisible
+        btFeedback.visibility = .invisible
+        
+        btLike.configuration?.baseForegroundColor = UIColor.qzelaDarkBlue
+        btLike.configuration?.background.strokeColor = UIColor.qzelaDarkBlue
 
+        btDisLike.configuration?.baseForegroundColor = UIColor.colorRed
+        btDisLike.configuration?.background.strokeColor = UIColor.colorRed
+
+        btSolver.configuration?.baseForegroundColor = UIColor.colorGreen
+        btSolver.configuration?.background.strokeColor = UIColor.colorGreen
+
+//        btDisLike.isEnabled = false
+//        btDisLike.configuration?.background.strokeColor = UIColor.lightGray
+        
         imageResolved.tintColor = UIColor.systemGray3
         pbStepIncident.setProgress(0.0, animated: true)
 
@@ -82,11 +100,9 @@ class DialogIncidentViewController: UIViewController {
     @IBAction func btClose(_ sender: Any) {
         if (stackViewProtocol.visibility == .gone) {
             stackViewProtocol.visibility = .visible
-            stackViewForwarded.visibility = .visible
         } else {
             stackViewProtocol.visibility = .gone
-            stackViewForwarded.visibility = .gone
-        }
+       }
 //        dismiss(animated: true, completion: nil)
     }
     
