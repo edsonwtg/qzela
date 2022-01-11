@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7dM-Zx-Ro9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="2pa-D5-7Vo">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
@@ -215,7 +215,7 @@
                                         <nil key="textColor"/>
                                         <color key="highlightedColor" name="AccentColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zG1-oX-NF7" userLabel="Button Close">
+                                    <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="btClose" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zG1-oX-NF7" userLabel="Button Close">
                                         <rect key="frame" x="272" y="8" width="31" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="31" id="7Pq-7H-9IM"/>
@@ -232,7 +232,7 @@
                                             <color key="baseForegroundColor" red="0.89411764709999997" green="0.89411764709999997" blue="0.89411764709999997" alpha="1" colorSpace="calibratedRGB"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="btClose:" destination="7dM-Zx-Ro9" eventType="touchUpInside" id="nTw-ZT-pRg"/>
+                                            <action selector="btnClick:" destination="7dM-Zx-Ro9" eventType="touchUpInside" id="43V-Mh-ORE"/>
                                         </connections>
                                     </button>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f8V-qs-Bov">
@@ -413,7 +413,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sw3-bC-jmq" userLabel="Button Feedback">
+                                    <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="btFeedback" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sw3-bC-jmq" userLabel="Button Feedback">
                                         <rect key="frame" x="32" y="443.66666666666663" width="247" height="28"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="28" id="zqF-QZ-pZX"/>
@@ -427,11 +427,14 @@
                                             <color key="baseForegroundColor" red="0.042047555682387876" green="0.049832530645504677" blue="0.49677677347202498" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <color key="baseBackgroundColor" systemColor="systemGray4Color"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="btnClick:" destination="7dM-Zx-Ro9" eventType="touchUpInside" id="QMT-QM-L8g"/>
+                                        </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="auR-hv-moy" userLabel="Stack View Buttons">
                                         <rect key="frame" x="16" y="443.66666666666663" width="279" height="28"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JF2-Ji-5w4" userLabel="Button Like">
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="btLike" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JF2-Ji-5w4" userLabel="Button Like">
                                                 <rect key="frame" x="0.0" y="0.0" width="57.666666666666664" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="28" id="EmF-9t-qJL"/>
@@ -443,8 +446,11 @@
                                                     </backgroundConfiguration>
                                                     <color key="baseForegroundColor" systemColor="systemIndigoColor"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnClick:" destination="7dM-Zx-Ro9" eventType="touchUpInside" id="U5X-uw-d5n"/>
+                                                </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ohj-UF-kEX" userLabel="Button DisLike">
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="btDisLike" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ohj-UF-kEX" userLabel="Button DisLike">
                                                 <rect key="frame" x="75.666666666666671" y="0.0" width="58.000000000000014" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="28" id="QO3-J0-lGZ"/>
@@ -456,8 +462,11 @@
                                                     </backgroundConfiguration>
                                                     <color key="baseForegroundColor" red="0.89411764709999997" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnClick:" destination="7dM-Zx-Ro9" eventType="touchUpInside" id="wMu-Pg-s24"/>
+                                                </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uPN-LL-bs6" userLabel="Button Solver">
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="btSolver" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uPN-LL-bs6" userLabel="Button Solver">
                                                 <rect key="frame" x="151.66666666666666" y="0.0" width="127.33333333333334" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="28" id="oTc-6U-LVW"/>
@@ -470,6 +479,9 @@
                                                     </backgroundConfiguration>
                                                     <color key="baseForegroundColor" systemColor="systemGreenColor"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnClick:" destination="7dM-Zx-Ro9" eventType="touchUpInside" id="RjH-ku-C6C"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>

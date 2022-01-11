@@ -97,13 +97,23 @@ class DialogIncidentViewController: UIViewController {
 
     }
 
-    @IBAction func btClose(_ sender: Any) {
-        if (stackViewProtocol.visibility == .gone) {
-            stackViewProtocol.visibility = .visible
-        } else {
-            stackViewProtocol.visibility = .gone
-       }
-//        dismiss(animated: true, completion: nil)
+    @IBAction func btnClick(_ sender: UIButton) {
+
+        switch sender.restorationIdentifier {
+        case "btClose":
+            print("btClose")
+            dismiss(animated: true, completion: nil)
+        case "btLike":
+            print("btLike")
+        case "btDisLike":
+            print("btDislike")
+        case "btSolver":
+            print("btSolver")
+        case "btFeedback":
+            print("btFeedback")
+        default:
+            print("Default")
+        }
     }
     
 }
