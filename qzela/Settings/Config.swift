@@ -60,6 +60,8 @@ class Config {
     static let GRAPHQL_ENDPOINT: String = QZELA_API_ADDRESS+"/v2i/graphql"
     static let GRAPHQL_WEBSOCKET: String = QZELA_API_WEBSOCKET+"/graphql"
 
+    static let USER_DATE_FORMAT = DateFormatter.dateFormat(fromTemplate: "yyyyMMdd", options: 0, locale: Locale.current)
+
     func showHideNoInternet(view: UIImageView, show: Bool) {
 
         if (show) {

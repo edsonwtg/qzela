@@ -16,16 +16,20 @@ extension Array: JSONDecodable {
     }
 }
 
-public typealias ISODate = Date
+public typealias ISODate = Foundation.Date
 
-extension ISODate: JSONDecodable, JSONEncodable {
+extension ISODate: JSONDecodable {
 
     public init(jsonValue value: JSONValue) throws {
-        guard let string = value as? String else {
+        guard let isoString = value as? String else {
             throw JSONDecodingError.couldNotConvert(value: value, to: String.self)
         }
 
-        guard let date = ISO8601DateFormatter().date(from: string) else {
+//        let formatter = ISO8601DateFormatter()
+//        formatter.formatOptions = [.withFractionalSeconds]
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        guard let date = formatter.date(from: isoString) else {
             throw JSONDecodingError.couldNotConvert(value: value, to: Date.self)
         }
 

@@ -21,3 +21,9 @@
 "text_service_unavailable" = "Service unavailable at the moment, please try again later.";
 "text_settings" = "Settings";
 "text_continue" = "Continue";
+"text_location" = "Location:";
+"text_comments" = "Comment:";
+"text_open" = "Open";
+"text_forwarded" = "Forwarded";
+"text_resolved" = "Resolved";
+"text_solver"="Solver";

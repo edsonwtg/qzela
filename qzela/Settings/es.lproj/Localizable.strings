@@ -21,3 +21,9 @@
 "text_service_unavailable" = "El servicio no está disponible en este momento, por favor inténtelo más tarde.";
 "text_settings" = "Ajustes";
 "text_continue" = "Continuar";
+"text_location" = "Localización:";
+"text_comments" = "Comentario:";
+"text_open" = "Abierto";
+"text_forwarded" = "Reenviado";
+"text_resolved" = "Resuelto";
+"text_solver"="Resolver";

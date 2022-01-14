@@ -36,8 +36,7 @@ class DialogIncidentViewController: UIViewController {
     @IBOutlet weak var btSolver: UIButton!
     
     var slides: [IncidentImageSlide] =  []
-    var selected = [String]()
-    var OccurenceTag: [String] = []
+    var occurrenceTag: [String] = []
 
     // var to receive data from MapTabbarController
     var incidentId: String?
@@ -48,11 +47,11 @@ class DialogIncidentViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         stackViewForwarded.visibility = .invisible
         stackViewProtocol.visibility = .invisible
         btFeedback.visibility = .invisible
-        
+
         btLike.configuration?.baseForegroundColor = UIColor.qzelaDarkBlue
         btLike.configuration?.background.strokeColor = UIColor.qzelaDarkBlue
 
@@ -64,35 +63,107 @@ class DialogIncidentViewController: UIViewController {
 
 //        btDisLike.isEnabled = false
 //        btDisLike.configuration?.background.strokeColor = UIColor.lightGray
-        
+
         imageResolved.tintColor = UIColor.systemGray3
         pbStepIncident.setProgress(0.0, animated: true)
+        lblHeadAddress.text = "text_location".localized()
+        lblHeadComments.text = "text_comments".localized()
+        btSolver.setTitle("text_solver".localized(), for: .normal)
 
         if incidentId != nil {
             print("Incident ID: \(incidentId!)")
         }
-        
-        slides = [
-            IncidentImageSlide(image: UIImage(named: "img_open_0-1")!, status: "Open"),
-            IncidentImageSlide(image: UIImage(named: "img_open_1-1")!, status: "Open"),
-            IncidentImageSlide(image: UIImage(named: "img_open_2")!, status: "Resolved"),
-            IncidentImageSlide(image: UIImage(named: "img_open_0")!, status: "Registered"),
-            IncidentImageSlide(image: UIImage(named: "map")!, status: "Open")
-        ]
-        
-        OccurenceTag = [
-            "America",
-            "Bangladesh Bangladesh",
-            "China",
-            "Denmark",
-            "Egypt",
-            "Finland Finland",
-            "Germany 123",
-            "Holand",
-            "Italy",
-            "Japan"
-            ]
-        
+
+        print("******** GetIncidentById - START **********")
+
+        Apollo.shared.apollo.fetch(query: GetIncidentByIdQuery(id: incidentId!)) { [unowned self] result in
+            switch result {
+            case .success(let graphQLResult):
+                print("Success! Result: \(graphQLResult)")
+                if let result = graphQLResult.data?.getIncidentById {
+                    var indexPaths: [IndexPath] = []
+//                    mediasURL = result.mediaUrls!
+//                    var imageUrl: UIImageView!
+                    var mediasURL : [URL] = []
+                    for medias in result.mediaUrls! {
+                        mediasURL.append(URL(string: medias)!)
+                    }
+                    downloadImagesUrl(mediasUrl: mediasURL)
+//                    indexPaths = [IndexPath(item: slides.count - 1, section: 0)]
+//                    sliderCollectionView.performBatchUpdates({ () -> Void in
+//                        sliderCollectionView.insertItems(at: indexPaths)
+//                    }, completion: nil)
+                    lblSegment.text = result.segments[0].dcSegment
+                    for occurrences in result.segments {
+                        occurrenceTag.append(occurrences.dcOccurrence)
+                    }
+                    indexPaths = [IndexPath(item: occurrenceTag.count - 1, section: 0)]
+                    occurrenceCollectionView.performBatchUpdates({ () -> Void in
+                        occurrenceCollectionView.insertItems(at: indexPaths)
+                    }, completion: nil)
+
+                    lblOpenDate.text = "text_open".localized()+"\n"+result.dtOpen.formatted(date: .numeric, time: .omitted)
+                    lblAddress.text = "\(result.dcAddress), \(result.nrAddress ?? "") - \(result.dcNeighborhood)"
+                    lblComments.text = result.txComment
+
+                    switch (result.stIncident) {
+                    case 1:
+                        lblProtocol.text = result._id
+                        pbStepIncident.setProgress(1, animated: true)
+                        imageResolved.tintColor = UIColor.qzelaOrange
+                        lblResolvedDate.text = "text_resolved".localized()+"\n"+result.dtClose!.formatted(date: .numeric, time: .omitted)
+                        break;
+                    case 3:
+                        lblProtocol.text = result._id
+                        pbStepIncident.setProgress(0.5, animated: true)
+                        lblForwardedDate.text = "text_forwarded".localized()+"\n"+result.updatedAt.formatted(date: .numeric, time: .omitted)
+                        stackViewForwarded.visibility = .visible
+                        break;
+                    case 4:
+                        lblProtocol.text = result._id
+                        pbStepIncident.setProgress(1, animated: true)
+                        imageResolved.tintColor = UIColor.qzelaOrange
+                        imageResolved.tintColor = UIColor.qzelaOrange
+                        lblResolvedDate.text = "text_resolved".localized()+"\n"+result.dtClose!.formatted(date: .numeric, time: .omitted)
+                        lblForwardedDate.text = "text_forwarded".localized()+"\n"+result.updatedAt.formatted(date: .numeric, time: .omitted)
+                        stackViewForwarded.visibility = .visible
+                        break;
+                    case 7:
+                        lblProtocol.text = result._id
+                        pbStepIncident.setProgress(1, animated: true)
+                        imageResolved.tintColor = UIColor.qzelaOrange
+                        lblResolvedDate.text = "text_resolved".localized()+"\n"+result.dtOpen.formatted(date: .numeric, time: .omitted)
+                        break;
+                    default:
+                        lblProtocol.text = result._id
+                        pbStepIncident.setProgress(0, animated: true)
+                    }
+
+                    print("_id \(result._id)")
+                    print("cdSegment \(result.cdSegment)")
+                    print("dcAddress \(result.dcAddress)")
+
+                    print("******** GetViewport - END **********")
+                } else {
+                    print("******** Stop Loading **********")
+                }
+            case .failure(let error):
+                print("Failure! Error: \(error)")
+            }
+        }
+        print("******** GetIncidentById - END **********")
+
+
+
+
+//        slides = [
+//            IncidentImageSlide(image: UIImage(named: "img_open_0-1")!, status: "Open"),
+//            IncidentImageSlide(image: UIImage(named: "img_open_1-1")!, status: "Open"),
+//            IncidentImageSlide(image: UIImage(named: "img_open_2")!, status: "Resolved"),
+//            IncidentImageSlide(image: UIImage(named: "img_open_0")!, status: "Registered"),
+//            IncidentImageSlide(image: UIImage(named: "map")!, status: "Open")
+//        ]
+
         pageControl.numberOfPages = slides.count
 
     }
@@ -101,7 +172,6 @@ class DialogIncidentViewController: UIViewController {
 
         switch sender.restorationIdentifier {
         case "btClose":
-            print("btClose")
             dismiss(animated: true, completion: nil)
         case "btLike":
             print("btLike")
@@ -115,6 +185,27 @@ class DialogIncidentViewController: UIViewController {
             print("Default")
         }
     }
+
+    func downloadImagesUrl(mediasUrl: [URL]) {
+        let dispatchGroup = DispatchGroup()
+
+        for imageURL in mediasUrl {
+            dispatchGroup.enter()
+            URLSession.shared.dataTask(with: imageURL) {  (data, response, error) in
+                self.slides.append(IncidentImageSlide(image: UIImage(data: data!)!, status: "Open"))
+                // save image data somewhere
+                dispatchGroup.leave()
+            }.resume()
+        }
+
+        dispatchGroup.notify(queue: .main) {
+
+            let indexPaths: [IndexPath] = [IndexPath(item: self.slides.count - 1, section: 0)]
+            self.sliderCollectionView.performBatchUpdates({ () -> Void in
+                self.sliderCollectionView.insertItems(at: indexPaths)
+            }, completion: nil)
+        }
+    }
     
 }
     
@@ -125,7 +216,7 @@ extension DialogIncidentViewController: UICollectionViewDelegate, UICollectionVi
         if collectionView == self.sliderCollectionView {
             return slides.count
         } else {
-            return OccurenceTag[section].count
+            return occurrenceTag.count
         }
     }
     
@@ -139,7 +230,7 @@ extension DialogIncidentViewController: UICollectionViewDelegate, UICollectionVi
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OccurrenceCollectionViewCell.identifier, for: indexPath) as! OccurrenceCollectionViewCell
             
-            cell.tagLabel.text = OccurenceTag[indexPath.row]
+            cell.tagLabel.text = occurrenceTag[indexPath.row]
 
             return cell
         }
