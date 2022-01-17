@@ -26,4 +26,5 @@
 "text_open" = "Aberto";
 "text_forwarded" = "Encaminhado";
 "text_resolved" = "Resolvido";
+"text_registered" = "Registrado";
 "text_solver"="Resolver";

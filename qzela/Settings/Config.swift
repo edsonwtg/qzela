@@ -60,7 +60,31 @@ class Config {
     static let GRAPHQL_ENDPOINT: String = QZELA_API_ADDRESS+"/v2i/graphql"
     static let GRAPHQL_WEBSOCKET: String = QZELA_API_WEBSOCKET+"/graphql"
 
-    static let USER_DATE_FORMAT = DateFormatter.dateFormat(fromTemplate: "yyyyMMdd", options: 0, locale: Locale.current)
+    static let IMAGE_OPEN = "open"
+    static let IMAGE_CLOSE = "close"
+    static let IMAGE_MAP = "map"
+
+    static let SLIDE_OPEN = "Open"
+    static let SLIDE_RESOLVED = "Resolved"
+    static let SLIDE_REGISTERED = "Registered"
+
+    static let INCIDENT_STATUS_OPEN_WITHOUT_CLIENT = 0
+    static let INCIDENT_STATUS_CLOSE_WITHOUT_CLIENT = 1
+    static let INCIDENT_STATUS_OPEN_WITH_CLIENT = 2
+    static let INCIDENT_STATUS_CLOSE_WITH_CLIENT = 4
+    static let INCIDENT_STATUS_REGISTERED = 7
+
+    static let ARRAY_INCIDENT_ALL_STATUS_OPEN = [0, 2, 3]
+    static let ARRAY_INCIDENT_ALL_STATUS_CLOSE = [1, 4]
+    static let ARRAY_INCIDENT_STATUS_REGISTERED = [7]
+    static let ARRAY_INCIDENT_ALL_STATUS_CLOSE_REGISTERED = [1, 4, 7]
+
+    static let ARRAY_INCIDENT_ALL_STATUS_WITH_CLIENT = [2, 4]
+    static let ARRAY_INCIDENT_ALL_STATUS_WITHOUT_CLIENT = [2, 4]
+
+    static let ARRAY_INCIDENT_ALL_STATUS = [0, 1, 2, 3, 4, 7]
+
+
 
     func showHideNoInternet(view: UIImageView, show: Bool) {
 

@@ -70,6 +70,10 @@ class DialogIncidentViewController: UIViewController {
         lblHeadComments.text = "text_comments".localized()
         btSolver.setTitle("text_solver".localized(), for: .normal)
 
+        // Close
+//        incidentId = "60af7a23c972406df17bb914"
+        // Registrada
+//        incidentId = "61550de6d5d5405478b24827"
         if incidentId != nil {
             print("Incident ID: \(incidentId!)")
         }
@@ -79,16 +83,15 @@ class DialogIncidentViewController: UIViewController {
         Apollo.shared.apollo.fetch(query: GetIncidentByIdQuery(id: incidentId!)) { [unowned self] result in
             switch result {
             case .success(let graphQLResult):
-                print("Success! Result: \(graphQLResult)")
+//                print("Success! Result: \(graphQLResult)")
                 if let result = graphQLResult.data?.getIncidentById {
                     var indexPaths: [IndexPath] = []
-//                    mediasURL = result.mediaUrls!
-//                    var imageUrl: UIImageView!
-                    var mediasURL : [URL] = []
+                    var mediasUrls : [String] = []
+
                     for medias in result.mediaUrls! {
-                        mediasURL.append(URL(string: medias)!)
+                        mediasUrls.append(medias)
                     }
-                    downloadImagesUrl(mediasUrl: mediasURL)
+                    downloadImagesUrl(mediasUrl: mediasUrls, incidentStatus: result.stIncident)
 //                    indexPaths = [IndexPath(item: slides.count - 1, section: 0)]
 //                    sliderCollectionView.performBatchUpdates({ () -> Void in
 //                        sliderCollectionView.insertItems(at: indexPaths)
@@ -153,17 +156,6 @@ class DialogIncidentViewController: UIViewController {
         }
         print("******** GetIncidentById - END **********")
 
-
-
-
-//        slides = [
-//            IncidentImageSlide(image: UIImage(named: "img_open_0-1")!, status: "Open"),
-//            IncidentImageSlide(image: UIImage(named: "img_open_1-1")!, status: "Open"),
-//            IncidentImageSlide(image: UIImage(named: "img_open_2")!, status: "Resolved"),
-//            IncidentImageSlide(image: UIImage(named: "img_open_0")!, status: "Registered"),
-//            IncidentImageSlide(image: UIImage(named: "map")!, status: "Open")
-//        ]
-
         pageControl.numberOfPages = slides.count
 
     }
@@ -186,13 +178,32 @@ class DialogIncidentViewController: UIViewController {
         }
     }
 
-    func downloadImagesUrl(mediasUrl: [URL]) {
+    func downloadImagesUrl(mediasUrl: [String], incidentStatus: Int) {
         let dispatchGroup = DispatchGroup()
 
         for imageURL in mediasUrl {
+
+            if (imageURL.contains(Config.IMAGE_MAP)) {
+                continue
+            }
+
             dispatchGroup.enter()
-            URLSession.shared.dataTask(with: imageURL) {  (data, response, error) in
-                self.slides.append(IncidentImageSlide(image: UIImage(data: data!)!, status: "Open"))
+            let url = URL(string: imageURL)
+            URLSession.shared.dataTask(with: url!) {  (data, response, error) in
+
+                if (imageURL.contains(Config.IMAGE_OPEN)) {
+                    if (incidentStatus == Config.INCIDENT_STATUS_REGISTERED) {
+                        self.slides.append(IncidentImageSlide(image: UIImage(data: data!)!, status: Config.SLIDE_REGISTERED))
+                    } else {
+                        self.slides.append(IncidentImageSlide(image: UIImage(data: data!)!, status: Config.SLIDE_OPEN))
+                    }
+                } else {
+                    if (incidentStatus == Config.INCIDENT_STATUS_REGISTERED) {
+                        self.slides.append(IncidentImageSlide(image: UIImage(data: data!)!, status: Config.SLIDE_REGISTERED))
+                    } else {
+                        self.slides.append(IncidentImageSlide(image: UIImage(data: data!)!, status: Config.SLIDE_RESOLVED))
+                    }
+                }
                 // save image data somewhere
                 dispatchGroup.leave()
             }.resume()
@@ -200,6 +211,7 @@ class DialogIncidentViewController: UIViewController {
 
         dispatchGroup.notify(queue: .main) {
 
+            self.pageControl.numberOfPages = self.slides.count
             let indexPaths: [IndexPath] = [IndexPath(item: self.slides.count - 1, section: 0)]
             self.sliderCollectionView.performBatchUpdates({ () -> Void in
                 self.sliderCollectionView.insertItems(at: indexPaths)
