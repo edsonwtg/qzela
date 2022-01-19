@@ -70,6 +70,7 @@ class DialogIncidentViewController: UIViewController {
         lblHeadComments.text = "text_comments".localized()
         btSolver.setTitle("text_solver".localized(), for: .normal)
 
+        
         // Close
 //        incidentId = "60af7a23c972406df17bb914"
         // Registrada
@@ -77,6 +78,7 @@ class DialogIncidentViewController: UIViewController {
         if incidentId != nil {
             print("Incident ID: \(incidentId!)")
         }
+//        incidentId = "5e20f78900bc760835481f76"
 
         print("******** GetIncidentById - START **********")
 
@@ -92,10 +94,6 @@ class DialogIncidentViewController: UIViewController {
                         mediasUrls.append(medias)
                     }
                     downloadImagesUrl(mediasUrl: mediasUrls, incidentStatus: result.stIncident)
-//                    indexPaths = [IndexPath(item: slides.count - 1, section: 0)]
-//                    sliderCollectionView.performBatchUpdates({ () -> Void in
-//                        sliderCollectionView.insertItems(at: indexPaths)
-//                    }, completion: nil)
                     lblSegment.text = result.segments[0].dcSegment
                     for occurrences in result.segments {
                         occurrenceTag.append(occurrences.dcOccurrence)

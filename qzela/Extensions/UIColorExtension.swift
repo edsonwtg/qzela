@@ -59,10 +59,13 @@ extension UIColor {
         return hexUIColor(hex: "#FF0000")
     }
     static var colorGreen: UIColor {
-        return hexUIColor(hex: "#39C60D")
+        return hexUIColor(hex: "#34C759")
     }
     static var colorLightGreen: UIColor {
         return hexUIColor(hex: "#0FEE56")
+    }
+    static var colorDarktGreen: UIColor {
+        return hexUIColor(hex: "#2d9a0b")
     }
     static var colorYellow: UIColor {
         return hexUIColor(hex: "#FFFF00")
