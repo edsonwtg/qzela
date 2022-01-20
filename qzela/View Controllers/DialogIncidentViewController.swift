@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVKit
 
 class DialogIncidentViewController: UIViewController {
 
@@ -79,8 +80,11 @@ class DialogIncidentViewController: UIViewController {
             print("Incident ID: \(incidentId!)")
         }
 //        incidentId = "5e20f78900bc760835481f76"
-
-        print("******** GetIncidentById - START **********")
+        if (incidentId == "615c9648eac9e627dc101325") {
+            // Video
+            incidentId = "6154e3c5d5d5405478b24820"
+        }
+       print("******** GetIncidentById - START **********")
 
         Apollo.shared.apollo.fetch(query: GetIncidentByIdQuery(id: incidentId!)) { [unowned self] result in
             switch result {
@@ -88,12 +92,29 @@ class DialogIncidentViewController: UIViewController {
 //                print("Success! Result: \(graphQLResult)")
                 if let result = graphQLResult.data?.getIncidentById {
                     var indexPaths: [IndexPath] = []
-                    var mediasUrls : [String] = []
 
                     for medias in result.mediaUrls! {
-                        mediasUrls.append(medias)
+                        if (medias.contains(Config.IMAGE_MAP)) { continue}
+                        if (medias.contains(Config.IMAGE_OPEN)) {
+                            if (result.stIncident == Config.INCIDENT_STATUS_REGISTERED) {
+                                slides.append(IncidentImageSlide(status: Config.SLIDE_REGISTERED, tpImage: result.tpImage, mediaURL: medias))
+                            } else {
+                                slides.append(IncidentImageSlide(status: Config.SLIDE_OPEN, tpImage: result.tpImage, mediaURL: medias))
+                            }
+                        } else {
+                            if (result.stIncident == Config.INCIDENT_STATUS_REGISTERED) {
+                                slides.append(IncidentImageSlide(status: Config.SLIDE_REGISTERED, tpImage: result.tpImage, mediaURL: medias))
+                            } else {
+                                slides.append(IncidentImageSlide(status: Config.SLIDE_RESOLVED, tpImage: result.tpImage, mediaURL: medias))
+                            }
+                        }
                     }
-                    downloadImagesUrl(mediasUrl: mediasUrls, incidentStatus: result.stIncident)
+                    pageControl.numberOfPages = slides.count
+                    indexPaths = [IndexPath(item: slides.count - 1, section: 0)]
+                    sliderCollectionView.performBatchUpdates({ () -> Void in
+                        sliderCollectionView.insertItems(at: indexPaths)
+                    }, completion: nil)
+
                     lblSegment.text = result.segments[0].dcSegment
                     for occurrences in result.segments {
                         occurrenceTag.append(occurrences.dcOccurrence)
@@ -153,9 +174,6 @@ class DialogIncidentViewController: UIViewController {
             }
         }
         print("******** GetIncidentById - END **********")
-
-        pageControl.numberOfPages = slides.count
-
     }
 
     @IBAction func btnClick(_ sender: UIButton) {
@@ -176,54 +194,74 @@ class DialogIncidentViewController: UIViewController {
         }
     }
 
-    func downloadImagesUrl(mediasUrl: [String], incidentStatus: Int) {
-        let dispatchGroup = DispatchGroup()
-
-        for imageURL in mediasUrl {
-
-            if (imageURL.contains(Config.IMAGE_MAP)) {
-                continue
-            }
-
-            dispatchGroup.enter()
-            let url = URL(string: imageURL)
-            URLSession.shared.dataTask(with: url!) {  (data, response, error) in
-
-                if (imageURL.contains(Config.IMAGE_OPEN)) {
-                    if (incidentStatus == Config.INCIDENT_STATUS_REGISTERED) {
-                        self.slides.append(IncidentImageSlide(image: UIImage(data: data!)!, status: Config.SLIDE_REGISTERED))
-                    } else {
-                        self.slides.append(IncidentImageSlide(image: UIImage(data: data!)!, status: Config.SLIDE_OPEN))
-                    }
-                } else {
-                    if (incidentStatus == Config.INCIDENT_STATUS_REGISTERED) {
-                        self.slides.append(IncidentImageSlide(image: UIImage(data: data!)!, status: Config.SLIDE_REGISTERED))
-                    } else {
-                        self.slides.append(IncidentImageSlide(image: UIImage(data: data!)!, status: Config.SLIDE_RESOLVED))
-                    }
+    func getThumbnailImageFromVideoUrl(url: URL, completion: @escaping (_ image: UIImage?)->Void) {
+        DispatchQueue.global().async {
+            let assetUrl = AVAsset(url: url)
+            let avAssetImageGenerator = AVAssetImageGenerator(asset: assetUrl)
+            avAssetImageGenerator.appliesPreferredTrackTransform = true
+            let thumnailTime = CMTimeMake(value: 2, timescale: 1)
+            do {
+                let cgThumbImage = try avAssetImageGenerator.copyCGImage(at: thumnailTime, actualTime: nil)
+                let thumbImage = UIImage(cgImage: cgThumbImage)
+                DispatchQueue.main.async {
+                    completion(thumbImage)
                 }
-                // save image data somewhere
-                dispatchGroup.leave()
-            }.resume()
-        }
-
-        dispatchGroup.notify(queue: .main) {
-
-            self.pageControl.numberOfPages = self.slides.count
-            let indexPaths: [IndexPath] = [IndexPath(item: self.slides.count - 1, section: 0)]
-            self.sliderCollectionView.performBatchUpdates({ () -> Void in
-                self.sliderCollectionView.insertItems(at: indexPaths)
-            }, completion: nil)
+            } catch {
+                print(error.localizedDescription)
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            }
         }
     }
-    
+    func showPhoto (photoFilePath: String) {
+        let url = URL(string: photoFilePath)
+        URLSession.shared.dataTask(with: url!) { (data, response, error) in
+            DispatchQueue.main.async {
+                let newImageView = UIImageView(image: UIImage(data: data!)!)
+                newImageView.frame = UIScreen.main.bounds
+                newImageView.backgroundColor = UIColor.colorBlack
+                newImageView.contentMode = UIView.ContentMode.scaleAspectFit
+                newImageView.isUserInteractionEnabled = true
+                let tap = UITapGestureRecognizer(target: self, action: #selector(self.dismissFullscreenImage))
+                newImageView.addGestureRecognizer(tap)
+                self.view.addSubview(newImageView)
+                self.navigationController?.isNavigationBarHidden = true
+                self.tabBarController?.tabBar.isHidden = true
+            }
+        }.resume()
+    }
+
+    func playVideo (videoFilePath: String) {
+
+        let player = AVPlayer(url: URL(string: videoFilePath)!)
+        let newVideoView = AVPlayerViewController()
+        newVideoView.player = player
+        newVideoView.showsPlaybackControls = false
+        newVideoView.view.frame = UIScreen.main.bounds
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+        newVideoView.view.addGestureRecognizer(tap)
+        addChild(newVideoView)
+        view.addSubview(newVideoView.view)
+        newVideoView.player?.play()
+        navigationController?.isNavigationBarHidden = true
+        tabBarController?.tabBar.isHidden = true
+    }
+
+    @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+        navigationController?.isNavigationBarHidden = false
+        tabBarController?.tabBar.isHidden = false
+        sender.view?.removeFromSuperview()
+    }
+
+
 }
     
 extension DialogIncidentViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        if collectionView == self.sliderCollectionView {
+        if collectionView == sliderCollectionView {
             return slides.count
         } else {
             return occurrenceTag.count
@@ -232,7 +270,7 @@ extension DialogIncidentViewController: UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if collectionView == self.sliderCollectionView {
+        if collectionView == sliderCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: IncidentCollectionViewCell.identifier, for: indexPath) as! IncidentCollectionViewCell
             
             cell.setup(slides[indexPath.row])
@@ -247,8 +285,14 @@ extension DialogIncidentViewController: UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == self.sliderCollectionView {
+        if collectionView == sliderCollectionView {
             print(indexPath.row)
+
+            if (slides[indexPath.row].tpImage == Config.TYPE_IMAGE_VIDEO) {
+                playVideo(videoFilePath: slides[indexPath.row].mediaURL)
+            } else {
+                showPhoto(photoFilePath: slides[indexPath.row].mediaURL )
+            }
         }
     }
 
@@ -256,7 +300,7 @@ extension DialogIncidentViewController: UICollectionViewDelegate, UICollectionVi
        let witdh = scrollView.frame.width - (scrollView.contentInset.left*2)
        let index = scrollView.contentOffset.x / witdh
        let roundedIndex = round(index)
-       self.pageControl.currentPage = Int(roundedIndex)
+       pageControl.currentPage = Int(roundedIndex)
    }
 
     

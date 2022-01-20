@@ -60,6 +60,9 @@ class Config {
     static let GRAPHQL_ENDPOINT: String = QZELA_API_ADDRESS+"/v2i/graphql"
     static let GRAPHQL_WEBSOCKET: String = QZELA_API_WEBSOCKET+"/graphql"
 
+    static let TYPE_IMAGE_PHOTO: String = "photo"
+    static let TYPE_IMAGE_VIDEO: String = "video"
+
     static let IMAGE_OPEN = "open"
     static let IMAGE_CLOSE = "close"
     static let IMAGE_MAP = "map"
@@ -99,4 +102,6 @@ class Config {
         }
 
     }
+
+
 }

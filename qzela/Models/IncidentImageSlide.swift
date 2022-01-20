@@ -8,6 +8,8 @@
 import UIKit
 
 struct IncidentImageSlide {
-    let image: UIImage
+//    let image: UIImage
     let status: String
+    let tpImage: String
+    let mediaURL: String
 }
