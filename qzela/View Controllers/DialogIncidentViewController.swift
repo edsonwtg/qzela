@@ -39,6 +39,10 @@ class DialogIncidentViewController: UIViewController {
     var slides: [IncidentImageSlide] =  []
     var occurrenceTag: [String] = []
 
+    let newVideoView = AVPlayerViewController()
+
+    let config = Config()
+
     // var to receive data from MapTabbarController
     var incidentId: String?
     
@@ -71,7 +75,8 @@ class DialogIncidentViewController: UIViewController {
         lblHeadComments.text = "text_comments".localized()
         btSolver.setTitle("text_solver".localized(), for: .normal)
 
-        
+        config.startLoadingData(view: self.view)
+
         // Close
 //        incidentId = "60af7a23c972406df17bb914"
         // Registrada
@@ -84,7 +89,8 @@ class DialogIncidentViewController: UIViewController {
             // Video
             incidentId = "6154e3c5d5d5405478b24820"
         }
-       print("******** GetIncidentById - START **********")
+        print("******** GetIncidentById - START **********")
+
 
         Apollo.shared.apollo.fetch(query: GetIncidentByIdQuery(id: incidentId!)) { [unowned self] result in
             switch result {
@@ -160,19 +166,25 @@ class DialogIncidentViewController: UIViewController {
                         lblProtocol.text = result._id
                         pbStepIncident.setProgress(0, animated: true)
                     }
-
+                    
                     print("_id \(result._id)")
                     print("cdSegment \(result.cdSegment)")
                     print("dcAddress \(result.dcAddress)")
 
                     print("******** GetViewport - END **********")
                 } else {
+                    config.stopLoadingData()
+                    print("ERRROR! Result: \(graphQLResult)")
+                    dismiss(animated: true, completion: nil)
                     print("******** Stop Loading **********")
                 }
             case .failure(let error):
+                config.stopLoadingData()
                 print("Failure! Error: \(error)")
+                dismiss(animated: true, completion: nil)
             }
         }
+        
         print("******** GetIncidentById - END **********")
     }
 
@@ -194,26 +206,6 @@ class DialogIncidentViewController: UIViewController {
         }
     }
 
-    func getThumbnailImageFromVideoUrl(url: URL, completion: @escaping (_ image: UIImage?)->Void) {
-        DispatchQueue.global().async {
-            let assetUrl = AVAsset(url: url)
-            let avAssetImageGenerator = AVAssetImageGenerator(asset: assetUrl)
-            avAssetImageGenerator.appliesPreferredTrackTransform = true
-            let thumnailTime = CMTimeMake(value: 2, timescale: 1)
-            do {
-                let cgThumbImage = try avAssetImageGenerator.copyCGImage(at: thumnailTime, actualTime: nil)
-                let thumbImage = UIImage(cgImage: cgThumbImage)
-                DispatchQueue.main.async {
-                    completion(thumbImage)
-                }
-            } catch {
-                print(error.localizedDescription)
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-            }
-        }
-    }
     func showPhoto (photoFilePath: String) {
         let url = URL(string: photoFilePath)
         URLSession.shared.dataTask(with: url!) { (data, response, error) in
@@ -235,7 +227,12 @@ class DialogIncidentViewController: UIViewController {
     func playVideo (videoFilePath: String) {
 
         let player = AVPlayer(url: URL(string: videoFilePath)!)
-        let newVideoView = AVPlayerViewController()
+
+        NotificationCenter.default.addObserver(self,
+                selector: #selector(DialogIncidentViewController.didStartplaying(notification:)),
+                name: .AVPlayerItemNewAccessLogEntry,
+                object: player.currentItem)
+
         newVideoView.player = player
         newVideoView.showsPlaybackControls = false
         newVideoView.view.frame = UIScreen.main.bounds
@@ -243,9 +240,17 @@ class DialogIncidentViewController: UIViewController {
         newVideoView.view.addGestureRecognizer(tap)
         addChild(newVideoView)
         view.addSubview(newVideoView.view)
+        config.startLoadingData(view: view)
         newVideoView.player?.play()
         navigationController?.isNavigationBarHidden = true
         tabBarController?.tabBar.isHidden = true
+    }
+
+    @objc func didStartplaying(notification : NSNotification)
+    {
+        if let _ = notification.object as? AVPlayerItem {
+            config.stopLoadingData()
+        }
     }
 
     @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
@@ -253,8 +258,6 @@ class DialogIncidentViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
         sender.view?.removeFromSuperview()
     }
-
-
 }
     
 extension DialogIncidentViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

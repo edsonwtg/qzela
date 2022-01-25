@@ -30,15 +30,15 @@ extension UIColor {
     }
 
 
-    var transparent: UIColor {
+    static var transparent: UIColor {
         //choose your custom rgb values
         return UIColor(red: 201 / 255, green: 14 / 255, blue: 14 / 255, alpha: 0.0)
     }
-    var selectedSegment: UIColor {
+    static var selectedSegment: UIColor {
         //choose your custom rgb values
         return UIColor(red: 116 / 255, green: 116 / 255, blue: 116 / 255, alpha: 0.61)
     }
-    var colorLightGrayTransparent: UIColor {
+    static var colorLightGrayTransparent: UIColor {
         //choose your custom rgb values
         return UIColor(red: 228 / 255, green: 228 / 255, blue: 228 / 255, alpha: 0.28)
     }

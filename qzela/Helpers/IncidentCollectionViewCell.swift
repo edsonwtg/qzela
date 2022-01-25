@@ -15,7 +15,11 @@ IncidentCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var slideImageView: UIImageView!
     @IBOutlet weak var slideStatusLbl: UILabel!
+    @IBOutlet weak var typeImageView: UIImageView!
+
     var image: UIImage!
+    var typeImage: UIImage!
+    let config = Config()
 
     func setup(_ slide: IncidentImageSlide) {
         slideStatusLbl.text = slide.status
@@ -36,27 +40,34 @@ IncidentCollectionViewCell: UICollectionViewCell {
             slideStatusLbl.backgroundColor = .colorGreen
         }
 
-//        slideImageView.image = slide.image
-
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
 
         let url = URL(string: slide.mediaURL)
         if (slide.tpImage == Config.TYPE_IMAGE_VIDEO) {
             getThumbnailImageFromVideoUrl(url: url!) { (thumbImage) in
-                self.image = thumbImage
+                guard let resImage = thumbImage else { return }
+                self.image = resImage
+                self.typeImage = UIImage(systemName: "play.circle")
                 dispatchGroup.leave()
             }
         } else {
             URLSession.shared.dataTask(with: url!) { (data, response, error) in
-                self.image = UIImage(data: data!)!
+
+                print( error as Any )
+//                print(response as Any)
+                guard let resImage = data else {
+                    return }
+                self.image = UIImage(data: resImage)
+                self.typeImage = UIImage(systemName: "camera.circle")
                 dispatchGroup.leave()
             }.resume()
         }
 
         dispatchGroup.notify(queue: .main) {
-
             self.slideImageView.image = self.image!
+            self.typeImageView.image = self.typeImage
+            self.config.stopLoadingData()
         }
 
 

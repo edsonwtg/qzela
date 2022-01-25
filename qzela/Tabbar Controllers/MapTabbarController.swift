@@ -17,6 +17,7 @@ import NVActivityIndicatorView
 class MapTabbarController: UIViewController {
 
     let config = Config()
+
     var gpsLocation = qzela.GPSLocation()
     var networkListener = NetworkListener()
     var alreadyGetIncidents: Array<String> = []
@@ -85,7 +86,7 @@ class MapTabbarController: UIViewController {
         //        }
         //        RunLoop.current.add(timer, forMode: .common)
 
-//        aiLoadingData.type = .ballRotateChase
+//        c.type = .ballRotateChase
 //        aiLoadingData.color = .blue
         
         
@@ -296,6 +297,7 @@ class MapTabbarController: UIViewController {
                     print("******** Stop Loading **********")
                 }
             case .failure(let error):
+                aiLoadingData.stopAnimating()
                 print("Failure! Error: \(error)")
             }
         }

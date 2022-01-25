@@ -182,11 +182,28 @@
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
                                                         </label>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" highlightedImage="play.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="aOb-b9-j3y">
+                                                            <rect key="frame" x="25" y="128" width="25" height="24"/>
+                                                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
+                                                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="25" id="MKw-uA-l6O"/>
+                                                                <constraint firstAttribute="height" constant="25" id="aDF-jG-4zS"/>
+                                                            </constraints>
+                                                            <imageReference key="image" image="camera.circle" catalog="system" symbolScale="medium"/>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                    <real key="value" value="12"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </imageView>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstAttribute="bottom" secondItem="XkN-5X-OpC" secondAttribute="bottom" constant="10" id="4JP-9j-5h7"/>
                                                         <constraint firstAttribute="trailing" secondItem="2Oi-lA-Nid" secondAttribute="trailing" constant="5" id="NtT-GX-f7S"/>
                                                         <constraint firstItem="2Oi-lA-Nid" firstAttribute="leading" secondItem="5Py-Wg-sCK" secondAttribute="leading" constant="5" id="ZjM-TF-0Cg"/>
+                                                        <constraint firstItem="aOb-b9-j3y" firstAttribute="leading" secondItem="5Py-Wg-sCK" secondAttribute="leading" constant="25" id="adq-Zs-xvY"/>
+                                                        <constraint firstAttribute="bottom" secondItem="aOb-b9-j3y" secondAttribute="bottom" constant="10" id="anR-QP-YfP"/>
                                                         <constraint firstAttribute="bottom" secondItem="2Oi-lA-Nid" secondAttribute="bottom" id="nu5-d9-ww2"/>
                                                         <constraint firstItem="2Oi-lA-Nid" firstAttribute="top" secondItem="5Py-Wg-sCK" secondAttribute="top" id="tQW-TS-jYh"/>
                                                         <constraint firstAttribute="trailing" secondItem="XkN-5X-OpC" secondAttribute="trailing" constant="25" id="tRm-Ay-Bzl"/>
@@ -196,6 +213,7 @@
                                                 <connections>
                                                     <outlet property="slideImageView" destination="2Oi-lA-Nid" id="Nji-Of-6o6"/>
                                                     <outlet property="slideStatusLbl" destination="XkN-5X-OpC" id="T8k-kX-PXY"/>
+                                                    <outlet property="typeImageView" destination="aOb-b9-j3y" id="whm-0p-Lem"/>
                                                 </connections>
                                             </collectionViewCell>
                                         </cells>
@@ -204,8 +222,8 @@
                                             <outlet property="delegate" destination="7dM-Zx-Ro9" id="b6o-YS-STC"/>
                                         </connections>
                                     </collectionView>
-                                    <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="I4I-dY-Cjx">
-                                        <rect key="frame" x="98" y="132" width="115.5" height="26"/>
+                                    <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="1" translatesAutoresizingMaskIntoConstraints="NO" id="I4I-dY-Cjx">
+                                        <rect key="frame" x="115.5" y="132" width="80.5" height="26"/>
                                         <color key="pageIndicatorTintColor" systemColor="systemGrayColor"/>
                                         <color key="currentPageIndicatorTintColor" red="0.86666666670000003" green="0.34509803919999998" blue="0.0039215686269999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </pageControl>
@@ -1005,6 +1023,7 @@
         </designable>
     </designables>
     <resources>
+        <image name="camera.circle" catalog="system" width="128" height="121"/>
         <image name="checkmark.circle" catalog="system" width="128" height="121"/>
         <image name="checkmark.circle.fill" catalog="system" width="128" height="121"/>
         <image name="film" catalog="system" width="128" height="93"/>
@@ -1014,6 +1033,7 @@
         <image name="location.slash.fill" catalog="system" width="128" height="121"/>
         <image name="map" catalog="system" width="128" height="110"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
+        <image name="play.circle" catalog="system" width="128" height="121"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="scope" catalog="system" width="128" height="122"/>
         <image name="wifi.slash" catalog="system" width="128" height="102"/>

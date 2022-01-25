@@ -9,8 +9,12 @@ import Foundation
 import UIKit
 import CoreLocation
 import FirebaseStorage
+import NVActivityIndicatorView
 
 class Config {
+
+    static var aiLoadingData: NVActivityIndicatorView!
+
     static let MENU_ITEM_DASHBOARD: Int = 0
     static let MENU_ITEM_MAP: Int = 1
     static let MENU_ITEM_PROFILE: Int = 2
@@ -87,8 +91,6 @@ class Config {
 
     static let ARRAY_INCIDENT_ALL_STATUS = [0, 1, 2, 3, 4, 7]
 
-
-
     func showHideNoInternet(view: UIImageView, show: Bool) {
 
         if (show) {
@@ -103,5 +105,21 @@ class Config {
 
     }
 
+    func startLoadingData (view: UIView) {
+        let midX = view.center.x
+        let midY = view.center.y
+        print(midX)
+        print(midY)
+        let frame = CGRect(x: (midX-25), y: (midY-225), width: 50, height: 50)
+        Config.aiLoadingData = NVActivityIndicatorView(frame: frame, type: .ballRotateChase, color: .blue)
+        view.addSubview(Config.aiLoadingData)
+        Config.aiLoadingData.startAnimating()
+
+    }
+
+    func stopLoadingData() {
+        Config.aiLoadingData.stopAnimating()
+        Config.aiLoadingData.removeFromSuperview()
+    }
 
 }
