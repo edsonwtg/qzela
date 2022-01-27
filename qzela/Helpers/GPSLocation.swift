@@ -174,7 +174,7 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
 
     internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
 
-        print(" ****** didChangeAuthorization Status: \(status)")
+        print(" ****** didChangeAuthorization Status: \(manager.authorizationStatus)")
         switch manager.authorizationStatus {
             case .authorizedAlways:
                 return
