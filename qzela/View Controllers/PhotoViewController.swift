@@ -10,6 +10,18 @@ import AVFoundation
 
 class PhotoViewController: UIViewController {
 
+    @IBOutlet weak var stackViewPhoto: UIStackView!
+    @IBOutlet weak var photoImage1: UIImageView!
+    @IBOutlet weak var photoImage2: UIImageView!
+    @IBOutlet weak var photoImage3: UIImageView!
+    @IBOutlet weak var btPhotoVideo: UIButton!
+    @IBOutlet weak var btFlash: UIButton!
+    @IBOutlet weak var btTakePhoto: UIButton!
+    @IBOutlet weak var btSave: UIButton!
+    @IBOutlet weak var btContinue: UIButton!
+    
+    
+    
     // Capture Session
     var session: AVCaptureSession?
 
@@ -17,8 +29,6 @@ class PhotoViewController: UIViewController {
     let output = AVCapturePhotoOutput()
     // Video Preview
     let previewLayer = AVCaptureVideoPreviewLayer()
-    //Shutter button
-    @IBOutlet weak var btTakePhoto: UIButton!
 
     @IBAction func btBacktoTabBar(_ sender: Any) {
         tabBarController?.selectedIndex = 2
@@ -36,6 +46,19 @@ class PhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        photoImage1.layer.borderWidth = 2
+        photoImage1.layer.borderColor = UIColor.colorWhite.cgColor
+        photoImage1.alpha = 0.35
+        photoImage2.layer.borderWidth = 2
+        photoImage2.layer.borderColor = UIColor.colorWhite.cgColor
+        photoImage2.alpha = 0.35
+        photoImage3.layer.borderWidth = 2
+        photoImage3.layer.borderColor = UIColor.colorWhite.cgColor
+        photoImage3.alpha = 0.35
+
+
+
         view.layer.insertSublayer(previewLayer, at: 0)
         checkCameraPermissions()
     }

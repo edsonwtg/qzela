@@ -25,7 +25,7 @@ class DialogIncidentViewController: UIViewController {
     
     @IBOutlet weak var stackViewProtocol: UIStackView!
     @IBOutlet weak var lblHeadProtocol: UILabel!
-    @IBOutlet weak var lblProtocol: EdgeInsetLabel!
+    @IBOutlet weak var lblProtocol: UILabel!
     @IBOutlet weak var lblHeadAddress: UILabel!
     @IBOutlet weak var lblAddress: UILabel!
     @IBOutlet weak var lblHeadComments: UILabel!
