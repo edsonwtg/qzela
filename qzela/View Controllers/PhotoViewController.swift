@@ -38,20 +38,20 @@ class PhotoViewController: UIViewController {
         let tap1 = UITapGestureRecognizer(target: self, action: #selector(self.showPhoto))
         photoImage1.layer.borderWidth = 2
         photoImage1.layer.borderColor = UIColor.colorWhite.cgColor
-        photoImage1.alpha = 0.35
+        photoImage1.alpha = 0.75
         photoImage1.isUserInteractionEnabled = true
         photoImage1.addGestureRecognizer(tap1)
 
         photoImage2.layer.borderWidth = 2
         photoImage2.layer.borderColor = UIColor.colorWhite.cgColor
-        photoImage2.alpha = 0.35
+        photoImage2.alpha = 0.75
         photoImage2.isUserInteractionEnabled = true
         let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.showPhoto))
         photoImage2.addGestureRecognizer(tap2)
 
         photoImage3.layer.borderWidth = 2
         photoImage3.layer.borderColor = UIColor.colorWhite.cgColor
-        photoImage3.alpha = 0.35
+        photoImage3.alpha = 0.75
         photoImage3.isUserInteractionEnabled = true
         let tap3 = UITapGestureRecognizer(target: self, action: #selector(self.showPhoto))
         photoImage3.addGestureRecognizer(tap3)
