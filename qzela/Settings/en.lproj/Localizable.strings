@@ -27,4 +27,5 @@
 "text_forwarded" = "Forwarded";
 "text_resolved" = "Resolved";
 "text_registered" = "Registered";
-"text_solver"="Solver";
+"text_solver" = "Solver";
+"text_save" = "Save";
