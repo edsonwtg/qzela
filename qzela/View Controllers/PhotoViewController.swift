@@ -35,7 +35,7 @@ class PhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let tap1 = UITapGestureRecognizer(target: self, action: #selector(self.showPhoto))
+        let tap1 = UITapGestureRecognizer(target: self, action: #selector(showPhoto))
         photoImage1.layer.borderWidth = 2
         photoImage1.layer.borderColor = UIColor.colorWhite.cgColor
         photoImage1.alpha = 0.75
@@ -46,29 +46,24 @@ class PhotoViewController: UIViewController {
         photoImage2.layer.borderColor = UIColor.colorWhite.cgColor
         photoImage2.alpha = 0.75
         photoImage2.isUserInteractionEnabled = true
-        let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.showPhoto))
+        let tap2 = UITapGestureRecognizer(target: self, action: #selector(showPhoto))
         photoImage2.addGestureRecognizer(tap2)
 
         photoImage3.layer.borderWidth = 2
         photoImage3.layer.borderColor = UIColor.colorWhite.cgColor
         photoImage3.alpha = 0.75
         photoImage3.isUserInteractionEnabled = true
-        let tap3 = UITapGestureRecognizer(target: self, action: #selector(self.showPhoto))
+        let tap3 = UITapGestureRecognizer(target: self, action: #selector(showPhoto))
         photoImage3.addGestureRecognizer(tap3)
 
         btRecordVideo.visibility = .invisible
         btSave.setTitle("text_save".localized(), for: .normal)
         btContinue.setTitle("text_continue".localized(), for: .normal)
 
-
         view.layer.insertSublayer(previewLayer, at: 0)
-        checkCameraPermissions()
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
         previewLayer.frame = view.bounds
+
+        setupCamera()
     }
 
     @IBAction func btBacktoTabBar(_ sender: Any) {
@@ -99,7 +94,6 @@ class PhotoViewController: UIViewController {
                 btSave.isEnabled = true
                 btContinue.isEnabled = true
             }
-
         case "btRecorVideo":
             print("btRecordVideo")
         case "btFlash":
@@ -114,15 +108,11 @@ class PhotoViewController: UIViewController {
                 tpFlash = 1
                 btFlash.setImage(UIImage(systemName: "bolt.badge.a.fill"), for: .normal)
             }
-
-
-
         case "btTakePhoto":
             print("btTakePhoto")
             let photoSettings = AVCapturePhotoSettings()
             if let photoPreviewType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
                 photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: photoPreviewType]
-
                 output.capturePhoto(with: photoSettings, delegate: self)
             }
         case "btSave":
@@ -132,37 +122,6 @@ class PhotoViewController: UIViewController {
        default:
             break
         }
-    }
-
-    private func checkCameraPermissions() {
-        print(" ****** AVCaptureDevice Status: \(AVCaptureDevice.authorizationStatus(for: .video))")
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
-        case .authorized:
-            setupCamera()
-        case .denied:
-            return
-        case .restricted:
-            AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
-                guard granted else {
-                    return
-                }
-                DispatchQueue.main.async {
-                    self?.setupCamera()
-                }
-            }
-        case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
-                guard granted else {
-                    return
-                }
-                DispatchQueue.main.async {
-                    self?.setupCamera()
-                }
-            }
-        @unknown default :
-            break
-        }
-
     }
 
     private func setupCamera() {
@@ -191,8 +150,6 @@ class PhotoViewController: UIViewController {
     @objc func showPhoto (_ sender: UITapGestureRecognizer) {
         print("SHOW PHOTO: \(String(describing: sender.view?.restorationIdentifier))")
     }
-
-
 }
 
 extension PhotoViewController: AVCapturePhotoCaptureDelegate {
@@ -209,3 +166,5 @@ extension PhotoViewController: AVCapturePhotoCaptureDelegate {
         view.addSubview(imageView)
     }
 }
+
+

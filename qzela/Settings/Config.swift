@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import FirebaseStorage
 import NVActivityIndicatorView
+import AVFoundation
 
 class Config {
 
@@ -121,5 +122,42 @@ class Config {
         Config.aiLoadingData.stopAnimating()
         Config.aiLoadingData.removeFromSuperview()
     }
+
+    func checkCameraPermissions() -> Bool {
+        print(" ****** AVCaptureDevice Status: \(AVCaptureDevice.authorizationStatus(for: .video))")
+        var hasPermission = false
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            hasPermission = true
+        case .denied:
+            hasPermission = false
+        case .restricted:
+            let semaphore = DispatchSemaphore(value: 0)
+            AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
+                if granted {
+                    hasPermission = true
+                } else {
+                    hasPermission = false
+                }
+                semaphore.signal()
+            })
+            semaphore.wait()
+        case .notDetermined:
+            let semaphore = DispatchSemaphore(value: 0)
+            AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
+                if granted {
+                    hasPermission = true
+                } else {
+                    hasPermission = false
+                }
+               semaphore.signal()
+            })
+            semaphore.wait()
+        @unknown default :
+            break
+        }
+        return hasPermission
+    }
+
 
 }
