@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+import MapKit
 
 class PhotoViewController: UIViewController {
 
@@ -28,9 +29,32 @@ class PhotoViewController: UIViewController {
     let output = AVCapturePhotoOutput()
     // Video Preview
     let previewLayer = AVCaptureVideoPreviewLayer()
+    // Storage
+    enum StorageType {
+        case userDefaults
+        case fileSystem
+    }
+    let fileManager = FileManager.default
+
+    var bShootPhoto = false
+    var bShootVideo = false
 
     var bPhoto = true
     var tpFlash = 1
+
+    var bPhoto1 = false
+    var bPhoto2 = false
+    var bPhoto3 = false
+
+    var filePhoto1: String = ""
+    var filePhoto2: String = ""
+    var filePhoto3: String = ""
+
+    var imageFileName: String = ""
+
+    var gpsLocation = qzela.GPSLocation()
+    let config = Config()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +82,16 @@ class PhotoViewController: UIViewController {
 
         btRecordVideo.visibility = .invisible
         btSave.setTitle("text_save".localized(), for: .normal)
+        btSave.isEnabled = false
         btContinue.setTitle("text_continue".localized(), for: .normal)
+        btContinue.isEnabled = false
+        // TODO: Pass thisd functionality to initialize APP function
+        // create document diretory
+        config.cleanDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+//        config.cleanDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
+//        config.clearUserDefault()
+        config.getUserDefaults()
+
 
         view.layer.insertSublayer(previewLayer, at: 0)
         previewLayer.frame = view.bounds
@@ -91,8 +124,6 @@ class PhotoViewController: UIViewController {
                 btTakePhoto.visibility = .visible
                 photoImage2.visibility = .visible
                 photoImage3.visibility = .visible
-                btSave.isEnabled = true
-                btContinue.isEnabled = true
             }
         case "btRecorVideo":
             print("btRecordVideo")
@@ -109,18 +140,131 @@ class PhotoViewController: UIViewController {
                 btFlash.setImage(UIImage(systemName: "bolt.badge.a.fill"), for: .normal)
             }
         case "btTakePhoto":
-            print("btTakePhoto")
-            let photoSettings = AVCapturePhotoSettings()
-            if let photoPreviewType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
-                photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: photoPreviewType]
-                output.capturePhoto(with: photoSettings, delegate: self)
-            }
+//            let photoSettings = AVCapturePhotoSettings()
+//            if let photoPreviewType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
+//                photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: photoPreviewType]
+//                output.capturePhoto(with: photoSettings, delegate: self)
+//            }
+            photoToTest()
         case "btSave":
             print("btSave")
+
+            print("************** PATH_TEMP_FILES ************")
+            config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+            print("************** PATH_SAVED_FILES ************")
+            config.listDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
+
+            if (bPhoto1) {
+                config.moveImage(fileManager: fileManager, pathFileFrom: filePhoto1, pathTo: Config.PATH_SAVED_FILES)
+                Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: filePhoto1))
+                photoImage1.image = nil
+                bPhoto1 = false
+            }
+            if (bPhoto2) {
+                config.moveImage(fileManager: fileManager, pathFileFrom: filePhoto2, pathTo: Config.PATH_SAVED_FILES)
+                Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: filePhoto2))
+                photoImage2.image = nil
+                bPhoto2 = false
+            }
+            if (bPhoto3) {
+                config.moveImage(fileManager: fileManager, pathFileFrom: filePhoto3, pathTo: Config.PATH_SAVED_FILES)
+                Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: filePhoto3))
+                photoImage3.image = nil
+                bPhoto1 = false
+            }
+            Config.savCoordinate = CLLocationCoordinate2D(latitude: -23.612992, longitude: -46.682762)
+            Config.saveQtdIncidents += 1
+            Config.saveIncidents.append(Config.SaveIncidents(
+                    id: Config.saveQtdIncidents,
+                    latitude: Config.savCoordinate.latitude,
+                    longitude: Config.savCoordinate.longitude,
+                    dateTime:  Date(),
+                    savedImages: Config.saveImages)
+            )
+            print(Config.saveIncidents)
+            // Save user defaults
+            let data = try! JSONEncoder().encode(Config.saveIncidents)
+            Config.userDefaults.set(data, forKey: "incidentSaved")
+            Config.userDefaults.set(Config.saveQtdIncidents, forKey: "qtdIncidentSaved")
+            print("************** PATH_TEMP_FILES ************")
+            config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+            print("************** PATH_SAVED_FILES ************")
+            config.listDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
+
+            let actionHandler: (UIAlertAction) -> Void = { (action) in
+                //Back to Map
+                Config.backSaveIncident = true
+                self.dismiss(animated: true, completion: nil)
+                print("****** EXIT ******")
+            }
+            showAlert(title: "text_success".localized(),
+                    message: "text_image_save".localized(),
+                    actionTitles: ["text_ok".localized()],
+                    style: [.default],
+                    actions: [actionHandler])
         case "btContinue":
             print("btContinue")
-       default:
+            config.cleanDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+            print("************** PATH_TEMP_FILES ************")
+            config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+
+//            config.cleanDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
+//            config.clearUserDefault()
+//            print("************** PATH_SAVED_FILES ************")
+//            config.listDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
+//            config.getUserDefaults()
+
+            photoImage1.image = nil
+            bPhoto1 = false
+            photoImage2.image = nil
+            bPhoto2 = false
+            photoImage3.image = nil
+            bPhoto3 = false
+            btTakePhoto.isEnabled = true
+        default:
             break
+        }
+    }
+
+    // Função para teste no simulador
+    func photoToTest() {
+
+        var image: UIImage!
+        if (!bPhoto1) {
+            image = UIImage(named: "img_open_0")!
+            btSave.isEnabled = true
+            btContinue.isEnabled = true
+        } else if (!bPhoto2) {
+            image = UIImage(named: "img_open_1")!
+        } else if (!bPhoto3) {
+            image = UIImage(named: "img_open_2")!
+        }
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd_HHmmss"
+        imageFileName = "IMG_" + formatter.string(from: Date()) + ".jpg"
+        guard let urlString = config.saveImage(
+                fileManager: fileManager,
+                path: Config.PATH_TEMP_FILES,
+                fileName: imageFileName,
+                image: image)
+                else {return}
+        if (!bPhoto1) {
+            filePhoto1 = urlString
+            photoImage1.image = UIImage(contentsOfFile: urlString)
+            bPhoto1 = true
+            print("Photo 1 Localization: " + filePhoto1)
+        } else if (!bPhoto2) {
+            filePhoto2 = urlString
+            photoImage2.image = UIImage(contentsOfFile: urlString)
+            bPhoto2 = true
+            print("Photo 2 Localization: " + filePhoto2)
+        } else if (!bPhoto3) {
+            filePhoto3 = urlString
+            photoImage3.image = UIImage(contentsOfFile: urlString)
+            bPhoto3 = true
+            print("Photo 3 Localization: " + filePhoto3)
+            btTakePhoto.isEnabled = false
         }
     }
 
@@ -142,14 +286,36 @@ class PhotoViewController: UIViewController {
                 self.session = session
             }
             catch {
-
+                print("*********** ERROR CAPTURE CAMERA")
             }
         }
-
     }
     @objc func showPhoto (_ sender: UITapGestureRecognizer) {
         print("SHOW PHOTO: \(String(describing: sender.view?.restorationIdentifier))")
+        switch sender.view?.restorationIdentifier {
+        case "photoImage1":
+            if (bPhoto1) {
+                print("PHOTO: 1")
+            } else {
+                print("NO PHOTO: 1")
+            }
+        case "photoImage2":
+            if (bPhoto1) {
+                print("PHOTO: 2")
+            }else {
+                print("NO PHOTO: 2")
+            }
+        case "photoImage3":
+            if (bPhoto1) {
+                print("PHOTO: 3")
+            }else {
+                print("NO PHOTO: 3")
+            }
+        default:
+            break
+        }
     }
+
 }
 
 extension PhotoViewController: AVCapturePhotoCaptureDelegate {
@@ -158,12 +324,37 @@ extension PhotoViewController: AVCapturePhotoCaptureDelegate {
             return
         }
         let image = UIImage(data: data)
-        session?.stopRunning()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd_HHmmss"
+        imageFileName = "IMG_" + formatter.string(from: Date()) + ".jpg"
 
-        let  imageView = UIImageView(image: image)
-        imageView.contentMode = .scaleAspectFill
-        imageView.frame = view.bounds
-        view.addSubview(imageView)
+        guard let urlString = config.saveImage(
+                fileManager: fileManager,
+                path: Config.PATH_TEMP_FILES,
+                fileName: imageFileName,
+                image: image!)
+        else {
+            return
+        }
+        if (!bPhoto1) {
+            filePhoto1 = urlString
+            photoImage1.image = UIImage(contentsOfFile: urlString)
+            bPhoto1 = true
+            btSave.isEnabled = true
+            btContinue.isEnabled = true
+            print("Photo 1 Localization: " + filePhoto1)
+        } else if (!bPhoto2) {
+            filePhoto2 = urlString
+            photoImage2.image = UIImage(contentsOfFile: urlString)
+            bPhoto2 = true
+            print("Photo 2 Localization: " + filePhoto2)
+        } else if (!bPhoto3) {
+            filePhoto3 = urlString
+            photoImage3.image = UIImage(contentsOfFile: urlString)
+            bPhoto3 = true
+            print("Photo 3 Localization: " + filePhoto3)
+            btTakePhoto.isEnabled = false
+        }
     }
 }
 

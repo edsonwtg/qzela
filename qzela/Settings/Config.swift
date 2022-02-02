@@ -31,6 +31,47 @@ class Config {
     static let LATLNG_REDUCE_BOUNDS_PERCENTAGE: Double = 15 // Reduce bonds percentage of view port
     static let LATLNG_REDUCE_BOUNDS_PERCENTAGE_SAVED_INCIDENT: Double = 30 // Reduce bonds percentage of view port for saved incidents
 
+    static let PATH_TEMP_FILES: String = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent("QZela")
+    static let PATH_SAVED_FILES: String = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent("QZela_SAV")
+
+    // JSON struct to save Images
+    struct SaveIncidents: Codable {
+        var id: Int
+        var latitude: Double
+        var longitude: Double
+        var dateTime: Date
+        var savedImages: [SavedImages]
+
+        struct SavedImages: Codable {
+            var fileImage: String
+        }
+    }
+
+    static var backSaveIncident = false
+    static var saveImages = [SaveIncidents.SavedImages]()
+    static var saveIncidents = [SaveIncidents]()
+    static var saveQtdIncidents = 0
+
+    static let userDefaults = UserDefaults.standard
+
+    func getUserDefaults() {
+
+        if (Config.userDefaults.integer(forKey: "qtdIncidentSaved") == 0) {
+            Config.userDefaults.set(0, forKey: "qtdIncidentSaved")
+            Config.userDefaults.set(Config.saveIncidents, forKey: "incidentSaved")
+        } else {
+            Config.saveQtdIncidents = Config.userDefaults.integer(forKey: "qtdIncidentSaved")
+            let jsomData =  Config.userDefaults.object(forKey: "incidentSaved") as! Data
+            Config.saveIncidents = try! JSONDecoder().decode([Config.SaveIncidents].self, from: jsomData)
+            print(Config.saveIncidents)
+        }
+    }
+
+    func clearUserDefault() {
+        Config.userDefaults.removeObject(forKey: "incidentSaved")
+        Config.userDefaults.removeObject(forKey: "qtdIncidentSaved")
+    }
+
     static var savApiCoordinate: CLLocationCoordinate2D?
     static var savCoordinate: CLLocationCoordinate2D!
     static var savCurrentZoom: Float = ZOOM_INITIAL
@@ -103,7 +144,6 @@ class Config {
             view.isHidden = true
             view.stopAnimating()
         }
-
     }
 
     func startLoadingData (view: UIView) {
@@ -115,7 +155,6 @@ class Config {
         Config.aiLoadingData = NVActivityIndicatorView(frame: frame, type: .ballRotateChase, color: .blue)
         view.addSubview(Config.aiLoadingData)
         Config.aiLoadingData.startAnimating()
-
     }
 
     func stopLoadingData() {
@@ -158,6 +197,61 @@ class Config {
         }
         return hasPermission
     }
+
+    func saveImage(fileManager: FileManager, path: String, fileName: String, image: UIImage) -> String? {
+
+        let url = URL(string: path)
+        let imagePath = url!.appendingPathComponent(fileName)
+        let urlString: String = imagePath.absoluteString
+//        print("FILE AND PATH: \(urlString)")
+        let imageData = image.jpegData(compressionQuality: 0.5)
+        if (!fileManager.createFile(atPath: urlString as String, contents: imageData, attributes: nil)) {
+            print("ERROR FAIL CREATED IMAGE: \(urlString)")
+            return nil
+        }
+        return urlString
+    }
+
+    func moveImage(fileManager: FileManager, pathFileFrom: String, pathTo: String) {
+        do {
+            print(pathFileFrom)
+            let fileName: String = pathFileFrom.components(separatedBy: "/").last!
+            print(fileName)
+            let pathFileTo = pathTo+"/"+fileName
+            print(pathFileTo)
+            try fileManager.moveItem(atPath: pathFileFrom, toPath: pathFileTo)
+        } catch {
+            print("ERROR MOVE FILE")
+        }
+    }
+
+
+func listDirectory(fileManager: FileManager, path: String) {
+        do {
+            let items = try fileManager.contentsOfDirectory(atPath: path)
+
+            for item in items {
+                print("Found \(item)")
+            }
+        } catch {
+            print("Error File Path \(Config.PATH_TEMP_FILES)")
+        }
+    }
+
+    func createDirectory(fileManager: FileManager, path: String) {
+        // create document directory
+        if !fileManager.fileExists(atPath: path) {
+            try! fileManager.createDirectory(atPath: path, withIntermediateDirectories: true, attributes: nil)
+        }
+    }
+
+    func cleanDirectory(fileManager: FileManager, path: String) {
+        if fileManager.fileExists(atPath: path) {
+            try! fileManager.removeItem(atPath: path)
+        }
+        createDirectory(fileManager: fileManager, path: path)
+    }
+
 
 
 }
