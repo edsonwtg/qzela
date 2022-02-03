@@ -22,7 +22,6 @@ class PhotoViewController: UIViewController {
     @IBOutlet weak var btSave: UIButton!
     @IBOutlet weak var btContinue: UIButton!
 
-
     // Capture Session
     var session: AVCaptureSession?
     // Photo Output
@@ -55,11 +54,53 @@ class PhotoViewController: UIViewController {
     var gpsLocation = qzela.GPSLocation()
     let config = Config()
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if (Config.deletePhoto != 0 ) {
+            print("************** PATH_TEMP_FILES ************")
+            config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+            print("***** DELETE PHOTO: \(Config.deletePhoto) *****")
+            if (Config.deletePhoto == 1) {
+                config.deleteImage(fileManager: fileManager, pathFileFrom: filePhoto1)
+                photoImage1.image = photoImage2.image
+                filePhoto1 = filePhoto2
+                photoImage2.image = photoImage3.image
+                filePhoto2 = filePhoto3
+            }
+            if (Config.deletePhoto == 2) {
+                config.deleteImage(fileManager: fileManager, pathFileFrom: filePhoto2)
+                photoImage2.image = photoImage3.image
+                filePhoto2 = filePhoto3
+            }
+            if (Config.deletePhoto == 3) {
+                config.deleteImage(fileManager: fileManager, pathFileFrom: filePhoto3)
+            }
+            if (filePhoto2 == "") {
+                bPhoto2 = false
+                photoImage2.image = nil
+            }
+            if (filePhoto1 == "") {
+                bPhoto1 = false
+                photoImage1.image = nil
+            }
+            Config.deletePhoto = 0
+            btTakePhoto.isEnabled = true
+            photoImage3.image = nil
+            filePhoto3 = ""
+            bPhoto3 = false
+            if (!bPhoto1 && !bPhoto2 && !bPhoto3) {
+                btSave.isEnabled = false
+                btContinue.isEnabled = false
+            }
+            print("************** PATH_TEMP_FILES ************")
+            config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let tap1 = UITapGestureRecognizer(target: self, action: #selector(showPhoto))
+        let tap1 = UITapGestureRecognizer(target: self, action: #selector(tapGestureImage))
         photoImage1.layer.borderWidth = 2
         photoImage1.layer.borderColor = UIColor.colorWhite.cgColor
         photoImage1.alpha = 0.75
@@ -70,14 +111,14 @@ class PhotoViewController: UIViewController {
         photoImage2.layer.borderColor = UIColor.colorWhite.cgColor
         photoImage2.alpha = 0.75
         photoImage2.isUserInteractionEnabled = true
-        let tap2 = UITapGestureRecognizer(target: self, action: #selector(showPhoto))
+        let tap2 = UITapGestureRecognizer(target: self, action: #selector(tapGestureImage))
         photoImage2.addGestureRecognizer(tap2)
 
         photoImage3.layer.borderWidth = 2
         photoImage3.layer.borderColor = UIColor.colorWhite.cgColor
         photoImage3.alpha = 0.75
         photoImage3.isUserInteractionEnabled = true
-        let tap3 = UITapGestureRecognizer(target: self, action: #selector(showPhoto))
+        let tap3 = UITapGestureRecognizer(target: self, action: #selector(tapGestureImage))
         photoImage3.addGestureRecognizer(tap3)
 
         btRecordVideo.visibility = .invisible
@@ -140,12 +181,15 @@ class PhotoViewController: UIViewController {
                 btFlash.setImage(UIImage(systemName: "bolt.badge.a.fill"), for: .normal)
             }
         case "btTakePhoto":
-//            let photoSettings = AVCapturePhotoSettings()
-//            if let photoPreviewType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
-//                photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: photoPreviewType]
-//                output.capturePhoto(with: photoSettings, delegate: self)
-//            }
-            photoToTest()
+            #if (arch(i386) || arch(x86_64)) && (!os(macOS))
+                photoToTest()
+            #else
+                let photoSettings = AVCapturePhotoSettings()
+                if let photoPreviewType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
+                    photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: photoPreviewType]
+                    output.capturePhoto(with: photoSettings, delegate: self)
+                }
+             #endif
         case "btSave":
             print("btSave")
 
@@ -208,19 +252,23 @@ class PhotoViewController: UIViewController {
             print("************** PATH_TEMP_FILES ************")
             config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
 
-//            config.cleanDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
-//            config.clearUserDefault()
-//            print("************** PATH_SAVED_FILES ************")
-//            config.listDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
-//            config.getUserDefaults()
-
+            config.cleanDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
+            config.clearUserDefault()
+            print("************** PATH_SAVED_FILES ************")
+            config.listDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
+            config.getUserDefaults()
             photoImage1.image = nil
+            filePhoto1 = ""
             bPhoto1 = false
             photoImage2.image = nil
+            filePhoto2 = ""
             bPhoto2 = false
             photoImage3.image = nil
+            filePhoto3 = ""
             bPhoto3 = false
             btTakePhoto.isEnabled = true
+            Config.deletePhoto = 0
+            Config.backSaveIncident = false
         default:
             break
         }
@@ -235,7 +283,7 @@ class PhotoViewController: UIViewController {
             btSave.isEnabled = true
             btContinue.isEnabled = true
         } else if (!bPhoto2) {
-            image = UIImage(named: "img_open_1")!
+            image = UIImage(named: "open_img_0")!
         } else if (!bPhoto3) {
             image = UIImage(named: "img_open_2")!
         }
@@ -254,18 +302,33 @@ class PhotoViewController: UIViewController {
             photoImage1.image = UIImage(contentsOfFile: urlString)
             bPhoto1 = true
             print("Photo 1 Localization: " + filePhoto1)
+            Config.deletePhoto = 1
         } else if (!bPhoto2) {
             filePhoto2 = urlString
             photoImage2.image = UIImage(contentsOfFile: urlString)
             bPhoto2 = true
             print("Photo 2 Localization: " + filePhoto2)
+            Config.deletePhoto = 2
         } else if (!bPhoto3) {
             filePhoto3 = urlString
             photoImage3.image = UIImage(contentsOfFile: urlString)
             bPhoto3 = true
             print("Photo 3 Localization: " + filePhoto3)
             btTakePhoto.isEnabled = false
+            Config.deletePhoto = 3
         }
+        showImage(urlImage: urlString)
+    }
+
+    func showImage(urlImage: String) {
+
+        let controller = storyboard?.instantiateViewController(withIdentifier: "PreviewViewController") as! PreviewViewController
+        controller.modalPresentationStyle = .fullScreen
+        controller.modalTransitionStyle = .flipHorizontal
+        // pass data to view controller
+        controller.urlImage = urlImage
+        present(controller, animated: true)
+
     }
 
     private func setupCamera() {
@@ -290,30 +353,35 @@ class PhotoViewController: UIViewController {
             }
         }
     }
-    @objc func showPhoto (_ sender: UITapGestureRecognizer) {
-        print("SHOW PHOTO: \(String(describing: sender.view?.restorationIdentifier))")
+    @objc func tapGestureImage (_ sender: UITapGestureRecognizer) {
+
+        var filePhoto: String!
         switch sender.view?.restorationIdentifier {
         case "photoImage1":
             if (bPhoto1) {
-                print("PHOTO: 1")
+                filePhoto = filePhoto1
+                Config.deletePhoto = 1
             } else {
-                print("NO PHOTO: 1")
+                return
             }
         case "photoImage2":
-            if (bPhoto1) {
-                print("PHOTO: 2")
-            }else {
-                print("NO PHOTO: 2")
+            if (bPhoto2) {
+                filePhoto = filePhoto2
+                Config.deletePhoto = 2
+            } else {
+                return
             }
         case "photoImage3":
-            if (bPhoto1) {
-                print("PHOTO: 3")
-            }else {
-                print("NO PHOTO: 3")
+            if (bPhoto3) {
+                filePhoto = filePhoto3
+                Config.deletePhoto = 3
+            } else {
+                return
             }
         default:
             break
         }
+        showImage(urlImage: filePhoto)
     }
 
 }
@@ -343,18 +411,22 @@ extension PhotoViewController: AVCapturePhotoCaptureDelegate {
             btSave.isEnabled = true
             btContinue.isEnabled = true
             print("Photo 1 Localization: " + filePhoto1)
+            Config.deletePhoto = 1
         } else if (!bPhoto2) {
             filePhoto2 = urlString
             photoImage2.image = UIImage(contentsOfFile: urlString)
             bPhoto2 = true
             print("Photo 2 Localization: " + filePhoto2)
+            Config.deletePhoto = 2
         } else if (!bPhoto3) {
             filePhoto3 = urlString
             photoImage3.image = UIImage(contentsOfFile: urlString)
             bPhoto3 = true
             print("Photo 3 Localization: " + filePhoto3)
             btTakePhoto.isEnabled = false
+            Config.deletePhoto = 3
         }
+        showImage(urlImage: urlString)
     }
 }
 

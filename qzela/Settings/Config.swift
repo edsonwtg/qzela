@@ -47,7 +47,11 @@ class Config {
         }
     }
 
+    // Variables for pass data from/to view controllers
     static var backSaveIncident = false
+    static var deletePhoto = 0
+    // *******
+
     static var saveImages = [SaveIncidents.SavedImages]()
     static var saveIncidents = [SaveIncidents]()
     static var saveQtdIncidents = 0
@@ -225,6 +229,14 @@ class Config {
         }
     }
 
+    func deleteImage(fileManager: FileManager, pathFileFrom: String) {
+        do {
+            print(pathFileFrom)
+            try fileManager.removeItem(atPath: pathFileFrom)
+        } catch {
+            print("ERROR MOVE FILE")
+        }
+    }
 
 func listDirectory(fileManager: FileManager, path: String) {
         do {

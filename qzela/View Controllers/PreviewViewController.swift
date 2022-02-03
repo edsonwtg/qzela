@@ -9,29 +9,33 @@ import UIKit
 
 class PreviewViewController: UIViewController {
 
-    @IBAction func btGotoNotification(_ sender: Any) {
+    // var to receive data from PhotoViewController
+    var urlImage: String?
 
-        gotoViewControllerWithBack(viewController: "NotificationViewController")
+    @IBOutlet weak var imageView: UIImageView!
 
+    @IBAction func btClick(_ sender: UIButton) {
+
+        switch sender.restorationIdentifier {
+        case "btOk":
+            Config.deletePhoto = 0
+            dismiss(animated: true, completion: nil)
+        case "btDelete":
+            // pass data to view controller
+            dismiss(animated: true, completion: nil)
+        default:
+            break
+        }
     }
-    @IBAction func btBackTabbar(_ sender: Any) {
-        tabBarController?.selectedIndex = 2
-        dismiss(animated: true, completion: nil)
 
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-    }
-    
+        if urlImage == nil {
+            dismiss(animated: true, completion: nil)
+        }
 
-    func gotoViewControllerWithBack(viewController: String) {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let nextViewController = storyBoard.instantiateViewController(withIdentifier: viewController)
-        nextViewController.modalPresentationStyle = .fullScreen
-        nextViewController.modalTransitionStyle = .flipHorizontal
-        self.present(nextViewController, animated:true)
+        imageView.image = UIImage(contentsOfFile: urlImage!)
     }
 
 }
