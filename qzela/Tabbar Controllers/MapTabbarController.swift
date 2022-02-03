@@ -50,6 +50,11 @@ class MapTabbarController: UIViewController {
             print("***** startLocationUpdates *****")
             gpsLocation.startLocationUpdates()
         }
+        if (Config.backSaveIncident) {
+            clearMarkers()
+            gotoMyLocation()
+            Config.backSaveIncident = false
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -88,8 +93,6 @@ class MapTabbarController: UIViewController {
 
 //        c.type = .ballRotateChase
 //        aiLoadingData.color = .blue
-        
-        
     }
 
     @IBAction func btnClick(_ sender: UIButton) {
@@ -104,19 +107,34 @@ class MapTabbarController: UIViewController {
         case "btNewIncident":
             // check GPS
             if (gpsLocation.isGpsEnable()) {
-                Config.savCoordinate = gpsLocation.getCoordinate()
-                // Go to Photo View Controller
-                let controller = storyboard?.instantiateViewController(withIdentifier: "PhotoViewController") as! PhotoViewController
-                controller.modalPresentationStyle = .fullScreen
-                controller.modalTransitionStyle = .crossDissolve
-                present(controller, animated: true)
+                // check camera permission
+                if (config.checkCameraPermissions()) {
+                    Config.savCoordinate = gpsLocation.getCoordinate()
+                    // Go to Photo View Controller
+                    let controller = storyboard?.instantiateViewController(withIdentifier: "PhotoViewController") as! PhotoViewController
+                    controller.modalPresentationStyle = .fullScreen
+                    controller.modalTransitionStyle = .crossDissolve
+                    present(controller, animated: true)
+                }
+                else {
+                    let actionHandler: (UIAlertAction) -> Void = { (action) in
+                        //Redirect to Settings app
+                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                    }
+                    showAlert(title: "No Camera Parmission",
+                            message: "Go to Camerera perimission".localized(),
+                            actionTitles: ["text_settings".localized(), "text_cancel".localized()],
+                            style: [.default, .cancel],
+                            actions: [actionHandler, nil])
+                    return
+                }
             }
             else {
                 let actionHandler: (UIAlertAction) -> Void = { (action) in
                     //Redirect to Settings app
                     UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
                 }
-                showAlert(title: "text_gps_permission".localized(),
+                showAlert(title: "text_no_gps_permission".localized(),
                         message: "text_gps_never_permission".localized(),
                         actionTitles: ["text_settings".localized(), "text_cancel".localized()],
                         style: [.default, .cancel],
@@ -174,7 +192,6 @@ class MapTabbarController: UIViewController {
         )
         // Google Maps events delegate
         mapView.delegate = self
-        print("***** MAP INIT - END *****")
     }
 
     func gotoMyLocation() {
@@ -466,60 +483,6 @@ class MapTabbarController: UIViewController {
         let orientation = view.window?.windowScene?.interfaceOrientation
         return orientation
 
-    }
-
-}
-
-extension UIViewController {
-
-/// Show alert view
-/// - Parameter title: title of alert
-/// - Parameter message: message of alert
-/// - Parameter actionTitles: List of action button titles(ex : "OK","Cancel" etc)
-/// - Parameter style: Style of the buttons
-/// - Parameter actions: actions repective to each actionTitles
-/// - Parameter preferredActionIndex: Index of the button that needs to be shown in bold. If nil is passed, default button will be cancel.
-
-/**
- Example usage:-
- Just make sure actionTitles and actions array the same count.
-
- /********** 1. Pass nil if you don't need any action handler closure. **************/
- self.showAlert(title: "Title", message: "message", actionTitles: ["OK"], style: [.deafult], actions: [nil])
-
- /*********** 2. Alert view with one action **************/
-
- ///     let okActionHandler: ((UIAlertAction) -> Void) = {(action) in
- //Perform action of Ok here
- }
- self.showAlert(title: "Title", message: "message", actionTitles: ["OK", "CANCEL"], style: [.default, .cancel], actions: [okayActionHandler, nil])
-
- /********** 3.Alert view with two actions **************/
-
- let okActionHandler: ((UIAlertAction) -> Void) = {(action) in
- //Perform action of ok here
- }
-
- let cancelActionHandler: ((UIAlertAction) -> Void) = {(action) in
- //Perform action of cancel here
- }
-
- self.showAlert(title: "Title", message: "message", actionTitles: ["OK", "CANCEL"], style: [.default, .cancel], actions: [okActionHandler,cancelActionHandler], preferredActionIndex: 1)
- */
-
-    public func showAlert(title: String?,
-                          message: String?,
-                          actionTitles: [String?],
-                          style: [UIAlertAction.Style],
-                          actions: [((UIAlertAction) -> Void)?],
-                          preferredActionIndex: Int? = nil) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        for (index, title) in actionTitles.enumerated() {
-            let action = UIAlertAction(title: title, style: style[index], handler: actions[index])
-            alert.addAction(action)
-        }
-        if let preferredActionIndex = preferredActionIndex { alert.preferredAction = alert.actions[preferredActionIndex] }
-        present(alert, animated: true, completion: nil)
     }
 }
 

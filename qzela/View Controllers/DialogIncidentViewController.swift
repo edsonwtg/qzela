@@ -25,7 +25,7 @@ class DialogIncidentViewController: UIViewController {
     
     @IBOutlet weak var stackViewProtocol: UIStackView!
     @IBOutlet weak var lblHeadProtocol: UILabel!
-    @IBOutlet weak var lblProtocol: EdgeInsetLabel!
+    @IBOutlet weak var lblProtocol: UILabel!
     @IBOutlet weak var lblHeadAddress: UILabel!
     @IBOutlet weak var lblAddress: UILabel!
     @IBOutlet weak var lblHeadComments: UILabel!
@@ -75,7 +75,7 @@ class DialogIncidentViewController: UIViewController {
         lblHeadComments.text = "text_comments".localized()
         btSolver.setTitle("text_solver".localized(), for: .normal)
 
-        config.startLoadingData(view: self.view)
+        config.startLoadingData(view: view)
 
         // Close
 //        incidentId = "60af7a23c972406df17bb914"
@@ -195,14 +195,14 @@ class DialogIncidentViewController: UIViewController {
             dismiss(animated: true, completion: nil)
         case "btLike":
             print("btLike")
-        case "btDisLike":
+         case "btDisLike":
             print("btDislike")
         case "btSolver":
             print("btSolver")
         case "btFeedback":
             print("btFeedback")
         default:
-            print("Default")
+            break
         }
     }
 

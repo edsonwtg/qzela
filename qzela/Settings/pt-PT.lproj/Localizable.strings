@@ -10,6 +10,7 @@
 */
 
 "text_got_it" = "Apanhei!";
+"text_ok" = "Ok";
 "text_cancel" = "Cancelar";
 "text_no_internet" = "Sem Internet";
 "text_internet_off" = "Não podemos aceder à Internet, por favor verifique a sua ligação à Internet e tente novamente mais tarde.";
@@ -28,3 +29,6 @@
 "text_resolved" = "Resolvido";
 "text_registered" = "Registrado";
 "text_solver"="Resolver";
+"text_save" = "Salvar";
+"text_success" = "Sucesso";
+"text_image_save" = "Imagem guardada com sucesso!\nRecordando que tem 24 Horas para gerar os incidentes, após esse período as imagens serão apagadas automaticamente.";

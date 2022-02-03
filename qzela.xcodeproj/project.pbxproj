@@ -36,6 +36,7 @@
 		6FDE764C27498E940050510C /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE764B27498E940050510C /* PreviewViewController.swift */; };
 		6FDE764E27498EA80050510C /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE764D27498EA80050510C /* SplashViewController.swift */; };
 		B2D3E0FA6A3C5700EFF2A2A9 /* LocationOther.gpx in Resources */ = {isa = PBXBuildFile; fileRef = B2D3EC3FA1A2DFB430A52E3A /* LocationOther.gpx */; };
+		B2D3E1C5E88C94235F28CAFF /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E653E237C2B851CBE136 /* UIViewControllerExtension.swift */; };
 		B2D3E3518B63C2035ABBDB71 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2D3E22C054A35B8E76D21EC /* Main.storyboard */; };
 		B2D3E556D83D200B40C4F280 /* HomeMoving.gpx in Resources */ = {isa = PBXBuildFile; fileRef = B2D3E12913FCACC0982F50C2 /* HomeMoving.gpx */; };
 		B2D3E606B79624A8328A4765 /* NearHome.gpx in Resources */ = {isa = PBXBuildFile; fileRef = B2D3E77BAEA6EF84235E53B8 /* NearHome.gpx */; };
@@ -89,6 +90,7 @@
 		B2D3E0D39CCE03E6C8736CF7 /* LocalizationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizationExtension.swift; sourceTree = "<group>"; };
 		B2D3E12913FCACC0982F50C2 /* HomeMoving.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = HomeMoving.gpx; sourceTree = "<group>"; };
 		B2D3E22C054A35B8E76D21EC /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		B2D3E653E237C2B851CBE136 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		B2D3E7542E8F732C5F399FA3 /* NetworkListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkListener.swift; sourceTree = "<group>"; };
 		B2D3E77BAEA6EF84235E53B8 /* NearHome.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = NearHome.gpx; sourceTree = "<group>"; };
 		B2D3EC3FA1A2DFB430A52E3A /* LocationOther.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = LocationOther.gpx; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				B2D3E046968EF6A49E0AAF99 /* UIColorExtension.swift */,
 				B2D3EE9A537C746BDEFEFAA2 /* GraphqlScalarExtension.swift */,
 				B2D3E0D39CCE03E6C8736CF7 /* LocalizationExtension.swift */,
+				B2D3E653E237C2B851CBE136 /* UIViewControllerExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -438,6 +441,7 @@
 				B2D3EC20D55F8424E47351D4 /* UIColorExtension.swift in Sources */,
 				B2D3E7262F2984F7F2139C93 /* GraphqlScalarExtension.swift in Sources */,
 				B2D3ED42769AEFDDC100F4CF /* LocalizationExtension.swift in Sources */,
+				B2D3E1C5E88C94235F28CAFF /* UIViewControllerExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -585,10 +589,12 @@
 				DEVELOPMENT_TEAM = CN8XHSS9HN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = qzela/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow access to take photo.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Please allow access  to see your location";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Please allow access  to see your location";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Please allow access  to see your location";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please allow access  to see your location";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Please allow access to record audio";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -619,10 +625,12 @@
 				DEVELOPMENT_TEAM = CN8XHSS9HN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = qzela/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow access to take photo.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Please allow access  to see your location";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Please allow access  to see your location";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Please allow access  to see your location";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please allow access  to see your location";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Please allow access to record audio";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

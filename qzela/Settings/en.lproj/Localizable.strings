@@ -10,6 +10,7 @@
 */
 
 "text_got_it" = "Got it!";
+"text_ok" = "Ok";
 "text_cancel" = "Cancel";
 "text_no_internet" = "No Internet";
 "text_internet_off" = "We can\'t access the Internet, please check your Internet connection and try again later.";
@@ -27,4 +28,7 @@
 "text_forwarded" = "Forwarded";
 "text_resolved" = "Resolved";
 "text_registered" = "Registered";
-"text_solver"="Solver";
+"text_solver" = "Solver";
+"text_save" = "Save";
+"text_success" = "Success";
+"text_image_save" = "Image saved successfully!\nRemembering that you have 24 Hours to generate the incidents, after that period the images will be deleted automatically.";
