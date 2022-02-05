@@ -22,12 +22,38 @@ class PhotoViewController: UIViewController {
     @IBOutlet weak var btSave: UIButton!
     @IBOutlet weak var btContinue: UIButton!
 
+    //  Photo/Video =device input
+    var videoDeviceInput: AVCaptureDeviceInput!
+
     // Capture Session
-    var session: AVCaptureSession?
+    var session = AVCaptureSession()
+    var captureSession = AVCaptureSession()
+
     // Photo Output
     let output = AVCapturePhotoOutput()
+    let photoOutput = AVCapturePhotoOutput()
+    let videoOutput = AVCaptureMovieFileOutput()
     // Video Preview
-    let previewLayer = AVCaptureVideoPreviewLayer()
+    var previewLayer = AVCaptureVideoPreviewLayer()
+
+
+    private enum DepthDataDeliveryMode {
+        case on
+        case off
+    }
+
+    private enum PortraitEffectsMatteDeliveryMode {
+        case on
+        case off
+    }
+
+    private var depthDataDeliveryMode: DepthDataDeliveryMode = .off
+    private var portraitEffectsMatteDeliveryMode: PortraitEffectsMatteDeliveryMode = .off
+    private var selectedSemanticSegmentationMatteTypes = [AVSemanticSegmentationMatte.MatteType]()
+    private var photoQualityPrioritizationMode: AVCapturePhotoOutput.QualityPrioritization = .balanced
+
+
+
     // Storage
     enum StorageType {
         case userDefaults
@@ -53,6 +79,30 @@ class PhotoViewController: UIViewController {
 
     var gpsLocation = qzela.GPSLocation()
     let config = Config()
+
+    var orientation = UIDevice.current.orientation
+
+    override open var shouldAutorotate: Bool {
+
+        orientation = UIDevice.current.orientation
+
+        previewLayer.frame = view.bounds
+        previewLayer.videoGravity = .resizeAspectFill
+
+        switch (orientation) {
+        case .portrait:
+            previewLayer.connection?.videoOrientation = .portrait
+        case .portraitUpsideDown:
+            previewLayer.connection?.videoOrientation = .portraitUpsideDown
+        case .landscapeLeft:
+            previewLayer.connection?.videoOrientation = .landscapeRight
+        case .landscapeRight:
+            previewLayer.connection?.videoOrientation = .landscapeLeft
+        default:
+            previewLayer.connection?.videoOrientation = .portrait
+        }
+        return true
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -127,17 +177,21 @@ class PhotoViewController: UIViewController {
         btContinue.setTitle("text_continue".localized(), for: .normal)
         btContinue.isEnabled = false
         // TODO: Pass thisd functionality to initialize APP function
+        // check if simulator or device
+        #if (arch(i386) || arch(x86_64)) && (!os(macOS))
+            Config.isSimulator = true
+        #else
+            Config.isSimulator = false
+        #endif
+
         // create document diretory
         config.cleanDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
 //        config.cleanDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
 //        config.clearUserDefault()
         config.getUserDefaults()
 
-
-        view.layer.insertSublayer(previewLayer, at: 0)
-        previewLayer.frame = view.bounds
-
-        setupCamera()
+        cameraStart()
+//        setupCamera()
     }
 
     @IBAction func btBacktoTabBar(_ sender: Any) {
@@ -168,6 +222,7 @@ class PhotoViewController: UIViewController {
             }
         case "btRecorVideo":
             print("btRecordVideo")
+            recordVideo()
         case "btFlash":
             print("btFlash")
             if (tpFlash == 1) {
@@ -181,18 +236,13 @@ class PhotoViewController: UIViewController {
                 btFlash.setImage(UIImage(systemName: "bolt.badge.a.fill"), for: .normal)
             }
         case "btTakePhoto":
-            #if (arch(i386) || arch(x86_64)) && (!os(macOS))
+            if Config.isSimulator {
                 photoToTest()
-            #else
-                let photoSettings = AVCapturePhotoSettings()
-                if let photoPreviewType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
-                    photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: photoPreviewType]
-                    output.capturePhoto(with: photoSettings, delegate: self)
-                }
-             #endif
+            } else {
+                takePhoto()
+            }
         case "btSave":
             print("btSave")
-
             print("************** PATH_TEMP_FILES ************")
             config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
             print("************** PATH_SAVED_FILES ************")
@@ -274,6 +324,62 @@ class PhotoViewController: UIViewController {
         }
     }
 
+    func takePhoto() {
+
+        if let photoOutputConnection = photoOutput.connection(with: .video) {
+            switch (orientation) {
+            case .portrait:
+                photoOutputConnection.videoOrientation = .portrait
+            case .portraitUpsideDown:
+                photoOutputConnection.videoOrientation = .portraitUpsideDown
+            case .landscapeLeft:
+                photoOutputConnection.videoOrientation = .landscapeRight
+            case .landscapeRight:
+                photoOutputConnection.videoOrientation = .landscapeLeft
+            default:
+                photoOutputConnection.videoOrientation = .portrait
+            }
+        }
+
+        let photoSettings = AVCapturePhotoSettings()
+
+        if videoDeviceInput.device.isFlashAvailable {
+            if (tpFlash == 1) {
+                photoSettings.flashMode = .auto
+            } else if (tpFlash == 2){
+                photoSettings.flashMode = .on
+            } else {
+                photoSettings.flashMode = .off
+            }
+        }
+
+        videoDeviceInput.device.focusMode = .autoFocus
+
+        if let previewPhotoPixelFormatType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
+            photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewPhotoPixelFormatType]
+        }
+//
+//        photoSettings.isDepthDataDeliveryEnabled = (depthDataDeliveryMode == .on
+//                && photoOutput.isDepthDataDeliveryEnabled)
+//
+//        photoSettings.isPortraitEffectsMatteDeliveryEnabled = (portraitEffectsMatteDeliveryMode == .on
+//                && photoOutput.isPortraitEffectsMatteDeliveryEnabled)
+//
+//        if photoSettings.isDepthDataDeliveryEnabled {
+//            if !photoOutput.availableSemanticSegmentationMatteTypes.isEmpty {
+//                photoSettings.enabledSemanticSegmentationMatteTypes = selectedSemanticSegmentationMatteTypes
+//            }
+//        }
+//
+//        photoSettings.photoQualityPrioritization = photoQualityPrioritizationMode
+
+        photoOutput.capturePhoto(with: photoSettings, delegate: self)
+    }
+    
+    func recordVideo() {
+        
+    }
+
     // Função para teste no simulador
     func photoToTest() {
 
@@ -321,18 +427,50 @@ class PhotoViewController: UIViewController {
     }
 
     func showImage(urlImage: String) {
-
         let controller = storyboard?.instantiateViewController(withIdentifier: "PreviewViewController") as! PreviewViewController
         controller.modalPresentationStyle = .fullScreen
         controller.modalTransitionStyle = .flipHorizontal
         // pass data to view controller
         controller.urlImage = urlImage
         present(controller, animated: true)
+    }
 
+    private func cameraStart() {
+        captureSession.beginConfiguration()
+
+        let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera,
+                for: .video, position: .unspecified)
+        // Inputs
+        do {
+            videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice!)
+            captureSession.canAddInput(videoDeviceInput)
+            captureSession.addInput(videoDeviceInput)
+
+            //  Photo Outputs
+            guard captureSession.canAddOutput(photoOutput) else { return }
+            captureSession.sessionPreset = .photo
+            captureSession.addOutput(photoOutput)
+
+            //  Video Outputs
+            guard captureSession.canAddOutput(videoOutput) else { return }
+            captureSession.sessionPreset = .iFrame960x540
+            captureSession.addOutput(videoOutput)
+
+            captureSession.commitConfiguration()
+
+            previewLayer.videoGravity = .resizeAspectFill
+            previewLayer.session = captureSession
+
+            captureSession.startRunning()
+
+            view.layer.insertSublayer(previewLayer, at: 0)
+            previewLayer.frame = view.bounds
+        } catch {
+            print("******* ERROR Config Photo")
+        }
     }
 
     private func setupCamera() {
-        let session = AVCaptureSession()
         if let device = AVCaptureDevice.default(for: .video) {
             do {
                 let input = try AVCaptureDeviceInput(device: device)
@@ -342,17 +480,21 @@ class PhotoViewController: UIViewController {
                 if session.canAddOutput(output) {
                     session.addOutput(output)
                 }
+
                 previewLayer.videoGravity = .resizeAspectFill
                 previewLayer.session = session
 
                 session.startRunning()
-                self.session = session
+
+                view.layer.insertSublayer(previewLayer, at: 0)
+                previewLayer.frame = view.bounds
             }
             catch {
                 print("*********** ERROR CAPTURE CAMERA")
             }
         }
     }
+
     @objc func tapGestureImage (_ sender: UITapGestureRecognizer) {
 
         var filePhoto: String!
@@ -383,7 +525,6 @@ class PhotoViewController: UIViewController {
         }
         showImage(urlImage: filePhoto)
     }
-
 }
 
 extension PhotoViewController: AVCapturePhotoCaptureDelegate {

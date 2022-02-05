@@ -16,6 +16,8 @@ class Config {
 
     static var aiLoadingData: NVActivityIndicatorView!
 
+    static var isSimulator = true
+
     static let MENU_ITEM_DASHBOARD: Int = 0
     static let MENU_ITEM_MAP: Int = 1
     static let MENU_ITEM_PROFILE: Int = 2

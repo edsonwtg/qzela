@@ -66,6 +66,15 @@ class MapTabbarController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("***** viewDidLoad *****")
+
+        // TODO: Pass thisd functionality to initialize APP function
+        // check if simulator or device
+        #if (arch(i386) || arch(x86_64)) && (!os(macOS))
+            Config.isSimulator = true
+        #else
+            Config.isSimulator = false
+        #endif
+
         // Hide Image saved Button
         btSavedImage.isHidden = true
 
