@@ -32,3 +32,8 @@
 "text_save" = "Salvar";
 "text_success" = "Sucesso";
 "text_image_save" = "Imagem salva com sucesso!\nLembrando que você tem 24 Horas para gerar os incidentes, após esse período as imagens serão eliminadas automaticamente.";
+"text_video_save" = "Vídeo salvo com sucesso!\nLembrando que você tem 24 Horas para gerar os incidentes, após esse período o vídeo será eliminado automaticamente.";
+"text_video_record" = "Vídeo gravado com sucesso!";
+"text_attention" = "Atenção!";
+"text_change_video" = "Há um vídeo gravado. Você vai perdê-lo.";
+"text_change_photo" = "Há Fotos tiradas. Você vai perdê-las.";

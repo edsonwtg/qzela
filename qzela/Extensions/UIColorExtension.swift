@@ -79,7 +79,7 @@ extension UIColor {
     static var colorLightGray: UIColor {
         return hexUIColor(hex: "#E4E4E4")
     }
-    static var colorDrakGray: UIColor {
+    static var colorDarkGray: UIColor {
         return hexUIColor(hex: "#747474")
     }
     static var colorBlack: UIColor {
