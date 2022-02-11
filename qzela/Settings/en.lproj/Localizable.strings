@@ -12,9 +12,13 @@
 "text_got_it" = "Got it!";
 "text_ok" = "Ok";
 "text_cancel" = "Cancel";
+"text_confirm" = "Confirm";
+"text_delete" = "Delete";
 "text_no_internet" = "No Internet";
 "text_internet_off" = "We can\'t access the Internet, please check your Internet connection and try again later.";
 "text_only_save_occurrence" = "No Internet access.\nCancel or save the incident for later generation";
+"text_no_camera_permission" = "Camera Permission Required";
+"text_camera_never_permission" = "Camera access is required for the application to work.\nPlease go to \"Settings - QZela - Camera - and click \"While using the App\"";
 "text_no_gps_permission" = "Location Permission Required";
 "text_gps_permission" = "Location access is required for the application to work.\nPlease allow access.";
 "text_gps_never_permission" = "Location access is required for the application to work.\nPlease go to \"Settings - QZela - Localization - and click \"While using the App\"";

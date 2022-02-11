@@ -40,7 +40,6 @@ class PhotoViewController: UIViewController {
     let videoOutput = AVCaptureMovieFileOutput()
 
     var videoPathFile = URL(string: Config.PATH_TEMP_FILES)
-    let newVideoView = AVPlayerViewController()
 
     // Video Preview
     var previewLayer = AVCaptureVideoPreviewLayer()
@@ -155,6 +154,7 @@ class PhotoViewController: UIViewController {
             } else {
                 print("***** DELETE VIDEO: \(Config.deletePhoto) *****")
                 if (Config.deletePhoto == 4) {
+                    fileVideo = URL(string: fileVideo)!.path
                     config.deleteImage(fileManager: fileManager, pathFileFrom: fileVideo)
                     bShootVideo = false
                     videoImage.image = nil
@@ -253,9 +253,10 @@ class PhotoViewController: UIViewController {
                     self.showAlert(
                             title: "text_attention".localized(),
                             message: "text_change_photo".localized(),
-                            actionTitles: ["text_ok".localized(), "text_cancel".localized()],
-                            style: [.default, .cancel],
-                            actions: [okActionHandler,nil]
+                            type: .attention,
+                            actionTitles: ["text_cancel".localized(), "text_confirm".localized()],
+                            style: [.cancel, .destructive],
+                            actions: [nil, okActionHandler]
                     )
                 } else {
                     changePhotoVideo()
@@ -267,9 +268,10 @@ class PhotoViewController: UIViewController {
                     }
                     showAlert(title:  "text_attention".localized(),
                             message: "text_change_video".localized(),
-                            actionTitles: ["text_ok".localized(), "text_cancel".localized()],
-                            style: [.default, .cancel],
-                            actions: [okActionHandler, nil])
+                            type: .attention,
+                            actionTitles: ["text_cancel".localized(), "text_confirm".localized()],
+                            style: [.cancel, .destructive],
+                            actions: [nil, okActionHandler])
                 } else {
                     changePhotoVideo()
                 }
@@ -363,6 +365,7 @@ class PhotoViewController: UIViewController {
             }
             showAlert(title: "text_success".localized(),
                     message: (bPhoto ? "text_image_save".localized() : "text_video_save".localized()),
+                    type: .message,
                     actionTitles: ["text_ok".localized()],
                     style: [.default],
                     actions: [actionHandler])
@@ -469,7 +472,7 @@ class PhotoViewController: UIViewController {
             }
         }
 
-        videoDeviceInput.device.focusMode = .autoFocus
+//        videoDeviceInput.device.focusMode = .autoFocus
 
         if let previewPhotoPixelFormatType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
             photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewPhotoPixelFormatType]
@@ -599,11 +602,17 @@ class PhotoViewController: UIViewController {
     @objc func updateCounter(){
         print("\(secondsRemaining) seconds.")
         secondsRemaining += 1
-        progressBar.progress = Float(secondsRemaining)/10
+        progressBar.progress = Float(secondsRemaining)/Float(Config.RECORD_VIDEO_TIME)
         if secondsRemaining >= Config.RECORD_VIDEO_TIME {
             print("STOP RECORDER")
             if !Config.isSimulator {
                 stopRecording()
+            } else {
+                fileVideo = "https://firebasestorage.googleapis.com/v0/b/qz-user-data/o/videos%2Fprd%2F2021%2F8%2F12%2Fopen%2F2021-08-12T20%3A23%3A12.872Z-4%2Fvideo.mp4?alt=media&token=d3bd77e6-d0a8-4497-8504-50cf5a25cf7b"
+                config.getThumbnailImageFromVideoUrl(url: URL(string: fileVideo)!) { (thumbImage) in
+                    guard let resImage = thumbImage else { return }
+                    self.videoImage.image = resImage
+                }
             }
             progressBar.visibility = .invisible
             stackViewPhoto.visibility = .visible
@@ -617,6 +626,7 @@ class PhotoViewController: UIViewController {
             enableDisableRecordButton(enable: false)
             showAlert(title: "text_success".localized(),
                     message: "text_video_record".localized(),
+                    type: .message,
                     actionTitles: ["text_ok".localized()],
                     style: [.default],
                     actions: [nil])
@@ -634,36 +644,37 @@ class PhotoViewController: UIViewController {
 
     @objc func tapGestureImage (_ sender: UITapGestureRecognizer) {
 
-        var filePhoto: String!
         switch sender.view?.restorationIdentifier {
         case "photoImage1":
             if (bPhoto1) {
-                filePhoto = filePhoto1
                 Config.deletePhoto = 1
+                showImage(urlImage: filePhoto1)
             } else {
                 return
             }
         case "photoImage2":
             if (bPhoto2) {
-                filePhoto = filePhoto2
                 Config.deletePhoto = 2
+                showImage(urlImage: filePhoto2)
             } else {
                 return
             }
         case "photoImage3":
             if (bPhoto3) {
-                filePhoto = filePhoto3
                 Config.deletePhoto = 3
+                showImage(urlImage: filePhoto3)
             } else {
                 return
             }
         case "videoImage":
             print("VIDEO ******")
-            return
-        default:
+            if (bShootVideo) {
+                Config.deletePhoto = 4
+                showImage(urlImage: fileVideo)
+            }
+         default:
             break
         }
-        showImage(urlImage: filePhoto)
     }
 
     func changePhotoVideo() {
@@ -713,52 +724,13 @@ extension PhotoViewController: AVCaptureFileOutputRecordingDelegate {
             print("Error recording movie: \(error!.localizedDescription)")
         } else {
             UISaveVideoAtPathToSavedPhotosAlbum(outputFileURL.path, nil, nil, nil)
-            print("outputFileURL \(outputFileURL)")
-            print("outputFileURL.path \(outputFileURL.path)")
-
-             fileVideo = outputFileURL.path
-            createThumbnail(filePath: fileVideo)
-
-//            let player = AVPlayer(url: outputFileURL)
-//            NotificationCenter.default.addObserver(self,
-//                    selector: #selector(DialogIncidentViewController.didStartplaying(notification:)),
-//                    name: .AVPlayerItemNewAccessLogEntry,
-//                    object: player.currentItem)
-//
-//            newVideoView.player = player
-//            newVideoView.showsPlaybackControls = false
-//            newVideoView.view.frame = UIScreen.main.bounds
-//            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
-//            newVideoView.view.addGestureRecognizer(tap)
-//            addChild(newVideoView)
-//            view.addSubview(newVideoView.view)
-//            newVideoView.player?.play()
-//            navigationController?.isNavigationBarHidden = true
-//            tabBarController?.tabBar.isHidden = true
+            fileVideo = outputFileURL.absoluteString
+            config.getThumbnailImageFromVideoUrl(url: outputFileURL) { (thumbImage) in
+                guard let resImage = thumbImage else { return }
+                self.videoImage.image = resImage
+            }
         }
     }
-
-    @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
-        navigationController?.isNavigationBarHidden = false
-        tabBarController?.tabBar.isHidden = false
-        sender.view?.removeFromSuperview()
-    }
-
-    func createThumbnail(filePath: String) {
-        let dispatchGroup = DispatchGroup()
-        dispatchGroup.enter()
-        var image: UIImage!
-        let url = URL(string: filePath)!
-        config.getThumbnailImageFromVideoUrl(url: url) { (thumbImage) in
-            guard let resImage = thumbImage else { return }
-            image = resImage
-            dispatchGroup.leave()
-        }
-        dispatchGroup.notify(queue: .main) {
-            self.videoImage.image = image!
-        }
-    }
-
 
     func enableDisableRecordButton(enable: Bool) {
         var backgroundConfig = UIButton.Configuration.plain()

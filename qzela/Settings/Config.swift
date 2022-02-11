@@ -140,7 +140,14 @@ class Config {
 
     static let ARRAY_INCIDENT_ALL_STATUS = [0, 1, 2, 3, 4, 7]
 
-    static let RECORD_VIDEO_TIME = 10
+    static let RECORD_VIDEO_TIME = 3
+
+    enum Alert {
+        case error
+        case message
+        case attention
+    }
+
 
     func showHideNoInternet(view: UIImageView, show: Bool) {
 
@@ -155,13 +162,11 @@ class Config {
         }
     }
 
-    func startLoadingData (view: UIView) {
+    func startLoadingData (view: UIView, color: UIColor) {
         let midX = view.center.x
         let midY = view.center.y
-        print(midX)
-        print(midY)
         let frame = CGRect(x: (midX-25), y: (midY-225), width: 50, height: 50)
-        Config.aiLoadingData = NVActivityIndicatorView(frame: frame, type: .ballRotateChase, color: .blue)
+        Config.aiLoadingData = NVActivityIndicatorView(frame: frame, type: .ballRotateChase, color: color)
         view.addSubview(Config.aiLoadingData)
         Config.aiLoadingData.startAnimating()
     }
@@ -282,7 +287,7 @@ func listDirectory(fileManager: FileManager, path: String) {
                     completion(thumbImage) //9
                 }
             } catch {
-                print(error.localizedDescription) //10
+                print("ERROR GET THUMBNAIL \(error.localizedDescription)") //10
                 DispatchQueue.main.async {
                     completion(nil) //11
                 }

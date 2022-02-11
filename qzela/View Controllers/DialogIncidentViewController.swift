@@ -75,7 +75,7 @@ class DialogIncidentViewController: UIViewController {
         lblHeadComments.text = "text_comments".localized()
         btSolver.setTitle("text_solver".localized(), for: .normal)
 
-        config.startLoadingData(view: view)
+        config.startLoadingData(view: view, color: .qzelaDarkBlue)
 
         // Close
 //        incidentId = "60af7a23c972406df17bb914"
@@ -240,7 +240,7 @@ class DialogIncidentViewController: UIViewController {
         newVideoView.view.addGestureRecognizer(tap)
         addChild(newVideoView)
         view.addSubview(newVideoView.view)
-        config.startLoadingData(view: view)
+        config.startLoadingData(view: view, color: .qzelaDarkBlue)
         newVideoView.player?.play()
         navigationController?.isNavigationBarHidden = true
         tabBarController?.tabBar.isHidden = true
