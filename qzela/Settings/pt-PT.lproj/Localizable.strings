@@ -12,12 +12,16 @@
 "text_got_it" = "Apanhei!";
 "text_ok" = "Ok";
 "text_cancel" = "Cancelar";
+"text_confirm" = "Confirme";
+"text_delete" = "Excluir";
 "text_no_internet" = "Sem Internet";
 "text_internet_off" = "Não podemos aceder à Internet, por favor verifique a sua ligação à Internet e tente novamente mais tarde.";
 "text_only_save_occurrence" = "Sem acesso à Internet.\nCancelar ou guarde o incidente para a geração posterior";
+"text_no_camera_permission" = "Permissão de Câmera Necessária";
+"text_camera_never_permission" = "O acesso da câmera é necessária para que o aplicativo funcione.\nPor favor, vá em \"Ajustes - QZela - Câmera\" e Click em \"Durante o uso do App\"";
 "text_no_gps_permission" = "Permissão de Localização Necessária";
 "text_gps_permission" = "É necessário acesso à localização para que o pedido funcione.\nPor favor, permitir o acesso.";
-"text_gps_never_permission" = "Acesso de localização é necessário para que a aplicação funcione.\nVá a \"Definições - = \" Aplicações - = \" QZelaApp - = \" Permissão e permita o acesso de localização.";
+"text_gps_never_permission" = "O acesso da localização é necessária para que o aplicativo funcione.\nPor favor, vá em \"Ajustes - QZela - Localização\" e Click em \"Durante o uso do App\"";
 "text_service_out" = "Serviço indisponível.";
 "text_service_unavailable" = "Serviço indisponível no momento, por favor tente novamente mais tarde.";
 "text_settings" = "Configurações";
@@ -32,3 +36,8 @@
 "text_save" = "Salvar";
 "text_success" = "Sucesso";
 "text_image_save" = "Imagem guardada com sucesso!\nRecordando que tem 24 Horas para gerar os incidentes, após esse período as imagens serão apagadas automaticamente.";
+"text_video_save" = "Vídeo guardada com sucesso!\nRecordando que tem 24 Horas para gerar os incidentes, após esse período o vídeo será apagado automaticamente.";
+"text_video_record" = "Vídeo gravado com sucesso!";
+"text_attention" = "Atenção!";
+"text_change_video" = "Há um vídeo gravado. Vai perdê-lo.";
+"text_change_photo" = "Há Fotos tiradas. Você vai perdê-las.";

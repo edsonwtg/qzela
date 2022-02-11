@@ -66,6 +66,15 @@ class MapTabbarController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("***** viewDidLoad *****")
+
+        // TODO: Pass thisd functionality to initialize APP function
+        // check if simulator or device
+        #if (arch(i386) || arch(x86_64)) && (!os(macOS))
+            Config.isSimulator = true
+        #else
+            Config.isSimulator = false
+        #endif
+
         // Hide Image saved Button
         btSavedImage.isHidden = true
 
@@ -121,8 +130,9 @@ class MapTabbarController: UIViewController {
                         //Redirect to Settings app
                         UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
                     }
-                    showAlert(title: "No Camera Parmission",
-                            message: "Go to Camerera perimission".localized(),
+                    showAlert(title: "text_no_camera_permission".localized(),
+                            message: "text_camera_never_permission".localized(),
+                            type: .error,
                             actionTitles: ["text_settings".localized(), "text_cancel".localized()],
                             style: [.default, .cancel],
                             actions: [actionHandler, nil])
@@ -136,6 +146,7 @@ class MapTabbarController: UIViewController {
                 }
                 showAlert(title: "text_no_gps_permission".localized(),
                         message: "text_gps_never_permission".localized(),
+                        type: .error,
                         actionTitles: ["text_settings".localized(), "text_cancel".localized()],
                         style: [.default, .cancel],
                         actions: [actionHandler, nil])
@@ -150,6 +161,7 @@ class MapTabbarController: UIViewController {
                 }
                 showAlert(title: "text_no_internet".localized(),
                         message: "text_only_save_occurrence".localized(),
+                        type: .attention,
                         actionTitles: ["text_cancel".localized(), "text_continue".localized()],
                         style: [.cancel, .default],
                         actions: [nil, actionHandler])
@@ -213,6 +225,7 @@ class MapTabbarController: UIViewController {
             }
             showAlert(title: "text_no_gps_permission".localized(),
                     message: "text_gps_permission".localized(),
+                    type: .error,
                     actionTitles: ["text_settings".localized(), "text_cancel".localized()],
                     style: [.default, .cancel],
                     actions: [okSettings, nil],
@@ -246,6 +259,7 @@ class MapTabbarController: UIViewController {
             print("******** NO INTERNET CONNECTION *********")
             showAlert(title: "text_no_internet".localized(),
                     message: "text_internet_off".localized(),
+                    type: .attention,
                     actionTitles: ["text_got_it".localized()],
                     style: [.default],
                     actions: [nil])
@@ -255,6 +269,7 @@ class MapTabbarController: UIViewController {
         if (!networkListener.isApiAvailable()) {
             showAlert(title: "text_service_out".localized(),
                     message: "text_service_unavailable".localized(),
+                    type: .error,
                     actionTitles: ["text_got_it".localized()],
                     style: [.default],
                     actions: [nil])

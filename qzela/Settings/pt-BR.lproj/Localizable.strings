@@ -12,10 +12,14 @@
 "text_got_it" = "Entendi!";
 "text_ok" = "Ok";
 "text_cancel" = "Cancelar";
+"text_confirm" = "Confirme";
+"text_delete" = "Excluir";
 "text_no_internet" = "Sem Internet";
 "text_internet_off" = "Não conseguimos acesso à internet, verifique a sua ligação à internet e tente novamente mais tarde.";
 "text_only_save_occurrence" = "Sem acesso à Internet.\nCancele ou salve o incidente para posterior geração";
-"text_no_gps_permission" = "Permissão de localização necessária";
+"text_no_camera_permission" = "Permissão de localização necessária";
+"text_camara_never_permission" = "O acesso da câmera é necessária para que o aplicativo funcione.\nPor favor, vá em \"Ajustes - QZela - Câmera\" e Click em \"Durante o uso do App\"";
+"text_no_gps_permission" = "Permissão de Câmera necessária";
 "text_gps_permission" = "O acesso da localização é necessária para que o aplicativo funcione.\nPor favor permita o acesso.";
 "text_gps_never_permission" = "O acesso da localização é necessária para que o aplicativo funcione.\nPor favor, vá em \"Ajustes - QZela - Localização\" e Click em \"Durante o uso do App\"";
 "text_service_out" = "Serviço indisponível.";
@@ -32,3 +36,8 @@
 "text_save" = "Salvar";
 "text_success" = "Sucesso";
 "text_image_save" = "Imagem salva com sucesso!\nLembrando que você tem 24 Horas para gerar os incidentes, após esse período as imagens serão eliminadas automaticamente.";
+"text_video_save" = "Vídeo salvo com sucesso!\nLembrando que você tem 24 Horas para gerar os incidentes, após esse período o vídeo será eliminado automaticamente.";
+"text_video_record" = "Vídeo gravado com sucesso!";
+"text_attention" = "Atenção!";
+"text_change_video" = "Há um vídeo gravado. Você vai perdê-lo.";
+"text_change_photo" = "Há Fotos tiradas. Você vai perdê-las.";

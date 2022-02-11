@@ -16,6 +16,8 @@ class Config {
 
     static var aiLoadingData: NVActivityIndicatorView!
 
+    static var isSimulator = true
+
     static let MENU_ITEM_DASHBOARD: Int = 0
     static let MENU_ITEM_MAP: Int = 1
     static let MENU_ITEM_PROFILE: Int = 2
@@ -40,6 +42,7 @@ class Config {
         var latitude: Double
         var longitude: Double
         var dateTime: Date
+        var imageType: String
         var savedImages: [SavedImages]
 
         struct SavedImages: Codable {
@@ -137,6 +140,15 @@ class Config {
 
     static let ARRAY_INCIDENT_ALL_STATUS = [0, 1, 2, 3, 4, 7]
 
+    static let RECORD_VIDEO_TIME = 3
+
+    enum Alert {
+        case error
+        case message
+        case attention
+    }
+
+
     func showHideNoInternet(view: UIImageView, show: Bool) {
 
         if (show) {
@@ -150,13 +162,11 @@ class Config {
         }
     }
 
-    func startLoadingData (view: UIView) {
+    func startLoadingData (view: UIView, color: UIColor) {
         let midX = view.center.x
         let midY = view.center.y
-        print(midX)
-        print(midY)
         let frame = CGRect(x: (midX-25), y: (midY-225), width: 50, height: 50)
-        Config.aiLoadingData = NVActivityIndicatorView(frame: frame, type: .ballRotateChase, color: .blue)
+        Config.aiLoadingData = NVActivityIndicatorView(frame: frame, type: .ballRotateChase, color: color)
         view.addSubview(Config.aiLoadingData)
         Config.aiLoadingData.startAnimating()
     }
@@ -264,6 +274,24 @@ func listDirectory(fileManager: FileManager, path: String) {
         createDirectory(fileManager: fileManager, path: path)
     }
 
-
-
+    func getThumbnailImageFromVideoUrl(url: URL, completion: @escaping (_ image: UIImage?)->Void) {
+        DispatchQueue.global().async { //1
+            let assetUrl = AVAsset(url: url) //2
+            let avAssetImageGenerator = AVAssetImageGenerator(asset: assetUrl) //3
+            avAssetImageGenerator.appliesPreferredTrackTransform = true //4
+            let thumnailTime = CMTimeMake(value: 2, timescale: 1) //5
+            do {
+                let cgThumbImage = try avAssetImageGenerator.copyCGImage(at: thumnailTime, actualTime: nil) //6
+                let thumbImage = UIImage(cgImage: cgThumbImage) //7
+                DispatchQueue.main.async { //8
+                    completion(thumbImage) //9
+                }
+            } catch {
+                print("ERROR GET THUMBNAIL \(error.localizedDescription)") //10
+                DispatchQueue.main.async {
+                    completion(nil) //11
+                }
+            }
+        }
+    }
 }
