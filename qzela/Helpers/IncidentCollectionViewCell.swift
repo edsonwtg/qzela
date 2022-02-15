@@ -9,20 +9,18 @@ import UIKit
 import AVKit
 
 class
-IncidentCollectionViewCell: UICollectionViewCell {
-    
+        IncidentCollectionViewCell: UICollectionViewCell {
+
     static let identifier = String(describing: IncidentCollectionViewCell.self)
-    
+
     @IBOutlet weak var slideImageView: UIImageView!
     @IBOutlet weak var slideStatusLbl: UILabel!
     @IBOutlet weak var typeImageView: UIImageView!
 
     var image: UIImage!
-    var typeImage: UIImage!
     let config = Config()
 
     func setup(_ slide: IncidentImageSlide) {
-        slideStatusLbl.text = slide.status
 
         slideStatusLbl.textColor = .colorWhite
         slideStatusLbl.font = UIFont.boldSystemFont(ofSize: 12.0)
@@ -39,6 +37,11 @@ IncidentCollectionViewCell: UICollectionViewCell {
             slideStatusLbl.text = "text_resolved".localized()
             slideStatusLbl.backgroundColor = .colorGreen
         }
+        if (slide.tpImage == Config.TYPE_IMAGE_PHOTO) {
+            typeImageView.image = UIImage(systemName: "camera.circle")
+        } else {
+            typeImageView.image = UIImage(systemName: "play.circle")
+        }
 
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
@@ -46,31 +49,25 @@ IncidentCollectionViewCell: UICollectionViewCell {
         let url = URL(string: slide.mediaURL)
         if (slide.tpImage == Config.TYPE_IMAGE_VIDEO) {
             config.getThumbnailImageFromVideoUrl(url: url!) { (thumbImage) in
-                guard let resImage = thumbImage else { return }
+                guard let resImage = thumbImage else {
+                    return
+                }
                 self.image = resImage
-                self.typeImage = UIImage(systemName: "play.circle")
                 dispatchGroup.leave()
             }
         } else {
             URLSession.shared.dataTask(with: url!) { (data, response, error) in
-
-                print( error as Any )
-//                print(response as Any)
                 guard let resImage = data else {
-                    return }
+                    return
+                }
                 self.image = UIImage(data: resImage)
-                self.typeImage = UIImage(systemName: "camera.circle")
                 dispatchGroup.leave()
             }.resume()
         }
 
         dispatchGroup.notify(queue: .main) {
             self.slideImageView.image = self.image!
-            self.typeImageView.image = self.typeImage
             self.config.stopLoadingData()
         }
-
-
-
     }
 }

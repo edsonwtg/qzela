@@ -83,6 +83,7 @@ class PhotoViewController: UIViewController {
 
     var imageFileName: String = ""
 
+    var networkListener = NetworkListener()
     var gpsLocation = qzela.GPSLocation()
     let config = Config()
 
@@ -113,8 +114,17 @@ class PhotoViewController: UIViewController {
         return true
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("***** PhotoViewController viewDidAppear *****")
+        NotificationCenter.default.addObserver(self, selector: #selector(PhotoViewController.changeStatusInternet), name: NSNotification.Name(rawValue: Config.internetNotificationKey), object: nil)
+        // check Internet
+        if (!networkListener.isNetworkAvailable()) {
+            print("******** NO INTERNET CONNECTION *********")
+            btContinue.visibility = .invisible
+        } else {
+            btContinue.visibility = .visible
+        }
         if (Config.deletePhoto != 0 ) {
             print("************** PATH_TEMP_FILES ************")
             config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
@@ -170,6 +180,23 @@ class PhotoViewController: UIViewController {
         }
     }
 
+    @objc func changeStatusInternet(notification: NSNotification) {
+        guard let type = notification.userInfo!["type"] else { return }
+        print("******* RECEIVED Notification PhotoViewController - Network Listener \(type) ********")
+        if (type as! String == "unknown") {
+            btContinue.visibility = .invisible
+        } else {
+            btContinue.visibility = .visible
+        }
+    }
+
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        print("***** PhotoViewController viewDidDisappear *****")
+        NotificationCenter.default.removeObserver(self)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -214,6 +241,7 @@ class PhotoViewController: UIViewController {
         btSave.isEnabled = false
         btContinue.setTitle("text_continue".localized(), for: .normal)
         btContinue.isEnabled = false
+
         // TODO: Pass thisd functionality to initialize APP function
         // check if simulator or device
         #if (arch(i386) || arch(x86_64)) && (!os(macOS))
@@ -230,6 +258,41 @@ class PhotoViewController: UIViewController {
 
         cameraStart()
 //        setupCamera()
+    }
+
+    @objc func tapGestureImage (_ sender: UITapGestureRecognizer) {
+
+        switch sender.view?.restorationIdentifier {
+        case "photoImage1":
+            if (bPhoto1) {
+                Config.deletePhoto = 1
+                showImage(imageFilePath: filePhoto1, bVideo: false)
+            } else {
+                return
+            }
+        case "photoImage2":
+            if (bPhoto2) {
+                Config.deletePhoto = 2
+                showImage(imageFilePath: filePhoto2, bVideo: false)
+            } else {
+                return
+            }
+        case "photoImage3":
+            if (bPhoto3) {
+                Config.deletePhoto = 3
+                showImage(imageFilePath: filePhoto3, bVideo: false)
+            } else {
+                return
+            }
+        case "videoImage":
+            print("VIDEO ******")
+            if (bShootVideo) {
+                Config.deletePhoto = 4
+                showImage(imageFilePath: fileVideo, bVideo: true)
+            }
+        default:
+            break
+        }
     }
 
     @IBAction func btBacktoTabBar(_ sender: Any) {
@@ -582,7 +645,7 @@ class PhotoViewController: UIViewController {
                 enableDisablePhotoButton(enable: false)
                 Config.deletePhoto = 3
             }
-            showImage(urlImage: urlString)
+            showImage(imageFilePath: urlString, bVideo: false)
         } else {
             startVideoRecordTimer()
         }
@@ -633,48 +696,16 @@ class PhotoViewController: UIViewController {
         }
     }
 
-    func showImage(urlImage: String) {
+    func showImage(imageFilePath: String, bVideo: Bool) {
         let controller = storyboard?.instantiateViewController(withIdentifier: "PreviewViewController") as! PreviewViewController
         controller.modalPresentationStyle = .fullScreen
         controller.modalTransitionStyle = .flipHorizontal
         // pass data to view controller
-        controller.urlImage = urlImage
+        controller.imageFilePath = imageFilePath
+        controller.bUrl = false
+        controller.bShow = false
+        controller.bVideo = bVideo
         present(controller, animated: true)
-    }
-
-    @objc func tapGestureImage (_ sender: UITapGestureRecognizer) {
-
-        switch sender.view?.restorationIdentifier {
-        case "photoImage1":
-            if (bPhoto1) {
-                Config.deletePhoto = 1
-                showImage(urlImage: filePhoto1)
-            } else {
-                return
-            }
-        case "photoImage2":
-            if (bPhoto2) {
-                Config.deletePhoto = 2
-                showImage(urlImage: filePhoto2)
-            } else {
-                return
-            }
-        case "photoImage3":
-            if (bPhoto3) {
-                Config.deletePhoto = 3
-                showImage(urlImage: filePhoto3)
-            } else {
-                return
-            }
-        case "videoImage":
-            print("VIDEO ******")
-            if (bShootVideo) {
-                Config.deletePhoto = 4
-                showImage(urlImage: fileVideo)
-            }
-         default:
-            break
-        }
     }
 
     func changePhotoVideo() {
@@ -805,8 +836,6 @@ extension PhotoViewController: AVCapturePhotoCaptureDelegate {
             enableDisablePhotoButton(enable: true)
             Config.deletePhoto = 3
         }
-        showImage(urlImage: urlString)
+        showImage(imageFilePath: urlString, bVideo: false)
     }
 }
-
-

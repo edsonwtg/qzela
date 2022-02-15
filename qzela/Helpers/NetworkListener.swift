@@ -2,10 +2,6 @@ import Network
 import Foundation
 import Apollo
 
-protocol NetworkListenerDelegate: AnyObject {
-    func didChangeStatus(status: ConnectionType)
-}
-
 public enum ConnectionType {
     case wifi
     case ethernet
@@ -18,6 +14,8 @@ class NetworkListener {
     //    static public let shared = NetworkListener()
     var monitor: NWPathMonitor
     var path: NWPath?
+    var delegate: Bool?
+
     lazy var pathUpdateHandler: (NWPath) -> Void = { path in
         self.path = path
         if path.status == NWPath.Status.satisfied {
@@ -29,19 +27,17 @@ class NetworkListener {
         }
     }
     var connType: ConnectionType = .wifi
-    weak var networkListenerDelegate: NetworkListenerDelegate! = nil
 
     init() {
         monitor = NWPathMonitor()
-//        monitor.pathUpdateHandler = pathUpdateHandler
         monitor.pathUpdateHandler = { path in
             self.checkConnectionTypeForPath(path)
         }
-        self.monitor.start(queue: DispatchQueue.global(qos: .background))
+        monitor.start(queue: DispatchQueue.global(qos: .background))
     }
 
     func isNetworkAvailable() -> Bool {
-        self.checkConnectionTypeForPath(monitor.currentPath)
+        checkConnectionTypeForPath(monitor.currentPath)
         if monitor.currentPath.status == NWPath.Status.satisfied {
             return true
         }
@@ -74,19 +70,20 @@ class NetworkListener {
 
     func checkConnectionTypeForPath(_ path: NWPath) {
 
-        var networkStatus: ConnectionType = .unknown
+        var type = "unknown"
         if monitor.currentPath.status == NWPath.Status.satisfied {
             if path.usesInterfaceType(.wifi) {
-                networkStatus = .wifi
-            } else if path.usesInterfaceType(.wiredEthernet) {
-                networkStatus = .ethernet
+                type = "wifi"
+             } else if path.usesInterfaceType(.wiredEthernet) {
+                 type = "ethernet"
             } else if path.usesInterfaceType(.cellular) {
-                networkStatus = .cellular
+                type = "cellular"
             }
         }
 
         DispatchQueue.main.async {
-            self.networkListenerDelegate.didChangeStatus(status: networkStatus)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Config.internetNotificationKey), object: nil, userInfo: ["type":type])
+            print("SEND Notification ********")
         }
 
     }

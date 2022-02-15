@@ -35,16 +35,25 @@ class MapTabbarController: UIViewController {
     @IBOutlet weak var btSavedImage: UIButton!
 
     @IBOutlet weak var aiLoadingData: NVActivityIndicatorView!
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         aiLoadingData.type = .ballRotateChase
         aiLoadingData.color = .blue
-
         return .lightContent
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("***** viewWillAppear *****")
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("***** MapTabbarController viewDidAppear *****")
+        // NetworkListener Observer
+        NotificationCenter.default.addObserver(self, selector: #selector(MapTabbarController.changeStatusInternet), name: NSNotification.Name(rawValue: Config.internetNotificationKey), object: nil)
+        // check Internet
+        if (!networkListener.isNetworkAvailable()) {
+            print("******** NO INTERNET CONNECTION *********")
+            config.showHideNoInternet(view: ivNoInternet, show: true)
+        } else {
+            config.showHideNoInternet(view: ivNoInternet, show: false)
+        }
         // check if App start
         if Config.savApiCoordinate != nil {
             print("***** startLocationUpdates *****")
@@ -57,15 +66,28 @@ class MapTabbarController: UIViewController {
         }
     }
 
+    @objc func changeStatusInternet(notification: NSNotification) {
+        guard let type = notification.userInfo!["type"] else { return }
+        print("******* RECEIVED Notification MapTabbarController - Network Listener \(type) ********")
+        if (type as! String == "unknown") {
+            config.showHideNoInternet(view: ivNoInternet, show: true)
+        } else {
+            config.showHideNoInternet(view: ivNoInternet, show: false)
+        }
+    }
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        print("***** viewDidDisappear *****")
+        print("***** MapTabbarController viewDidDisappear *****")
         gpsLocation.stopLocationUpdates()
+        NotificationCenter.default.removeObserver(self)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         print("***** viewDidLoad *****")
+
+        ivNoInternet.visibility = .invisible
 
         // TODO: Pass thisd functionality to initialize APP function
         // check if simulator or device
@@ -80,9 +102,6 @@ class MapTabbarController: UIViewController {
 
         let qzelaPoints = 1000
         lbQzelaPoints.addTrailing(image: UIImage(named: "ic_trophy") ?? UIImage(), text: String(qzelaPoints) + " ")
-
-        // NetworkListener delegate
-        networkListener.networkListenerDelegate = self
 
         // GPSLocation by protocol delegate
         gpsLocation.delegate = self
@@ -544,26 +563,6 @@ extension MapTabbarController: GPSLocationDelegate {
         mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
                 centerCoordinate: Config.savCoordinate, radiusInMeter: Config.LOCATION_DISTANCE
         )
-    }
-}
-
-// Events of Network
-extension MapTabbarController: NetworkListenerDelegate {
-    func didChangeStatus(status: ConnectionType) {
-
-        print("******* MapTabbarController - Network Listener ********")
-        switch status {
-        case .unknown:
-            config.showHideNoInternet(view: ivNoInternet, show: true)
-        case .ethernet:
-            config.showHideNoInternet(view: ivNoInternet, show: false)
-        case .wifi:
-            config.showHideNoInternet(view: ivNoInternet, show: false)
-        case .cellular:
-            config.showHideNoInternet(view: ivNoInternet, show: false)
-        }
-
-
     }
 }
 

@@ -39,7 +39,7 @@ class DialogIncidentViewController: UIViewController {
     var slides: [IncidentImageSlide] =  []
     var occurrenceTag: [String] = []
 
-    let newVideoView = AVPlayerViewController()
+//    let newVideoView = AVPlayerViewController()
 
     let config = Config()
 
@@ -206,58 +206,71 @@ class DialogIncidentViewController: UIViewController {
         }
     }
 
-    func showPhoto (photoFilePath: String) {
-        let url = URL(string: photoFilePath)
-        URLSession.shared.dataTask(with: url!) { (data, response, error) in
-            DispatchQueue.main.async {
-                let newImageView = UIImageView(image: UIImage(data: data!)!)
-                newImageView.frame = UIScreen.main.bounds
-                newImageView.backgroundColor = UIColor.colorBlack
-                newImageView.contentMode = UIView.ContentMode.scaleAspectFit
-                newImageView.isUserInteractionEnabled = true
-                let tap = UITapGestureRecognizer(target: self, action: #selector(self.dismissFullscreenImage))
-                newImageView.addGestureRecognizer(tap)
-                self.view.addSubview(newImageView)
-                self.navigationController?.isNavigationBarHidden = true
-                self.tabBarController?.tabBar.isHidden = true
-            }
-        }.resume()
+    func showImage(imageFilePath: String, bVideo: Bool) {
+        let controller = storyboard?.instantiateViewController(withIdentifier: "PreviewViewController") as! PreviewViewController
+        controller.modalPresentationStyle = .fullScreen
+        controller.modalTransitionStyle = .flipHorizontal
+        // pass data to view controller
+        controller.imageFilePath = imageFilePath
+        controller.bUrl = true
+        controller.bShow = true
+        controller.bVideo = bVideo
+        present(controller, animated: true)
     }
 
-    func playVideo (videoFilePath: String) {
 
-        let player = AVPlayer(url: URL(string: videoFilePath)!)
+//    func showPhoto (photoFilePath: String) {
+//        let url = URL(string: photoFilePath)
+//        URLSession.shared.dataTask(with: url!) { (data, response, error) in
+//            DispatchQueue.main.async {
+//                let newImageView = UIImageView(image: UIImage(data: data!)!)
+//                newImageView.frame = UIScreen.main.bounds
+//                newImageView.backgroundColor = UIColor.colorBlack
+//                newImageView.contentMode = UIView.ContentMode.scaleAspectFit
+//                newImageView.isUserInteractionEnabled = true
+//                let tap = UITapGestureRecognizer(target: self, action: #selector(self.dismissFullscreenImage))
+//                newImageView.addGestureRecognizer(tap)
+//                self.view.addSubview(newImageView)
+//                self.navigationController?.isNavigationBarHidden = true
+//                self.tabBarController?.tabBar.isHidden = true
+//            }
+//        }.resume()
+//    }
 
-        NotificationCenter.default.addObserver(self,
-                selector: #selector(DialogIncidentViewController.didStartplaying(notification:)),
-                name: .AVPlayerItemNewAccessLogEntry,
-                object: player.currentItem)
+//    func playVideo (videoFilePath: String) {
+//
+//        let player = AVPlayer(url: URL(string: videoFilePath)!)
+//
+//        NotificationCenter.default.addObserver(self,
+//                selector: #selector(DialogIncidentViewController.didStartplaying(notification:)),
+//                name: .AVPlayerItemNewAccessLogEntry,
+//                object: player.currentItem)
+//
+//        newVideoView.player = player
+//        newVideoView.showsPlaybackControls = false
+//        newVideoView.view.frame = UIScreen.main.bounds
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+//        newVideoView.view.addGestureRecognizer(tap)
+//        addChild(newVideoView)
+//        view.addSubview(newVideoView.view)
+//        config.startLoadingData(view: view, color: .qzelaDarkBlue)
+//        newVideoView.player?.play()
+//        navigationController?.isNavigationBarHidden = true
+//        tabBarController?.tabBar.isHidden = true
+//    }
 
-        newVideoView.player = player
-        newVideoView.showsPlaybackControls = false
-        newVideoView.view.frame = UIScreen.main.bounds
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
-        newVideoView.view.addGestureRecognizer(tap)
-        addChild(newVideoView)
-        view.addSubview(newVideoView.view)
-        config.startLoadingData(view: view, color: .qzelaDarkBlue)
-        newVideoView.player?.play()
-        navigationController?.isNavigationBarHidden = true
-        tabBarController?.tabBar.isHidden = true
-    }
+//    @objc func didStartplaying(notification : NSNotification)
+//    {
+//        if let _ = notification.object as? AVPlayerItem {
+//            config.stopLoadingData()
+//        }
+//    }
 
-    @objc func didStartplaying(notification : NSNotification)
-    {
-        if let _ = notification.object as? AVPlayerItem {
-            config.stopLoadingData()
-        }
-    }
-
-    @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
-        navigationController?.isNavigationBarHidden = false
-        tabBarController?.tabBar.isHidden = false
-        sender.view?.removeFromSuperview()
-    }
+//    @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+//        navigationController?.isNavigationBarHidden = false
+//        tabBarController?.tabBar.isHidden = false
+//        sender.view?.removeFromSuperview()
+//    }
 }
     
 extension DialogIncidentViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -292,9 +305,11 @@ extension DialogIncidentViewController: UICollectionViewDelegate, UICollectionVi
             print(indexPath.row)
 
             if (slides[indexPath.row].tpImage == Config.TYPE_IMAGE_VIDEO) {
-                playVideo(videoFilePath: slides[indexPath.row].mediaURL)
+//                playVideo(videoFilePath: slides[indexPath.row].mediaURL)
+                showImage(imageFilePath: slides[indexPath.row].mediaURL, bVideo: true)
             } else {
-                showPhoto(photoFilePath: slides[indexPath.row].mediaURL )
+//                showPhoto(photoFilePath: slides[indexPath.row].mediaURL )
+                showImage(imageFilePath: slides[indexPath.row].mediaURL, bVideo: false)
             }
         }
     }

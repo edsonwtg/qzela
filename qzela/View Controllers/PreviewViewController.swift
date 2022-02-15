@@ -11,7 +11,10 @@ import AVKit
 class PreviewViewController: UIViewController {
 
     // var to receive data from PhotoViewController
-    var urlImage: String?
+    var imageFilePath: String?
+    var bUrl: Bool?
+    var bShow: Bool?
+    var bVideo: Bool?
     var config = Config()
     var videoController = AVPlayerViewController()
     var player = AVPlayer()
@@ -19,6 +22,7 @@ class PreviewViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var videoView: UIView!
     @IBOutlet weak var progressView: UIProgressView!
+    @IBOutlet weak var btDelete: UIButton!
     
     @IBAction func btClick(_ sender: UIButton) {
 
@@ -37,14 +41,35 @@ class PreviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if urlImage == nil {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.dismissFullscreenImage))
+        view.addGestureRecognizer(tap)
+
+        if (imageFilePath == nil || bVideo == nil || bShow == nil || bUrl == nil) {
             dismiss(animated: true, completion: nil)
         }
-        if (Config.deletePhoto < 4) {
-            progressView.visibility = .invisible
-            imageView.image = UIImage(contentsOfFile: urlImage!)
+        if (bShow!) {
+            btDelete.visibility = .invisible
+        }
+        if (bVideo!) {
+            playVideo(videoFilePath: imageFilePath!)
         } else {
-            playVideo(videoFilePath: urlImage!)
+            progressView.visibility = .invisible
+            if (bUrl!) {
+                guard let url = URL(string: imageFilePath!)else {
+                    return
+                }
+                DispatchQueue.global().async { [weak self] in
+                    if let data = try? Data(contentsOf: url) {
+                        if let image = UIImage(data: data) {
+                            DispatchQueue.main.async {
+                                self!.imageView.image = image
+                            }
+                        }
+                    }
+                }
+            } else {
+                imageView.image = UIImage(contentsOfFile: imageFilePath!)
+            }
         }
     }
 
@@ -69,4 +94,10 @@ class PreviewViewController: UIViewController {
             }
         }
     }
+
+    @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+        Config.deletePhoto = 0
+        dismiss(animated: true, completion: nil)
+    }
+
 }

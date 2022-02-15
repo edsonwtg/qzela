@@ -18,6 +18,8 @@ class Config {
 
     static var isSimulator = true
 
+    static let internetNotificationKey = "com.qzela.internetNotificationKey"
+
     static let MENU_ITEM_DASHBOARD: Int = 0
     static let MENU_ITEM_MAP: Int = 1
     static let MENU_ITEM_PROFILE: Int = 2
@@ -68,7 +70,7 @@ class Config {
             Config.userDefaults.set(Config.saveIncidents, forKey: "incidentSaved")
         } else {
             Config.saveQtdIncidents = Config.userDefaults.integer(forKey: "qtdIncidentSaved")
-            let jsomData =  Config.userDefaults.object(forKey: "incidentSaved") as! Data
+            let jsomData = Config.userDefaults.object(forKey: "incidentSaved") as! Data
             Config.saveIncidents = try! JSONDecoder().decode([Config.SaveIncidents].self, from: jsomData)
             print(Config.saveIncidents)
         }
@@ -110,8 +112,8 @@ class Config {
 //    static let QZELA_API_WEBSOCKET: String = "wss://corp.qzela.com.br:4000"
 
     // GRAPHQL ADDRESS
-    static let GRAPHQL_ENDPOINT: String = QZELA_API_ADDRESS+"/v2i/graphql"
-    static let GRAPHQL_WEBSOCKET: String = QZELA_API_WEBSOCKET+"/graphql"
+    static let GRAPHQL_ENDPOINT: String = QZELA_API_ADDRESS + "/v2i/graphql"
+    static let GRAPHQL_WEBSOCKET: String = QZELA_API_WEBSOCKET + "/graphql"
 
     static let TYPE_IMAGE_PHOTO: String = "photo"
     static let TYPE_IMAGE_VIDEO: String = "video"
@@ -148,24 +150,24 @@ class Config {
         case attention
     }
 
-
     func showHideNoInternet(view: UIImageView, show: Bool) {
-
         if (show) {
-            view.isHidden = false
+            view.visibility = .visible
+            view.alpha = 20
+            view.layoutIfNeeded()
             UIView.animate(withDuration: 1.5, delay: 0, options: [UIView.AnimationOptions.autoreverse, UIView.AnimationOptions.repeat], animations: {
                 view.alpha = 0
             }, completion: nil)
         } else {
-            view.isHidden = true
+            view.visibility = .invisible
             view.stopAnimating()
         }
     }
 
-    func startLoadingData (view: UIView, color: UIColor) {
+    func startLoadingData(view: UIView, color: UIColor) {
         let midX = view.center.x
         let midY = view.center.y
-        let frame = CGRect(x: (midX-25), y: (midY-225), width: 50, height: 50)
+        let frame = CGRect(x: (midX - 25), y: (midY - 225), width: 50, height: 50)
         Config.aiLoadingData = NVActivityIndicatorView(frame: frame, type: .ballRotateChase, color: color)
         view.addSubview(Config.aiLoadingData)
         Config.aiLoadingData.startAnimating()
@@ -203,10 +205,10 @@ class Config {
                 } else {
                     hasPermission = false
                 }
-               semaphore.signal()
+                semaphore.signal()
             })
             semaphore.wait()
-        @unknown default :
+        @unknown default:
             break
         }
         return hasPermission
@@ -231,7 +233,7 @@ class Config {
             print(pathFileFrom)
             let fileName: String = pathFileFrom.components(separatedBy: "/").last!
             print(fileName)
-            let pathFileTo = pathTo+"/"+fileName
+            let pathFileTo = pathTo + "/" + fileName
             print(pathFileTo)
             try fileManager.moveItem(atPath: pathFileFrom, toPath: pathFileTo)
         } catch {
@@ -248,7 +250,7 @@ class Config {
         }
     }
 
-func listDirectory(fileManager: FileManager, path: String) {
+    func listDirectory(fileManager: FileManager, path: String) {
         do {
             let items = try fileManager.contentsOfDirectory(atPath: path)
 
@@ -274,7 +276,7 @@ func listDirectory(fileManager: FileManager, path: String) {
         createDirectory(fileManager: fileManager, path: path)
     }
 
-    func getThumbnailImageFromVideoUrl(url: URL, completion: @escaping (_ image: UIImage?)->Void) {
+    func getThumbnailImageFromVideoUrl(url: URL, completion: @escaping (_ image: UIImage?) -> Void) {
         DispatchQueue.global().async { //1
             let assetUrl = AVAsset(url: url) //2
             let avAssetImageGenerator = AVAssetImageGenerator(asset: assetUrl) //3
