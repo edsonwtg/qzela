@@ -19,6 +19,7 @@
 		6F8E4E172787391500D11B67 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F8E4E192787391500D11B67 /* Localizable.strings */; };
 		6F99B4612759727800B8A6FC /* mapstyle.json in Resources */ = {isa = PBXBuildFile; fileRef = 6F99B4602759727800B8A6FC /* mapstyle.json */; };
 		6F9C2B3D279B470200A87D66 /* SpinnerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9C2B3C279B470200A87D66 /* SpinnerViewController.swift */; };
+		6FA420D927BD87C800C85C50 /* SegmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA420D827BD87C800C85C50 /* SegmentViewController.swift */; };
 		6FA6AA8B275CED400099F318 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6FA6AA8A275CED400099F318 /* GoogleService-Info.plist */; };
 		6FA6AA92275D27240099F318 /* Apollo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA6AA91275D27240099F318 /* Apollo.swift */; };
 		6FA6AAA1275D725C0099F318 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA6AAA0275D725C0099F318 /* API.swift */; };
@@ -63,6 +64,7 @@
 		6F8E4E1C2787392B00D11B67 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6F99B4602759727800B8A6FC /* mapstyle.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mapstyle.json; sourceTree = "<group>"; };
 		6F9C2B3C279B470200A87D66 /* SpinnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerViewController.swift; sourceTree = "<group>"; };
+		6FA420D827BD87C800C85C50 /* SegmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentViewController.swift; sourceTree = "<group>"; };
 		6FA6AA8A275CED400099F318 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6FA6AA91275D27240099F318 /* Apollo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apollo.swift; sourceTree = "<group>"; };
 		6FA6AA9E275D6B740099F318 /* schema.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
@@ -144,11 +146,69 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		6FA420D127BD745E00C85C50 /* Photo Fragment */ = {
+			isa = PBXGroup;
+			children = (
+				6FA420D627BD74FA00C85C50 /* Helpers */,
+				6F573202276F9FE2007CF84C /* PhotoViewController.swift */,
+			);
+			path = "Photo Fragment";
+			sourceTree = "<group>";
+		};
+		6FA420D227BD748200C85C50 /* Map Fragment */ = {
+			isa = PBXGroup;
+			children = (
+				6FDE763C27484D7D0050510C /* Models */,
+				6FA420D727BD758000C85C50 /* Helpers */,
+				6FDE7640274853FF0050510C /* MapTabbarController.swift */,
+				6F5732042770A36B007CF84C /* DialogIncidentViewController.swift */,
+			);
+			path = "Map Fragment";
+			sourceTree = "<group>";
+		};
+		6FA420D327BD749400C85C50 /* Login Fragment */ = {
+			isa = PBXGroup;
+			children = (
+				6FDE764727498E6C0050510C /* LoginViewController.swift */,
+			);
+			path = "Login Fragment";
+			sourceTree = "<group>";
+		};
+		6FA420D427BD74A500C85C50 /* Generic Fagments */ = {
+			isa = PBXGroup;
+			children = (
+				6FDE764B27498E940050510C /* PreviewViewController.swift */,
+			);
+			path = "Generic Fagments";
+			sourceTree = "<group>";
+		};
+		6FA420D527BD74BE00C85C50 /* Segment Fragment */ = {
+			isa = PBXGroup;
+			children = (
+				6FA420D827BD87C800C85C50 /* SegmentViewController.swift */,
+			);
+			path = "Segment Fragment";
+			sourceTree = "<group>";
+		};
+		6FA420D627BD74FA00C85C50 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		6FA420D727BD758000C85C50 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				6F72E8952774CDBE008C30F8 /* IncidentCollectionViewCell.swift */,
+				6FC0E18E27888953006B8772 /* OccurrenceCollectionViewCell.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		6FA4DC3A2754F4A4004B5441 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				6FC0E18E27888953006B8772 /* OccurrenceCollectionViewCell.swift */,
-				6F72E8952774CDBE008C30F8 /* IncidentCollectionViewCell.swift */,
 				B2D3ED601C88EF9BE044AECD /* GPSLocation.swift */,
 				6F2FC9BA27622EE9004FDF52 /* NetworkManager.swift */,
 				B2D3EE38F3162EC9AE1EAEBE /* LocationHome.gpx */,
@@ -192,6 +252,11 @@
 		6FDE761E274816AE0050510C /* qzela */ = {
 			isa = PBXGroup;
 			children = (
+				6FA420D527BD74BE00C85C50 /* Segment Fragment */,
+				6FA420D427BD74A500C85C50 /* Generic Fagments */,
+				6FA420D327BD749400C85C50 /* Login Fragment */,
+				6FA420D227BD748200C85C50 /* Map Fragment */,
+				6FA420D127BD745E00C85C50 /* Photo Fragment */,
 				6F8E4E14278737FD00D11B67 /* Settings */,
 				6F72E8942774A823008C30F8 /* Extensions */,
 				6FA6AAA0275D725C0099F318 /* API.swift */,
@@ -201,7 +266,6 @@
 				6FDE761F274816AE0050510C /* AppDelegate.swift */,
 				6FDE7621274816AE0050510C /* SceneDelegate.swift */,
 				6FDE762D274816AF0050510C /* Info.plist */,
-				6FDE763C27484D7D0050510C /* Models */,
 				6FDE763D274853820050510C /* Tabbar Controllers */,
 				6FDE763B274837390050510C /* View Controllers */,
 				6FA6AAA2275E42FB0099F318 /* GetViewport.graphql */,
@@ -216,12 +280,8 @@
 		6FDE763B274837390050510C /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				6FDE764727498E6C0050510C /* LoginViewController.swift */,
 				6FDE764927498E830050510C /* NotificationViewController.swift */,
-				6FDE764B27498E940050510C /* PreviewViewController.swift */,
 				6FDE764D27498EA80050510C /* SplashViewController.swift */,
-				6F573202276F9FE2007CF84C /* PhotoViewController.swift */,
-				6F5732042770A36B007CF84C /* DialogIncidentViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -239,7 +299,6 @@
 			children = (
 				6FDE7623274816AE0050510C /* TabBarController.swift */,
 				6FDE763E274853D20050510C /* DashboardTabbarController.swift */,
-				6FDE7640274853FF0050510C /* MapTabbarController.swift */,
 				6FDE76422748541A0050510C /* ProfileTabbarController.swift */,
 			);
 			path = "Tabbar Controllers";
@@ -442,6 +501,7 @@
 				B2D3E7262F2984F7F2139C93 /* GraphqlScalarExtension.swift in Sources */,
 				B2D3ED42769AEFDDC100F4CF /* LocalizationExtension.swift in Sources */,
 				B2D3E1C5E88C94235F28CAFF /* UIViewControllerExtension.swift in Sources */,
+				6FA420D927BD87C800C85C50 /* SegmentViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
