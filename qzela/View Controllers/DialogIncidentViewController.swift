@@ -174,7 +174,7 @@ class DialogIncidentViewController: UIViewController {
                     print("******** GetViewport - END **********")
                 } else {
                     config.stopLoadingData()
-                    print("ERRROR! Result: \(graphQLResult)")
+                    print("ERROR! Result: \(graphQLResult)")
                     dismiss(animated: true, completion: nil)
                     print("******** Stop Loading **********")
                 }

@@ -190,7 +190,6 @@ class PhotoViewController: UIViewController {
         }
     }
 
-
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         print("***** PhotoViewController viewDidDisappear *****")
@@ -243,21 +242,27 @@ class PhotoViewController: UIViewController {
         btContinue.isEnabled = false
 
         // TODO: Pass thisd functionality to initialize APP function
-        // check if simulator or device
-        #if (arch(i386) || arch(x86_64)) && (!os(macOS))
-            Config.isSimulator = true
-        #else
-            Config.isSimulator = false
-        #endif
+//        #if (arch(i386) || arch(x86_64)) && (!os(macOS))
+//            Config.isSimulator = true
+//        #else
+//            Config.isSimulator = false
+//        #endif
 
-        // create document diretory
-        config.cleanDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+//        print("************** CLEAN PATH_TEMP_FILES ************", #file.components(separatedBy: "/").last!, #line)
+//        config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+//        config.cleanDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+//
+//        print("************** CLEAN PATH_SAVED_FILES ************", #file.components(separatedBy: "/").last!, #line)
+//        config.listDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
 //        config.cleanDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
+//        print("************** CLEAN USER DEFAULTS ************", #file.components(separatedBy: "/").last!, #line)
 //        config.clearUserDefault()
-        config.getUserDefaults()
+//
+//        print("************** getUserDefaults ************", #file.components(separatedBy: "/").last!, #line)
+//        config.getUserDefaults()
+//        Config.savCoordinate = CLLocationCoordinate2D(latitude: -23.612992, longitude: -46.682762)
 
         cameraStart()
-//        setupCamera()
     }
 
     @objc func tapGestureImage (_ sender: UITapGestureRecognizer) {
@@ -296,8 +301,40 @@ class PhotoViewController: UIViewController {
     }
 
     @IBAction func btBacktoTabBar(_ sender: Any) {
-        tabBarController?.selectedIndex = 2
-        dismiss(animated: true, completion: nil)
+        if (bShootVideo) {
+            let okActionHandler: (UIAlertAction) -> Void = {(action) in
+                self.config.cleanDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
+                print("************** PATH_TEMP_FILES ************")
+                self.config.listDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
+                self.tabBarController?.selectedIndex = 2
+                self.dismiss(animated: true, completion: nil)
+            }
+            showAlert(title:  "text_attention".localized(),
+                    message: "text_change_video".localized(),
+                    type: .attention,
+                    actionTitles: ["text_cancel".localized(), "text_confirm".localized()],
+                    style: [.cancel, .destructive],
+                    actions: [nil, okActionHandler])
+        } else if (bPhoto1 || bPhoto2 || bPhoto3){
+            let okActionHandler: (UIAlertAction) -> Void = {(action) in
+                self.config.cleanDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
+                print("************** PATH_TEMP_FILES ************")
+                self.config.listDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
+                self.tabBarController?.selectedIndex = 2
+                self.dismiss(animated: true, completion: nil)
+            }
+            showAlert(
+                    title: "text_attention".localized(),
+                    message: "text_change_photo".localized(),
+                    type: .attention,
+                    actionTitles: ["text_cancel".localized(), "text_confirm".localized()],
+                    style: [.cancel, .destructive],
+                    actions: [nil, okActionHandler]
+            )
+        } else {
+            tabBarController?.selectedIndex = 2
+            dismiss(animated: true, completion: nil)
+        }
     }
 
     @IBAction func btClick(_ sender: UIButton) {
@@ -313,7 +350,7 @@ class PhotoViewController: UIViewController {
                     let okActionHandler: (UIAlertAction) -> Void = {(action) in
                         self.changePhotoVideo()
                     }
-                    self.showAlert(
+                    showAlert(
                             title: "text_attention".localized(),
                             message: "text_change_photo".localized(),
                             type: .attention,
@@ -370,46 +407,61 @@ class PhotoViewController: UIViewController {
             print("************** PATH_SAVED_FILES ************")
             config.listDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
             var imageType: String!
+            Config.saveImages.removeAll()
             if (bPhoto) {
                 imageType = "photo"
                 if (bPhoto1) {
-                    config.moveImage(fileManager: fileManager, pathFileFrom: filePhoto1, pathTo: Config.PATH_SAVED_FILES)
-                    Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: filePhoto1))
+                    let fileSaved = Config.PATH_SAVED_FILES+"/"+filePhoto1.components(separatedBy: "/").last!
+                    config.moveImage(fileManager: fileManager, pathFileFrom: filePhoto1, pathFileTo: fileSaved)
+                    Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: fileSaved.components(separatedBy: "/").last!))
                     photoImage1.image = nil
                     bPhoto1 = false
+                    filePhoto1 = ""
                 }
                 if (bPhoto2) {
-                    config.moveImage(fileManager: fileManager, pathFileFrom: filePhoto2, pathTo: Config.PATH_SAVED_FILES)
-                    Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: filePhoto2))
+                    let fileSaved = Config.PATH_SAVED_FILES+"/"+filePhoto2.components(separatedBy: "/").last!
+                    config.moveImage(fileManager: fileManager, pathFileFrom: filePhoto2, pathFileTo: fileSaved)
+                    Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: fileSaved.components(separatedBy: "/").last!))
                     photoImage2.image = nil
                     bPhoto2 = false
+                    filePhoto2 = ""
                 }
                 if (bPhoto3) {
-                    config.moveImage(fileManager: fileManager, pathFileFrom: filePhoto3, pathTo: Config.PATH_SAVED_FILES)
-                    Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: filePhoto3))
+                    let fileSaved = Config.PATH_SAVED_FILES+"/"+filePhoto3.components(separatedBy: "/").last!
+                    config.moveImage(fileManager: fileManager, pathFileFrom: filePhoto3, pathFileTo: fileSaved)
+                    Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: fileSaved.components(separatedBy: "/").last!))
                     photoImage3.image = nil
                     bPhoto1 = false
+                    filePhoto3 = ""
                 }
             } else {
                 imageType = "video"
                 if (bShootVideo) {
-                    config.moveImage(fileManager: fileManager, pathFileFrom: fileVideo, pathTo: Config.PATH_SAVED_FILES)
-                    Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: fileVideo))
+                    let fileSaved = Config.PATH_SAVED_FILES+"/"+fileVideo.components(separatedBy: "/").last!
+                    config.moveImage(fileManager: fileManager, pathFileFrom: fileVideo, pathFileTo: fileSaved)
+                    Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: fileSaved.components(separatedBy: "/").last!))
                     videoImage.image = nil
                     bShootVideo = false
-
+                    fileVideo = ""
                 }
             }
-            Config.savCoordinate = CLLocationCoordinate2D(latitude: -23.612992, longitude: -46.682762)
             Config.saveQtdIncidents += 1
             Config.saveIncidents.append(Config.SaveIncidents(
                     id: Config.saveQtdIncidents,
                     latitude: Config.savCoordinate.latitude,
                     longitude: Config.savCoordinate.longitude,
-                    dateTime: Date(),
+                    dateTime: Calendar.current.date(byAdding: .day, value: -1, to: Date())!,
                     imageType: imageType,
                     savedImages: Config.saveImages)
             )
+//            Config.saveIncidents.append(Config.SaveIncidents(
+//                    id: Config.saveQtdIncidents,
+//                    latitude: Config.savCoordinate.latitude,
+//                    longitude: Config.savCoordinate.longitude,
+//                    dateTime: Date(),
+//                    imageType: imageType,
+//                    savedImages: Config.saveImages)
+//            )
             print(Config.saveIncidents)
             // Save user defaults
             let data = try! JSONEncoder().encode(Config.saveIncidents)

@@ -91,14 +91,14 @@ class MapTabbarController: UIViewController {
 
         // TODO: Pass thisd functionality to initialize APP function
         // check if simulator or device
-        #if (arch(i386) || arch(x86_64)) && (!os(macOS))
-            Config.isSimulator = true
-        #else
-            Config.isSimulator = false
-        #endif
+//        #if (arch(i386) || arch(x86_64)) && (!os(macOS))
+//            Config.isSimulator = true
+//        #else
+//            Config.isSimulator = false
+//        #endif
 
         // Hide Image saved Button
-        btSavedImage.isHidden = true
+        btSavedImage.visibility = .invisible
 
         let qzelaPoints = 1000
         lbQzelaPoints.addTrailing(image: UIImage(named: "ic_trophy") ?? UIImage(), text: String(qzelaPoints) + " ")

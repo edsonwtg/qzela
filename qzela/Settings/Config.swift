@@ -67,6 +67,7 @@ class Config {
 
         if (Config.userDefaults.integer(forKey: "qtdIncidentSaved") == 0) {
             Config.userDefaults.set(0, forKey: "qtdIncidentSaved")
+            Config.saveIncidents = [SaveIncidents]()
             Config.userDefaults.set(Config.saveIncidents, forKey: "incidentSaved")
         } else {
             Config.saveQtdIncidents = Config.userDefaults.integer(forKey: "qtdIncidentSaved")
@@ -79,6 +80,7 @@ class Config {
     func clearUserDefault() {
         Config.userDefaults.removeObject(forKey: "incidentSaved")
         Config.userDefaults.removeObject(forKey: "qtdIncidentSaved")
+        Config.saveIncidents = [SaveIncidents]()
     }
 
     static var savApiCoordinate: CLLocationCoordinate2D?
@@ -114,6 +116,9 @@ class Config {
     // GRAPHQL ADDRESS
     static let GRAPHQL_ENDPOINT: String = QZELA_API_ADDRESS + "/v2i/graphql"
     static let GRAPHQL_WEBSOCKET: String = QZELA_API_WEBSOCKET + "/graphql"
+    static var qzelaToken: String = ""
+    static var qzelaUserId: String = ""
+
 
     static let TYPE_IMAGE_PHOTO: String = "photo"
     static let TYPE_IMAGE_VIDEO: String = "video"
@@ -228,12 +233,9 @@ class Config {
         return urlString
     }
 
-    func moveImage(fileManager: FileManager, pathFileFrom: String, pathTo: String) {
+    func moveImage(fileManager: FileManager, pathFileFrom: String, pathFileTo: String) {
         do {
             print(pathFileFrom)
-            let fileName: String = pathFileFrom.components(separatedBy: "/").last!
-            print(fileName)
-            let pathFileTo = pathTo + "/" + fileName
             print(pathFileTo)
             try fileManager.moveItem(atPath: pathFileFrom, toPath: pathFileTo)
         } catch {
@@ -246,7 +248,7 @@ class Config {
             print(pathFileFrom)
             try fileManager.removeItem(atPath: pathFileFrom)
         } catch {
-            print("ERROR MOVE FILE")
+            print("ERROR DELETE FILE")
         }
     }
 
@@ -255,10 +257,10 @@ class Config {
             let items = try fileManager.contentsOfDirectory(atPath: path)
 
             for item in items {
-                print("Found \(item)")
+                print("Found \(path+"/"+item)")
             }
         } catch {
-            print("Error File Path \(Config.PATH_TEMP_FILES)")
+            print("Error File Path \(path)")
         }
     }
 
