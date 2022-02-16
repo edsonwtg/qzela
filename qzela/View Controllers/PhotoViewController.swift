@@ -446,22 +446,22 @@ class PhotoViewController: UIViewController {
                 }
             }
             Config.saveQtdIncidents += 1
-            Config.saveIncidents.append(Config.SaveIncidents(
-                    id: Config.saveQtdIncidents,
-                    latitude: Config.savCoordinate.latitude,
-                    longitude: Config.savCoordinate.longitude,
-                    dateTime: Calendar.current.date(byAdding: .day, value: -1, to: Date())!,
-                    imageType: imageType,
-                    savedImages: Config.saveImages)
-            )
 //            Config.saveIncidents.append(Config.SaveIncidents(
 //                    id: Config.saveQtdIncidents,
 //                    latitude: Config.savCoordinate.latitude,
 //                    longitude: Config.savCoordinate.longitude,
-//                    dateTime: Date(),
+//                    dateTime: Calendar.current.date(byAdding: .day, value: -1, to: Date())!,
 //                    imageType: imageType,
 //                    savedImages: Config.saveImages)
 //            )
+            Config.saveIncidents.append(Config.SaveIncidents(
+                    id: Config.saveQtdIncidents,
+                    latitude: Config.savCoordinate.latitude,
+                    longitude: Config.savCoordinate.longitude,
+                    dateTime: Date(),
+                    imageType: imageType,
+                    savedImages: Config.saveImages)
+            )
             print(Config.saveIncidents)
             // Save user defaults
             let data = try! JSONEncoder().encode(Config.saveIncidents)
@@ -487,27 +487,33 @@ class PhotoViewController: UIViewController {
 
         case "btContinue":
             print("btContinue")
-            config.cleanDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
-            print("************** PATH_TEMP_FILES ************")
-            config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+            if (!networkListener.isNetworkAvailable()) {
+                print("******** NO INTERNET CONNECTION *********")
+                break
+            }
 
-            config.cleanDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
-            config.clearUserDefault()
-            print("************** PATH_SAVED_FILES ************")
-            config.listDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
-            config.getUserDefaults()
-            photoImage1.image = nil
-            filePhoto1 = ""
-            bPhoto1 = false
-            photoImage2.image = nil
-            filePhoto2 = ""
-            bPhoto2 = false
-            photoImage3.image = nil
-            filePhoto3 = ""
-            bPhoto3 = false
-            enableDisablePhotoButton(enable: true)
-            Config.deletePhoto = 0
-            Config.backSaveIncident = false
+
+//            config.cleanDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+//            print("************** PATH_TEMP_FILES ************")
+//            config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+//
+//            config.cleanDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
+//            config.clearUserDefault()
+//            print("************** PATH_SAVED_FILES ************")
+//            config.listDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
+//            config.getUserDefaults()
+//            photoImage1.image = nil
+//            filePhoto1 = ""
+//            bPhoto1 = false
+//            photoImage2.image = nil
+//            filePhoto2 = ""
+//            bPhoto2 = false
+//            photoImage3.image = nil
+//            filePhoto3 = ""
+//            bPhoto3 = false
+//            enableDisablePhotoButton(enable: true)
+//            Config.deletePhoto = 0
+//            Config.backSaveIncident = false
         default:
             break
         }
