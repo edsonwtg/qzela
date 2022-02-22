@@ -45,7 +45,7 @@ class CustomInterceptor: ApolloInterceptor {
             completion: @escaping (Swift.Result<GraphQLResult<Operation.Data>, Error>) -> Void) {
         request.addHeader(name: "X-QZelaAccessToken", value: Config.qzelaToken)
         request.addHeader(name: "X-QZelaUserId", value: Config.qzelaUserId)
-        print("request :\(request)")
+//        print("request :\(request)")
 //        print("response :\(String(describing: response))")
 //        print("Completion :\(String(describing: completion))")
 

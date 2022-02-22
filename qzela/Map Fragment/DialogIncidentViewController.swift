@@ -81,15 +81,15 @@ class DialogIncidentViewController: UIViewController {
 //        incidentId = "60af7a23c972406df17bb914"
         // Registrada
 //        incidentId = "61550de6d5d5405478b24827"
-        if incidentId != nil {
-            print("Incident ID: \(incidentId!)")
-        }
+//        if incidentId != nil {
+//            print("Incident ID: \(incidentId!)")
+//        }
 //        incidentId = "5e20f78900bc760835481f76"
         if (incidentId == "615c9648eac9e627dc101325") {
             // Video
             incidentId = "6154e3c5d5d5405478b24820"
         }
-        print("******** GetIncidentById - START **********")
+        // print("******** GetIncidentById - START **********")
 
 
         Apollo.shared.apollo.fetch(query: GetIncidentByIdQuery(id: incidentId!)) { [unowned self] result in
@@ -167,16 +167,16 @@ class DialogIncidentViewController: UIViewController {
                         pbStepIncident.setProgress(0, animated: true)
                     }
                     
-                    print("_id \(result._id)")
-                    print("cdSegment \(result.cdSegment)")
-                    print("dcAddress \(result.dcAddress)")
+                    // print("_id \(result._id)")
+                    // print("cdSegment \(result.cdSegment)")
+                    // print("dcAddress \(result.dcAddress)")
 
-                    print("******** GetViewport - END **********")
+                    // print("******** GetViewport - END **********")
                 } else {
                     config.stopLoadingData()
                     print("ERROR! Result: \(graphQLResult)")
                     dismiss(animated: true, completion: nil)
-                    print("******** Stop Loading **********")
+                    // print("******** Stop Loading **********")
                 }
             case .failure(let error):
                 config.stopLoadingData()
@@ -185,7 +185,7 @@ class DialogIncidentViewController: UIViewController {
             }
         }
         
-        print("******** GetIncidentById - END **********")
+        // print("******** GetIncidentById - END **********")
     }
 
     @IBAction func btnClick(_ sender: UIButton) {
@@ -302,7 +302,7 @@ extension DialogIncidentViewController: UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == sliderCollectionView {
-            print(indexPath.row)
+            // print(indexPath.row)
 
             if (slides[indexPath.row].tpImage == Config.TYPE_IMAGE_VIDEO) {
 //                playVideo(videoFilePath: slides[indexPath.row].mediaURL)

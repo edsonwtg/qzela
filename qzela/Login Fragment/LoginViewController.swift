@@ -19,7 +19,7 @@ class LoginViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        print("GO TO TabBar *********")
+        // print("GO TO TabBar *********")
         gotoNewRootViewController(viewController: "TabBarController")
     }
 

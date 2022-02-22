@@ -19,8 +19,8 @@ class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        print("GO TO Login *********")
-//        gotoNewRootViewController(viewController: "LoginViewController")
+        // print("GO TO Login *********")
+        gotoNewRootViewController(viewController: "LoginViewController")
     }
 
     override func viewDidLoad() {
@@ -35,9 +35,9 @@ class SplashViewController: UIViewController {
         #endif
 
         // Clean and create document directory
-        print("************** CLEAN PATH_TEMP_FILES ************", #file.components(separatedBy: "/").last!, #line)
+        // print("************** CLEAN PATH_TEMP_FILES ************", #file.components(separatedBy: "/").last!, #line)
         config.cleanDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
-        print("************** CREATE PATH_SAVED_FILES ************", #file.components(separatedBy: "/").last!, #line)
+        // print("************** CREATE PATH_SAVED_FILES ************", #file.components(separatedBy: "/").last!, #line)
         config.createDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
 
 //        config.cleanDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
@@ -45,7 +45,7 @@ class SplashViewController: UIViewController {
 //        print("************** CLEAN USER DEFAULTS ************", #file.components(separatedBy: "/").last!, #line)
 //        config.clearUserDefault()
 
-        print("************** getUserDefaults ************", #file.components(separatedBy: "/").last!, #line)
+        // print("************** getUserDefaults ************", #file.components(separatedBy: "/").last!, #line)
         config.getUserDefaults()
 
 //        print(Config.saveQtdIncidents)

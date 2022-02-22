@@ -9,12 +9,13 @@ import GoogleMaps
 
 protocol GPSLocationDelegate: AnyObject {
     func GPSLocation(didUpdate locations: [CLLocation])
+    func GPSLocation(didUpdateHead heading: CLHeading)
 }
 
 class GPSLocation: NSObject, CLLocationManagerDelegate {
 
     let locationManager = CLLocationManager()
-    var seenError : Bool = false
+    var seenError: Bool = false
     var currentLocation = CLLocationCoordinate2D()
 
     // here is the closure
@@ -34,54 +35,60 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
     }
 
     public func startLocationUpdates() {
-        print("***** GPSLocation - startLocationUpdates *****")
+        //  print("***** GPSLocation - startLocationUpdates *****")
         locationManager.startUpdatingLocation()
+        //Start heading updating.
+        if CLLocationManager.headingAvailable() {
+            locationManager.headingFilter = 5
+            locationManager.startUpdatingHeading()
+        }
     }
 
     public func stopLocationUpdates() {
         locationManager.stopUpdatingLocation()
+        locationManager.stopUpdatingHeading()
     }
 
     func getCoordinate() -> CLLocationCoordinate2D? {
         // TODO: Home location for development test
 //        let coor = CLLocationCoordinate2D(latitude: -23.612992, longitude: -46.682762)
         let coor = locationManager.location?.coordinate ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
-        print("***** GPSLocation - GET Coordenate: \(coor)")
+        //  print("***** GPSLocation - GET Coordenate: \(coor)")
         return coor
     }
 
-    func getLat() -> Double{
+    func getLat() -> Double {
         // TODO: Home location for development test
 //        let lat = -23.612992
         let lat = locationManager.location?.coordinate.latitude ?? 0.0
-        print("Latitude: \(lat)")
+        //  print("Latitude: \(lat)")
         return lat
     }
 
-    func getLon() -> Double{
+    func getLon() -> Double {
         // TODO: Home location for development test
 //        let lon = -46.682762
         let lon = locationManager.location?.coordinate.longitude ?? 0.0
-        print("Longitude: \(lon)")
+        //  print("Longitude: \(lon)")
         return lon
     }
 
     func getLatLngBounds(centerCoordinate: CLLocationCoordinate2D, radiusInMeter: Double) -> GMSCoordinateBounds? {
 
-        let region = MKCoordinateRegion(center: centerCoordinate, latitudinalMeters: radiusInMeter*2, longitudinalMeters: radiusInMeter*2)
+        let region = MKCoordinateRegion(center: centerCoordinate, latitudinalMeters: radiusInMeter * 2, longitudinalMeters: radiusInMeter * 2)
         let southWest = CLLocationCoordinate2DMake(
-                region.center.latitude - region.span.latitudeDelta/2,
-                region.center.longitude - region.span.longitudeDelta/2
+                region.center.latitude - region.span.latitudeDelta / 2,
+                region.center.longitude - region.span.longitudeDelta / 2
         )
         let northEast = CLLocationCoordinate2DMake(
-                region.center.latitude + region.span.latitudeDelta/2,
-                region.center.longitude + region.span.longitudeDelta/2
+                region.center.latitude + region.span.latitudeDelta / 2,
+                region.center.longitude + region.span.longitudeDelta / 2
         )
         return GMSCoordinateBounds(coordinate: northEast, coordinate: southWest)
 
     }
 
-    func reduceBounds(bounds: GMSCoordinateBounds, percentage: Double)-> GMSCoordinateBounds? {
+    func reduceBounds(bounds: GMSCoordinateBounds, percentage: Double) -> GMSCoordinateBounds? {
         let north: Double = bounds.northEast.latitude
         let south: Double = bounds.southWest.latitude
         let east: Double = bounds.northEast.longitude
@@ -93,7 +100,7 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
                 coordinate: CLLocationCoordinate2D(latitude: south + (north - south) * upperFactor, longitude: west + (east - west) * upperFactor))
     }
 
-    func increaseBounds(bounds: GMSCoordinateBounds, percentage: Double)-> GMSCoordinateBounds? {
+    func increaseBounds(bounds: GMSCoordinateBounds, percentage: Double) -> GMSCoordinateBounds? {
         let increasePercentage: Double = 1 + (percentage / 100);
         let northeast = bounds.northEast
         let southwest = bounds.southWest
@@ -103,25 +110,32 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
         let newPointNorthEast: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: northeast.latitude + latAdjustment, longitude: northeast.longitude + lngAdjustment)
         let newPointSouthWest: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: southwest.latitude - latAdjustment, longitude: southwest.longitude - lngAdjustment)
 
-        return GMSCoordinateBounds(coordinate: newPointNorthEast,coordinate: newPointSouthWest)
+        return GMSCoordinateBounds(coordinate: newPointNorthEast, coordinate: newPointSouthWest)
     }
 
-    func getDistanceInMeters(coordinateOrigin: CLLocationCoordinate2D, coordinateDestiny: CLLocationCoordinate2D  ) -> Double {
+    func getDistanceInMeters(coordinateOrigin: CLLocationCoordinate2D, coordinateDestiny: CLLocationCoordinate2D) -> Double {
 
         Double(CLLocation(
                 latitude: coordinateOrigin.latitude,
                 longitude: coordinateOrigin.longitude)
-                .distance( from: CLLocation(
+                .distance(from: CLLocation(
                         latitude: coordinateDestiny.latitude,
                         longitude: coordinateDestiny.longitude)
                 )
         )
         // result is in meters
-        }
+    }
 
     func getAccuracy() -> Double {
 
         locationManager.location?.horizontalAccuracy ?? 0
+    }
+
+    func getHeading() -> Double {
+        if (locationManager.heading?.trueHeading == nil) {
+            return 0.0
+        }
+        return locationManager.heading!.trueHeading
     }
 
     func isGpsEnable() -> Bool {
@@ -136,7 +150,9 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
                 hasPermission = true
                 // trigger CLLocationManager didUpdateLocations
                 locationManager.stopUpdatingLocation()
+                locationManager.stopUpdatingHeading()
                 locationManager.startUpdatingLocation()
+                locationManager.startUpdatingHeading()
             @unknown default:
                 break
             }
@@ -147,47 +163,62 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
         return hasPermission
     }
 
-   internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 
-        guard let location = locations.first else { return }
+        guard let location = locations.first else {
+            return
+        }
 
-        print("****** GPSLocation - didUpdateLocations ******* Coord.: \(location.coordinate)")
+        //  print("****** GPSLocation - didUpdateLocations ******* Coord.: \(location.coordinate)")
 
         // here we call it for closure:
         updatedLocations?(locations)
 
         // calling the delegate method for Protocol
         delegate?.GPSLocation(didUpdate: locations)
-   }
-    
+    }
+
+    internal func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+
+        //  print("****** GPSLocation - didUpdateHeading ******* Heading.: \(newHeading)")
+
+        delegate?.GPSLocation(didUpdateHead: newHeading)
+    }
+
+
     internal func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
 
-        guard let region1 = region else { return }
-        print(" ****** monitoringDidFailFor Region: \(region1) - Error: \(error)")
-      }
+        guard let region1 = region else {
+            return
+        }
+        //  print(" ****** monitoringDidFailFor Region: \(region1) - Error: \(error)")
+    }
 
     private func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
-        guard let erro = error else { return }
-        print(" ****** didFailWithError Error: \(erro)")
+        guard let erro = error else {
+            return
+        }
+        //  print(" ****** didFailWithError Error: \(erro)")
         locationManager.stopUpdatingLocation()
+        locationManager.stopUpdatingHeading()
     }
 
     internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
 
-        print(" ****** didChangeAuthorization Status: \(manager.authorizationStatus)")
+        //  print(" ****** didChangeAuthorization Status: \(manager.authorizationStatus)")
         switch manager.authorizationStatus {
-            case .authorizedAlways:
-                return
-            case .authorizedWhenInUse:
-                return
-            case .denied:
-                return
-            case .restricted:
-                locationManager.requestWhenInUseAuthorization()
-            case .notDetermined:
-                locationManager.requestWhenInUseAuthorization()
-            default:
-                locationManager.requestWhenInUseAuthorization()
+        case .authorizedAlways:
+            return
+        case .authorizedWhenInUse:
+            return
+        case .denied:
+            return
+        case .restricted:
+            locationManager.requestWhenInUseAuthorization()
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        default:
+            locationManager.requestWhenInUseAuthorization()
         }
     }
 }

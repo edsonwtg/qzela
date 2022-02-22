@@ -79,7 +79,7 @@ class PreviewViewController: UIViewController {
         player = AVPlayer(url: URL(string: videoFilePath)!)
         videoController.player = player
         videoController.showsPlaybackControls = false
-        print(player.currentTime().value)
+        // print(player.currentTime().value)
         videoController.view.frame = videoView.bounds
         videoController.videoGravity = AVLayerVideoGravity.resizeAspectFill
         videoView.layer.addSublayer(videoController.view.layer)

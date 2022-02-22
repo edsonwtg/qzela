@@ -73,7 +73,7 @@ class Config {
             Config.saveQtdIncidents = Config.userDefaults.integer(forKey: "qtdIncidentSaved")
             let jsomData = Config.userDefaults.object(forKey: "incidentSaved") as! Data
             Config.saveIncidents = try! JSONDecoder().decode([Config.SaveIncidents].self, from: jsomData)
-            print(Config.saveIncidents)
+            // print(Config.saveIncidents)
         }
     }
 
@@ -183,7 +183,7 @@ class Config {
     }
 
     func checkCameraPermissions() -> Bool {
-        print(" ****** AVCaptureDevice Status: \(AVCaptureDevice.authorizationStatus(for: .video))")
+        // print(" ****** AVCaptureDevice Status: \(AVCaptureDevice.authorizationStatus(for: .video))")
         var hasPermission = false
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
@@ -234,8 +234,8 @@ class Config {
 
     func moveImage(fileManager: FileManager, pathFileFrom: String, pathFileTo: String) {
         do {
-            print(pathFileFrom)
-            print(pathFileTo)
+            // print(pathFileFrom)
+            // print(pathFileTo)
             try fileManager.moveItem(atPath: pathFileFrom, toPath: pathFileTo)
         } catch {
             print("ERROR MOVE FILE")
@@ -244,7 +244,7 @@ class Config {
 
     func deleteImage(fileManager: FileManager, pathFileFrom: String) {
         do {
-            print(pathFileFrom)
+            // print(pathFileFrom)
             try fileManager.removeItem(atPath: pathFileFrom)
         } catch {
             print("ERROR DELETE FILE")

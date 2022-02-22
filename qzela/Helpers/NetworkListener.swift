@@ -83,7 +83,7 @@ class NetworkListener {
 
         DispatchQueue.main.async {
             NotificationCenter.default.post(name: Notification.Name(rawValue: Config.internetNotificationKey), object: nil, userInfo: ["type":type])
-            print("SEND Notification ********")
+            // print("SEND Notification ********")
         }
 
     }

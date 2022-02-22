@@ -65,9 +65,9 @@ class SegmentViewController: UIViewController {
 
     @IBAction func btContinue(_ sender: Any) {
 
-        print("btContinue")
+        // print("btContinue")
         if (!networkListener.isNetworkAvailable()) {
-            print("******** NO INTERNET CONNECTION *********")
+            // print("******** NO INTERNET CONNECTION *********")
         }
         // Go to Location View Controller
 //        let controller = storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
@@ -78,7 +78,7 @@ class SegmentViewController: UIViewController {
 
     func setSegmentsCollection () {
 
-        print("******** GetSegment - START **********")
+        // print("******** GetSegment - START **********")
         Apollo.shared.apollo.fetch(query: GetSegmentsQuery(), cachePolicy: .fetchIgnoringCacheData) { [unowned self] result in
             switch result {
             case .success(let graphQLResult):
@@ -96,15 +96,15 @@ class SegmentViewController: UIViewController {
                         segmentCollectionView.insertItems(at: indexPaths)
                     }, completion: nil)
 
-                    print("******** GetSegment - END **********")
+                    // print("******** GetSegment - END **********")
                 } else {
-                    print("******** Stop Loading **********")
+                    // print("******** Stop Loading **********")
                 }
             case .failure(let error):
                 print("Failure! Error: \(error)")
             }
         }
-        print("******** GetSegment - END **********")
+        // print("******** GetSegment - END **********")
 
 //        segmentsItens.append(SegmentData(segmentId: 1, segmentName: "#EuCuidoDoMeuQuadrado", segmentImage: "42"))
 //        segmentsItens.append(SegmentData(segmentId: 2, segmentName: "Calçadas e Canteiros", segmentImage: "42"))
@@ -122,7 +122,7 @@ class SegmentViewController: UIViewController {
 
         // check Internet
         if (!networkListener.isNetworkAvailable()) {
-            print("******** NO INTERNET CONNECTION *********")
+            // print("******** NO INTERNET CONNECTION *********")
             showAlert(title: "text_no_internet".localized(),
                     message: "text_internet_off".localized(),
                     type: .attention,
@@ -133,7 +133,7 @@ class SegmentViewController: UIViewController {
         }
         occurrenceItens.removeAll()
 
-        print("******** GetOccurrences - START **********")
+        // print("******** GetOccurrences - START **********")
 
         Apollo.shared.apollo.fetch(query: GetOccurrencesQuery(segId: occurrenceId), cachePolicy: .fetchIgnoringCacheData) { [unowned self] result in
             switch result {
@@ -149,15 +149,15 @@ class SegmentViewController: UIViewController {
                         occurrenceSegmentCollectionView.insertItems(at: indexPaths)
                     }, completion: nil)
 
-                    print("******** getOccurrences - END **********")
+                    // print("******** getOccurrences - END **********")
                 } else {
-                    print("******** Stop Loading **********")
+                    // print("******** Stop Loading **********")
                 }
             case .failure(let error):
                 print("Failure! Error: \(error)")
             }
         }
-        print("******** getOccurrences - END **********")
+        // print("******** getOccurrences - END **********")
 
 //        if occurrenceId == 1 {
 //            occurrenceItens.append(OccurrencesData(occurrenceId: "1", occurrenceName: "Empresa Atuando Sem Registro no Conselho Profissional (CREA)"))

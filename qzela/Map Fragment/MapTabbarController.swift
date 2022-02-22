@@ -44,7 +44,8 @@ class MapTabbarController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("***** MapTabbarController viewDidAppear *****")
+        // print("***** MapTabbarController viewDidAppear *****")
+        UIApplication.shared.isIdleTimerDisabled = true
         // NetworkListener Observer
         NotificationCenter.default.addObserver(self, selector: #selector(MapTabbarController.changeStatusInternet), name: NSNotification.Name(rawValue: Config.internetNotificationKey), object: nil)
         // check Internet
@@ -68,7 +69,7 @@ class MapTabbarController: UIViewController {
 
     @objc func changeStatusInternet(notification: NSNotification) {
         guard let type = notification.userInfo!["type"] else { return }
-        print("******* RECEIVED Notification MapTabbarController - Network Listener \(type) ********")
+        // print("******* RECEIVED Notification MapTabbarController - Network Listener \(type) ********")
         if (type as! String == "unknown") {
             config.showHideNoInternet(view: ivNoInternet, show: true)
         } else {
@@ -78,14 +79,15 @@ class MapTabbarController: UIViewController {
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        print("***** MapTabbarController viewDidDisappear *****")
+        UIApplication.shared.isIdleTimerDisabled = false
+        // print("***** MapTabbarController viewDidDisappear *****")
         gpsLocation.stopLocationUpdates()
         NotificationCenter.default.removeObserver(self)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("***** viewDidLoad *****")
+        // print("***** viewDidLoad *****")
 
         ivNoInternet.visibility = .invisible
 
@@ -127,11 +129,12 @@ class MapTabbarController: UIViewController {
 
         switch sender.restorationIdentifier {
         case "btMyLocation":
-            print("btMyLocation")
+            // print("btMyLocation")
             gotoMyLocation()
         case "btViewMap":
-            print("btViewMap Clear Markers")
+            // print("btViewMap Clear Markers")
             clearMarkers()
+
         case "btNewIncident":
             // check GPS
             if (gpsLocation.isGpsEnable()) {
@@ -173,10 +176,10 @@ class MapTabbarController: UIViewController {
             }
             // check Internet
             if (!networkListener.isNetworkAvailable()) {
-                print("******** NO INTERNET CONNECTION *********")
+                // print("******** NO INTERNET CONNECTION *********")
                 let actionHandler: (UIAlertAction) -> Void = { (action) in
                     //Redirect to Settings app
-                    print("btNewIncident")
+                    // print("btNewIncident")
                 }
                 showAlert(title: "text_no_internet".localized(),
                         message: "text_only_save_occurrence".localized(),
@@ -187,7 +190,7 @@ class MapTabbarController: UIViewController {
            }
 
         case "btSavedImage":
-            print("btSavedImage ShowMarkers")
+            // print("btSavedImage ShowMarkers")
             showMarkers()
         default:
             print(sender.restorationIdentifier ?? "no restoration Identifier defined")
@@ -195,12 +198,12 @@ class MapTabbarController: UIViewController {
     }
 
     func mapInit() {
-        print("***** MAP INIT - START *****")
+        // print("***** MAP INIT - START *****")
         // Load Map style from json file
         do {
             if let styleURL = Bundle.main.url(forResource: "mapstyle", withExtension: "json") {
                 mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
-                print("mapstyle.json Load...")
+                // print("mapstyle.json Load...")
             } else {
                 print("unable to find mapstyle.json")
             }
@@ -227,7 +230,7 @@ class MapTabbarController: UIViewController {
 
     func gotoMyLocation() {
 
-        print("********* gotoMyLocation - START ********")
+        // print("********* gotoMyLocation - START ********")
 
         if gpsLocation.isGpsEnable() {
             Config.savCoordinate = gpsLocation.getCoordinate()
@@ -250,19 +253,19 @@ class MapTabbarController: UIViewController {
                     actions: [okSettings, nil],
                     preferredActionIndex: 1)
         }
-        print("********* gotoMyLocation - END ********")
+        // print("********* gotoMyLocation - END ********")
     }
 
     func getIncidentViewport() {
 
-        print("******** getIncidentViewport - START **********")
+        // print("******** getIncidentViewport - START **********")
 
         // check if App start
         if Config.savApiCoordinate != nil {
             let distance = gpsLocation.getDistanceInMeters(
                     coordinateOrigin: Config.savCoordinate,
                     coordinateDestiny: Config.savApiCoordinate!)
-            print("Distance: \(distance)")
+            // print("Distance: \(distance)")
             // check if need load data from API
             if (distance > (Config.PERCENTAGE_DISTANCE_BOUNDS * 1.5)) {
                 Config.savApiCoordinate = Config.savCoordinate
@@ -275,7 +278,7 @@ class MapTabbarController: UIViewController {
 
         // check Internet
         if (!networkListener.isNetworkAvailable()) {
-            print("******** NO INTERNET CONNECTION *********")
+            // print("******** NO INTERNET CONNECTION *********")
             showAlert(title: "text_no_internet".localized(),
                     message: "text_internet_off".localized(),
                     type: .attention,
@@ -322,7 +325,7 @@ class MapTabbarController: UIViewController {
             }
         }
 
-        print("******** GetViewport - START **********")
+        // print("******** GetViewport - START **********")
         Apollo.shared.apollo.fetch(query: GetViewportQuery(
                 neCoord: neCoord,
                 swCoord: swCoord,
@@ -342,10 +345,10 @@ class MapTabbarController: UIViewController {
                         )
                     }
                     aiLoadingData.stopAnimating()
-                    print("******** GetViewport - END **********")
+                    // print("******** GetViewport - END **********")
                 } else {
                     aiLoadingData.stopAnimating()
-                    print("******** Stop Loading **********")
+                    // print("******** Stop Loading **********")
                 }
             case .failure(let error):
                 aiLoadingData.stopAnimating()
@@ -353,7 +356,7 @@ class MapTabbarController: UIViewController {
             }
         }
 
-        print("******** getIncidentViewport - END **********")
+        // print("******** getIncidentViewport - END **********")
     }
 
     func mapAddMarkers(latitude: Double, longitude: Double, segment: Int, stIncident: Int, idIncident: String) {
@@ -496,17 +499,17 @@ class MapTabbarController: UIViewController {
 
         coordinator.animate(alongsideTransition: { (context) in
 
-            print("Orientation change")
+            // print("Orientation change")
 
             guard let windowInterfaceOrientation = self.windowInterfaceOrientation else {
                 return
             }
 
             if windowInterfaceOrientation.isLandscape {
-                print("landscape 1")
+                // print("landscape 1")
                 // activate landscape changes
             } else {
-                print("portrait 1")
+                // print("portrait 1")
                 // activate portrait changes
             }
         })
@@ -533,9 +536,16 @@ extension GMSMarker {
 // get Update Position from GPSLocation by Protocol
 extension MapTabbarController: GPSLocationDelegate {
 
+    func GPSLocation(didUpdateHead heading: CLHeading) {
+        let direction = heading.trueHeading
+        // print("******** MapTabbarController - Delegate GPS Heading \(direction)")
+        mapView.animate(toBearing: direction)
+
+    }
+
     func GPSLocation(didUpdate locations: [CLLocation]) {
 
-        print("******** MapTabbarController - Delegate GPS Location")
+        // print("******** MapTabbarController - Delegate GPS Location")
 
         guard let location = locations.first else { return }
         
@@ -559,7 +569,7 @@ extension MapTabbarController: GPSLocationDelegate {
         mapView.cameraTargetBounds = nil
         mapView.animate(to: GMSCameraPosition.camera(
                 withLatitude: Config.savCoordinate.latitude,
-                longitude: Config.savCoordinate.longitude, zoom: Config.savCurrentZoom ))
+                longitude: Config.savCoordinate.longitude, zoom: Config.savCurrentZoom, bearing: gpsLocation.getHeading(), viewingAngle: 0.0))
         mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
                 centerCoordinate: Config.savCoordinate, radiusInMeter: Config.LOCATION_DISTANCE
         )
@@ -571,15 +581,16 @@ extension MapTabbarController: GMSMapViewDelegate {
 
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
 
-        print("****** MAP IDLE *****")
+        // print("****** MAP IDLE *****")
         Config.savCurrentZoom =  mapView.camera.zoom
-        print("******* Current Zoom: \(Config.savCurrentZoom)")
+//        mapView.animate(toBearing: gpsLocation.getHeading())
+        // print("******* Current Zoom: \(Config.savCurrentZoom)")
         getIncidentViewport()
     }
 
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
 
-        print("****** CLICK MARKER *****")
+        // print("****** CLICK MARKER *****")
 
         let controller = storyboard?.instantiateViewController(withIdentifier: "DialogIncidentViewController") as! DialogIncidentViewController
         controller.modalTransitionStyle = .flipHorizontal
@@ -592,6 +603,6 @@ extension MapTabbarController: GMSMapViewDelegate {
     }
 
     open func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        print("****** CLICK ON MAP *******")
+        // print("****** CLICK ON MAP *******")
     }
 }

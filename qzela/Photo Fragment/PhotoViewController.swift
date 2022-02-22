@@ -116,20 +116,20 @@ class PhotoViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("***** PhotoViewController viewDidAppear *****")
+        // print("***** PhotoViewController viewDidAppear *****")
         NotificationCenter.default.addObserver(self, selector: #selector(PhotoViewController.changeStatusInternet), name: NSNotification.Name(rawValue: Config.internetNotificationKey), object: nil)
         // check Internet
         if (!networkListener.isNetworkAvailable()) {
-            print("******** NO INTERNET CONNECTION *********")
+            // print("******** NO INTERNET CONNECTION *********")
             btContinue.visibility = .invisible
         } else {
             btContinue.visibility = .visible
         }
         if (Config.deletePhoto != 0 ) {
-            print("************** PATH_TEMP_FILES ************")
+            // print("************** PATH_TEMP_FILES ************")
             config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
             if (bPhoto) {
-                print("***** DELETE PHOTO: \(Config.deletePhoto) *****")
+                // print("***** DELETE PHOTO: \(Config.deletePhoto) *****")
                 if (Config.deletePhoto == 1) {
                     config.deleteImage(fileManager: fileManager, pathFileFrom: filePhoto1)
                     photoImage1.image = photoImage2.image
@@ -162,7 +162,7 @@ class PhotoViewController: UIViewController {
                     btContinue.isEnabled = false
                 }
             } else {
-                print("***** DELETE VIDEO: \(Config.deletePhoto) *****")
+                // print("***** DELETE VIDEO: \(Config.deletePhoto) *****")
                 if (Config.deletePhoto == 4) {
                     fileVideo = URL(string: fileVideo)!.path
                     config.deleteImage(fileManager: fileManager, pathFileFrom: fileVideo)
@@ -175,14 +175,14 @@ class PhotoViewController: UIViewController {
                 }
             }
             Config.deletePhoto = 0
-            print("************** PATH_TEMP_FILES ************")
+            // print("************** PATH_TEMP_FILES ************")
             config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
         }
     }
 
     @objc func changeStatusInternet(notification: NSNotification) {
         guard let type = notification.userInfo!["type"] else { return }
-        print("******* RECEIVED Notification PhotoViewController - Network Listener \(type) ********")
+        // print("******* RECEIVED Notification PhotoViewController - Network Listener \(type) ********")
         if (type as! String == "unknown") {
             btContinue.visibility = .invisible
         } else {
@@ -192,7 +192,7 @@ class PhotoViewController: UIViewController {
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        print("***** PhotoViewController viewDidDisappear *****")
+        // print("***** PhotoViewController viewDidDisappear *****")
         NotificationCenter.default.removeObserver(self)
     }
 
@@ -290,7 +290,7 @@ class PhotoViewController: UIViewController {
                 return
             }
         case "videoImage":
-            print("VIDEO ******")
+            // print("VIDEO ******")
             if (bShootVideo) {
                 Config.deletePhoto = 4
                 showImage(imageFilePath: fileVideo, bVideo: true)
@@ -304,7 +304,7 @@ class PhotoViewController: UIViewController {
         if (bShootVideo) {
             let okActionHandler: (UIAlertAction) -> Void = {(action) in
                 self.config.cleanDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
-                print("************** PATH_TEMP_FILES ************")
+                // print("************** PATH_TEMP_FILES ************")
                 self.config.listDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
                 self.tabBarController?.selectedIndex = 2
                 self.dismiss(animated: true, completion: nil)
@@ -318,7 +318,7 @@ class PhotoViewController: UIViewController {
         } else if (bPhoto1 || bPhoto2 || bPhoto3){
             let okActionHandler: (UIAlertAction) -> Void = {(action) in
                 self.config.cleanDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
-                print("************** PATH_TEMP_FILES ************")
+                // print("************** PATH_TEMP_FILES ************")
                 self.config.listDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
                 self.tabBarController?.selectedIndex = 2
                 self.dismiss(animated: true, completion: nil)
@@ -340,7 +340,7 @@ class PhotoViewController: UIViewController {
     @IBAction func btClick(_ sender: UIButton) {
         switch sender.restorationIdentifier {
         case "btPhotoVideo":
-            print("btPhotoVideo")
+            // print("btPhotoVideo")
             tpFlash = 1
             btFlash.setImage(UIImage(systemName: "bolt.badge.a.fill"), for: .normal)
             btSave.isEnabled = false
@@ -383,7 +383,7 @@ class PhotoViewController: UIViewController {
                 recordVideo()
             }
         case "btFlash":
-            print("btFlash")
+            // print("btFlash")
             if (tpFlash == 1) {
                 tpFlash = 2
                 btFlash.setImage(UIImage(systemName: "bolt.fill"), for: .normal)
@@ -401,10 +401,10 @@ class PhotoViewController: UIViewController {
                 takePhoto()
             }
         case "btSave":
-            print("btSave")
-            print("************** PATH_TEMP_FILES ************")
+            // print("btSave")
+            // print("************** PATH_TEMP_FILES ************")
             config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
-            print("************** PATH_SAVED_FILES ************")
+            // print("************** PATH_SAVED_FILES ************")
             config.listDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
             var imageType: String!
             Config.saveImages.removeAll()
@@ -462,21 +462,21 @@ class PhotoViewController: UIViewController {
                     imageType: imageType,
                     savedImages: Config.saveImages)
             )
-            print(Config.saveIncidents)
+            // print(Config.saveIncidents)
             // Save user defaults
             let data = try! JSONEncoder().encode(Config.saveIncidents)
             Config.userDefaults.set(data, forKey: "incidentSaved")
             Config.userDefaults.set(Config.saveQtdIncidents, forKey: "qtdIncidentSaved")
-            print("************** PATH_TEMP_FILES ************")
+            // print("************** PATH_TEMP_FILES ************")
             config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
-            print("************** PATH_SAVED_FILES ************")
+            // print("************** PATH_SAVED_FILES ************")
             config.listDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
 
             let actionHandler: (UIAlertAction) -> Void = { (action) in
                 //Back to Map
                 Config.backSaveIncident = true
                 self.dismiss(animated: true, completion: nil)
-                print("****** EXIT ******")
+                // print("****** EXIT ******")
             }
             showAlert(title: "text_success".localized(),
                     message: (bPhoto ? "text_image_save".localized() : "text_video_save".localized()),
@@ -486,9 +486,9 @@ class PhotoViewController: UIViewController {
                     actions: [actionHandler])
 
         case "btContinue":
-            print("btContinue")
+            // print("btContinue")
             if (!networkListener.isNetworkAvailable()) {
-                print("******** NO INTERNET CONNECTION *********")
+                // print("******** NO INTERNET CONNECTION *********")
                 break
             }
             // Go to Photo View Controller
@@ -644,7 +644,7 @@ class PhotoViewController: UIViewController {
         imageFileName = "VID_" + formatter.string(from: Date()) + ".mp4"
 
         videoPathFile = NSURL.fileURL(withPath: Config.PATH_TEMP_FILES+"/"+imageFileName)
-        print("************** PATH_TEMP_FILES ************")
+        // print("************** PATH_TEMP_FILES ************")
         config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
         try? FileManager.default.removeItem(at: videoPathFile!)
         videoOutput.startRecording(to: videoPathFile!, recordingDelegate: self)
@@ -656,7 +656,7 @@ class PhotoViewController: UIViewController {
     
     func stopRecording() {
         if videoOutput.isRecording {
-            print("###### STOP VIDEO OK #######")
+            // print("###### STOP VIDEO OK #######")
             videoOutput.stopRecording()
         }
     }
@@ -691,19 +691,19 @@ class PhotoViewController: UIViewController {
                 filePhoto1 = urlString
                 photoImage1.image = UIImage(contentsOfFile: urlString)
                 bPhoto1 = true
-                print("Photo 1 Localization: " + filePhoto1)
+                // print("Photo 1 Localization: " + filePhoto1)
                 Config.deletePhoto = 1
             } else if (!bPhoto2) {
                 filePhoto2 = urlString
                 photoImage2.image = UIImage(contentsOfFile: urlString)
                 bPhoto2 = true
-                print("Photo 2 Localization: " + filePhoto2)
+                // print("Photo 2 Localization: " + filePhoto2)
                 Config.deletePhoto = 2
             } else if (!bPhoto3) {
                 filePhoto3 = urlString
                 photoImage3.image = UIImage(contentsOfFile: urlString)
                 bPhoto3 = true
-                print("Photo 3 Localization: " + filePhoto3)
+                // print("Photo 3 Localization: " + filePhoto3)
                 enableDisablePhotoButton(enable: false)
                 Config.deletePhoto = 3
             }
@@ -725,11 +725,11 @@ class PhotoViewController: UIViewController {
     }
 
     @objc func updateCounter(){
-        print("\(secondsRemaining) seconds.")
+        // print("\(secondsRemaining) seconds.")
         secondsRemaining += 1
         progressBar.progress = Float(secondsRemaining)/Float(Config.RECORD_VIDEO_TIME)
         if secondsRemaining >= Config.RECORD_VIDEO_TIME {
-            print("STOP RECORDER")
+            // print("STOP RECORDER")
             if !Config.isSimulator {
                 stopRecording()
             } else {
@@ -882,19 +882,19 @@ extension PhotoViewController: AVCapturePhotoCaptureDelegate {
             bPhoto1 = true
             btSave.isEnabled = true
             btContinue.isEnabled = true
-            print("Photo 1 Localization: " + filePhoto1)
+            // print("Photo 1 Localization: " + filePhoto1)
             Config.deletePhoto = 1
         } else if (!bPhoto2) {
             filePhoto2 = urlString
             photoImage2.image = UIImage(contentsOfFile: urlString)
             bPhoto2 = true
-            print("Photo 2 Localization: " + filePhoto2)
+            // print("Photo 2 Localization: " + filePhoto2)
             Config.deletePhoto = 2
         } else if (!bPhoto3) {
             filePhoto3 = urlString
             photoImage3.image = UIImage(contentsOfFile: urlString)
             bPhoto3 = true
-            print("Photo 3 Localization: " + filePhoto3)
+            // print("Photo 3 Localization: " + filePhoto3)
             enableDisablePhotoButton(enable: true)
             Config.deletePhoto = 3
         }
