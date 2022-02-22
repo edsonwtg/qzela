@@ -116,9 +116,8 @@ class Config {
     // GRAPHQL ADDRESS
     static let GRAPHQL_ENDPOINT: String = QZELA_API_ADDRESS + "/v2i/graphql"
     static let GRAPHQL_WEBSOCKET: String = QZELA_API_WEBSOCKET + "/graphql"
-    static var qzelaToken: String = ""
-    static var qzelaUserId: String = ""
-
+    static var qzelaToken: String = "121436c7d02486ee124049af1e8aa35ff9c003125baa77c9e4e6ce6a6dd6aa51ebd8b26f880a05d279f1c5cac3e6b716970657c48c01d9077ab8c1ce784993b62eec46e9e168e5a6c53abdadb5b44121be25b149538b771d3a5c6d7b55ec2260d2c32ad16598d3495c2ddc211589bd59"
+    static var qzelaUserId: String = "5d987cacdef23b533dd00a36"
 
     static let TYPE_IMAGE_PHOTO: String = "photo"
     static let TYPE_IMAGE_VIDEO: String = "video"

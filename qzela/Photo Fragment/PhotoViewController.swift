@@ -491,7 +491,11 @@ class PhotoViewController: UIViewController {
                 print("******** NO INTERNET CONNECTION *********")
                 break
             }
-
+            // Go to Photo View Controller
+            let controller = storyboard?.instantiateViewController(withIdentifier: "SegmentViewController") as! SegmentViewController
+            controller.modalPresentationStyle = .fullScreen
+            controller.modalTransitionStyle = .crossDissolve
+            present(controller, animated: true)
 
 //            config.cleanDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
 //            print("************** PATH_TEMP_FILES ************")

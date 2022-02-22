@@ -1,0 +1,8 @@
+query getOccurrences ( $segId: Int ! ) {
+    getOccurrencesBySegmentCode(
+        cdSegment: $segId,
+        stActive: true) {
+        _id,
+        dcOccurrence
+    }
+}

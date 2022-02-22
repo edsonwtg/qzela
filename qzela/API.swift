@@ -416,6 +416,112 @@ public final class GetIncidentByIdQuery: GraphQLQuery {
   }
 }
 
+public final class GetOccurrencesQuery: GraphQLQuery {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    query getOccurrences($segId: Int!) {
+      getOccurrencesBySegmentCode(cdSegment: $segId, stActive: true) {
+        __typename
+        _id
+        dcOccurrence
+      }
+    }
+    """
+
+  public let operationName: String = "getOccurrences"
+
+  public var segId: Int
+
+  public init(segId: Int) {
+    self.segId = segId
+  }
+
+  public var variables: GraphQLMap? {
+    return ["segId": segId]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Query"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("getOccurrencesBySegmentCode", arguments: ["cdSegment": GraphQLVariable("segId"), "stActive": true], type: .nonNull(.list(.nonNull(.object(GetOccurrencesBySegmentCode.selections))))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(getOccurrencesBySegmentCode: [GetOccurrencesBySegmentCode]) {
+      self.init(unsafeResultMap: ["__typename": "Query", "getOccurrencesBySegmentCode": getOccurrencesBySegmentCode.map { (value: GetOccurrencesBySegmentCode) -> ResultMap in value.resultMap }])
+    }
+
+    /// Lista Ocorrências pelo código do Segmento (cdSegment)
+    public var getOccurrencesBySegmentCode: [GetOccurrencesBySegmentCode] {
+      get {
+        return (resultMap["getOccurrencesBySegmentCode"] as! [ResultMap]).map { (value: ResultMap) -> GetOccurrencesBySegmentCode in GetOccurrencesBySegmentCode(unsafeResultMap: value) }
+      }
+      set {
+        resultMap.updateValue(newValue.map { (value: GetOccurrencesBySegmentCode) -> ResultMap in value.resultMap }, forKey: "getOccurrencesBySegmentCode")
+      }
+    }
+
+    public struct GetOccurrencesBySegmentCode: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["Occurrence"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("dcOccurrence", type: .nonNull(.scalar(String.self))),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(_id: GraphQLID, dcOccurrence: String) {
+        self.init(unsafeResultMap: ["__typename": "Occurrence", "_id": _id, "dcOccurrence": dcOccurrence])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      /// Propriedades que compõem o corpo da Ocorrência.
+      public var _id: GraphQLID {
+        get {
+          return resultMap["_id"]! as! GraphQLID
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "_id")
+        }
+      }
+
+      public var dcOccurrence: String {
+        get {
+          return resultMap["dcOccurrence"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "dcOccurrence")
+        }
+      }
+    }
+  }
+}
+
 public final class GetSegmentsQuery: GraphQLQuery {
   /// The raw GraphQL definition of this operation.
   public let operationDefinition: String =

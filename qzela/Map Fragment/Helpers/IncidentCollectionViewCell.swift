@@ -8,8 +8,7 @@
 import UIKit
 import AVKit
 
-class
-        IncidentCollectionViewCell: UICollectionViewCell {
+class IncidentCollectionViewCell: UICollectionViewCell {
 
     static let identifier = String(describing: IncidentCollectionViewCell.self)
 
