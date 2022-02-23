@@ -29,8 +29,6 @@ class MapTabbarController: UIViewController {
     @IBOutlet weak var lbQzelaPoints: UILabel!
     @IBOutlet weak var ivNoInternet: UIImageView!
     @IBOutlet weak var ivNoGps: UIImageView!
-    @IBOutlet weak var btMyLocation: UIButton!
-    @IBOutlet weak var btViewMap: UIButton!
     @IBOutlet weak var btNewIncident: UIButton!
     @IBOutlet weak var btSavedImage: UIButton!
 
@@ -39,7 +37,7 @@ class MapTabbarController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         aiLoadingData.type = .ballRotateChase
         aiLoadingData.color = .blue
-        return .lightContent
+        return .darkContent
     }
 
     override func viewDidAppear(_ animated: Bool) {

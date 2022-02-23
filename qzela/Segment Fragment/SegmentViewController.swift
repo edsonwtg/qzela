@@ -90,6 +90,7 @@ class SegmentViewController: UIViewController {
         // pass data to view controller
         controller.segmentId = segmentsItens[segmentCollectionView.indexPathsForSelectedItems!.first!.row].segmentId
         controller.occurrencesItem = itens
+        controller.commentary = commentaryTextField.text
         present(controller, animated: true)
     }
 
