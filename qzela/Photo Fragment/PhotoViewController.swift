@@ -491,6 +491,11 @@ class PhotoViewController: UIViewController {
                 // print("******** NO INTERNET CONNECTION *********")
                 break
             }
+            if (bPhoto) {
+                Config.IMAGE_CAPTURED = Config.TYPE_IMAGE_PHOTO
+            } else {
+                Config.IMAGE_CAPTURED = Config.TYPE_IMAGE_VIDEO
+            }
             // Go to Photo View Controller
             let controller = storyboard?.instantiateViewController(withIdentifier: "SegmentViewController") as! SegmentViewController
             controller.modalPresentationStyle = .fullScreen

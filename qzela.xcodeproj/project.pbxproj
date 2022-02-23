@@ -20,6 +20,7 @@
 		6F905AC627BE92FB003E7ED1 /* SegmentsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F905AC527BE92FB003E7ED1 /* SegmentsCell.swift */; };
 		6F99B4612759727800B8A6FC /* mapstyle.json in Resources */ = {isa = PBXBuildFile; fileRef = 6F99B4602759727800B8A6FC /* mapstyle.json */; };
 		6F9C2B3D279B470200A87D66 /* SpinnerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9C2B3C279B470200A87D66 /* SpinnerViewController.swift */; };
+		6F9E8FAC27C656B800AEE2B6 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9E8FAB27C656B800AEE2B6 /* LocationViewController.swift */; };
 		6FA420D927BD87C800C85C50 /* SegmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA420D827BD87C800C85C50 /* SegmentViewController.swift */; };
 		6FA6AA8B275CED400099F318 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6FA6AA8A275CED400099F318 /* GoogleService-Info.plist */; };
 		6FA6AA92275D27240099F318 /* Apollo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA6AA91275D27240099F318 /* Apollo.swift */; };
@@ -69,6 +70,7 @@
 		6F905AC527BE92FB003E7ED1 /* SegmentsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentsCell.swift; sourceTree = "<group>"; };
 		6F99B4602759727800B8A6FC /* mapstyle.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mapstyle.json; sourceTree = "<group>"; };
 		6F9C2B3C279B470200A87D66 /* SpinnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerViewController.swift; sourceTree = "<group>"; };
+		6F9E8FAB27C656B800AEE2B6 /* LocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		6FA420D827BD87C800C85C50 /* SegmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentViewController.swift; sourceTree = "<group>"; };
 		6FA420DA27BD8A5300C85C50 /* GetOccurrence.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = GetOccurrence.graphql; sourceTree = "<group>"; };
 		6FA6AA8A275CED400099F318 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -162,6 +164,14 @@
 				B2D3EDF848DDF994819940A2 /* OccurrenceSegmentCell.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		6F9E8FAA27C6569600AEE2B6 /* Location Fragment */ = {
+			isa = PBXGroup;
+			children = (
+				6F9E8FAB27C656B800AEE2B6 /* LocationViewController.swift */,
+			);
+			path = "Location Fragment";
 			sourceTree = "<group>";
 		};
 		6FA420D127BD745E00C85C50 /* Photo Fragment */ = {
@@ -272,6 +282,7 @@
 		6FDE761E274816AE0050510C /* qzela */ = {
 			isa = PBXGroup;
 			children = (
+				6F9E8FAA27C6569600AEE2B6 /* Location Fragment */,
 				6FA420D527BD74BE00C85C50 /* Segment Fragment */,
 				6FA420D427BD74A500C85C50 /* Generic Fagments */,
 				6FA420D327BD749400C85C50 /* Login Fragment */,
@@ -524,6 +535,7 @@
 				6F905AC627BE92FB003E7ED1 /* SegmentsCell.swift in Sources */,
 				6F2FC9BB27622EE9004FDF52 /* NetworkManager.swift in Sources */,
 				6FDE764E27498EA80050510C /* SplashViewController.swift in Sources */,
+				6F9E8FAC27C656B800AEE2B6 /* LocationViewController.swift in Sources */,
 				6F72E8962774CDBE008C30F8 /* IncidentCollectionViewCell.swift in Sources */,
 				6F5732052770A36B007CF84C /* DialogIncidentViewController.swift in Sources */,
 				B2D3E7237D3B243ED42B4D73 /* GPSLocation.swift in Sources */,

@@ -22,6 +22,8 @@ class SegmentViewController: UIViewController {
     var networkListener = NetworkListener()
     var config = Config()
 
+    let fileManager = FileManager.default
+
     @IBOutlet weak var searchSegment: UITextField!
     @IBOutlet weak var segmentCollectionView: UICollectionView!
     @IBOutlet weak var occurrenceSegmentCollectionView: UICollectionView!
@@ -65,15 +67,30 @@ class SegmentViewController: UIViewController {
 
     @IBAction func btContinue(_ sender: Any) {
 
-        // print("btContinue")
         if (!networkListener.isNetworkAvailable()) {
             // print("******** NO INTERNET CONNECTION *********")
+            showAlert(title: "text_no_internet".localized(),
+                    message: "text_internet_off".localized(),
+                    type: .attention,
+                    actionTitles: ["text_got_it".localized()],
+                    style: [.default],
+                    actions: [nil])
+            return
         }
+        var itens: [String] = []
+        for result in occurrenceSegmentCollectionView.indexPathsForSelectedItems!.map({ $0 }) {
+//            print("OccurrenceId: \(occurrenceItens[result.row].occurrenceId)")
+            itens.append(occurrenceItens[result.row].occurrenceId)
+        }
+
         // Go to Location View Controller
-//        let controller = storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
-//        controller.modalPresentationStyle = .fullScreen
-//        controller.modalTransitionStyle = .crossDissolve
-//        present(controller, animated: true)
+        let controller = storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
+        controller.modalPresentationStyle = .fullScreen
+        controller.modalTransitionStyle = .crossDissolve
+        // pass data to view controller
+        controller.segmentId = segmentsItens[segmentCollectionView.indexPathsForSelectedItems!.first!.row].segmentId
+        controller.occurrencesItem = itens
+        present(controller, animated: true)
     }
 
     func setSegmentsCollection () {
@@ -97,8 +114,13 @@ class SegmentViewController: UIViewController {
                     }, completion: nil)
 
                     // print("******** GetSegment - END **********")
-                } else {
-                    // print("******** Stop Loading **********")
+                } else if let errors = graphQLResult.errors {
+                    if (errors.first?.message == "1 - You must supply a valid token to access this resource!") {
+                        print("******** RELOADING DATA**********")
+                        setSegmentsCollection()
+                    }
+                    print("******** ERROR Loading DATA**********")
+                    print(errors)
                 }
             case .failure(let error):
                 print("Failure! Error: \(error)")
@@ -150,8 +172,9 @@ class SegmentViewController: UIViewController {
                     }, completion: nil)
 
                     // print("******** getOccurrences - END **********")
-                } else {
-                    // print("******** Stop Loading **********")
+                } else  if let errors = graphQLResult.errors{
+                    print("******** ERROR Loading DATA**********")
+                    print(errors)
                 }
             case .failure(let error):
                 print("Failure! Error: \(error)")
@@ -240,7 +263,7 @@ extension SegmentViewController: UICollectionViewDelegate, UICollectionViewDataS
             occurrenceSelect = indexPath
             occurrenceScrollSelect = occurrenceScroll
             if (collectionView.indexPathsForSelectedItems!.count > 0) {
-                self.btContinue.isEnabled = true
+                btContinue.isEnabled = true
             }
         }
     }
@@ -260,7 +283,7 @@ extension SegmentViewController: UICollectionViewDelegate, UICollectionViewDataS
                 cell.backgroundColor = .qzelaDarkBlue
             }
             if (collectionView.indexPathsForSelectedItems!.count == 0) {
-                self.btContinue.isEnabled = false
+                btContinue.isEnabled = false
             }
         }
     }

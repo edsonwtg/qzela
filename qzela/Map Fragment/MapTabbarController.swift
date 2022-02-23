@@ -346,9 +346,10 @@ class MapTabbarController: UIViewController {
                     }
                     aiLoadingData.stopAnimating()
                     // print("******** GetViewport - END **********")
-                } else {
+                } else if let errors = graphQLResult.errors {
+                    print("******** ERROR Loading DATA**********")
+                    print(errors)
                     aiLoadingData.stopAnimating()
-                    // print("******** Stop Loading **********")
                 }
             case .failure(let error):
                 aiLoadingData.stopAnimating()

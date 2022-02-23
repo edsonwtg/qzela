@@ -60,6 +60,8 @@ class Config {
     static var saveImages = [SaveIncidents.SavedImages]()
     static var saveIncidents = [SaveIncidents]()
     static var saveQtdIncidents = 0
+    static var saveIncidentPosition = 0
+    static var SAVED_INCIDENT = false
 
     static let userDefaults = UserDefaults.standard
 
@@ -122,6 +124,9 @@ class Config {
     static let TYPE_IMAGE_PHOTO: String = "photo"
     static let TYPE_IMAGE_VIDEO: String = "video"
 
+    static let RECORD_VIDEO_TIME = 3
+    static var IMAGE_CAPTURED = TYPE_IMAGE_PHOTO
+
     static let IMAGE_OPEN = "open"
     static let IMAGE_CLOSE = "close"
     static let IMAGE_MAP = "map"
@@ -145,8 +150,6 @@ class Config {
     static let ARRAY_INCIDENT_ALL_STATUS_WITHOUT_CLIENT = [2, 4]
 
     static let ARRAY_INCIDENT_ALL_STATUS = [0, 1, 2, 3, 4, 7]
-
-    static let RECORD_VIDEO_TIME = 3
 
     enum Alert {
         case error

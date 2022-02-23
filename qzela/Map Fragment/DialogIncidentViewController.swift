@@ -172,11 +172,11 @@ class DialogIncidentViewController: UIViewController {
                     // print("dcAddress \(result.dcAddress)")
 
                     // print("******** GetViewport - END **********")
-                } else {
+                } else if let errors = graphQLResult.errors{
+                    print("******** ERROR Loading DATA**********")
+                    print(errors)
                     config.stopLoadingData()
-                    print("ERROR! Result: \(graphQLResult)")
                     dismiss(animated: true, completion: nil)
-                    // print("******** Stop Loading **********")
                 }
             case .failure(let error):
                 config.stopLoadingData()

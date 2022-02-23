@@ -165,11 +165,7 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
 
     internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 
-        guard let location = locations.first else {
-            return
-        }
-
-        //  print("****** GPSLocation - didUpdateLocations ******* Coord.: \(location.coordinate)")
+       //  print("****** GPSLocation - didUpdateLocations ******* Coord.: \(location.coordinate)")
 
         // here we call it for closure:
         updatedLocations?(locations)
@@ -191,14 +187,14 @@ class GPSLocation: NSObject, CLLocationManagerDelegate {
         guard let region1 = region else {
             return
         }
-        //  print(" ****** monitoringDidFailFor Region: \(region1) - Error: \(error)")
+        print(" ****** monitoringDidFailFor Region: \(region1) - Error: \(error)")
     }
 
     private func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
         guard let erro = error else {
             return
         }
-        //  print(" ****** didFailWithError Error: \(erro)")
+        print(" ****** didFailWithError Error: \(erro)")
         locationManager.stopUpdatingLocation()
         locationManager.stopUpdatingHeading()
     }
