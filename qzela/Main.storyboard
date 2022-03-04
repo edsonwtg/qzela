@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="10x-Ao-IMq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fsy-gb-fDm">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
@@ -153,7 +153,7 @@
                                                             </userDefinedRuntimeAttributes>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Registrada" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="XkN-5X-OpC" customClass="EdgeInsetLabel" customModule="qzela" customModuleProvider="target">
-                                                            <rect key="frame" x="144.66666666666666" y="130.33333333333334" width="81.333333333333343" height="22.333333333333343"/>
+                                                            <rect key="frame" x="160.66666666666666" y="138.33333333333334" width="65.333333333333343" height="14.333333333333343"/>
                                                             <color key="backgroundColor" systemColor="tintColor"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -341,14 +341,14 @@
                                         </collectionViewFlowLayout>
                                         <cells>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="OccurrenceCollectionViewCell" id="86M-xL-J7o" customClass="OccurrenceCollectionViewCell" customModule="qzela" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="61.333333333333329" height="20"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="45.333333333333329" height="20"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="7pD-5R-r6k">
-                                                    <rect key="frame" x="0.0" y="0.0" width="61.333333333333329" height="20"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="45.333333333333329" height="20"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="4iu-bD-k5g" userLabel="Tag Label" customClass="EdgeInsetLabel" customModule="qzela" customModuleProvider="target">
-                                                            <rect key="frame" x="5" y="0.0" width="51.333333333333336" height="20"/>
+                                                            <rect key="frame" x="5" y="0.0" width="35.333333333333336" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="U6H-hb-sBb"/>
                                                             </constraints>
@@ -697,14 +697,14 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="OccurrenceSegmentCell" id="qfN-fl-fho" customClass="OccurrenceSegmentCell" customModule="qzela" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="61.333333333333343" height="20"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="45.333333333333343" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="OaF-RE-ixb">
-                                            <rect key="frame" x="0.0" y="0.0" width="61.333333333333343" height="20"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="45.333333333333343" height="20"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="De7-sj-Tp5" userLabel="Occurrence Label" customClass="EdgeInsetLabel" customModule="qzela" customModuleProvider="target">
-                                                    <rect key="frame" x="5" y="0.0" width="51.333333333333336" height="20"/>
+                                                    <rect key="frame" x="5" y="0.0" width="35.333333333333336" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="UPr-s9-SuM"/>
                                                     </constraints>
@@ -903,22 +903,20 @@
                                     <action selector="btBack:" destination="fsy-gb-fDm" eventType="touchUpInside" id="fqg-fQ-Wps"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="wId-5m-bUF" userLabel="Address Text Field">
-                                <rect key="frame" x="28" y="108" width="358" height="34"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6qd-hx-e6B">
+                                <rect key="frame" x="28" y="108" width="358" height="33"/>
                                 <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="34" id="l0g-W4-4dc"/>
-                                </constraints>
+                                <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" textContentType="street-address"/>
+                            </textView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="KIm-aM-Wbn"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="wId-5m-bUF" firstAttribute="leading" secondItem="x81-F6-nq1" secondAttribute="leadingMargin" constant="8" id="3eP-hd-wwV"/>
                             <constraint firstAttribute="bottom" secondItem="b89-5J-CBe" secondAttribute="bottom" id="4cO-sk-qvO"/>
                             <constraint firstItem="lo5-HN-dVT" firstAttribute="top" secondItem="hDp-NI-ods" secondAttribute="bottom" constant="2" id="6qe-zT-xs8"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6qd-hx-e6B" secondAttribute="trailing" constant="8" id="Ane-xX-yRa"/>
                             <constraint firstItem="lo5-HN-dVT" firstAttribute="centerY" secondItem="x81-F6-nq1" secondAttribute="centerY" id="BxM-bk-ebE"/>
                             <constraint firstItem="Zi0-wP-vqp" firstAttribute="centerY" secondItem="x81-F6-nq1" secondAttribute="centerY" constant="100" id="DAv-mB-81c"/>
                             <constraint firstItem="FZ3-sn-FEY" firstAttribute="leading" secondItem="x81-F6-nq1" secondAttribute="leadingMargin" constant="20" id="JEp-Tf-XND"/>
@@ -926,18 +924,18 @@
                             <constraint firstItem="b89-5J-CBe" firstAttribute="leading" secondItem="x81-F6-nq1" secondAttribute="leading" id="KvP-TZ-p8Q"/>
                             <constraint firstItem="KIm-aM-Wbn" firstAttribute="bottom" secondItem="FZ3-sn-FEY" secondAttribute="bottom" constant="5" id="Lkz-Dk-IeT"/>
                             <constraint firstItem="kOJ-S3-5lV" firstAttribute="top" secondItem="KIm-aM-Wbn" secondAttribute="top" constant="30" id="Tcq-Zs-DLL"/>
+                            <constraint firstItem="6qd-hx-e6B" firstAttribute="leading" secondItem="x81-F6-nq1" secondAttribute="leadingMargin" constant="8" id="Ub5-cc-BEv"/>
                             <constraint firstAttribute="trailingMargin" secondItem="FZ3-sn-FEY" secondAttribute="trailing" constant="20" id="VT8-eS-gQX"/>
-                            <constraint firstItem="wId-5m-bUF" firstAttribute="top" secondItem="kOJ-S3-5lV" secondAttribute="bottom" constant="4" id="Z5K-hK-YQp"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="wId-5m-bUF" secondAttribute="trailing" constant="8" id="b7v-n5-Eyd"/>
                             <constraint firstItem="kOJ-S3-5lV" firstAttribute="leading" secondItem="KIm-aM-Wbn" secondAttribute="leading" constant="20" id="jj3-Es-fKO"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Zi0-wP-vqp" secondAttribute="trailing" constant="10" id="lDY-WP-wYl"/>
                             <constraint firstItem="lo5-HN-dVT" firstAttribute="centerX" secondItem="x81-F6-nq1" secondAttribute="centerX" id="mk3-hS-A7k"/>
                             <constraint firstAttribute="trailing" secondItem="b89-5J-CBe" secondAttribute="trailing" id="o1C-G7-tba"/>
+                            <constraint firstItem="6qd-hx-e6B" firstAttribute="top" secondItem="kOJ-S3-5lV" secondAttribute="bottom" constant="4" id="oOP-5v-rqg"/>
                             <constraint firstItem="hDp-NI-ods" firstAttribute="centerX" secondItem="x81-F6-nq1" secondAttribute="centerX" id="os3-qi-HOA"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="addressTextField" destination="wId-5m-bUF" id="lRX-dH-eMT"/>
+                        <outlet property="addressTextView" destination="6qd-hx-e6B" id="Q5x-eO-gx7"/>
                         <outlet property="btContinue" destination="FZ3-sn-FEY" id="FXH-zf-wHK"/>
                         <outlet property="mapView" destination="b89-5J-CBe" id="TDc-Qh-1Fm"/>
                         <outlet property="markerImageView" destination="hDp-NI-ods" id="tbU-oo-w14"/>
@@ -945,7 +943,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="geZ-QK-BXn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-11242.028985507248" y="-1223.6413043478262"/>
+            <point key="canvasLocation" x="-10981.159420289856" y="-1223.4375"/>
         </scene>
         <!--Dashboard-->
         <scene sceneID="Xih-1K-DAA">
@@ -1653,13 +1651,13 @@
     </scenes>
     <designables>
         <designable name="4iu-bD-k5g">
-            <size key="intrinsicContentSize" width="51.333333333333336" height="17"/>
+            <size key="intrinsicContentSize" width="35.333333333333336" height="17"/>
         </designable>
         <designable name="De7-sj-Tp5">
-            <size key="intrinsicContentSize" width="51.333333333333336" height="17"/>
+            <size key="intrinsicContentSize" width="35.333333333333336" height="17"/>
         </designable>
         <designable name="XkN-5X-OpC">
-            <size key="intrinsicContentSize" width="81.333333333333329" height="22.333333333333336"/>
+            <size key="intrinsicContentSize" width="65.333333333333329" height="14.333333333333334"/>
         </designable>
     </designables>
     <resources>
@@ -1689,6 +1687,9 @@
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

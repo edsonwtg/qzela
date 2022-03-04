@@ -41,3 +41,5 @@
 "text_attention" = "Attention!";
 "text_change_video" = "There is a recorded video. You will lose it.";
 "text_change_photo" = "There are pictures taken. You will lose them.";
+"text_no_address" = "No address";
+"text_enter_address" = "We could not find the address, please enter an address or location that is close";

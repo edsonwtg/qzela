@@ -115,6 +115,10 @@ class Config {
 //    static let QZELA_API_ADDRESS: String = "https://corp.qzela.com.br:3000"
 //    static let QZELA_API_WEBSOCKET: String = "wss://corp.qzela.com.br:4000"
 
+    //Google Geocoding revese URL
+    static let GOOGLE_GEOCODING_URL = "https://maps.googleapis.com/maps/api/geocode/json?language=pt-BR&"
+    static let GOOGLE_API_KEY = "AIzaSyBFjQHgZpabJaoEECs_8XURO__oa0UaGQY"
+
     // GRAPHQL ADDRESS
     static let GRAPHQL_ENDPOINT: String = QZELA_API_ADDRESS + "/v2i/graphql"
     static let GRAPHQL_WEBSOCKET: String = QZELA_API_WEBSOCKET + "/graphql"

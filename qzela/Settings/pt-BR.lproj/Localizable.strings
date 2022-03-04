@@ -41,3 +41,5 @@
 "text_attention" = "Atenção!";
 "text_change_video" = "Há um vídeo gravado. Você vai perdê-lo.";
 "text_change_photo" = "Há Fotos tiradas. Você vai perdê-las.";
+"text_no_address" = "Sem endereço";
+"text_enter_address" = "Não conseguimos encontrar o endereço, por favor, digite um endereço ou local que esteja próximo";
