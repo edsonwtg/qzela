@@ -78,15 +78,15 @@ class LocationViewController: UIViewController {
 
         hideKeyboardWhenTappedAround()
 
-        // TODO: Remove after test
-        segmentId = 6
-        occurrencesItem.append("5d987a1f2d9c3f7efcbaa413")
-        occurrencesItem.append("5d987a1f2d9c3f7efcbaa413")
-        // Home
-        Config.savCoordinate = CLLocationCoordinate2D(latitude: -23.613102550188003, longitude: -46.68283302336931)
-        // Rua Florida, 1758
-        //         Config.savCoordinate = CLLocationCoordinate2D(latitude:-23.6072598, longitude: -46.6951241)
-        // **************
+//        // TODO: Remove after test
+//        segmentId = 6
+//        occurrencesItem.append("5d987a1f2d9c3f7efcbaa413")
+//        occurrencesItem.append("5d987a1f2d9c3f7efcbaa413")
+//        // Home
+//        Config.savCoordinate = CLLocationCoordinate2D(latitude: -23.613102550188003, longitude: -46.68283302336931)
+//        // Rua Florida, 1758
+//        //         Config.savCoordinate = CLLocationCoordinate2D(latitude:-23.6072598, longitude: -46.6951241)
+//        // **************
         print("SegmentId: \(segmentId!)")
         print("OccurrencesIds: \(occurrencesItem)")
         print("Commentary: \(String(describing: commentary))")
@@ -223,7 +223,7 @@ class LocationViewController: UIViewController {
         }
         // Enable center point of my location
         mapView.isMyLocationEnabled = true
-//        mapView.setMinZoom(Config.MIN_ZOOM_LOCATION, maxZoom: Config.MAX_ZOOM_MAP)
+        mapView.setMinZoom(Config.MIN_ZOOM_LOCATION, maxZoom: Config.MAX_ZOOM_MAP)
         gotoMyLocation()
         mapView.delegate = self
     }
@@ -287,10 +287,10 @@ class LocationViewController: UIViewController {
                     withLatitude: Config.savCoordinate.latitude,
                     longitude: Config.savCoordinate.longitude, zoom: Config.ZOOM_INITIAL
             )
-//            mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
-//                    centerCoordinate: Config.savCoordinate,
-//                    radiusInMeter: Config.LOCATION_DISTANCE
-//            )
+            mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
+                    centerCoordinate: Config.savCoordinate,
+                    radiusInMeter: Config.LOCATION_DISTANCE
+            )
         }
     }
 
@@ -480,7 +480,6 @@ extension LocationViewController: GMSAutocompleteViewControllerDelegate {
             numberTextField.text = addressGeocoding.number
             postalcodeTextField.text = addressGeocoding.postalCode
             btOk.sendActions(for: .touchUpInside)
-
         }
 
 
