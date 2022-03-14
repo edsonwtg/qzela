@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="10x-Ao-IMq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="DMg-VA-9E4">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
@@ -647,7 +647,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="120" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="42" translatesAutoresizingMaskIntoConstraints="NO" id="Nz3-8m-Kgl">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nz3-8m-Kgl">
                                                     <rect key="frame" x="30" y="0.0" width="60" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="Oqv-GD-Gfc"/>
@@ -766,10 +766,19 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="13y-sA-s2S" customClass="NVActivityIndicatorView" customModule="NVActivityIndicatorView">
+                                <rect key="frame" x="167" y="275" width="80" height="50"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="BXC-O2-aGB"/>
+                                    <constraint firstAttribute="height" constant="50" id="oh6-m8-4A9"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="YDh-pd-kbM"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="13y-sA-s2S" firstAttribute="centerY" secondItem="8Jv-Sl-tbR" secondAttribute="centerY" id="2Ot-cv-Sey"/>
                             <constraint firstItem="c4d-2j-Y1G" firstAttribute="leading" secondItem="VhK-5J-JYq" secondAttribute="leadingMargin" constant="20" id="3Xy-hm-h7E"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gHh-my-QFQ" secondAttribute="trailing" constant="8" id="7sD-BX-w86"/>
                             <constraint firstItem="IqJ-fk-C6C" firstAttribute="leading" secondItem="VhK-5J-JYq" secondAttribute="leadingMargin" constant="8" id="A4A-NL-EEI"/>
@@ -779,6 +788,7 @@
                             <constraint firstItem="gHh-my-QFQ" firstAttribute="top" secondItem="96O-fS-7V6" secondAttribute="bottom" constant="8" id="QkP-CZ-kXM"/>
                             <constraint firstItem="xUx-W8-JN0" firstAttribute="leading" secondItem="YDh-pd-kbM" secondAttribute="leading" constant="20" id="T7c-zb-Xwu"/>
                             <constraint firstItem="IqJ-fk-C6C" firstAttribute="top" secondItem="xUx-W8-JN0" secondAttribute="bottom" constant="8" id="VbA-wZ-Qav"/>
+                            <constraint firstItem="13y-sA-s2S" firstAttribute="centerX" secondItem="8Jv-Sl-tbR" secondAttribute="centerX" id="aJ9-z4-0oj"/>
                             <constraint firstAttribute="trailingMargin" secondItem="IqJ-fk-C6C" secondAttribute="trailing" constant="8" id="eLU-ts-Y84"/>
                             <constraint firstItem="96O-fS-7V6" firstAttribute="top" secondItem="8Jv-Sl-tbR" secondAttribute="bottom" constant="8" id="fvI-SH-bzJ"/>
                             <constraint firstItem="8Jv-Sl-tbR" firstAttribute="leading" secondItem="VhK-5J-JYq" secondAttribute="leading" constant="8" id="i6D-nR-TGs"/>
@@ -791,6 +801,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="aiLoadingData" destination="13y-sA-s2S" id="kVV-DZ-8D5"/>
                         <outlet property="btContinue" destination="c4d-2j-Y1G" id="CZR-Rg-zob"/>
                         <outlet property="commentaryTextField" destination="gHh-my-QFQ" id="v8j-4f-dmV"/>
                         <outlet property="occurrenceSegmentCollectionView" destination="96O-fS-7V6" id="W8B-YY-uuT"/>
@@ -857,13 +868,12 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="hDp-NI-ods" userLabel="Marker Image View">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hDp-NI-ods" userLabel="Marker Image View">
                                 <rect key="frame" x="184.5" y="360" width="45" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="VLm-ca-JcG"/>
                                     <constraint firstAttribute="width" constant="45" id="svy-qB-B2S"/>
                                 </constraints>
-                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lo5-HN-dVT" userLabel="Dot Image View">
                                 <rect key="frame" x="202.5" y="443" width="9.5" height="9.5"/>
@@ -1795,8 +1805,6 @@
         </designable>
     </designables>
     <resources>
-        <image name="0" width="112" height="186"/>
-        <image name="42" width="183.5" height="183"/>
         <image name="arrow.backward" catalog="system" width="128" height="98"/>
         <image name="bolt.badge.a.fill" catalog="system" width="110" height="128"/>
         <image name="camera.circle" catalog="system" width="128" height="121"/>

@@ -7,6 +7,7 @@
 
 import UIKit
 import Apollo
+import NVActivityIndicatorView
 
 class SegmentViewController: UIViewController {
 
@@ -30,12 +31,17 @@ class SegmentViewController: UIViewController {
     @IBOutlet weak var commentaryTextField: UITextField!
     @IBOutlet weak var btContinue: UIButton!
 
+    @IBOutlet weak var aiLoadingData: NVActivityIndicatorView!
+
     @IBAction func btBack(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        aiLoadingData.type = .ballRotateChase
+        aiLoadingData.color = .blue
 
         searchSegment.layer.borderWidth = 2
         searchSegment.layer.cornerRadius = 12
@@ -96,6 +102,7 @@ class SegmentViewController: UIViewController {
 
     func setSegmentsCollection () {
 
+        aiLoadingData.startAnimating()
         // print("******** GetSegment - START **********")
         Apollo.shared.apollo.fetch(query: GetSegmentsQuery(), cachePolicy: .fetchIgnoringCacheData) { [unowned self] result in
             switch result {
@@ -106,14 +113,14 @@ class SegmentViewController: UIViewController {
                         segmentsItens.append(SegmentData(
                                 segmentId: segments.cdSegment,
                                 segmentName: segments.dcSegment,
-                                segmentImage: "42")
+                                segmentImage: String(segments.cdSegment))
                         )
                     }
                     let indexPaths = [IndexPath(item: segmentsItens.count - 1, section: 0)]
                     segmentCollectionView.performBatchUpdates({ () -> Void in
                         segmentCollectionView.insertItems(at: indexPaths)
                     }, completion: nil)
-
+                    aiLoadingData.stopAnimating()
                     // print("******** GetSegment - END **********")
                 } else if let errors = graphQLResult.errors {
                     if (errors.first?.message == "1 - You must supply a valid token to access this resource!") {
@@ -122,9 +129,11 @@ class SegmentViewController: UIViewController {
                     }
                     print("******** ERROR Loading DATA**********")
                     print(errors)
+                    aiLoadingData.stopAnimating()
                 }
             case .failure(let error):
                 print("Failure! Error: \(error)")
+                aiLoadingData.stopAnimating()
             }
         }
         // print("******** GetSegment - END **********")

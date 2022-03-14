@@ -83,7 +83,7 @@ class LocationViewController: UIViewController {
 //        occurrencesItem.append("5d987a1f2d9c3f7efcbaa413")
 //        occurrencesItem.append("5d987a1f2d9c3f7efcbaa413")
 //        // Home
-//        Config.savCoordinate = CLLocationCoordinate2D(latitude: -23.613102550188003, longitude: -46.68283302336931)
+        Config.savCoordinate = CLLocationCoordinate2D(latitude: -23.613102550188003, longitude: -46.68283302336931)
 //        // Rua Florida, 1758
 //        //         Config.savCoordinate = CLLocationCoordinate2D(latitude:-23.6072598, longitude: -46.6951241)
 //        // **************
@@ -148,7 +148,7 @@ class LocationViewController: UIViewController {
 
         btContinue.isEnabled = false
         postalcodeTextField.delegate = self
-
+        getFirebaseSegmentMarker(segmentId: segmentId)
         mapInit()
     }
     
@@ -208,6 +208,30 @@ class LocationViewController: UIViewController {
             print(sender.restorationIdentifier ?? "no restoration Identifier defined")
         }
     }
+
+    func getFirebaseSegmentMarker(segmentId: Int) {
+        let dispatchGroup = DispatchGroup()
+        var image: UIImage!
+        dispatchGroup.enter()
+        // Get Segment Marker Icon by FIREBASE on Google Cloud
+        let imagesRef = Config.FIREBASE_ICONS_STORAGE.child(Config.MARKERS_ICONS_PATH + (String(segmentId)) + ".png")
+        // Download in memory with size 160 bytes a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+        imagesRef.getData(maxSize: Config.MAXBYTES) { markerIcon, error in
+            if let error = error {
+                print("ERROR: \(error)")
+            } else {
+                // Segment Icon
+                image =  UIImage(data: markerIcon!)
+                dispatchGroup.leave()
+            }
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            // display images on the image view
+            self.markerImageView.image = image
+        }
+    }
+
 
     func mapInit() {
         // Load Map style from json file
