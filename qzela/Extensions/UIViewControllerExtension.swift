@@ -26,7 +26,7 @@ extension UIViewController {
  ///     let okActionHandler: ((UIAlertAction) -> Void) = {(action) in
  //Perform action of Ok here
  }
- self.showAlert(title: "Title", message: "message", actionTitles: ["OK", "CANCEL"], style: [.default, .cancel], actions: [okayActionHandler, nil])
+ self.showAlert(title: "Title", message: "message", actionTitles: ["OK", "CANCEL"], style: [.default, .cancel], actions: [okActionHandler, nil])
 
  /********** 3.Alert view with two actions **************/
 
@@ -92,4 +92,15 @@ extension UIViewController {
         if let preferredActionIndex = preferredActionIndex { alert.preferredAction = alert.actions[preferredActionIndex] }
         present(alert, animated: true, completion: nil)
     }
+
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
 }

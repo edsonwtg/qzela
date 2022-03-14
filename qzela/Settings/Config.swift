@@ -35,6 +35,10 @@ class Config {
     static let LATLNG_REDUCE_BOUNDS_PERCENTAGE: Double = 15 // Reduce bonds percentage of view port
     static let LATLNG_REDUCE_BOUNDS_PERCENTAGE_SAVED_INCIDENT: Double = 30 // Reduce bonds percentage of view port for saved incidents
 
+    static let SEGMENT_OCEAN: Array<Int> = [36]
+    static let SEGMENT_RIVER: Array<Int> = [36]
+    static let SEGMENT_HIGHWAY: Array<Int> = [38]
+
     static let PATH_TEMP_FILES: String = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent("QZela")
     static let PATH_SAVED_FILES: String = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent("QZela_SAV")
 

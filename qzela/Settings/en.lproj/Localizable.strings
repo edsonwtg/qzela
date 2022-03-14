@@ -43,3 +43,9 @@
 "text_change_photo" = "There are pictures taken. You will lose them.";
 "text_no_address" = "No address";
 "text_enter_address" = "We could not find the address, please enter an address or location that is close";
+"text_no_number" = "Incomplete address";
+"text_street_number" = "Please enter the approximate number of the address and postal code. In the case of a highway, enter the Km/Miles.";
+"text_miles" = "Enter miles";
+"text_address" = "Enter address";
+"text_number" = "Enter number";
+"text_postalcode" = "Enter postal code";

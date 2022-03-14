@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.5.0)
+  - AnyFormatKit (2.5.2)
   - Apollo (0.50.0):
     - Apollo/Core (= 0.50.0)
   - Apollo/Core (0.50.0)
@@ -31,6 +32,7 @@ PODS:
   - GoogleMaps/Base (6.0.1)
   - GoogleMaps/Maps (6.0.1):
     - GoogleMaps/Base
+  - GooglePlaces (6.0.0)
   - GoogleUtilities/Environment (7.6.0):
     - PromisesObjC (< 3.0, >= 1.2)
   - GoogleUtilities/Logger (7.6.0):
@@ -48,15 +50,18 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 5.4)
+  - AnyFormatKit (~> 2.5.2)
   - Apollo
   - Apollo/WebSocket
   - Firebase/Storage
   - GoogleMaps (~> 6.0.0)
+  - GooglePlaces (= 6.0.0)
   - NVActivityIndicatorView
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - AnyFormatKit
     - Apollo
     - Firebase
     - FirebaseCore
@@ -64,6 +69,7 @@ SPEC REPOS:
     - FirebaseStorage
     - GoogleDataTransport
     - GoogleMaps
+    - GooglePlaces
     - GoogleUtilities
     - GTMSessionFetcher
     - nanopb
@@ -72,6 +78,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
+  AnyFormatKit: b0dbb2a5f2fe7a0fc97f401f8a219a47ee63a335
   Apollo: 5e4476a3236bd576686085b7cd99655c788e4d74
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
   FirebaseCore: 04186597c095da37d90ff9fd3e53bc61a1ff2440
@@ -79,12 +86,13 @@ SPEC CHECKSUMS:
   FirebaseStorage: 815410224b548172c578f02554a86bbc8f817f50
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
   GoogleMaps: c213fc2334b7374144cede914da779b99be0ab74
+  GooglePlaces: c97d96ae68594acb64035c9ca9f26fbfc1d23af1
   GoogleUtilities: 684ee790a24f73ebb2d1d966e9711c203f2a4237
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   NVActivityIndicatorView: 1f6c5687f1171810aa27a3296814dc2d7dec3667
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
 
-PODFILE CHECKSUM: 60203c76fcf20ce6b214d6baab6841450781c219
+PODFILE CHECKSUM: 95ff6dbd6a3c77a762732a6d75079e506243c787
 
 COCOAPODS: 1.11.2

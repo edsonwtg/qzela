@@ -6,11 +6,13 @@ target 'qzela' do
   use_frameworks!
 
   pod 'GoogleMaps', '~> 6.0.0'
+  pod 'GooglePlaces', '6.0.0'
   pod 'Firebase/Storage'
   pod "Apollo"
   pod "Apollo/WebSocket"
   pod 'Alamofire', '~> 5.4'
   pod 'NVActivityIndicatorView'
+  pod 'AnyFormatKit', '~> 2.5.2'
 
 end
 

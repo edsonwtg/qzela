@@ -43,3 +43,9 @@
 "text_change_photo" = "Se han tomado fotos. Los perderás.";
 "text_no_address" = "Sin dirección";
 "text_enter_address" = "No hemos podido encontrar la dirección, por favor, introduzca una dirección o lugar que esté cerca";
+"text_no_number" = "Dirección incompleta";
+"text_street_number" = "Por favor, introduzca el número aproximado de la dirección y el código postal. Si se trata de una autopista, introduzca los Km.";
+"text_miles" = "Introduzca los KMs.";
+"text_address" = "Introduzca la dirección";
+"text_number" = "Introduzca el número";
+"text_postalcode" = "Introduzca el código postal";

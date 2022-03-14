@@ -7,9 +7,11 @@
 
 import UIKit
 import GoogleMaps
+import GooglePlaces
 import CoreLocation
 import Contacts
 import Alamofire
+import AnyFormatKit
 
 class LocationViewController: UIViewController {
 
@@ -47,20 +49,34 @@ class LocationViewController: UIViewController {
     let geocoderGoogle = GMSGeocoder()
 
     let dispatchGroupGeocoding = DispatchGroup()
-    
-    
+
+    let postalCodeFormatter = DefaultTextInputFormatter(textPattern: "#####-###")
+
     @IBOutlet weak var addressTextView: UITextView!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var markerImageView: UIImageView!
     @IBOutlet weak var btContinue: UIButton!
+    @IBOutlet weak var addressView: UIView!
+    @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var placeAddressTextView: UITextView!
+    @IBOutlet weak var btOk: UIButton!
+    @IBOutlet weak var numberLabel: UILabel!
+    @IBOutlet weak var numberTextField: UITextField!
+    @IBOutlet weak var postalcodeLabel: UILabel!
+    @IBOutlet weak var postalcodeTextField: UITextField!
     
    @IBAction func btBack(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
 
-    
+    @IBAction func textViewTapped(_ sender: Any) {
+        gotoPlaces()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        hideKeyboardWhenTappedAround()
 
         // TODO: Remove after test
         segmentId = 6
@@ -100,13 +116,38 @@ class LocationViewController: UIViewController {
                 print("Error File Path \(Config.PATH_TEMP_FILES)")
             }
         }
+
+        numberLabel.visibility = .invisible
+        numberTextField.layer.borderWidth = 2
+        numberTextField.layer.cornerRadius = 12
+        numberTextField.layer.borderColor = UIColor.colorBlack.cgColor
+        numberTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: numberTextField.frame.height))
+        numberTextField.leftViewMode = .always
+        numberTextField.visibility = .invisible
+
+        postalcodeLabel.visibility = .invisible
+        postalcodeTextField.layer.borderWidth = 2
+        postalcodeTextField.layer.cornerRadius = 12
+        postalcodeTextField.layer.borderColor = UIColor.colorBlack.cgColor
+        postalcodeTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: numberTextField.frame.height))
+        postalcodeTextField.leftViewMode = .always
+        postalcodeTextField.visibility = .invisible
+
+        addressView.layer.borderWidth = 2
+        addressView.layer.borderColor = UIColor.colorBlack.cgColor
+        addressView.visibility = .invisible
+
         addressTextView.layer.borderWidth = 2
         addressTextView.layer.cornerRadius = 12
         addressTextView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 20)
         addressTextView.isEditable = false
+ 
+        placeAddressTextView.layer.borderWidth = 2
+        placeAddressTextView.layer.cornerRadius = 12
+        placeAddressTextView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 20)
 
         btContinue.isEnabled = false
-        // Google Maps events delegate
+        postalcodeTextField.delegate = self
 
         mapInit()
     }
@@ -116,9 +157,53 @@ class LocationViewController: UIViewController {
         case "btMyLocation":
             gotoMyLocation()
         case "btViewMap":
-             print("btViewMap Clear Markers")
+            print("btViewMap Clear Markers")
         case "btContinue":
-             print("btSavedImage ShowMarkers")
+            print("btContinue")
+            print("************ ADDRESS ***************")
+            print("Endereço Completo: \(addressGeocoding.completeAddress)");
+            print("Endereço: \(addressGeocoding.address)");
+            print("Numero: \(addressGeocoding.number)");
+            print("Pais: \(addressGeocoding.country)");
+            print("Estado: \(addressGeocoding.state)");
+            print("Cidade: \(addressGeocoding.city)");
+            print("Bairro: \(addressGeocoding.district)");
+            print("CEP: \(addressGeocoding.postalCode)")
+
+        case "btOk":
+            print("btOk")
+            if (Config.SEGMENT_HIGHWAY.contains(segmentId) &&  postalcodeTextField.text == "") {
+                postalcodeTextField.text = "-"
+            }
+            if (numberTextField.text == "" || postalcodeTextField.text == "") {
+                gotoNumber()
+            } else {
+                addressGeocoding.number = numberTextField.text!
+                addressGeocoding.postalCode = postalcodeTextField.text!
+                addressGeocoding.completeAddress =
+                        addressGeocoding.address + ", " +
+                        addressGeocoding.number + " - " +
+                        addressGeocoding.district + " - " +
+                        addressGeocoding.city + " - " +
+                        addressGeocoding.postalCode + " - " +
+                        addressGeocoding.country
+                addressTextView.text = addressGeocoding.completeAddress
+                addressView.visibility = .invisible
+                btContinue.isEnabled = true
+                print("************ GOOGLE PLACES ***************")
+                print("Endereço Completo: \(addressGeocoding.completeAddress)");
+                print("Endereço: \(addressGeocoding.address)");
+                print("Numero: \(addressGeocoding.number)");
+                print("Pais: \(addressGeocoding.country)");
+                print("Estado: \(addressGeocoding.state)");
+                print("Cidade: \(addressGeocoding.city)");
+                print("Bairro: \(addressGeocoding.district)");
+                print("CEP: \(addressGeocoding.postalCode)")
+            }
+        case "btCancel":
+            print("btCancel")
+            addressView.visibility = .invisible
+
         default:
             print(sender.restorationIdentifier ?? "no restoration Identifier defined")
         }
@@ -141,6 +226,49 @@ class LocationViewController: UIViewController {
 //        mapView.setMinZoom(Config.MIN_ZOOM_LOCATION, maxZoom: Config.MAX_ZOOM_MAP)
         gotoMyLocation()
         mapView.delegate = self
+    }
+
+    func gotoPlaces() {
+        placeAddressTextView.resignFirstResponder()
+        let acController = GMSAutocompleteViewController()
+        let filter = GMSAutocompleteFilter()
+        var bounds = GMSCoordinateBounds()
+        if (Config.SAVED_INCIDENT) {
+            bounds = gpsLocation.getLatLngBounds(
+                    centerCoordinate: saveCoordinate,
+                    radiusInMeter: Config.LOCATION_DISTANCE)!
+        } else {
+            bounds = gpsLocation.getLatLngBounds(
+                    centerCoordinate: Config.savCoordinate,
+                    radiusInMeter: Config.LOCATION_DISTANCE)!
+        }
+        filter.locationRestriction = GMSPlaceRectangularLocationOption( bounds.northEast,
+                bounds.southWest);
+        acController.autocompleteFilter = filter
+        acController.delegate = self
+        present(acController,animated: true, completion: nil)
+    }
+
+    func gotoNumber() {
+        let okActionHandler: (UIAlertAction) -> Void = {(action) in
+            self.numberLabel.visibility = .visible
+            self.numberTextField.visibility = .visible
+            if (!Config.SEGMENT_HIGHWAY.contains(self.segmentId)) {
+                self.numberLabel.text = "text_number".localized()
+                self.postalcodeLabel.text = "text_postalcode".localized()
+                self.postalcodeLabel.visibility = .visible
+                self.postalcodeTextField.visibility = .visible
+            } else {
+                self.numberLabel.text = "text_miles".localized()
+            }
+            self.numberTextField.becomeFirstResponder()
+        }
+        showAlert(title: "text_no_number".localized(),
+                message: "text_street_number".localized(),
+                type: .attention,
+                actionTitles: ["text_ok".localized()],
+                style: [.default],
+                actions: [okActionHandler])
     }
 
     func gotoMyLocation() {
@@ -308,7 +436,65 @@ class LocationViewController: UIViewController {
             self.dispatchGroupGeocoding.leave()
         }
     }
+}
 
+extension LocationViewController: GMSAutocompleteViewControllerDelegate {
+
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+
+        placeAddressTextView.text = place.formattedAddress
+        addressGeocoding.completeAddress = place.formattedAddress!
+        for component in place.addressComponents! {
+            let type = component.value(forKey: "_type") as! String
+            if (type == "street_number") {
+                addressGeocoding.number = component.value(forKey: "_name") as! String
+            }
+            if (type == "route") {
+                addressGeocoding.address = component.value(forKey: "_name") as! String
+            }
+            if (type == "country") {
+                addressGeocoding.country = component.value(forKey: "_name") as! String
+            }
+            if (type == "administrative_area_level_1") {
+                addressGeocoding.state = component.value(forKey: "_name") as! String
+            }
+            if (type == "administrative_area_level_2") {
+                addressGeocoding.city = component.value(forKey: "_name") as! String
+            }
+            if (type == "sublocality_level_1") {
+                addressGeocoding.district = component.value(forKey: "_name") as! String
+            }
+            if (type == "postal_code") {
+                addressGeocoding.postalCode = component.value(forKey: "_name") as! String
+            }
+        }
+        print("Latitude: \(place.coordinate.latitude) - Longitude: \(place.coordinate.longitude)")
+        // Dismiss the GMSAutocompleteViewController when something is selected
+        dismiss(animated: true, completion: nil)
+        if (Config.SEGMENT_HIGHWAY.contains(segmentId) && addressGeocoding.postalCode == "") {
+            addressGeocoding.postalCode = "-"
+        }
+        if (addressGeocoding.number == "" || addressGeocoding.postalCode == "") {
+            gotoNumber()
+        } else {
+            numberTextField.text = addressGeocoding.number
+            postalcodeTextField.text = addressGeocoding.postalCode
+            btOk.sendActions(for: .touchUpInside)
+
+        }
+
+
+    }
+
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        // Handle the error
+        print("Error: ", error.localizedDescription)
+    }
+
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        // Dismiss when the user canceled the action
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 //  Events of Maps
@@ -317,6 +503,16 @@ extension LocationViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
 
         // print("****** MAP IDLE *****")
+        btContinue.isEnabled = false
+        addressView.visibility = .invisible
+        addressTextView.text = ""
+        placeAddressTextView.text = ""
+        numberTextField.text = ""
+        numberTextField.visibility = .invisible
+        numberLabel.visibility = .invisible
+        postalcodeTextField.text = ""
+        postalcodeTextField.visibility = .invisible
+        postalcodeLabel.visibility = .invisible
         let location = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
         // print(location.coordinate.latitude)
         // print(location.coordinate.longitude)
@@ -354,22 +550,51 @@ extension LocationViewController: GMSMapViewDelegate {
                         print("*****************************************")
                     }
                 }
-                if (self.appleGeocoding.inlandWater != "") {
+                // TODO: Test if segment is river
+                if (self.appleGeocoding.inlandWater != "" && Config.SEGMENT_RIVER.contains(self.segmentId)) {
                     print("*****************************************")
                     print("Rios e Lagos:  \(self.appleGeocoding.inlandWater)")
                     self.addressGeocoding.inlandWater = self.appleGeocoding.inlandWater
+                    self.addressTextView.text = self.appleGeocoding.inlandWater
+                    self.addressGeocoding.number = "s/n"
+                    self.addressGeocoding.address = self.appleGeocoding.inlandWater
+                    self.addressGeocoding.country = self.appleGeocoding.country
+                    self.addressGeocoding.state = self.appleGeocoding.state
+                    self.addressGeocoding.city = self.appleGeocoding.city
+                    self.addressGeocoding.district = self.appleGeocoding.district
+                    if (self.appleGeocoding.postalCode != "") {
+                        if (self.appleGeocoding.postalCode.count == 5) {
+                            self.appleGeocoding.postalCode = self.appleGeocoding.postalCode + "-000"
+                        }
+                        self.addressGeocoding.postalCode = self.appleGeocoding.postalCode
+                    } else {
+                        self.addressGeocoding.postalCode = "-"
+                    }
+                    self.btContinue.isEnabled = true
                     print("*****************************************")
+                    return
                 }
-                if (self.appleGeocoding.ocean != "") {
+                // TODO: Test if segment is ocean
+                if (self.appleGeocoding.ocean != "" && Config.SEGMENT_OCEAN.contains(self.segmentId)) {
                     print("*****************************************")
                     print("Oceano:  \(self.appleGeocoding.ocean)")
                     self.addressGeocoding.ocean = self.appleGeocoding.ocean
                     self.addressTextView.text = self.appleGeocoding.ocean
+                    self.addressGeocoding.number = "s/n"
+                    self.addressGeocoding.address = self.appleGeocoding.ocean
+                    self.addressGeocoding.country = "Ocean"
+                    self.addressGeocoding.state = "-"
+                    self.addressGeocoding.city = "-"
+                    self.addressGeocoding.district = "-"
+                    self.addressGeocoding.postalCode = "-"
+                    self.btContinue.isEnabled = true
                     print("*****************************************")
+                    return
                 } else {
                     if (self.appleGeocoding.address == "" && self.webGeocoding.address == "") {
                         let okActionHandler: (UIAlertAction) -> Void = {(action) in
-                            print("*** NO ADDRESS ***")
+                            self.addressLabel.text = "text_address".localized()
+                            self.addressView.visibility = .visible
                         }
                         self.showAlert(title:  "text_no_address".localized(),
                                 message: "text_enter_address".localized(),
@@ -432,6 +657,7 @@ extension LocationViewController: GMSMapViewDelegate {
                             print("CEP Web: \(self.webGeocoding.postalCode)");
                             self.addressGeocoding.postalCode = self.webGeocoding.postalCode
                         }
+                        self.btContinue.isEnabled = true
 //                        print("************ APPLE GEOCODING ***************")
 //                        print("Endereço Completo: \(self.appleGeocoding.completeAddress)");
 //                        print("Land or Water: \(self.appleGeocoding.inlandWater)")
@@ -445,5 +671,14 @@ extension LocationViewController: GMSMapViewDelegate {
                 }
             }
         }
+    }
+}
+
+extension LocationViewController: UITextFieldDelegate {
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let result = postalCodeFormatter.formatInput(currentText: textField.text ?? "", range: range, replacementString: string)
+        textField.text = result.formattedText
+        textField.setCursorLocation(result.caretBeginOffset)
+        return false
     }
 }
