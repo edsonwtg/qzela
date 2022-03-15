@@ -298,30 +298,30 @@ extension SegmentViewController: UICollectionViewDelegate, UICollectionViewDataS
         }
     }
 
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//
-//        let witdh = scrollView.frame.width - (scrollView.contentInset.left * 2)
-//        let index = scrollView.contentOffset.x / witdh
-//        let roundedIndex = round(index)
-//        if (scrollView == segmentCollectionView) {
-//            if (Int(roundedIndex) != segmentScroll) {
-//                segmentScroll = Int(roundedIndex)
-//                if (segmentSelect != nil) {
-//                    if let cell = segmentCollectionView.cellForItem(at: segmentSelect) as? SegmentCell {
-//                        cell.segmentImage.alpha = 1
-//                        cell.alpha = 1
-//                    }
-//                    if segmentScroll == segmentScrollSelect {
-//                        let selectItens = segmentCollectionView.indexPathsForSelectedItems!
-//                        if (selectItens.count > 0) {
-//                            let cell = segmentCollectionView.cellForItem(at: selectItens[0]) as? SegmentCell
-//                            cell?.segmentImage.alpha = 0.5
-//                            cell?.alpha = 0.5
-//                        }
-//                    }
-//                }
-//                print(Int(roundedIndex))
-//            }
-//        }
-//    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
+        let witdh = scrollView.frame.width - (scrollView.contentInset.left * 2)
+        let index = scrollView.contentOffset.x / witdh
+        let roundedIndex = round(index)
+        if (scrollView == segmentCollectionView) {
+            if (Int(roundedIndex) != segmentScroll) {
+                segmentScroll = Int(roundedIndex)
+                if (segmentSelect != nil) {
+                    if let cell = segmentCollectionView.cellForItem(at: segmentSelect) as? SegmentCell {
+                        cell.segmentImage.alpha = 1
+                        cell.alpha = 1
+                    }
+                    if segmentScroll == segmentScrollSelect {
+                        let selectItens = segmentCollectionView.indexPathsForSelectedItems!
+                        if (selectItens.count > 0) {
+                            let cell = segmentCollectionView.cellForItem(at: selectItens[0]) as? SegmentCell
+                            cell?.segmentImage.alpha = 0.5
+                            cell?.alpha = 0.5
+                        }
+                    }
+                }
+                print(Int(roundedIndex))
+            }
+        }
+    }
 }
