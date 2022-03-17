@@ -20,6 +20,7 @@ class LocationViewController: UIViewController {
     var occurrencesItem: [String] = []
     var commentary: String!
     var saveCoordinate: CLLocationCoordinate2D!
+    var placeCoordinate: CLLocation!
 
     var resultMar = [NSDictionary()]
 
@@ -36,8 +37,8 @@ class LocationViewController: UIViewController {
         var ocean: String = ""
         var areasOfInterest: [String] = []
     }
+//    var googleGeocoding = Geocoding()
     var appleGeocoding = Geocoding()
-    var googleGeocoding = Geocoding()
     var webGeocoding = Geocoding()
     var addressGeocoding = Geocoding()
 
@@ -78,15 +79,15 @@ class LocationViewController: UIViewController {
 
         hideKeyboardWhenTappedAround()
 
-//        // TODO: Remove after test
-//        segmentId = 6
-//        occurrencesItem.append("5d987a1f2d9c3f7efcbaa413")
-//        occurrencesItem.append("5d987a1f2d9c3f7efcbaa413")
-//        // Home
+        // TODO: Remove after test
+        segmentId = 6
+        occurrencesItem.append("5d987a1f2d9c3f7efcbaa413")
+        occurrencesItem.append("5d987a1f2d9c3f7efcbaa413")
+        // Home
         Config.savCoordinate = CLLocationCoordinate2D(latitude: -23.613102550188003, longitude: -46.68283302336931)
-//        // Rua Florida, 1758
-//        //         Config.savCoordinate = CLLocationCoordinate2D(latitude:-23.6072598, longitude: -46.6951241)
-//        // **************
+        // Rua Florida, 1758
+        //         Config.savCoordinate = CLLocationCoordinate2D(latitude:-23.6072598, longitude: -46.6951241)
+        // **************
         print("SegmentId: \(segmentId!)")
         print("OccurrencesIds: \(occurrencesItem)")
         print("Commentary: \(String(describing: commentary))")
@@ -159,8 +160,28 @@ class LocationViewController: UIViewController {
         case "btViewMap":
             print("btViewMap Clear Markers")
         case "btContinue":
-            print("btContinue")
+            if (!networkListener.isNetworkAvailable()) {
+                // print("******** NO INTERNET CONNECTION *********")
+                showAlert(title: "text_no_internet".localized(),
+                        message: "text_internet_off".localized(),
+                        type: .attention,
+                        actionTitles: ["text_got_it".localized()],
+                        style: [.default],
+                        actions: [nil])
+                return
+            }
+            LoadingStart(title: "Please wait...",
+                    message: "Send your incident!",
+                    style: .alert,
+                    type: .loading)
+            mapView.isUserInteractionEnabled = false
+            btContinue.isEnabled = false
             print("************ ADDRESS ***************")
+            print("SegmentId: \(segmentId!)")
+            print("OccurrencesIds: \(occurrencesItem)")
+            print("Commentary: \(String(describing: commentary))")
+            print("Latitude: \(placeCoordinate.coordinate.latitude)")
+            print("Longitude: \(placeCoordinate.coordinate.longitude)")
             print("Endereço Completo: \(addressGeocoding.completeAddress)");
             print("Endereço: \(addressGeocoding.address)");
             print("Numero: \(addressGeocoding.number)");
@@ -169,7 +190,18 @@ class LocationViewController: UIViewController {
             print("Cidade: \(addressGeocoding.city)");
             print("Bairro: \(addressGeocoding.district)");
             print("CEP: \(addressGeocoding.postalCode)")
-
+            let secondsToDelay = 3.0
+            DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                self.LoadingStop()
+                self.LoadingStart(title: "Obrigado",
+                        message: "Incident enviado",
+                        style: .alert,
+                        type: .message)
+                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                    self.btContinue.isEnabled = true
+                    self.LoadingStop()
+                }
+            }
         case "btOk":
             print("btOk")
             if (Config.SEGMENT_HIGHWAY.contains(segmentId) &&  postalcodeTextField.text == "") {
@@ -231,7 +263,6 @@ class LocationViewController: UIViewController {
             self.markerImageView.image = image
         }
     }
-
 
     func mapInit() {
         // Load Map style from json file
@@ -318,50 +349,50 @@ class LocationViewController: UIViewController {
         }
     }
 
-    func getGoogleAddress(coordinates: CLLocationCoordinate2D) {
-
-        dispatchGroupGeocoding.enter()
-
-        geocoderGoogle.reverseGeocodeCoordinate(coordinates) {response, error in
-            if error != nil {
-                print("reverse geodcode fail: \(error!.localizedDescription)")
-            } else {
-                if let places = response?.results() {
-                    if let place = places.first {
-                        self.googleGeocoding.completeAddress = place.lines?[0] ?? ""
-                        self.googleGeocoding.address = place.thoroughfare ?? ""
-                        self.googleGeocoding.number = ""
-                        self.googleGeocoding.country = place.country ?? ""
-                        self.googleGeocoding.state = place.administrativeArea ?? ""
-                        self.googleGeocoding.city =  ""
-                        self.googleGeocoding.district = place.subLocality ?? ""
-                        self.googleGeocoding.postalCode = place.postalCode ?? ""
-                        self.googleGeocoding.inlandWater =  ""
-                        self.googleGeocoding.ocean =  ""
-                        self.googleGeocoding.areasOfInterest = []
-                    } else {
-                        print("GEOCODE: nil first in places")
-                    }
-                } else {
-                    print("GEOCODE: nil in places")
-                    self.googleGeocoding = Geocoding()
-                }
-                print("************ GOOGLE GEOCODING ***************")
-                print("Endereço Completo: \(self.googleGeocoding.completeAddress)");
-                print("Endereço: \(self.googleGeocoding.address)");
-                print("Numero: \(self.googleGeocoding.number)");
-                print("Pais: \(self.googleGeocoding.country)");
-                print("Estado: \(self.googleGeocoding.state)");
-                print("Cidade: \(self.googleGeocoding.city)");
-                print("Bairro: \(self.googleGeocoding.district)");
-                print("CEP: \(self.googleGeocoding.postalCode)")
-                print("Land or Water: \(self.googleGeocoding.inlandWater)")
-                print("OCEAN/RIO: \(self.googleGeocoding.ocean)")
-                print("Areas of Interest:  \(self.googleGeocoding.areasOfInterest)")
-                self.dispatchGroupGeocoding.leave()
-            }
-        }
-    }
+//    func getGoogleAddress(coordinates: CLLocationCoordinate2D) {
+//
+//        dispatchGroupGeocoding.enter()
+//
+//        geocoderGoogle.reverseGeocodeCoordinate(coordinates) {response, error in
+//            if error != nil {
+//                print("reverse geodcode fail: \(error!.localizedDescription)")
+//            } else {
+//                if let places = response?.results() {
+//                    if let place = places.first {
+//                        self.googleGeocoding.completeAddress = place.lines?[0] ?? ""
+//                        self.googleGeocoding.address = place.thoroughfare ?? ""
+//                        self.googleGeocoding.number = ""
+//                        self.googleGeocoding.country = place.country ?? ""
+//                        self.googleGeocoding.state = place.administrativeArea ?? ""
+//                        self.googleGeocoding.city =  ""
+//                        self.googleGeocoding.district = place.subLocality ?? ""
+//                        self.googleGeocoding.postalCode = place.postalCode ?? ""
+//                        self.googleGeocoding.inlandWater =  ""
+//                        self.googleGeocoding.ocean =  ""
+//                        self.googleGeocoding.areasOfInterest = []
+//                    } else {
+//                        print("GEOCODE: nil first in places")
+//                    }
+//                } else {
+//                    print("GEOCODE: nil in places")
+//                    self.googleGeocoding = Geocoding()
+//                }
+//                print("************ GOOGLE GEOCODING ***************")
+//                print("Endereço Completo: \(self.googleGeocoding.completeAddress)");
+//                print("Endereço: \(self.googleGeocoding.address)");
+//                print("Numero: \(self.googleGeocoding.number)");
+//                print("Pais: \(self.googleGeocoding.country)");
+//                print("Estado: \(self.googleGeocoding.state)");
+//                print("Cidade: \(self.googleGeocoding.city)");
+//                print("Bairro: \(self.googleGeocoding.district)");
+//                print("CEP: \(self.googleGeocoding.postalCode)")
+//                print("Land or Water: \(self.googleGeocoding.inlandWater)")
+//                print("OCEAN/RIO: \(self.googleGeocoding.ocean)")
+//                print("Areas of Interest:  \(self.googleGeocoding.areasOfInterest)")
+//                self.dispatchGroupGeocoding.leave()
+//            }
+//        }
+//    }
 
     func getAppleAddress(coordinates: CLLocation) {
 
@@ -536,9 +567,9 @@ extension LocationViewController: GMSMapViewDelegate {
         postalcodeTextField.text = ""
         postalcodeTextField.visibility = .invisible
         postalcodeLabel.visibility = .invisible
-        let location = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
-        // print(location.coordinate.latitude)
-        // print(location.coordinate.longitude)
+        placeCoordinate = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
+        // print(placeCoordinate.coordinate.latitude)
+        // print(placeCoordinate.coordinate.longitude)
         if (!networkListener.isNetworkAvailable()) {
             // print("******** NO INTERNET CONNECTION *********")
             showAlert(title: "text_no_internet".localized(),
@@ -552,8 +583,8 @@ extension LocationViewController: GMSMapViewDelegate {
         appleGeocoding = Geocoding()
         webGeocoding = Geocoding()
 
-        getAppleAddress(coordinates: location)
-        getWebGoogleAddress(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        getAppleAddress(coordinates: placeCoordinate)
+        getWebGoogleAddress(latitude: placeCoordinate.coordinate.latitude, longitude: placeCoordinate.coordinate.longitude)
 
         dispatchGroupGeocoding.notify(queue: .main) {
             DispatchQueue.main.async {

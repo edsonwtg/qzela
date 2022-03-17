@@ -159,12 +159,6 @@ class Config {
 
     static let ARRAY_INCIDENT_ALL_STATUS = [0, 1, 2, 3, 4, 7]
 
-    enum Alert {
-        case error
-        case message
-        case attention
-    }
-
     func showHideNoInternet(view: UIImageView, show: Bool) {
         if (show) {
             view.visibility = .visible

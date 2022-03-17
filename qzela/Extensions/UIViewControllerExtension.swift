@@ -4,7 +4,66 @@
 
 import UIKit
 
+struct ProgressDialog {
+    static var alert = UIAlertController()
+    static var progressView = UIProgressView()
+    static var progressPoint : Float = 0{
+        didSet{
+            if(progressPoint == 1){
+                ProgressDialog.alert.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+}
+
 extension UIViewController {
+
+    public enum Alert {
+        case error
+        case message
+        case attention
+        case info
+        case loading
+    }
+
+
+    func LoadingStart(title: String, message: String, style: UIAlertController.Style, type: Alert){
+        ProgressDialog.alert = UIAlertController(title: title, message: message, preferredStyle: style)
+        // Accessing alert view backgroundColor :
+        // ProgressDialog.alert.view.subviews.first?.subviews.first?.subviews.first?.backgroundColor = UIColor.qzelaOrange
+        if (type == Alert.attention) {
+            ProgressDialog.alert.view.layer.borderWidth = 4
+            ProgressDialog.alert.view.layer.borderColor = UIColor.colorRed.cgColor
+        } else {
+            ProgressDialog.alert.view.layer.borderWidth = 4
+            ProgressDialog.alert.view.layer.borderColor = UIColor.qzelaDarkBlue.cgColor
+        }
+        ProgressDialog.alert.view.layer.cornerRadius = 12
+        // Accessing alert title color :
+        ProgressDialog.alert.setValue(NSAttributedString(string: ProgressDialog.alert.title!,
+                attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17,weight: UIFont.Weight.medium),
+                             NSAttributedString.Key.foregroundColor : UIColor.qzelaOrange]),
+                forKey: "attributedTitle")
+        // Accessing alert message color :
+        ProgressDialog.alert.setValue(NSAttributedString(string: ProgressDialog.alert.message!,
+                attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.medium),
+                             NSAttributedString.Key.foregroundColor : UIColor.qzelaDarkBlue]),
+                forKey: "attributedMessage")
+        if (type == Alert.loading) {
+            let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 15, width: 50, height: 50))
+            loadingIndicator.hidesWhenStopped = true
+            loadingIndicator.color = .qzelaDarkBlue
+            loadingIndicator.style = UIActivityIndicatorView.Style.large
+            loadingIndicator.startAnimating();
+            ProgressDialog.alert.view.addSubview(loadingIndicator)
+        }
+        present(ProgressDialog.alert, animated: true, completion: nil)
+    }
+
+    func LoadingStop(){
+        ProgressDialog.alert.dismiss(animated: true, completion: nil)
+    }
+
 
 /// Show alert view
 /// - Parameter title: title of alert
@@ -40,12 +99,6 @@ extension UIViewController {
 
  self.showAlert(title: "Title", message: "message", actionTitles: ["OK", "CANCEL"], style: [.default, .cancel], actions: [okActionHandler,cancelActionHandler], preferredActionIndex: 1)
  */
-    public enum Alert {
-        case error
-        case message
-        case attention
-        case info
-    }
 
     public func showAlert(title: String,
                           message: String,
@@ -102,5 +155,4 @@ extension UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-
 }
