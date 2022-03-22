@@ -45,9 +45,8 @@ class SplashViewController: UIViewController {
 //        print("************** CLEAN USER DEFAULTS ************", #file.components(separatedBy: "/").last!, #line)
 //        config.clearUserDefault()
 
-        // print("************** getUserDefaults ************", #file.components(separatedBy: "/").last!, #line)
+//        print("************** getUserDefaults ************", #file.components(separatedBy: "/").last!, #line)
         config.getUserDefaults()
-
 //        print(Config.saveQtdIncidents)
 //        print(Config.saveIncidents)
 //        config.listDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)

@@ -241,7 +241,7 @@ class PhotoViewController: UIViewController {
         btContinue.setTitle("text_continue".localized(), for: .normal)
         btContinue.isEnabled = false
 
-        // TODO: Pass thisd functionality to initialize APP function
+        // TODO: Pass this functionality to initialize APP function
 //        #if (arch(i386) || arch(x86_64)) && (!os(macOS))
 //            Config.isSimulator = true
 //        #else
@@ -496,7 +496,7 @@ class PhotoViewController: UIViewController {
             } else {
                 Config.IMAGE_CAPTURED = Config.TYPE_IMAGE_VIDEO
             }
-            // Go to Photo View Controller
+            // Go to Segment View Controller
             let controller = storyboard?.instantiateViewController(withIdentifier: "SegmentViewController") as! SegmentViewController
             controller.modalPresentationStyle = .fullScreen
             controller.modalTransitionStyle = .crossDissolve
@@ -688,10 +688,8 @@ class PhotoViewController: UIViewController {
                     fileManager: fileManager,
                     path: Config.PATH_TEMP_FILES,
                     fileName: imageFileName,
-                    image: image)
-                    else {
-                return
-            }
+                    image: image
+                    ) else { return }
             if (!bPhoto1) {
                 filePhoto1 = urlString
                 photoImage1.image = UIImage(contentsOfFile: urlString)

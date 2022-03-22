@@ -12,6 +12,8 @@ import CoreLocation
 import Contacts
 import Alamofire
 import AnyFormatKit
+import FirebaseStorage
+import Apollo
 
 class LocationViewController: UIViewController {
 
@@ -19,8 +21,12 @@ class LocationViewController: UIViewController {
     var segmentId: Int!
     var occurrencesItem: [String] = []
     var commentary: String!
+    // ************
+    var imageFiles: Array<String> = []
+    var imageType: String!
     var saveCoordinate: CLLocationCoordinate2D!
     var placeCoordinate: CLLocation!
+
 
     var resultMar = [NSDictionary()]
 
@@ -45,6 +51,7 @@ class LocationViewController: UIViewController {
     let networkListener = NetworkListener()
     let gpsLocation = qzela.GPSLocation()
     let fileManager = FileManager.default
+    let config = Config()
 
     let geocoderApple = CLGeocoder()
     let geocoderGoogle = GMSGeocoder()
@@ -80,11 +87,11 @@ class LocationViewController: UIViewController {
         hideKeyboardWhenTappedAround()
 
         // TODO: Remove after test
-        segmentId = 6
-        occurrencesItem.append("5d987a1f2d9c3f7efcbaa413")
-        occurrencesItem.append("5d987a1f2d9c3f7efcbaa413")
+//        segmentId = 6
+//        occurrencesItem.append("5d987a1f2d9c3f7efcbaa413")
+//        occurrencesItem.append("5d987a1f2d9c3f7efcbaa413")
         // Home
-        Config.savCoordinate = CLLocationCoordinate2D(latitude: -23.613102550188003, longitude: -46.68283302336931)
+//        Config.savCoordinate = CLLocationCoordinate2D(latitude: -23.613102550188003, longitude: -46.68283302336931)
         // Rua Florida, 1758
         //         Config.savCoordinate = CLLocationCoordinate2D(latitude:-23.6072598, longitude: -46.6951241)
         // **************
@@ -101,23 +108,26 @@ class LocationViewController: UIViewController {
             print("Saved Latitude: \(saveCoordinate.latitude)")
             print("Saved Longitude: \(saveCoordinate.longitude)")
             print("Saved Image type: \(incidentImages.imageType)")
+            imageType = incidentImages.imageType
             for imageSave in incidentImages.savedImages {
-                print("Saved Image: \(Config.PATH_SAVED_FILES+"/"+imageSave.fileImage)")
+                print("Saved Image: \(Config.PATH_SAVED_FILES+"/" + imageSave.fileImage)")
+                imageFiles.append(Config.PATH_SAVED_FILES + "/" + imageSave.fileImage)
             }
         } else {
             print("Coordinates Latitude: \(Config.savCoordinate.latitude)")
             print("Coordinates Longitude: \(Config.savCoordinate.latitude)")
             print("Image Type: \(Config.IMAGE_CAPTURED)")
+            imageType = Config.IMAGE_CAPTURED
             do {
                 let items = try fileManager.contentsOfDirectory(atPath: Config.PATH_TEMP_FILES)
                 for item in items {
                     print("Found \(Config.PATH_TEMP_FILES + "/" + item)")
+                    imageFiles.append(Config.PATH_TEMP_FILES + "/" + item)
                 }
             } catch {
                 print("Error File Path \(Config.PATH_TEMP_FILES)")
             }
         }
-
         numberLabel.visibility = .invisible
         numberTextField.layer.borderWidth = 2
         numberTextField.layer.cornerRadius = 12
@@ -175,14 +185,49 @@ class LocationViewController: UIViewController {
                     style: .alert,
                     type: .loading)
             mapView.isUserInteractionEnabled = false
+            mapView.camera = GMSCameraPosition.camera(
+                    withLatitude: placeCoordinate.coordinate.latitude,
+                    longitude: placeCoordinate.coordinate.longitude, zoom: 16
+            )
+            markerImageView.visibility = .invisible
+            mapView.isMyLocationEnabled = false
+            var marker = GMSMarker()
+            marker.position = placeCoordinate.coordinate
+            marker.icon = markerImageView.image
+            marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
+            marker.groundAnchor = CGPoint(x: 0.5, y: 1.15)
+            marker.map = self.mapView
+
+            marker = GMSMarker()
+            marker.position = placeCoordinate.coordinate
+            marker.icon = UIImage(named: "circle_black")
+            marker.setIconSize(scaledToSize: .init(width: 12, height: 12))
+            marker.map = self.mapView
+            let image = UIGraphicsImageRenderer(size: mapView.bounds.size).image { _ in
+                mapView.drawHierarchy(in: mapView.bounds, afterScreenUpdates: true)
+            }
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyyMMdd_HHmmss"
+            let imageFileName = "MAP_" + formatter.string(from: Date()) + ".jpg"
+            guard let urlString = config.saveImage(
+                    fileManager: fileManager,
+                    path: Config.PATH_TEMP_FILES,
+                    fileName: imageFileName,
+                    image: image
+            ) else { return }
+
             btContinue.isEnabled = false
-            print("************ ADDRESS ***************")
+            print("************ PREPARE FOR INSERT INCIDENT ***************")
+            print("CitizenID: \(Config.SAV_CD_USUARIO)")
             print("SegmentId: \(segmentId!)")
             print("OccurrencesIds: \(occurrencesItem)")
             print("Commentary: \(String(describing: commentary))")
             print("Latitude: \(placeCoordinate.coordinate.latitude)")
             print("Longitude: \(placeCoordinate.coordinate.longitude)")
-            print("Endereço Completo: \(addressGeocoding.completeAddress)");
+            print("IMAGE Type: \(String(describing: imageType))")
+            print("MAP file name: \(urlString)")
+            print("IMAGE Files: \(imageFiles)")
+            print("Endereço Completo: \(addressGeocoding.completeAddress + " " + addressGeocoding.number)");
             print("Endereço: \(addressGeocoding.address)");
             print("Numero: \(addressGeocoding.number)");
             print("Pais: \(addressGeocoding.country)");
@@ -190,18 +235,19 @@ class LocationViewController: UIViewController {
             print("Cidade: \(addressGeocoding.city)");
             print("Bairro: \(addressGeocoding.district)");
             print("CEP: \(addressGeocoding.postalCode)")
-            let secondsToDelay = 3.0
-            DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-                self.LoadingStop()
-                self.LoadingStart(title: "Obrigado",
-                        message: "Incident enviado",
-                        style: .alert,
-                        type: .message)
-                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-                    self.btContinue.isEnabled = true
-                    self.LoadingStop()
-                }
-            }
+            sendImages()
+//            let secondsToDelay = 3.0
+//            DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+//                self.LoadingStop()
+//                self.LoadingStart(title: "Obrigado",
+//                        message: "Incident enviado",
+//                        style: .alert,
+//                        type: .message)
+//                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+//                    self.btContinue.isEnabled = true
+//                    self.LoadingStop()
+//                }
+//            }
         case "btOk":
             print("btOk")
             if (Config.SEGMENT_HIGHWAY.contains(segmentId) &&  postalcodeTextField.text == "") {
@@ -240,6 +286,49 @@ class LocationViewController: UIViewController {
             print(sender.restorationIdentifier ?? "no restoration Identifier defined")
         }
     }
+
+    func sendImages () {
+        sendIncident()
+    }
+
+    func sendIncident() {
+        ApolloIOS.shared.apollo.perform(mutation: SetOpenIncidentMutation(
+                cdSegment: segmentId,
+                locCoord: [placeCoordinate.coordinate.latitude,placeCoordinate.coordinate.longitude],
+                dcAddress: addressGeocoding.address + "," + addressGeocoding.number,
+                dcCity: addressGeocoding.city,
+                dcState: addressGeocoding.state,
+                dcCountry: addressGeocoding.country,
+                dcNeighborhood: addressGeocoding.district,
+                dcZipCode: addressGeocoding.postalCode,
+                occurrencesIds: occurrencesItem,
+                citizenId: Config.SAV_CD_USUARIO,
+                dtOpen: ISODate.now,
+                txComment: commentary,
+                tpMedia: imageType == Config.TYPE_IMAGE_PHOTO ? TPMEDIA_ENUM.photo : TPMEDIA_ENUM.video,
+                mediaData: imageFiles)
+        ) { result in
+            switch result {
+            case .success(let graphQLResult):
+                print("Success! Result: \(String(describing: graphQLResult.data?.openIncident.description))")
+                if (graphQLResult.errors != nil) {
+                    print("ERROR: \(String(describing: graphQLResult.errors?.description))")
+                }
+            case .failure(let error):
+                print("Failure! Error: \(error)")
+            }
+        }
+        let secondsToDelay = 3.0
+        self.LoadingStop()
+        self.LoadingStart(title: "Obrigado",
+                message: "Incident enviado",
+                style: .alert,
+                type: .message)
+        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+            self.btContinue.isEnabled = true
+            self.LoadingStop()
+        }
+}
 
     func getFirebaseSegmentMarker(segmentId: Int) {
         let dispatchGroup = DispatchGroup()

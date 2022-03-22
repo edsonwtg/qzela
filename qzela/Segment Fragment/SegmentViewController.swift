@@ -104,7 +104,7 @@ class SegmentViewController: UIViewController {
 
         aiLoadingData.startAnimating()
         // print("******** GetSegment - START **********")
-        Apollo.shared.apollo.fetch(query: GetSegmentsQuery(), cachePolicy: .fetchIgnoringCacheData) { [unowned self] result in
+        ApolloIOS.shared.apollo.fetch(query: GetSegmentsQuery(), cachePolicy: .fetchIgnoringCacheData) { [unowned self] result in
             switch result {
             case .success(let graphQLResult):
 //                print("Success! Result: \(graphQLResult)")
@@ -167,7 +167,7 @@ class SegmentViewController: UIViewController {
 
         // print("******** GetOccurrences - START **********")
 
-        Apollo.shared.apollo.fetch(query: GetOccurrencesQuery(segId: occurrenceId), cachePolicy: .fetchIgnoringCacheData) { [unowned self] result in
+        ApolloIOS.shared.apollo.fetch(query: GetOccurrencesQuery(segId: occurrenceId), cachePolicy: .fetchIgnoringCacheData) { [unowned self] result in
             switch result {
             case .success(let graphQLResult):
 //                print("Success! Result: \(graphQLResult)")

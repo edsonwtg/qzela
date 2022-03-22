@@ -324,7 +324,7 @@ class MapTabbarController: UIViewController {
         }
 
         // print("******** GetViewport - START **********")
-        Apollo.shared.apollo.fetch(query: GetViewportQuery(
+        ApolloIOS.shared.apollo.fetch(query: GetViewportQuery(
                 neCoord: neCoord,
                 swCoord: swCoord,
                 already: alreadyGetIncidents), cachePolicy: .fetchIgnoringCacheData){ [unowned self] result in

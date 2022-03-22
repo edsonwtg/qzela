@@ -5,6 +5,8 @@
 import Apollo
 
 public typealias Coordinate = [Double]
+public typealias Upload = String
+
 extension Array: JSONDecodable {
     /// Custom `init` extension so Apollo can decode custom scalar type `CurrentMissionChallenge `
     public init(jsonValue value: JSONValue) throws {
@@ -18,7 +20,7 @@ extension Array: JSONDecodable {
 
 public typealias ISODate = Foundation.Date
 
-extension ISODate: JSONDecodable {
+extension ISODate: JSONDecodable, JSONEncodable {
 
     public init(jsonValue value: JSONValue) throws {
         guard let isoString = value as? String else {
@@ -40,3 +42,4 @@ extension ISODate: JSONDecodable {
         return ISO8601DateFormatter().string(from: self)
     }
 }
+

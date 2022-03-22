@@ -20,6 +20,8 @@ class Config {
 
     static let internetNotificationKey = "com.qzela.internetNotificationKey"
 
+    static let ISO_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+
     static let MENU_ITEM_DASHBOARD: Int = 0
     static let MENU_ITEM_MAP: Int = 1
     static let MENU_ITEM_PROFILE: Int = 2
@@ -67,10 +69,31 @@ class Config {
     static var saveIncidentPosition = 0
     static var SAVED_INCIDENT = false
 
+    static var SAV_ACCESS_TOKEN: String = ""
+    static var SAV_CD_USUARIO: String = ""
+    static var SAV_DC_EMAIL: String = ""
+    static var SAV_DC_SENHA: String = ""
+    static var SAV_OUTER_AUTH: Int = 0
+    static var SAV_NOTIFICATION_ID: String = ""
+
     static let userDefaults = UserDefaults.standard
 
     func getUserDefaults() {
 
+        if (Config.userDefaults.string(forKey: "accessToken") == nil) {
+            Config.userDefaults.set("", forKey: "accessToken")
+            Config.userDefaults.set("", forKey: "cdUser")
+            Config.userDefaults.set("", forKey: "dcEmail")
+            Config.userDefaults.set("", forKey: "dcSenha")
+            Config.userDefaults.set("", forKey: "dcSenha")
+            Config.userDefaults.set(0, forKey: "outherOAuth")
+        }else {
+            Config.SAV_ACCESS_TOKEN = Config.userDefaults.string(forKey: "accessToken")!
+            Config.SAV_CD_USUARIO = Config.userDefaults.string(forKey: "cdUser")!
+            Config.SAV_DC_EMAIL = Config.userDefaults.string(forKey: "dcEmail")!
+            Config.SAV_DC_SENHA = Config.userDefaults.string(forKey: "dcSenha")!
+            Config.SAV_OUTER_AUTH = Config.userDefaults.integer(forKey: "outherOAuth")
+        }
         if (Config.userDefaults.integer(forKey: "qtdIncidentSaved") == 0) {
             Config.userDefaults.set(0, forKey: "qtdIncidentSaved")
             Config.saveIncidents = [SaveIncidents]()
@@ -84,6 +107,11 @@ class Config {
     }
 
     func clearUserDefault() {
+        Config.userDefaults.removeObject(forKey: "accessToken")
+        Config.userDefaults.removeObject(forKey: "cdUser")
+        Config.userDefaults.removeObject(forKey: "dcEmail")
+        Config.userDefaults.removeObject(forKey: "dcSenha")
+        Config.userDefaults.removeObject(forKey: "outherOAuth")
         Config.userDefaults.removeObject(forKey: "incidentSaved")
         Config.userDefaults.removeObject(forKey: "qtdIncidentSaved")
         Config.saveIncidents = [SaveIncidents]()
@@ -126,8 +154,6 @@ class Config {
     // GRAPHQL ADDRESS
     static let GRAPHQL_ENDPOINT: String = QZELA_API_ADDRESS + "/v2i/graphql"
     static let GRAPHQL_WEBSOCKET: String = QZELA_API_WEBSOCKET + "/graphql"
-    static var qzelaToken: String = "121436c7d02486ee124049af1e8aa35ff9c003125baa77c9e4e6ce6a6dd6aa51ebd8b26f880a05d279f1c5cac3e6b716970657c48c01d9077ab8c1ce784993b62eec46e9e168e5a6c53abdadb5b44121be25b149538b771d3a5c6d7b55ec2260d2c32ad16598d3495c2ddc211589bd59"
-    static var qzelaUserId: String = "5d987cacdef23b533dd00a36"
 
     static let TYPE_IMAGE_PHOTO: String = "photo"
     static let TYPE_IMAGE_VIDEO: String = "video"

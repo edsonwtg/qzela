@@ -92,7 +92,7 @@ class DialogIncidentViewController: UIViewController {
         // print("******** GetIncidentById - START **********")
 
 
-        Apollo.shared.apollo.fetch(query: GetIncidentByIdQuery(id: incidentId!)) { [unowned self] result in
+        ApolloIOS.shared.apollo.fetch(query: GetIncidentByIdQuery(id: incidentId!)) { [unowned self] result in
             switch result {
             case .success(let graphQLResult):
 //                print("Success! Result: \(graphQLResult)")

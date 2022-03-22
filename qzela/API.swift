@@ -4,6 +4,46 @@
 import Apollo
 import Foundation
 
+public enum TPMEDIA_ENUM: RawRepresentable, Equatable, Hashable, CaseIterable, Apollo.JSONDecodable, Apollo.JSONEncodable {
+  public typealias RawValue = String
+  case photo
+  case video
+  /// Auto generated constant for unknown enum values
+  case __unknown(RawValue)
+
+  public init?(rawValue: RawValue) {
+    switch rawValue {
+      case "photo": self = .photo
+      case "video": self = .video
+      default: self = .__unknown(rawValue)
+    }
+  }
+
+  public var rawValue: RawValue {
+    switch self {
+      case .photo: return "photo"
+      case .video: return "video"
+      case .__unknown(let value): return value
+    }
+  }
+
+  public static func == (lhs: TPMEDIA_ENUM, rhs: TPMEDIA_ENUM) -> Bool {
+    switch (lhs, rhs) {
+      case (.photo, .photo): return true
+      case (.video, .video): return true
+      case (.__unknown(let lhsValue), .__unknown(let rhsValue)): return lhsValue == rhsValue
+      default: return false
+    }
+  }
+
+  public static var allCases: [TPMEDIA_ENUM] {
+    return [
+      .photo,
+      .video,
+    ]
+  }
+}
+
 public final class GetHealthQuery: GraphQLQuery {
   /// The raw GraphQL definition of this operation.
   public let operationDefinition: String =
@@ -894,6 +934,215 @@ public final class GetViewportQuery: GraphQLQuery {
             }
           }
         }
+      }
+    }
+  }
+}
+
+public final class LoginCitizenMutation: GraphQLMutation {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    mutation LoginCitizen($email: String!, $password: String!, $deviceId: String!, $devicePlatform: String!, $language: String!, $notificationId: String!) {
+      loginCitizen(
+        email: $email
+        pass: $password
+        deviceId: $deviceId
+        devicePlatform: $devicePlatform
+        language: $language
+        notificationId: $notificationId
+      ) {
+        __typename
+        accessToken
+        userId
+      }
+    }
+    """
+
+  public let operationName: String = "LoginCitizen"
+
+  public var email: String
+  public var password: String
+  public var deviceId: String
+  public var devicePlatform: String
+  public var language: String
+  public var notificationId: String
+
+  public init(email: String, password: String, deviceId: String, devicePlatform: String, language: String, notificationId: String) {
+    self.email = email
+    self.password = password
+    self.deviceId = deviceId
+    self.devicePlatform = devicePlatform
+    self.language = language
+    self.notificationId = notificationId
+  }
+
+  public var variables: GraphQLMap? {
+    return ["email": email, "password": password, "deviceId": deviceId, "devicePlatform": devicePlatform, "language": language, "notificationId": notificationId]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Mutation"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("loginCitizen", arguments: ["email": GraphQLVariable("email"), "pass": GraphQLVariable("password"), "deviceId": GraphQLVariable("deviceId"), "devicePlatform": GraphQLVariable("devicePlatform"), "language": GraphQLVariable("language"), "notificationId": GraphQLVariable("notificationId")], type: .nonNull(.object(LoginCitizen.selections))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(loginCitizen: LoginCitizen) {
+      self.init(unsafeResultMap: ["__typename": "Mutation", "loginCitizen": loginCitizen.resultMap])
+    }
+
+    public var loginCitizen: LoginCitizen {
+      get {
+        return LoginCitizen(unsafeResultMap: resultMap["loginCitizen"]! as! ResultMap)
+      }
+      set {
+        resultMap.updateValue(newValue.resultMap, forKey: "loginCitizen")
+      }
+    }
+
+    public struct LoginCitizen: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["Token"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("accessToken", type: .nonNull(.scalar(String.self))),
+          GraphQLField("userId", type: .nonNull(.scalar(String.self))),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(accessToken: String, userId: String) {
+        self.init(unsafeResultMap: ["__typename": "Token", "accessToken": accessToken, "userId": userId])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      /// Propriedades que compõem o corpo do Token.
+      public var accessToken: String {
+        get {
+          return resultMap["accessToken"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "accessToken")
+        }
+      }
+
+      public var userId: String {
+        get {
+          return resultMap["userId"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "userId")
+        }
+      }
+    }
+  }
+}
+
+public final class SetOpenIncidentMutation: GraphQLMutation {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    mutation SetOpenIncident($cdSegment: Int!, $locCoord: Coordinate!, $dcAddress: String!, $dcCity: String!, $dcState: String!, $dcCountry: String!, $dcNeighborhood: String!, $dcZipCode: String!, $occurrencesIds: [ID!]!, $citizenId: ID!, $dtOpen: ISODate!, $txComment: String!, $tpMedia: TPMEDIA_ENUM!, $mediaData: [Upload!]) {
+      openIncident(
+        cdSegment: $cdSegment
+        locationCoordinates: $locCoord
+        locationText: {dcAddress: $dcAddress, nrAddress: " ", dcCity: $dcCity, dcState: $dcState, dcCountry: $dcCountry, dcNeighborhood: $dcNeighborhood, dcZipCode: $dcZipCode}
+        occurrencesIds: $occurrencesIds
+        citizenId: $citizenId
+        dtOpen: $dtOpen
+        txComment: $txComment
+        tpMedia: $tpMedia
+        mediaData: $mediaData
+      )
+    }
+    """
+
+  public let operationName: String = "SetOpenIncident"
+
+  public var cdSegment: Int
+  public var locCoord: Coordinate
+  public var dcAddress: String
+  public var dcCity: String
+  public var dcState: String
+  public var dcCountry: String
+  public var dcNeighborhood: String
+  public var dcZipCode: String
+  public var occurrencesIds: [GraphQLID]
+  public var citizenId: GraphQLID
+  public var dtOpen: ISODate
+  public var txComment: String
+  public var tpMedia: TPMEDIA_ENUM
+  public var mediaData: [Upload]?
+
+  public init(cdSegment: Int, locCoord: Coordinate, dcAddress: String, dcCity: String, dcState: String, dcCountry: String, dcNeighborhood: String, dcZipCode: String, occurrencesIds: [GraphQLID], citizenId: GraphQLID, dtOpen: ISODate, txComment: String, tpMedia: TPMEDIA_ENUM, mediaData: [Upload]?) {
+    self.cdSegment = cdSegment
+    self.locCoord = locCoord
+    self.dcAddress = dcAddress
+    self.dcCity = dcCity
+    self.dcState = dcState
+    self.dcCountry = dcCountry
+    self.dcNeighborhood = dcNeighborhood
+    self.dcZipCode = dcZipCode
+    self.occurrencesIds = occurrencesIds
+    self.citizenId = citizenId
+    self.dtOpen = dtOpen
+    self.txComment = txComment
+    self.tpMedia = tpMedia
+    self.mediaData = mediaData
+  }
+
+  public var variables: GraphQLMap? {
+    return ["cdSegment": cdSegment, "locCoord": locCoord, "dcAddress": dcAddress, "dcCity": dcCity, "dcState": dcState, "dcCountry": dcCountry, "dcNeighborhood": dcNeighborhood, "dcZipCode": dcZipCode, "occurrencesIds": occurrencesIds, "citizenId": citizenId, "dtOpen": dtOpen, "txComment": txComment, "tpMedia": tpMedia, "mediaData": mediaData]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Mutation"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("openIncident", arguments: ["cdSegment": GraphQLVariable("cdSegment"), "locationCoordinates": GraphQLVariable("locCoord"), "locationText": ["dcAddress": GraphQLVariable("dcAddress"), "nrAddress": " ", "dcCity": GraphQLVariable("dcCity"), "dcState": GraphQLVariable("dcState"), "dcCountry": GraphQLVariable("dcCountry"), "dcNeighborhood": GraphQLVariable("dcNeighborhood"), "dcZipCode": GraphQLVariable("dcZipCode")], "occurrencesIds": GraphQLVariable("occurrencesIds"), "citizenId": GraphQLVariable("citizenId"), "dtOpen": GraphQLVariable("dtOpen"), "txComment": GraphQLVariable("txComment"), "tpMedia": GraphQLVariable("tpMedia"), "mediaData": GraphQLVariable("mediaData")], type: .nonNull(.scalar(Bool.self))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(openIncident: Bool) {
+      self.init(unsafeResultMap: ["__typename": "Mutation", "openIncident": openIncident])
+    }
+
+    public var openIncident: Bool {
+      get {
+        return resultMap["openIncident"]! as! Bool
+      }
+      set {
+        resultMap.updateValue(newValue, forKey: "openIncident")
       }
     }
   }

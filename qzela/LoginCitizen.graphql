@@ -1,0 +1,21 @@
+mutation LoginCitizen(
+    $email: String!
+    $password: String!
+    $deviceId: String!
+    $devicePlatform: String!
+    $language: String!
+    $notificationId: String!
+){
+    loginCitizen(
+        email: $email
+        pass: $password
+        deviceId: $deviceId
+        devicePlatform: $devicePlatform
+        language: $language
+        notificationId: $notificationId
+    )
+    {
+        accessToken
+        userId
+    }
+}

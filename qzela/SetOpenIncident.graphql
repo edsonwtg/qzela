@@ -1,0 +1,36 @@
+mutation SetOpenIncident(
+    $cdSegment: Int!,
+    $locCoord: Coordinate!,
+    $dcAddress: String!,
+    $dcCity: String!,
+    $dcState: String!
+    $dcCountry: String!,
+    $dcNeighborhood: String!,
+    $dcZipCode: String!,
+    $occurrencesIds: [ID!]!,
+    $citizenId: ID!,
+    $dtOpen: ISODate!,
+    $txComment: String!,
+    $tpMedia: TPMEDIA_ENUM!,
+    $mediaData: [Upload!],
+    ) {
+    openIncident(
+        cdSegment: $cdSegment,
+        locationCoordinates: $locCoord,
+        locationText:{
+            dcAddress: $dcAddress,
+            nrAddress: " ",
+            dcCity: $dcCity,
+            dcState: $dcState,
+            dcCountry: $dcCountry,
+            dcNeighborhood: $dcNeighborhood,
+            dcZipCode: $dcZipCode
+        },
+       occurrencesIds: $occurrencesIds,
+       citizenId: $citizenId,
+       dtOpen: $dtOpen,
+       txComment: $txComment,
+       tpMedia: $tpMedia,
+       mediaData: $mediaData
+    )
+}
