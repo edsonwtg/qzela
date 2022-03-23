@@ -697,14 +697,14 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="OccurrenceSegmentCell" id="qfN-fl-fho" customClass="OccurrenceSegmentCell" customModule="qzela" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="45.5" height="20"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="61.5" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="OaF-RE-ixb">
-                                            <rect key="frame" x="0.0" y="0.0" width="45.5" height="20"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="61.5" height="20"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="De7-sj-Tp5" userLabel="Occurrence Label" customClass="EdgeInsetLabel" customModule="qzela" customModuleProvider="target">
-                                                    <rect key="frame" x="5" y="0.0" width="35.5" height="20"/>
+                                                    <rect key="frame" x="5" y="0.0" width="51.5" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="UPr-s9-SuM"/>
                                                     </constraints>

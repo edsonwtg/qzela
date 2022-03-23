@@ -33,8 +33,8 @@ class LoginViewController: UIViewController {
 //            Config.SAV_ACCESS_TOKEN = "121436c7d02486ee124049af1e8aa35ff9c003125baa77c9e4e6ce6a6dd6aa51ebd8b26f880a05d279f1c5cac3e6b716970657c48c01d9077ab8c1ce784993b62eec46e9e168e5a6c53abdadb5b44121be25b149538b771d3a5c6d7b55ec2260d2c32ad16598d3495c2ddc211589bd59"
 //            Config.SAV_CD_USUARIO = "5d987cacdef23b533dd00a36"
             // Edson Rocha Teste
-            Config.SAV_ACCESS_TOKEN = "43f645701012ff0c8eba4f7bb4fde5e69c4847c81da34d3a92c09e1e68a24abd2a582af01ae9f77e848f5d5cc84845ec834852ea142e8b0e70cfd6a636fe028461e7a7840d33207d8e021585823113d79551d545888e8af06c18c96854bfd49f"
-            Config.SAV_CD_USUARIO = "5ec7cd72d625e878ab3dc70f"
+                            //            Config.SAV_ACCESS_TOKEN = "43f645701012ff0c8eba4f7bb4fde5e69c4847c81da34d3a92c09e1e68a24abd2a582af01ae9f77e848f5d5cc84845ec834852ea142e8b0e70cfd6a636fe028461e7a7840d33207d8e021585823113d79551d545888e8af06c18c96854bfd49f"
+                            //            Config.SAV_CD_USUARIO = "5ec7cd72d625e878ab3dc70f"
             Config.SAV_DC_EMAIL = "edsonrocha@teste.com";
             Config.SAV_DC_SENHA = "123456";
             Config.SAV_OUTER_AUTH = 0;
@@ -57,50 +57,67 @@ class LoginViewController: UIViewController {
 //            "devicePlatform": "Android",
 //            "language" : "en_US",
 //            "notificationId": "cFFwwH5Q58gsdVOq_fnMoM:APA91bHPmhZrQMucXGSj5D4P2lRRxifNWvxOWoNo7t0NNbCNuhLZS22jMThVI5h7tYzYLhkbOz9J9V7pBl73KO2St8CFQpLLVbF2K82WGzP6s0CHb8H1_9AbVXP5M4PXMD8DsdfYmYPk"
-            Config.userDefaults.set(Config.SAV_ACCESS_TOKEN, forKey: "accessToken")
-            Config.userDefaults.set(Config.SAV_CD_USUARIO, forKey: "cdUser")
-            Config.userDefaults.set(Config.SAV_DC_EMAIL, forKey: "dcEmail")
-            Config.userDefaults.set(Config.SAV_DC_SENHA, forKey: "dcSenha")
-            Config.userDefaults.set(Config.SAV_OUTER_AUTH, forKey: "outherOAuth")
         }
-        Config.SAV_ACCESS_TOKEN = "43f645701012ff0c8eba4f7bb4fde5e69c4847c81da34d3a92c09e1e68a24abd2a582af01ae9f77e848f5d5cc84845ec834852ea142e8b0e70cfd6a636fe028461e7a7840d33207d8e021585823113d79551d545888e8af06c18c96854bfd49f"
-        Config.SAV_CD_USUARIO = "5ec7cd72d625e878ab3dc70f"
+        Config.SAV_ACCESS_TOKEN = ""
+        Config.SAV_CD_USUARIO = ""
         Config.SAV_DC_EMAIL = "edsonrocha@teste.com";
         Config.SAV_DC_SENHA = "123456";
         Config.SAV_OUTER_AUTH = 0;
         Config.SAV_NOTIFICATION_ID = "cFFwwH5Q58gsdVOq_fnMoM:APA91bHPmhZrQMucXGSj5D4P2lRRxifNWvxOWoNo7t0NNbCNuhLZS22jMThVI5h7tYzYLhkbOz9J9V7pBl73KO2St8CFQpLLVbF2K82WGzP6s0CHb8H1_9AbVXP5M4PXMD8DsdfYmYPk";
-        Config.userDefaults.set(Config.SAV_ACCESS_TOKEN, forKey: "accessToken")
-        Config.userDefaults.set(Config.SAV_CD_USUARIO, forKey: "cdUser")
-        Config.userDefaults.set(Config.SAV_DC_EMAIL, forKey: "dcEmail")
-        Config.userDefaults.set(Config.SAV_DC_SENHA, forKey: "dcSenha")
-        Config.userDefaults.set(Config.SAV_OUTER_AUTH, forKey: "outherOAuth")
 
-        ApolloIOS.shared.apollo.perform(mutation: LoginCitizenMutation(
+        let login  = Login()
+        login.getLogin(
                 email: Config.SAV_DC_EMAIL,
                 password: Config.SAV_DC_SENHA,
-                deviceId: "bc1692b6e90631f0",
-                devicePlatform: "Ios",
-                language: "en_US",
-                notificationId: Config.SAV_NOTIFICATION_ID)
-        ) { result in
-            switch result {
-            case .success(let graphQLResult):
-                print("Success! Result: \(graphQLResult)")
-                if (graphQLResult.data != nil) {
-                    Config.SAV_ACCESS_TOKEN = (graphQLResult.data?.loginCitizen.accessToken)!
-                    Config.SAV_CD_USUARIO = (graphQLResult.data?.loginCitizen.userId)!
-                    self.gotoNewRootViewController(viewController: "TabBarController")
-                }
-                if (graphQLResult.errors != nil) {
-                    if (graphQLResult.errors?.description == "[You are already logged in!]") {
-                        self.gotoNewRootViewController(viewController: "TabBarController")
-                    }
-                    print("ERROR: \(String(describing: graphQLResult.errors?.description))")
-                }
-            case .failure(let error):
-                print("Failure! Error: \(error)")
+                notificationId: Config.SAV_NOTIFICATION_ID
+        ){ result in
+           if !(login.getMessage() == "Login Ok") {
+                self.showAlert(title: "text_warning".localized(),
+                        message: login.getMessage().localized(),
+                        type: .attention,
+                        actionTitles: ["text_got_it".localized()],
+                        style: [.default],
+                        actions: [nil]
+                )
+                return
+            } else {
+                Config.SAV_ACCESS_TOKEN = login.getAccessToken()
+                Config.SAV_CD_USUARIO = login.getUserId()
+                Config.userDefaults.set(Config.SAV_ACCESS_TOKEN, forKey: "accessToken")
+                Config.userDefaults.set(Config.SAV_CD_USUARIO, forKey: "cdUser")
+                Config.userDefaults.set(Config.SAV_DC_EMAIL, forKey: "dcEmail")
+                Config.userDefaults.set(Config.SAV_DC_SENHA, forKey: "dcSenha")
+                Config.userDefaults.set(Config.SAV_OUTER_AUTH, forKey: "outherOAuth")
+                self.gotoNewRootViewController(viewController: "TabBarController")
             }
         }
+
+//        ApolloIOS.shared.apollo.perform(mutation: LoginCitizenMutation(
+//                email: Config.SAV_DC_EMAIL,
+//                password: Config.SAV_DC_SENHA,
+//                deviceId: "bc1692b6e90631f0",
+//                devicePlatform: "Ios",
+//                language: "en_US",
+//                notificationId: Config.SAV_NOTIFICATION_ID)
+//        ) { result in
+//            switch result {
+//            case .success(let graphQLResult):
+//                print("Success! Result: \(graphQLResult)")
+//                if (graphQLResult.data != nil) {
+//                    Config.SAV_ACCESS_TOKEN = (graphQLResult.data?.loginCitizen.accessToken)!
+//                    Config.SAV_CD_USUARIO = (graphQLResult.data?.loginCitizen.userId)!
+//                    self.gotoNewRootViewController(viewController: "TabBarController")
+//                }
+//                if (graphQLResult.errors != nil) {
+//                    if (graphQLResult.errors?.description == "[You are already logged in!]") {
+//                        self.gotoNewRootViewController(viewController: "TabBarController")
+//                    }
+//                    print("ERROR: \(String(describing: graphQLResult.errors?.description))")
+//                }
+//            case .failure(let error):
+//                print("Failure! Error: \(error)")
+//            }
+//        }
     }
 
     func gotoNewRootViewController(viewController: String) {

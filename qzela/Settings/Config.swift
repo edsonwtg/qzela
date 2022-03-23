@@ -11,6 +11,7 @@ import CoreLocation
 import FirebaseStorage
 import NVActivityIndicatorView
 import AVFoundation
+import DeviceCheck
 
 class Config {
 
@@ -75,9 +76,30 @@ class Config {
     static var SAV_DC_SENHA: String = ""
     static var SAV_OUTER_AUTH: Int = 0
     static var SAV_NOTIFICATION_ID: String = ""
+    static let SAV_DEVICE_PLATFORM = "Ios";
+
+    static let CURRENT_LANGUAGE = Locale.current.languageCode!+"_"+Locale.current.regionCode!
+    static var SAV_DEVICE_ID = UIDevice.current.identifierForVendor!.uuidString
+
+    func generateToken() {
+        let currentDevice = DCDevice.current
+        if currentDevice.isSupported {
+            currentDevice.generateToken(completionHandler: { (data, error) in
+                DispatchQueue.main.async {
+                    if (data != nil)  {
+                        Config.SAV_DEVICE_ID = data!.base64EncodedString()
+                    } else {
+                        Config.SAV_DEVICE_ID = UIDevice.current.identifierForVendor!.uuidString
+                    }
+                }
+            })
+        } else {
+            Config.SAV_DEVICE_ID = UIDevice.current.identifierForVendor!.uuidString
+        }
+    }
+
 
     static let userDefaults = UserDefaults.standard
-
     func getUserDefaults() {
 
         if (Config.userDefaults.string(forKey: "accessToken") == nil) {

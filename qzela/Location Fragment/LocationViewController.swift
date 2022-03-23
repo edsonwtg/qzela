@@ -236,18 +236,6 @@ class LocationViewController: UIViewController {
             print("Bairro: \(addressGeocoding.district)");
             print("CEP: \(addressGeocoding.postalCode)")
             sendImages()
-//            let secondsToDelay = 3.0
-//            DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-//                self.LoadingStop()
-//                self.LoadingStart(title: "Obrigado",
-//                        message: "Incident enviado",
-//                        style: .alert,
-//                        type: .message)
-//                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-//                    self.btContinue.isEnabled = true
-//                    self.LoadingStop()
-//                }
-//            }
         case "btOk":
             print("btOk")
             if (Config.SEGMENT_HIGHWAY.contains(segmentId) &&  postalcodeTextField.text == "") {
@@ -317,16 +305,19 @@ class LocationViewController: UIViewController {
             case .failure(let error):
                 print("Failure! Error: \(error)")
             }
-        }
-        let secondsToDelay = 3.0
-        self.LoadingStop()
-        self.LoadingStart(title: "Obrigado",
-                message: "Incident enviado",
-                style: .alert,
-                type: .message)
-        DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-            self.btContinue.isEnabled = true
             self.LoadingStop()
+            DispatchQueue.main.async {
+                let secondsToDelay = 3.0
+                self.LoadingStart(title: "Obrigado",
+                        message: "Incident enviado",
+                        style: .alert,
+                        type: .message)
+                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                    self.LoadingStop()
+                    Config.backSaveIncident = true
+                    self.gotoNewRootViewController(viewController: "TabBarController")
+                }
+            }
         }
 }
 
@@ -579,6 +570,13 @@ class LocationViewController: UIViewController {
             }
             self.dispatchGroupGeocoding.leave()
         }
+    }
+
+    func gotoNewRootViewController(viewController: String) {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let viewController = storyBoard.instantiateViewController(withIdentifier: viewController)
+        self.view.window?.rootViewController = viewController
+        self.view.window?.makeKeyAndVisible()
     }
 }
 

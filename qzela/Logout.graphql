@@ -1,0 +1,7 @@
+mutation Logout(
+    $citizenId: ID!
+){
+    logoutCitizen(
+        citizenId: $citizenId
+    )
+}

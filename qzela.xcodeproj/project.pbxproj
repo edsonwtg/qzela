@@ -50,10 +50,12 @@
 		B2D3E7237D3B243ED42B4D73 /* GPSLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3ED601C88EF9BE044AECD /* GPSLocation.swift */; };
 		B2D3E7262F2984F7F2139C93 /* GraphqlScalarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3EE9A537C746BDEFEFAA2 /* GraphqlScalarExtension.swift */; };
 		B2D3E7B24377AAF36C7DD538 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E431C955F0AB91490A2C /* UITextFieldExtension.swift */; };
+		B2D3EA4FDC9FDC616736301C /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E2C851417C8BAFE9F5C4 /* Login.swift */; };
 		B2D3EAA0F043354C8A46A05D /* SetOpenIncident.graphql in Resources */ = {isa = PBXBuildFile; fileRef = B2D3EDFB1FD064F089E33109 /* SetOpenIncident.graphql */; };
 		B2D3EC20D55F8424E47351D4 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E046968EF6A49E0AAF99 /* UIColorExtension.swift */; };
 		B2D3ECB81EA2E05970A48DA1 /* OccurrenceSegmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3EDF848DDF994819940A2 /* OccurrenceSegmentCell.swift */; };
 		B2D3ED42769AEFDDC100F4CF /* LocalizationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E0D39CCE03E6C8736CF7 /* LocalizationExtension.swift */; };
+		B2D3EE5CCE9B6B04309BEE5E /* Logout.graphql in Resources */ = {isa = PBXBuildFile; fileRef = B2D3E8B34787366AAD1F4377 /* Logout.graphql */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -104,10 +106,12 @@
 		B2D3E0D96DB45256ED141B9A /* LoginCitizen.graphql */ = {isa = PBXFileReference; lastKnownFileType = file.graphql; path = LoginCitizen.graphql; sourceTree = "<group>"; };
 		B2D3E12913FCACC0982F50C2 /* HomeMoving.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = HomeMoving.gpx; sourceTree = "<group>"; };
 		B2D3E22C054A35B8E76D21EC /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		B2D3E2C851417C8BAFE9F5C4 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		B2D3E431C955F0AB91490A2C /* UITextFieldExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
 		B2D3E653E237C2B851CBE136 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		B2D3E7542E8F732C5F399FA3 /* NetworkListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkListener.swift; sourceTree = "<group>"; };
 		B2D3E77BAEA6EF84235E53B8 /* NearHome.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = NearHome.gpx; sourceTree = "<group>"; };
+		B2D3E8B34787366AAD1F4377 /* Logout.graphql */ = {isa = PBXFileReference; lastKnownFileType = file.graphql; path = Logout.graphql; sourceTree = "<group>"; };
 		B2D3EC3FA1A2DFB430A52E3A /* LocationOther.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = LocationOther.gpx; sourceTree = "<group>"; };
 		B2D3ED601C88EF9BE044AECD /* GPSLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPSLocation.swift; sourceTree = "<group>"; };
 		B2D3EDF848DDF994819940A2 /* OccurrenceSegmentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OccurrenceSegmentCell.swift; sourceTree = "<group>"; };
@@ -254,6 +258,7 @@
 				B2D3E77BAEA6EF84235E53B8 /* NearHome.gpx */,
 				B2D3E7542E8F732C5F399FA3 /* NetworkListener.swift */,
 				6F9C2B3C279B470200A87D66 /* SpinnerViewController.swift */,
+				B2D3E2C851417C8BAFE9F5C4 /* Login.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -314,6 +319,7 @@
 				B2D3E22C054A35B8E76D21EC /* Main.storyboard */,
 				B2D3EDFB1FD064F089E33109 /* SetOpenIncident.graphql */,
 				B2D3E0D96DB45256ED141B9A /* LoginCitizen.graphql */,
+				B2D3E8B34787366AAD1F4377 /* Logout.graphql */,
 			);
 			path = qzela;
 			sourceTree = "<group>";
@@ -438,6 +444,7 @@
 				B2D3E606B79624A8328A4765 /* NearHome.gpx in Resources */,
 				B2D3EAA0F043354C8A46A05D /* SetOpenIncident.graphql in Resources */,
 				B2D3E58AD8499D2AFA343C58 /* LoginCitizen.graphql in Resources */,
+				B2D3EE5CCE9B6B04309BEE5E /* Logout.graphql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,6 +567,7 @@
 				B2D3E4F87AA88C5CE6D9C655 /* SegmentsData.swift in Sources */,
 				B2D3E4E7EE493C86327BD114 /* OccurrencesData.swift in Sources */,
 				B2D3E7B24377AAF36C7DD538 /* UITextFieldExtension.swift in Sources */,
+				B2D3EA4FDC9FDC616736301C /* Login.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

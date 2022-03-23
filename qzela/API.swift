@@ -1061,6 +1061,57 @@ public final class LoginCitizenMutation: GraphQLMutation {
   }
 }
 
+public final class LogoutMutation: GraphQLMutation {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    mutation Logout($citizenId: ID!) {
+      logoutCitizen(citizenId: $citizenId)
+    }
+    """
+
+  public let operationName: String = "Logout"
+
+  public var citizenId: GraphQLID
+
+  public init(citizenId: GraphQLID) {
+    self.citizenId = citizenId
+  }
+
+  public var variables: GraphQLMap? {
+    return ["citizenId": citizenId]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Mutation"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("logoutCitizen", arguments: ["citizenId": GraphQLVariable("citizenId")], type: .nonNull(.scalar(Bool.self))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(logoutCitizen: Bool) {
+      self.init(unsafeResultMap: ["__typename": "Mutation", "logoutCitizen": logoutCitizen])
+    }
+
+    public var logoutCitizen: Bool {
+      get {
+        return resultMap["logoutCitizen"]! as! Bool
+      }
+      set {
+        resultMap.updateValue(newValue, forKey: "logoutCitizen")
+      }
+    }
+  }
+}
+
 public final class SetOpenIncidentMutation: GraphQLMutation {
   /// The raw GraphQL definition of this operation.
   public let operationDefinition: String =
