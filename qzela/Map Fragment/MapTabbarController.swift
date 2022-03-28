@@ -330,7 +330,7 @@ class MapTabbarController: UIViewController {
                 already: alreadyGetIncidents), cachePolicy: .fetchIgnoringCacheData){ [unowned self] result in
             switch result {
             case .success(let graphQLResult):
-//                print("Success! Result: \(graphQLResult)")
+                print("Success! Result: \(graphQLResult)")
                 if let viewport = graphQLResult.data?.getIncidentsByViewport.data.compactMap({ $0 }) {
                     for resultApi in viewport {
                         alreadyGetIncidents.append(resultApi._id);
@@ -345,6 +345,32 @@ class MapTabbarController: UIViewController {
                     aiLoadingData.stopAnimating()
                     // print("******** GetViewport - END **********")
                 } else if let errors = graphQLResult.errors {
+                    if (errors.first?.message == "1 - You must supply a valid token to access this resource!") {
+                        print("******** LOGIN AGAIN **********")
+                        let login  = Login()
+                        login.getLogin(
+                                email: Config.SAV_DC_EMAIL,
+                                password: Config.SAV_DC_SENHA,
+                                notificationId: Config.SAV_NOTIFICATION_ID
+                        ){ result in
+                            if !(login.getMessage() == "Login Ok") {
+                                self.showAlert(title: "text_warning".localized(),
+                                        message: login.getMessage().localized(),
+                                        type: .attention,
+                                        actionTitles: ["text_got_it".localized()],
+                                        style: [.default],
+                                        actions: [nil]
+                                )
+                                return
+                            } else {
+                                Config.SAV_ACCESS_TOKEN = login.getAccessToken()
+                                Config.SAV_CD_USUARIO = login.getUserId()
+                                Config.userDefaults.set(Config.SAV_ACCESS_TOKEN, forKey: "accessToken")
+                                Config.userDefaults.set(Config.SAV_CD_USUARIO, forKey: "cdUser")
+                                self.getIncidentViewport()
+                           }
+                        }
+                    }
                     print("******** ERROR Loading DATA**********")
                     print(errors)
                     aiLoadingData.stopAnimating()

@@ -153,7 +153,7 @@
                                                             </userDefinedRuntimeAttributes>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Registrada" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="XkN-5X-OpC" customClass="EdgeInsetLabel" customModule="qzela" customModuleProvider="target">
-                                                            <rect key="frame" x="144.5" y="130" width="81.5" height="22.5"/>
+                                                            <rect key="frame" x="160.5" y="138" width="65.5" height="14.5"/>
                                                             <color key="backgroundColor" systemColor="tintColor"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -341,14 +341,14 @@
                                         </collectionViewFlowLayout>
                                         <cells>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="OccurrenceCollectionViewCell" id="86M-xL-J7o" customClass="OccurrenceCollectionViewCell" customModule="qzela" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="61.5" height="20"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="45.5" height="20"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="7pD-5R-r6k">
-                                                    <rect key="frame" x="0.0" y="0.0" width="61.5" height="20"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="45.5" height="20"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="4iu-bD-k5g" userLabel="Tag Label" customClass="EdgeInsetLabel" customModule="qzela" customModuleProvider="target">
-                                                            <rect key="frame" x="5" y="0.0" width="51.5" height="20"/>
+                                                            <rect key="frame" x="5" y="0.0" width="35.5" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="U6H-hb-sBb"/>
                                                             </constraints>
@@ -704,7 +704,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="De7-sj-Tp5" userLabel="Occurrence Label" customClass="EdgeInsetLabel" customModule="qzela" customModuleProvider="target">
-                                                    <rect key="frame" x="5" y="0.0" width="51.5" height="20"/>
+                                                    <rect key="frame" x="5" y="0.0" width="35.5" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="UPr-s9-SuM"/>
                                                     </constraints>
@@ -1099,25 +1099,12 @@
                                     <action selector="btnGotoMap:" destination="Aee-KM-AoL" eventType="touchUpInside" id="d2v-OA-be5"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U81-bc-nnr">
-                                <rect key="frame" x="150" y="447" width="114" height="31"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Go to Preview">
-                                    <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="btGotoNotification:" destination="Aee-KM-AoL" eventType="touchUpInside" id="TZJ-XP-Nzf"/>
-                                    <action selector="btGotoNotification:" destination="qtM-I9-seE" eventType="touchUpInside" id="bcN-G9-hmc"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ibb-vQ-N1X"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="U81-bc-nnr" firstAttribute="centerX" secondItem="tvf-wd-c0A" secondAttribute="centerX" id="8SY-tL-nCe"/>
                             <constraint firstItem="Ebv-ok-wde" firstAttribute="centerY" secondItem="tvf-wd-c0A" secondAttribute="centerY" id="OC6-fL-1yc"/>
                             <constraint firstItem="Ebv-ok-wde" firstAttribute="centerX" secondItem="tvf-wd-c0A" secondAttribute="centerX" id="PGl-5J-krD"/>
-                            <constraint firstItem="U81-bc-nnr" firstAttribute="top" secondItem="Ebv-ok-wde" secondAttribute="bottom" constant="25" id="jTy-rE-1O5"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Dashboard" id="8t8-Xb-bW9">
@@ -1321,25 +1308,12 @@
                                     <action selector="btnGotoDashboard:" destination="s3p-X1-4zQ" eventType="touchUpInside" id="5JP-bE-TmM"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bs5-xD-yt5">
-                                <rect key="frame" x="150" y="447" width="114" height="31"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Go to Preview">
-                                    <color key="baseBackgroundColor" systemColor="systemGray2Color"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="btGotoNotification:" destination="s3p-X1-4zQ" eventType="touchUpInside" id="O1G-2t-QV7"/>
-                                    <action selector="btGotoNotification:" destination="qtM-I9-seE" eventType="touchUpInside" id="bnP-nh-Eo3"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="0Hb-aM-aYB"/>
                         <color key="backgroundColor" systemColor="systemYellowColor"/>
                         <constraints>
                             <constraint firstItem="9Hm-YJ-y0k" firstAttribute="centerX" secondItem="Ehn-Es-Zyw" secondAttribute="centerX" id="NLG-WH-1Zq"/>
-                            <constraint firstItem="bs5-xD-yt5" firstAttribute="top" secondItem="9Hm-YJ-y0k" secondAttribute="bottom" constant="25" id="OHh-ux-Xi9"/>
                             <constraint firstItem="9Hm-YJ-y0k" firstAttribute="centerY" secondItem="Ehn-Es-Zyw" secondAttribute="centerY" id="bJf-aL-NYp"/>
-                            <constraint firstItem="bs5-xD-yt5" firstAttribute="centerX" secondItem="Ehn-Es-Zyw" secondAttribute="centerX" id="crg-dc-Z51"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" id="X32-Qc-8Kf">

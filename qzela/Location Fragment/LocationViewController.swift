@@ -338,7 +338,7 @@ class LocationViewController: UIViewController {
                 fileRef = storageRef.child(Config.INCIDENTS_IMAGES_PATH + buketDirectory + "vid_open_" + String(i) + ".jpg")
             }
             fileRef.putFile(from: url as URL, metadata: metadata) { metadata, error in
-                guard let metadata = metadata else {
+                guard metadata != nil else {
                     print("Uh-oh, an error occurred!")
                     return
                 }
