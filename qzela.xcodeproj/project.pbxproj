@@ -30,9 +30,7 @@
 		6FDE7622274816AE0050510C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE7621274816AE0050510C /* SceneDelegate.swift */; };
 		6FDE7624274816AE0050510C /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE7623274816AE0050510C /* TabBarController.swift */; };
 		6FDE7629274816AF0050510C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6FDE7628274816AF0050510C /* Assets.xcassets */; };
-		6FDE763F274853D20050510C /* DashboardTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE763E274853D20050510C /* DashboardTabbarController.swift */; };
 		6FDE7641274853FF0050510C /* MapTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE7640274853FF0050510C /* MapTabbarController.swift */; };
-		6FDE76432748541A0050510C /* ProfileTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE76422748541A0050510C /* ProfileTabbarController.swift */; };
 		6FDE7646274976950050510C /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE7645274976950050510C /* Config.swift */; };
 		6FDE764827498E6C0050510C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE764727498E6C0050510C /* LoginViewController.swift */; };
 		6FDE764A27498E830050510C /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE764927498E830050510C /* NotificationViewController.swift */; };
@@ -52,7 +50,9 @@
 		B2D3E7B24377AAF36C7DD538 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E431C955F0AB91490A2C /* UITextFieldExtension.swift */; };
 		B2D3EA4FDC9FDC616736301C /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E2C851417C8BAFE9F5C4 /* Login.swift */; };
 		B2D3EAA0F043354C8A46A05D /* SetOpenIncident.graphql in Resources */ = {isa = PBXBuildFile; fileRef = B2D3EDFB1FD064F089E33109 /* SetOpenIncident.graphql */; };
+		B2D3EB3238FBCFBD1D57E56E /* ProfileTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E45F360670433B85C816 /* ProfileTabbarController.swift */; };
 		B2D3EC20D55F8424E47351D4 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E046968EF6A49E0AAF99 /* UIColorExtension.swift */; };
+		B2D3EC6910D4FCC55DB6CEF3 /* DashboardTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E63EE4256D00455D7EB1 /* DashboardTabbarController.swift */; };
 		B2D3ECB81EA2E05970A48DA1 /* OccurrenceSegmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3EDF848DDF994819940A2 /* OccurrenceSegmentCell.swift */; };
 		B2D3ED42769AEFDDC100F4CF /* LocalizationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E0D39CCE03E6C8736CF7 /* LocalizationExtension.swift */; };
 		B2D3EE5CCE9B6B04309BEE5E /* Logout.graphql in Resources */ = {isa = PBXBuildFile; fileRef = B2D3E8B34787366AAD1F4377 /* Logout.graphql */; };
@@ -93,9 +93,7 @@
 		6FDE7623274816AE0050510C /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		6FDE7628274816AF0050510C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6FDE762D274816AF0050510C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6FDE763E274853D20050510C /* DashboardTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardTabbarController.swift; sourceTree = "<group>"; };
 		6FDE7640274853FF0050510C /* MapTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTabbarController.swift; sourceTree = "<group>"; };
-		6FDE76422748541A0050510C /* ProfileTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabbarController.swift; sourceTree = "<group>"; };
 		6FDE7645274976950050510C /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		6FDE764727498E6C0050510C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		6FDE764927498E830050510C /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
@@ -109,6 +107,8 @@
 		B2D3E22C054A35B8E76D21EC /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B2D3E2C851417C8BAFE9F5C4 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		B2D3E431C955F0AB91490A2C /* UITextFieldExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
+		B2D3E45F360670433B85C816 /* ProfileTabbarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTabbarController.swift; sourceTree = "<group>"; };
+		B2D3E63EE4256D00455D7EB1 /* DashboardTabbarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardTabbarController.swift; sourceTree = "<group>"; };
 		B2D3E653E237C2B851CBE136 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		B2D3E7542E8F732C5F399FA3 /* NetworkListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkListener.swift; sourceTree = "<group>"; };
 		B2D3E77BAEA6EF84235E53B8 /* NearHome.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = NearHome.gpx; sourceTree = "<group>"; };
@@ -323,6 +323,8 @@
 				B2D3EDFB1FD064F089E33109 /* SetOpenIncident.graphql */,
 				B2D3E0D96DB45256ED141B9A /* LoginCitizen.graphql */,
 				B2D3E8B34787366AAD1F4377 /* Logout.graphql */,
+				B2D3E694DE9B65DECC7202CF /* Dashboard Fragment */,
+				B2D3E3A2664ECBC7681F2938 /* Profile Fragment */,
 			);
 			path = qzela;
 			sourceTree = "<group>";
@@ -348,10 +350,16 @@
 			isa = PBXGroup;
 			children = (
 				6FDE7623274816AE0050510C /* TabBarController.swift */,
-				6FDE763E274853D20050510C /* DashboardTabbarController.swift */,
-				6FDE76422748541A0050510C /* ProfileTabbarController.swift */,
 			);
 			path = "Tabbar Controllers";
+			sourceTree = "<group>";
+		};
+		B2D3E3A2664ECBC7681F2938 /* Profile Fragment */ = {
+			isa = PBXGroup;
+			children = (
+				B2D3E45F360670433B85C816 /* ProfileTabbarController.swift */,
+			);
+			path = "Profile Fragment";
 			sourceTree = "<group>";
 		};
 		B2D3E51884172BDAE62B417E /* Pods */ = {
@@ -361,6 +369,14 @@
 				B2D3E8D79BEF72A040E4CBD7 /* Pods-qzela.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		B2D3E694DE9B65DECC7202CF /* Dashboard Fragment */ = {
+			isa = PBXGroup;
+			children = (
+				B2D3E63EE4256D00455D7EB1 /* DashboardTabbarController.swift */,
+			);
+			path = "Dashboard Fragment";
 			sourceTree = "<group>";
 		};
 		B2D3EBA0FEE20A16764AEFD8 /* Models */ = {
@@ -545,7 +561,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6FDE7641274853FF0050510C /* MapTabbarController.swift in Sources */,
-				6FDE763F274853D20050510C /* DashboardTabbarController.swift in Sources */,
 				6FC0E18F27888953006B8772 /* OccurrenceCollectionViewCell.swift in Sources */,
 				6F499269277A373700C2515F /* UIViewExtension.swift in Sources */,
 				6FDE7624274816AE0050510C /* TabBarController.swift in Sources */,
@@ -557,7 +572,6 @@
 				6FA6AAA1275D725C0099F318 /* API.swift in Sources */,
 				6FDE764827498E6C0050510C /* LoginViewController.swift in Sources */,
 				6FDE764A27498E830050510C /* NotificationViewController.swift in Sources */,
-				6FDE76432748541A0050510C /* ProfileTabbarController.swift in Sources */,
 				6F573203276F9FE2007CF84C /* PhotoViewController.swift in Sources */,
 				6FDE7620274816AE0050510C /* AppDelegate.swift in Sources */,
 				6F9C2B3D279B470200A87D66 /* SpinnerViewController.swift in Sources */,
@@ -580,6 +594,8 @@
 				B2D3E4E7EE493C86327BD114 /* OccurrencesData.swift in Sources */,
 				B2D3E7B24377AAF36C7DD538 /* UITextFieldExtension.swift in Sources */,
 				B2D3EA4FDC9FDC616736301C /* Login.swift in Sources */,
+				B2D3EB3238FBCFBD1D57E56E /* ProfileTabbarController.swift in Sources */,
+				B2D3EC6910D4FCC55DB6CEF3 /* DashboardTabbarController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

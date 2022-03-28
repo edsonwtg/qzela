@@ -1,5 +1,5 @@
 //
-//  DashboardTabbarController.swift
+//  ProfileTabbarController.swift
 //  qzela
 //
 //  Created by Edson Rocha on 19/11/21.
@@ -7,18 +7,10 @@
 
 import UIKit
 
+class ProfileTabbarController: UIViewController {
 
-class DashboardTabbarController: UIViewController {
-    
-
-    @IBAction func btGotoNotification(_ sender: Any) {
-
-        gotoViewControllerWithBack(viewController: "PreviewViewController")
-
-    }
-
-    @IBAction func btnGotoMap(_ sender: Any) {
-        tabBarController?.selectedIndex = 1
+    @IBAction func btnGotoDashboard(_ sender: Any) {
+        tabBarController?.selectedIndex = 0
     }
     
     override func viewDidLoad() {
