@@ -132,7 +132,7 @@ class SegmentViewController: UIViewController {
                     aiLoadingData.stopAnimating()
                 }
             case .failure(let error):
-                print("Failure! Error: \(error)")
+                print("1- Failure! Error: \(error)")
                 aiLoadingData.stopAnimating()
             }
         }
@@ -187,7 +187,7 @@ class SegmentViewController: UIViewController {
                     print(errors)
                 }
             case .failure(let error):
-                print("Failure! Error: \(error)")
+                print("2- Failure! Error: \(error)")
             }
         }
         // print("******** getOccurrences - END **********")

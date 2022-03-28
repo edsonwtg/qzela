@@ -59,7 +59,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1FE902AEABB518A74248056A /* Pods-qzela.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qzela.release.xcconfig"; path = "Target Support Files/Pods-qzela/Pods-qzela.release.xcconfig"; sourceTree = "<group>"; };
+		2646426392D359D0DDEE7FDF /* Pods-qzela.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qzela.release.xcconfig"; path = "Target Support Files/Pods-qzela/Pods-qzela.release.xcconfig"; sourceTree = "<group>"; };
+		2CB0FB7AB48C9A02AAD5C16B /* Pods-qzela.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qzela.debug.xcconfig"; path = "Target Support Files/Pods-qzela/Pods-qzela.debug.xcconfig"; sourceTree = "<group>"; };
 		6F2FC9BA27622EE9004FDF52 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		6F4992642779D90700C2515F /* IncidentImageSlide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentImageSlide.swift; sourceTree = "<group>"; };
 		6F499266277A31D500C2515F /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
@@ -112,6 +113,8 @@
 		B2D3E7542E8F732C5F399FA3 /* NetworkListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkListener.swift; sourceTree = "<group>"; };
 		B2D3E77BAEA6EF84235E53B8 /* NearHome.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = NearHome.gpx; sourceTree = "<group>"; };
 		B2D3E8B34787366AAD1F4377 /* Logout.graphql */ = {isa = PBXFileReference; lastKnownFileType = file.graphql; path = Logout.graphql; sourceTree = "<group>"; };
+		B2D3E8D79BEF72A040E4CBD7 /* Pods-qzela.release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-qzela.release.xcconfig"; path = "Target Support Files/Pods-qzela/Pods-qzela.release.xcconfig"; sourceTree = "<group>"; };
+		B2D3EC006E813BCEDD5AB701 /* Pods-qzela.debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-qzela.debug.xcconfig"; path = "Target Support Files/Pods-qzela/Pods-qzela.debug.xcconfig"; sourceTree = "<group>"; };
 		B2D3EC3FA1A2DFB430A52E3A /* LocationOther.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = LocationOther.gpx; sourceTree = "<group>"; };
 		B2D3ED601C88EF9BE044AECD /* GPSLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPSLocation.swift; sourceTree = "<group>"; };
 		B2D3EDF848DDF994819940A2 /* OccurrenceSegmentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OccurrenceSegmentCell.swift; sourceTree = "<group>"; };
@@ -120,7 +123,6 @@
 		B2D3EE9A537C746BDEFEFAA2 /* GraphqlScalarExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphqlScalarExtension.swift; sourceTree = "<group>"; };
 		B2D3EF074CD0ED95359732D0 /* SegmentsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentsData.swift; sourceTree = "<group>"; };
 		B2D3EFC4FCA5CEEBC79A1FF1 /* OccurrencesData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OccurrencesData.swift; sourceTree = "<group>"; };
-		B71A0B62F87AE2EF3302AE73 /* Pods-qzela.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qzela.debug.xcconfig"; path = "Target Support Files/Pods-qzela/Pods-qzela.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,11 +137,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		010ECDEE095AE82A1D1709EF /* Pods */ = {
+		2EDDD1ACEB49CD3C9C2B8F74 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B71A0B62F87AE2EF3302AE73 /* Pods-qzela.debug.xcconfig */,
-				1FE902AEABB518A74248056A /* Pods-qzela.release.xcconfig */,
+				2CB0FB7AB48C9A02AAD5C16B /* Pods-qzela.debug.xcconfig */,
+				2646426392D359D0DDEE7FDF /* Pods-qzela.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -278,8 +280,8 @@
 				6F99B4602759727800B8A6FC /* mapstyle.json */,
 				6FDE761E274816AE0050510C /* qzela */,
 				6FDE761D274816AE0050510C /* Products */,
-				010ECDEE095AE82A1D1709EF /* Pods */,
 				C127EF4DADB25F149B8062E5 /* Frameworks */,
+				2EDDD1ACEB49CD3C9C2B8F74 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -287,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				6FDE761C274816AE0050510C /* qzela.app */,
+				B2D3E51884172BDAE62B417E /* Pods */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -351,6 +354,15 @@
 			path = "Tabbar Controllers";
 			sourceTree = "<group>";
 		};
+		B2D3E51884172BDAE62B417E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B2D3EC006E813BCEDD5AB701 /* Pods-qzela.debug.xcconfig */,
+				B2D3E8D79BEF72A040E4CBD7 /* Pods-qzela.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		B2D3EBA0FEE20A16764AEFD8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -400,7 +412,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1310;
-				LastUpgradeCheck = 1310;
+				LastUpgradeCheck = 1330;
 				TargetAttributes = {
 					6FDE761B274816AE0050510C = {
 						CreatedOnToolsVersion = 13.1;
@@ -592,6 +604,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -653,6 +666,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -706,7 +720,7 @@
 		};
 		6FDE7631274816AF0050510C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B71A0B62F87AE2EF3302AE73 /* Pods-qzela.debug.xcconfig */;
+			baseConfigurationReference = 2CB0FB7AB48C9A02AAD5C16B /* Pods-qzela.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -744,7 +758,7 @@
 		};
 		6FDE7632274816AF0050510C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1FE902AEABB518A74248056A /* Pods-qzela.release.xcconfig */;
+			baseConfigurationReference = 2646426392D359D0DDEE7FDF /* Pods-qzela.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

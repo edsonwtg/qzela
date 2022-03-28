@@ -55,7 +55,7 @@ class MapTabbarController: UIViewController {
         }
         // check if App start
         if Config.savApiCoordinate != nil {
-            print("***** startLocationUpdates *****")
+//            print("***** startLocationUpdates *****")
             gpsLocation.startLocationUpdates()
         }
         if (Config.backSaveIncident) {

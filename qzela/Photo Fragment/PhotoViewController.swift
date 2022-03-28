@@ -127,7 +127,7 @@ class PhotoViewController: UIViewController {
         }
         if (Config.deletePhoto != 0 ) {
             // print("************** PATH_TEMP_FILES ************")
-            config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+            //  config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
             if (bPhoto) {
                 // print("***** DELETE PHOTO: \(Config.deletePhoto) *****")
                 if (Config.deletePhoto == 1) {
@@ -176,7 +176,7 @@ class PhotoViewController: UIViewController {
             }
             Config.deletePhoto = 0
             // print("************** PATH_TEMP_FILES ************")
-            config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+            // config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
         }
     }
 
@@ -305,7 +305,7 @@ class PhotoViewController: UIViewController {
             let okActionHandler: (UIAlertAction) -> Void = {(action) in
                 self.config.cleanDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
                 // print("************** PATH_TEMP_FILES ************")
-                self.config.listDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
+                // self.config.listDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
                 self.tabBarController?.selectedIndex = 2
                 self.dismiss(animated: true, completion: nil)
             }
@@ -319,7 +319,7 @@ class PhotoViewController: UIViewController {
             let okActionHandler: (UIAlertAction) -> Void = {(action) in
                 self.config.cleanDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
                 // print("************** PATH_TEMP_FILES ************")
-                self.config.listDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
+                // self.config.listDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
                 self.tabBarController?.selectedIndex = 2
                 self.dismiss(animated: true, completion: nil)
             }
@@ -403,9 +403,9 @@ class PhotoViewController: UIViewController {
         case "btSave":
             // print("btSave")
             // print("************** PATH_TEMP_FILES ************")
-            config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+            // config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
             // print("************** PATH_SAVED_FILES ************")
-            config.listDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
+            // config.listDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
             var imageType: String!
             Config.saveImages.removeAll()
             if (bPhoto) {
@@ -468,7 +468,7 @@ class PhotoViewController: UIViewController {
             Config.userDefaults.set(data, forKey: "incidentSaved")
             Config.userDefaults.set(Config.saveQtdIncidents, forKey: "qtdIncidentSaved")
             // print("************** PATH_TEMP_FILES ************")
-            config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+            // config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
             // print("************** PATH_SAVED_FILES ************")
             config.listDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
 
@@ -650,7 +650,7 @@ class PhotoViewController: UIViewController {
 
         videoPathFile = NSURL.fileURL(withPath: Config.PATH_TEMP_FILES+"/"+imageFileName)
         // print("************** PATH_TEMP_FILES ************")
-        config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+        // config.listDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
         try? FileManager.default.removeItem(at: videoPathFile!)
         videoOutput.startRecording(to: videoPathFile!, recordingDelegate: self)
         startVideoRecordTimer()
@@ -671,19 +671,23 @@ class PhotoViewController: UIViewController {
 
         if (media == "photo") {
             var image: UIImage!
+            var imagePrefix: String!
             if (!bPhoto1) {
                 image = UIImage(named: "img_open_0")!
+                imagePrefix = "IMG_1_"
                 btSave.isEnabled = true
                 btContinue.isEnabled = true
             } else if (!bPhoto2) {
                 image = UIImage(named: "open_img_0")!
+                imagePrefix = "IMG_2_"
             } else if (!bPhoto3) {
                 image = UIImage(named: "img_open_2")!
+                imagePrefix = "IMG_3_"
             }
 
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyyMMdd_HHmmss"
-            imageFileName = "IMG_" + formatter.string(from: Date()) + ".jpg"
+            imageFileName = imagePrefix + formatter.string(from: Date()) + ".jpg"
             guard let urlString = config.saveImage(
                     fileManager: fileManager,
                     path: Config.PATH_TEMP_FILES,
@@ -710,7 +714,7 @@ class PhotoViewController: UIViewController {
                 enableDisablePhotoButton(enable: false)
                 Config.deletePhoto = 3
             }
-            showImage(imageFilePath: urlString, bVideo: false)
+//            showImage(imageFilePath: urlString, bVideo: false)
         } else {
             startVideoRecordTimer()
         }
@@ -867,9 +871,17 @@ extension PhotoViewController: AVCapturePhotoCaptureDelegate {
         }
         let image = UIImage(data: data)
 
+        var imagePrefix: String!
+        if (!bPhoto1) {
+            imagePrefix = "IMG_1_"
+        } else if (!bPhoto2) {
+            imagePrefix = "IMG_2_"
+        } else if (!bPhoto3) {
+            imagePrefix = "IMG_3_"
+        }
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd_HHmmss"
-        imageFileName = "IMG_" + formatter.string(from: Date()) + ".jpg"
+        imageFileName = imagePrefix + formatter.string(from: Date()) + ".jpg"
 
         guard let urlString = config.saveImage(
                 fileManager: fileManager,
@@ -901,6 +913,6 @@ extension PhotoViewController: AVCapturePhotoCaptureDelegate {
             enableDisablePhotoButton(enable: true)
             Config.deletePhoto = 3
         }
-        showImage(imageFilePath: urlString, bVideo: false)
+//        showImage(imageFilePath: urlString, bVideo: false)
     }
 }

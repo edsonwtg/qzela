@@ -22,13 +22,12 @@ class LocationViewController: UIViewController {
     var occurrencesItem: [String] = []
     var commentary: String!
     // ************
+    var mapImageFile: String!
     var imageFiles: Array<String> = []
+    var downloadUrlImageFiles: Array<String> = []
     var imageType: String!
     var saveCoordinate: CLLocationCoordinate2D!
     var placeCoordinate: CLLocation!
-
-
-    var resultMar = [NSDictionary()]
 
     struct Geocoding: Codable {
         var completeAddress: String = ""
@@ -43,6 +42,7 @@ class LocationViewController: UIViewController {
         var ocean: String = ""
         var areasOfInterest: [String] = []
     }
+
 //    var googleGeocoding = Geocoding()
     var appleGeocoding = Geocoding()
     var webGeocoding = Geocoding()
@@ -60,6 +60,11 @@ class LocationViewController: UIViewController {
 
     let postalCodeFormatter = DefaultTextInputFormatter(textPattern: "#####-###")
 
+    // Create Firebase Bucket Directory
+    let dateIncident = Date()
+    let dateFormatter = DateFormatter()
+    var buketDirectory: String!
+
     @IBOutlet weak var addressTextView: UITextView!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var markerImageView: UIImageView!
@@ -72,8 +77,8 @@ class LocationViewController: UIViewController {
     @IBOutlet weak var numberTextField: UITextField!
     @IBOutlet weak var postalcodeLabel: UILabel!
     @IBOutlet weak var postalcodeTextField: UITextField!
-    
-   @IBAction func btBack(_ sender: Any) {
+
+    @IBAction func btBack(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
 
@@ -86,6 +91,16 @@ class LocationViewController: UIViewController {
 
         hideKeyboardWhenTappedAround()
 
+        dateFormatter.dateFormat = "yyyy"
+        let year = dateFormatter.string(from: dateIncident) + "/"
+        dateFormatter.dateFormat = "MM"
+        let month = dateFormatter.string(from: dateIncident) + "/"
+        dateFormatter.dateFormat = "dd"
+        let day = dateFormatter.string(from: dateIncident) + "/"
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        buketDirectory = year + month + day + dateFormatter.string(from: dateIncident) + "/"
+
+
         // TODO: Remove after test
 //        segmentId = 6
 //        occurrencesItem.append("5d987a1f2d9c3f7efcbaa413")
@@ -95,9 +110,9 @@ class LocationViewController: UIViewController {
         // Rua Florida, 1758
         //         Config.savCoordinate = CLLocationCoordinate2D(latitude:-23.6072598, longitude: -46.6951241)
         // **************
-        print("SegmentId: \(segmentId!)")
-        print("OccurrencesIds: \(occurrencesItem)")
-        print("Commentary: \(String(describing: commentary))")
+//        print("SegmentId: \(segmentId!)")
+//        print("OccurrencesIds: \(occurrencesItem)")
+//        print("Commentary: \(String(describing: commentary))")
 
         // TODO: Remove after implemented Dashboard
         Config.saveIncidentPosition = 0
@@ -110,18 +125,18 @@ class LocationViewController: UIViewController {
             print("Saved Image type: \(incidentImages.imageType)")
             imageType = incidentImages.imageType
             for imageSave in incidentImages.savedImages {
-                print("Saved Image: \(Config.PATH_SAVED_FILES+"/" + imageSave.fileImage)")
+                print("Saved Image: \(Config.PATH_SAVED_FILES + "/" + imageSave.fileImage)")
                 imageFiles.append(Config.PATH_SAVED_FILES + "/" + imageSave.fileImage)
             }
         } else {
-            print("Coordinates Latitude: \(Config.savCoordinate.latitude)")
-            print("Coordinates Longitude: \(Config.savCoordinate.latitude)")
-            print("Image Type: \(Config.IMAGE_CAPTURED)")
+//            print("Coordinates Latitude: \(Config.savCoordinate.latitude)")
+//            print("Coordinates Longitude: \(Config.savCoordinate.latitude)")
+//            print("Image Type: \(Config.IMAGE_CAPTURED)")
             imageType = Config.IMAGE_CAPTURED
             do {
                 let items = try fileManager.contentsOfDirectory(atPath: Config.PATH_TEMP_FILES)
                 for item in items {
-                    print("Found \(Config.PATH_TEMP_FILES + "/" + item)")
+//                    print("Found \(Config.PATH_TEMP_FILES + "/" + item)")
                     imageFiles.append(Config.PATH_TEMP_FILES + "/" + item)
                 }
             } catch {
@@ -152,7 +167,7 @@ class LocationViewController: UIViewController {
         addressTextView.layer.cornerRadius = 12
         addressTextView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 20)
         addressTextView.isEditable = false
- 
+
         placeAddressTextView.layer.borderWidth = 2
         placeAddressTextView.layer.cornerRadius = 12
         placeAddressTextView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 20)
@@ -162,7 +177,7 @@ class LocationViewController: UIViewController {
         getFirebaseSegmentMarker(segmentId: segmentId)
         mapInit()
     }
-    
+
     @IBAction func btClick(_ sender: UIButton) {
         switch sender.restorationIdentifier {
         case "btMyLocation":
@@ -184,61 +199,56 @@ class LocationViewController: UIViewController {
                     message: "Send your incident!",
                     style: .alert,
                     type: .loading)
-            mapView.isUserInteractionEnabled = false
-            mapView.camera = GMSCameraPosition.camera(
-                    withLatitude: placeCoordinate.coordinate.latitude,
-                    longitude: placeCoordinate.coordinate.longitude, zoom: 16
-            )
-            markerImageView.visibility = .invisible
-            mapView.isMyLocationEnabled = false
-            var marker = GMSMarker()
-            marker.position = placeCoordinate.coordinate
-            marker.icon = markerImageView.image
-            marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
-            marker.groundAnchor = CGPoint(x: 0.5, y: 1.15)
-            marker.map = self.mapView
-
-            marker = GMSMarker()
-            marker.position = placeCoordinate.coordinate
-            marker.icon = UIImage(named: "circle_black")
-            marker.setIconSize(scaledToSize: .init(width: 12, height: 12))
-            marker.map = self.mapView
-            let image = UIGraphicsImageRenderer(size: mapView.bounds.size).image { _ in
-                mapView.drawHierarchy(in: mapView.bounds, afterScreenUpdates: true)
-            }
+            btContinue.isEnabled = false
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyyMMdd_HHmmss"
             let imageFileName = "MAP_" + formatter.string(from: Date()) + ".jpg"
-            guard let urlString = config.saveImage(
+            mapImageFile = config.saveImage(
                     fileManager: fileManager,
                     path: Config.PATH_TEMP_FILES,
                     fileName: imageFileName,
-                    image: image
-            ) else { return }
+                    image: mapSnapshot()
+            )!
+            imageFiles = imageFiles.sorted()
+            imageFiles.append(mapImageFile)
+//            print("************ PREPARE FOR INSERT INCIDENT ***************")
+//            print("CitizenID: \(Config.SAV_CD_USUARIO)")
+//            print("SegmentId: \(segmentId!)")
+//            print("OccurrencesIds: \(occurrencesItem)")
+//            print("Commentary: \(String(describing: commentary))")
+//            print("Latitude: \(placeCoordinate.coordinate.latitude)")
+//            print("Longitude: \(placeCoordinate.coordinate.longitude)")
+//            print("IMAGE Type: \(String(describing: imageType))")
+//            print("IMAGE Files: \(imageFiles)")
+//            print("Endereço Completo: \(addressGeocoding.completeAddress + " " + addressGeocoding.number)");
+//            print("Endereço: \(addressGeocoding.address)");
+//            print("Numero: \(addressGeocoding.number)");
+//            print("Pais: \(addressGeocoding.country)");
+//            print("Estado: \(addressGeocoding.state)");
+//            print("Cidade: \(addressGeocoding.city)");
+//            print("Bairro: \(addressGeocoding.district)");
+//            print("CEP: \(addressGeocoding.postalCode)")
+            sendImages(imageFiles: imageFiles) { [self] result in
+//                print("IMAGE SEND: \(result)")
+                downloadUrlImageFiles = downloadUrlImageFiles.sorted()
+                sendIncident() { [self] result in
+                    self.LoadingStop()
+                    let secondsToDelay = 3.0
+                    self.LoadingStart(title: "Obrigado",
+                            message: "Incident enviado",
+                            style: .alert,
+                            type: .message)
+                    config.cleanDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+                        self.LoadingStop()
+                        Config.backSaveIncident = true
+                        self.gotoNewRootViewController(viewController: "TabBarController")
+                    }
+                }
+            }
 
-            btContinue.isEnabled = false
-            print("************ PREPARE FOR INSERT INCIDENT ***************")
-            print("CitizenID: \(Config.SAV_CD_USUARIO)")
-            print("SegmentId: \(segmentId!)")
-            print("OccurrencesIds: \(occurrencesItem)")
-            print("Commentary: \(String(describing: commentary))")
-            print("Latitude: \(placeCoordinate.coordinate.latitude)")
-            print("Longitude: \(placeCoordinate.coordinate.longitude)")
-            print("IMAGE Type: \(String(describing: imageType))")
-            print("MAP file name: \(urlString)")
-            print("IMAGE Files: \(imageFiles)")
-            print("Endereço Completo: \(addressGeocoding.completeAddress + " " + addressGeocoding.number)");
-            print("Endereço: \(addressGeocoding.address)");
-            print("Numero: \(addressGeocoding.number)");
-            print("Pais: \(addressGeocoding.country)");
-            print("Estado: \(addressGeocoding.state)");
-            print("Cidade: \(addressGeocoding.city)");
-            print("Bairro: \(addressGeocoding.district)");
-            print("CEP: \(addressGeocoding.postalCode)")
-            sendImages()
         case "btOk":
-            print("btOk")
-            if (Config.SEGMENT_HIGHWAY.contains(segmentId) &&  postalcodeTextField.text == "") {
+            if (Config.SEGMENT_HIGHWAY.contains(segmentId) && postalcodeTextField.text == "") {
                 postalcodeTextField.text = "-"
             }
             if (numberTextField.text == "" || postalcodeTextField.text == "") {
@@ -256,18 +266,17 @@ class LocationViewController: UIViewController {
                 addressTextView.text = addressGeocoding.completeAddress
                 addressView.visibility = .invisible
                 btContinue.isEnabled = true
-                print("************ GOOGLE PLACES ***************")
-                print("Endereço Completo: \(addressGeocoding.completeAddress)");
-                print("Endereço: \(addressGeocoding.address)");
-                print("Numero: \(addressGeocoding.number)");
-                print("Pais: \(addressGeocoding.country)");
-                print("Estado: \(addressGeocoding.state)");
-                print("Cidade: \(addressGeocoding.city)");
-                print("Bairro: \(addressGeocoding.district)");
-                print("CEP: \(addressGeocoding.postalCode)")
+//                print("************ GOOGLE PLACES ***************")
+//                print("Endereço Completo: \(addressGeocoding.completeAddress)");
+//                print("Endereço: \(addressGeocoding.address)");
+//                print("Numero: \(addressGeocoding.number)");
+//                print("Pais: \(addressGeocoding.country)");
+//                print("Estado: \(addressGeocoding.state)");
+//                print("Cidade: \(addressGeocoding.city)");
+//                print("Bairro: \(addressGeocoding.district)");
+//                print("CEP: \(addressGeocoding.postalCode)")
             }
         case "btCancel":
-            print("btCancel")
             addressView.visibility = .invisible
 
         default:
@@ -275,14 +284,86 @@ class LocationViewController: UIViewController {
         }
     }
 
-    func sendImages () {
-        sendIncident()
+    func mapSnapshot()-> UIImage {
+        // Create Map snapshot
+        mapView.isUserInteractionEnabled = false
+        mapView.camera = GMSCameraPosition.camera(
+                withLatitude: placeCoordinate.coordinate.latitude,
+                longitude: placeCoordinate.coordinate.longitude, zoom: 16
+        )
+        markerImageView.visibility = .invisible
+        mapView.isMyLocationEnabled = false
+        var marker = GMSMarker()
+        marker.position = placeCoordinate.coordinate
+        marker.icon = markerImageView.image
+        marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
+        marker.groundAnchor = CGPoint(x: 0.5, y: 1.15)
+        marker.map = self.mapView
+
+        marker = GMSMarker()
+        marker.position = placeCoordinate.coordinate
+        marker.icon = UIImage(named: "circle_black")
+        marker.setIconSize(scaledToSize: .init(width: 12, height: 12))
+        marker.map = self.mapView
+        var image = UIGraphicsImageRenderer(size: mapView.bounds.size).image { _ in
+            mapView.drawHierarchy(in: mapView.bounds, afterScreenUpdates: true)
+        }
+        image = config.resizeImage(image: image, newWidth: 540.0)
+        image = config.cropToBounds(image: image, width: 540, height: 540)
+        return image
     }
 
-    func sendIncident() {
+    func sendImages(imageFiles: [String], completion: @escaping ([String]) -> Void) {
+
+        var totSend = 0
+        // Create Storage
+        let storage = Storage.storage(url: Config.FIREBASE_INCIDENTS_BUCKET_URI)
+        let metadata = StorageMetadata()
+        let storageRef = storage.reference()
+
+        for i in 0..<imageFiles.count {
+
+            // Create a root reference
+            var fileRef: StorageReference!
+
+            let url = NSURL(fileURLWithPath: imageFiles[i])
+            if (imageFiles[i].contains("MAP_")) {
+                metadata.contentType = "image/jpeg"
+                fileRef = storageRef.child(Config.INCIDENTS_IMAGES_PATH + buketDirectory + "map.jpg")
+            } else if (imageType == Config.TYPE_IMAGE_PHOTO) {
+                metadata.contentType = "image/jpeg"
+                fileRef = storageRef.child(Config.INCIDENTS_IMAGES_PATH + buketDirectory + "img_open_" + String(i) + ".jpg")
+            } else {
+                metadata.contentType = "video/mp4"
+                fileRef = storageRef.child(Config.INCIDENTS_IMAGES_PATH + buketDirectory + "vid_open_" + String(i) + ".jpg")
+            }
+            fileRef.putFile(from: url as URL, metadata: metadata) { metadata, error in
+                guard let metadata = metadata else {
+                    print("Uh-oh, an error occurred!")
+                    return
+                }
+//                print("URL: \(metadata)")
+                // You can also access to download URL after upload.
+                fileRef.downloadURL { (url, error) in
+                    guard let downloadURL = url else {
+                        // Uh-oh, an error occurred!
+                        return
+                    }
+//                    print("Image URL: \(downloadURL.description)")
+                    self.downloadUrlImageFiles.append(downloadURL.description)
+                    totSend += 1
+                    if (totSend == imageFiles.count) {
+                        completion(self.downloadUrlImageFiles)
+                    }
+                }
+            }
+        }
+    }
+
+    func sendIncident(completion: @escaping (Bool) -> Void) {
         ApolloIOS.shared.apollo.perform(mutation: SetOpenIncidentMutation(
                 cdSegment: segmentId,
-                locCoord: [placeCoordinate.coordinate.latitude,placeCoordinate.coordinate.longitude],
+                locCoord: [placeCoordinate.coordinate.latitude, placeCoordinate.coordinate.longitude],
                 dcAddress: addressGeocoding.address + "," + addressGeocoding.number,
                 dcCity: addressGeocoding.city,
                 dcState: addressGeocoding.state,
@@ -294,32 +375,23 @@ class LocationViewController: UIViewController {
                 dtOpen: ISODate.now,
                 txComment: commentary,
                 tpMedia: imageType == Config.TYPE_IMAGE_PHOTO ? TPMEDIA_ENUM.photo : TPMEDIA_ENUM.video,
-                mediaData: imageFiles)
+                mediaData: downloadUrlImageFiles)
         ) { result in
             switch result {
             case .success(let graphQLResult):
-                print("Success! Result: \(String(describing: graphQLResult.data?.openIncident.description))")
+//                print("Success! Result: \(String(describing: graphQLResult.data?.openIncident.description))")
                 if (graphQLResult.errors != nil) {
                     print("ERROR: \(String(describing: graphQLResult.errors?.description))")
+                    completion(false)
+                } else {
+                    completion(true)
                 }
             case .failure(let error):
                 print("Failure! Error: \(error)")
-            }
-            self.LoadingStop()
-            DispatchQueue.main.async {
-                let secondsToDelay = 3.0
-                self.LoadingStart(title: "Obrigado",
-                        message: "Incident enviado",
-                        style: .alert,
-                        type: .message)
-                DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-                    self.LoadingStop()
-                    Config.backSaveIncident = true
-                    self.gotoNewRootViewController(viewController: "TabBarController")
-                }
+                completion(false)
             }
         }
-}
+    }
 
     func getFirebaseSegmentMarker(segmentId: Int) {
         let dispatchGroup = DispatchGroup()
@@ -333,7 +405,7 @@ class LocationViewController: UIViewController {
                 print("ERROR: \(error)")
             } else {
                 // Segment Icon
-                image =  UIImage(data: markerIcon!)
+                image = UIImage(data: markerIcon!)
                 dispatchGroup.leave()
             }
         }
@@ -377,15 +449,15 @@ class LocationViewController: UIViewController {
                     centerCoordinate: Config.savCoordinate,
                     radiusInMeter: Config.LOCATION_DISTANCE)!
         }
-        filter.locationRestriction = GMSPlaceRectangularLocationOption( bounds.northEast,
+        filter.locationRestriction = GMSPlaceRectangularLocationOption(bounds.northEast,
                 bounds.southWest);
         acController.autocompleteFilter = filter
         acController.delegate = self
-        present(acController,animated: true, completion: nil)
+        present(acController, animated: true, completion: nil)
     }
 
     func gotoNumber() {
-        let okActionHandler: (UIAlertAction) -> Void = {(action) in
+        let okActionHandler: (UIAlertAction) -> Void = { (action) in
             self.numberLabel.visibility = .visible
             self.numberTextField.visibility = .visible
             if (!Config.SEGMENT_HIGHWAY.contains(self.segmentId)) {
@@ -513,7 +585,7 @@ class LocationViewController: UIViewController {
         }
     }
 
-    func getWebGoogleAddress(latitude: Double, longitude : Double) {
+    func getWebGoogleAddress(latitude: Double, longitude: Double) {
 
         dispatchGroupGeocoding.enter()
 
@@ -555,8 +627,8 @@ class LocationViewController: UIViewController {
                                             self.webGeocoding.areasOfInterest.append(component.value(forKey: "long_name") as! String)
                                         }
                                     }
-                                    self.webGeocoding.inlandWater =  ""
-                                    self.webGeocoding.ocean =  ""
+                                    self.webGeocoding.inlandWater = ""
+                                    self.webGeocoding.ocean = ""
                                     self.webGeocoding.areasOfInterest = []
                                 }
                             }
@@ -573,13 +645,12 @@ class LocationViewController: UIViewController {
     }
 
     func gotoNewRootViewController(viewController: String) {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyBoard.instantiateViewController(withIdentifier: viewController)
         self.view.window?.rootViewController = viewController
         self.view.window?.makeKeyAndVisible()
     }
 }
-
 extension LocationViewController: GMSAutocompleteViewControllerDelegate {
 
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
@@ -610,7 +681,7 @@ extension LocationViewController: GMSAutocompleteViewControllerDelegate {
                 addressGeocoding.postalCode = component.value(forKey: "_name") as! String
             }
         }
-        print("Latitude: \(place.coordinate.latitude) - Longitude: \(place.coordinate.longitude)")
+//        print("Latitude: \(place.coordinate.latitude) - Longitude: \(place.coordinate.longitude)")
         // Dismiss the GMSAutocompleteViewController when something is selected
         dismiss(animated: true, completion: nil)
         if (Config.SEGMENT_HIGHWAY.contains(segmentId) && addressGeocoding.postalCode == "") {
@@ -691,7 +762,6 @@ extension LocationViewController: GMSMapViewDelegate {
                         print("*****************************************")
                     }
                 }
-                // TODO: Test if segment is river
                 if (self.appleGeocoding.inlandWater != "" && Config.SEGMENT_RIVER.contains(self.segmentId)) {
                     print("*****************************************")
                     print("Rios e Lagos:  \(self.appleGeocoding.inlandWater)")
@@ -715,7 +785,6 @@ extension LocationViewController: GMSMapViewDelegate {
                     print("*****************************************")
                     return
                 }
-                // TODO: Test if segment is ocean
                 if (self.appleGeocoding.ocean != "" && Config.SEGMENT_OCEAN.contains(self.segmentId)) {
                     print("*****************************************")
                     print("Oceano:  \(self.appleGeocoding.ocean)")
@@ -745,57 +814,57 @@ extension LocationViewController: GMSMapViewDelegate {
                                 actions: [nil, okActionHandler])
                     } else {
                         if (self.appleGeocoding.address != "") {
-                            print("Endereço Apple: \(self.appleGeocoding.address)");
+//                            print("Endereço Apple: \(self.appleGeocoding.address)");
                             self.addressGeocoding.address = self.appleGeocoding.address
                             self.addressTextView.text = self.appleGeocoding.completeAddress
                         } else {
-                            print("Endereço Web: \(self.webGeocoding.address)");
+//                            print("Endereço Web: \(self.webGeocoding.address)");
                             self.addressGeocoding.address = self.webGeocoding.address
                             self.addressTextView.text = self.webGeocoding.completeAddress
                         }
                         if (self.appleGeocoding.number != "") {
-                            print("Numero Apple: \(self.appleGeocoding.number)");
+//                            print("Numero Apple: \(self.appleGeocoding.number)");
                             self.addressGeocoding.number = self.appleGeocoding.number
                         } else {
-                            print("Numero Web: \(self.webGeocoding.number)");
+//                            print("Numero Web: \(self.webGeocoding.number)");
                             self.addressGeocoding.number = self.webGeocoding.number
                         }
                         if (self.appleGeocoding.country != "") {
-                            print("Pais Apple: \(self.appleGeocoding.country)");
+//                            print("Pais Apple: \(self.appleGeocoding.country)");
                             self.addressGeocoding.country = self.appleGeocoding.country
                         } else {
-                            print("Pais Web: \(self.webGeocoding.country)");
+//                            print("Pais Web: \(self.webGeocoding.country)");
                             self.addressGeocoding.country = self.webGeocoding.country
                         }
                         if (self.appleGeocoding.state != "") {
-                            print("Estado Apple: \(self.appleGeocoding.state)");
+//                            print("Estado Apple: \(self.appleGeocoding.state)");
                             self.addressGeocoding.state = self.appleGeocoding.state
                         } else {
-                            print("Estado Web: \(self.webGeocoding.state)");
+//                            print("Estado Web: \(self.webGeocoding.state)");
                             self.addressGeocoding.state = self.webGeocoding.state
                         }
                         if (self.appleGeocoding.city != "") {
-                            print("Cidade Apple: \(self.appleGeocoding.city)");
+//                            print("Cidade Apple: \(self.appleGeocoding.city)");
                             self.addressGeocoding.city = self.appleGeocoding.city
                         } else {
-                            print("Cidade Web: \(self.webGeocoding.city)");
+//                            print("Cidade Web: \(self.webGeocoding.city)");
                             self.addressGeocoding.city = self.webGeocoding.city
                         }
                         if (self.appleGeocoding.district != "") {
-                            print("Bairro Apple: \(self.appleGeocoding.district)");
+//                            print("Bairro Apple: \(self.appleGeocoding.district)");
                             self.addressGeocoding.district = self.appleGeocoding.district
                         } else {
-                            print("Bairro Web: \(self.webGeocoding.district)");
+//                            print("Bairro Web: \(self.webGeocoding.district)");
                             self.addressGeocoding.district = self.webGeocoding.district
                         }
                         if (self.appleGeocoding.postalCode != "") {
                             if (self.appleGeocoding.postalCode.count == 5 ) {
                                 self.appleGeocoding.postalCode = self.appleGeocoding.postalCode + "-000"
                             }
-                            print("CEP Apple: \(self.appleGeocoding.postalCode)");
+//                            print("CEP Apple: \(self.appleGeocoding.postalCode)");
                             self.addressGeocoding.postalCode = self.appleGeocoding.postalCode
                         } else {
-                            print("CEP Web: \(self.webGeocoding.postalCode)");
+//                            print("CEP Web: \(self.webGeocoding.postalCode)");
                             self.addressGeocoding.postalCode = self.webGeocoding.postalCode
                         }
                         self.btContinue.isEnabled = true
