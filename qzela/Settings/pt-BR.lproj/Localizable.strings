@@ -74,3 +74,10 @@
 "text_outer_auth_error" = "Por algum motivo, não foi possível autenticar seu login com seu provedor de email./nPor favor, tente outros métodos.";
 "text_name" = "Nome";
 "text_signed" = "Cadastro feito com sucesso.\nVocê receberá um e-mail com detalhes para confirmar seu cadastro.";
+"text_tot_qzelas" = "Total QZelas";
+"text_tot_events" = "Total Eventos";
+"text_openings" = "Aberturas";
+"text_closures" = "Fechamentos";
+"text_interactions" = "Interações";
+"text_confirmed" = "Confirmadas";
+"text_last_actions" = "Suas ultimas ações";

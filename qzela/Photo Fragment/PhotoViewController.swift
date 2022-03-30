@@ -265,6 +265,7 @@ class PhotoViewController: UIViewController {
         cameraStart()
     }
 
+    let tapV = UITapGestureRecognizer(target: PhotoViewController.self, action: #selector(tapGestureImage))
     @objc func tapGestureImage (_ sender: UITapGestureRecognizer) {
 
         switch sender.view?.restorationIdentifier {

@@ -74,3 +74,10 @@
 "text_outer_auth_error" = "For some reason, it was not possible to authenticate your login with your email provider./nPlease try other methods.";
 "text_name" = "Name";
 "text_signed" = "Registration done successfully.\nYou will receive an e-mail with details to confirm your registration.";
+"text_tot_qzelas" = "Total QZelas";
+"text_tot_events" = "Total Events";
+"text_openings" = "Openings";
+"text_closures" = "Closures";
+"text_interactions" = "Interactions";
+"text_confirmed" = "Confimed";
+"text_last_actions" = "Your last actions";

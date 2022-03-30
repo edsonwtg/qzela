@@ -297,12 +297,14 @@
 		6FDE761E274816AE0050510C /* qzela */ = {
 			isa = PBXGroup;
 			children = (
+				B2D3E694DE9B65DECC7202CF /* Dashboard Fragment */,
 				6F9E8FAA27C6569600AEE2B6 /* Location Fragment */,
 				6FA420D527BD74BE00C85C50 /* Segment Fragment */,
 				6FA420D427BD74A500C85C50 /* Generic Fagments */,
 				6FA420D327BD749400C85C50 /* Login Fragment */,
 				6FA420D227BD748200C85C50 /* Map Fragment */,
 				6FA420D127BD745E00C85C50 /* Photo Fragment */,
+				B2D3E3A2664ECBC7681F2938 /* Profile Fragment */,
 				6F8E4E14278737FD00D11B67 /* Settings */,
 				6F72E8942774A823008C30F8 /* Extensions */,
 				6FA6AAA0275D725C0099F318 /* API.swift */,
@@ -323,8 +325,6 @@
 				B2D3EDFB1FD064F089E33109 /* SetOpenIncident.graphql */,
 				B2D3E0D96DB45256ED141B9A /* LoginCitizen.graphql */,
 				B2D3E8B34787366AAD1F4377 /* Logout.graphql */,
-				B2D3E694DE9B65DECC7202CF /* Dashboard Fragment */,
-				B2D3E3A2664ECBC7681F2938 /* Profile Fragment */,
 			);
 			path = qzela;
 			sourceTree = "<group>";

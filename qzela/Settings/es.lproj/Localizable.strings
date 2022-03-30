@@ -74,3 +74,10 @@
 "text_outer_auth_error" = "Por alguna razón, no fue posible autenticar su inicio de sesión con su proveedor de correo electrónico./nPor favor, intente otros métodos.";
 "text_name" = "Nombre";
 "text_signed" = "Registro realizado con éxito.\nRecibirá un correo electrónico con los detalles para confirmar su registro";
+"text_tot_qzelas" = "Total QZelas";
+"text_tot_events" = "Total Eventos";
+"text_openings" = "Aperturas";
+"text_closures" = "Cierres";
+"text_interactions" = "Interacciones";
+"text_confirmed" = "Confirmada";
+"text_last_actions" = "Sus últimas acciones";

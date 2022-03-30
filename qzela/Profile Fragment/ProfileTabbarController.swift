@@ -9,10 +9,8 @@ import UIKit
 
 class ProfileTabbarController: UIViewController {
 
-    @IBAction func btnGotoDashboard(_ sender: Any) {
-        tabBarController?.selectedIndex = 0
-    }
-    
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -11,7 +11,7 @@ class TabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        selectedIndex = Config.MENU_ITEM_MAP
+        selectedIndex = Config.MENU_ITEM_DASHBOARD
     }
 
 
