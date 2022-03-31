@@ -24,15 +24,15 @@ class IncidentCollectionViewCell: UICollectionViewCell {
         slideStatusLbl.textColor = .colorWhite
         slideStatusLbl.font = UIFont.boldSystemFont(ofSize: 12.0)
 
-        if slide.status == Config.SLIDE_OPEN {
+        if slide.status == Config.STATUS_OPEN {
             slideStatusLbl.text = "text_open".localized()
             slideStatusLbl.backgroundColor = .qzelaOrange
         }
-        if slide.status == Config.SLIDE_REGISTERED {
+        if slide.status == Config.STATUS_REGISTERED {
             slideStatusLbl.text = "text_registered".localized()
             slideStatusLbl.backgroundColor = .colorBlue
         }
-        if slide.status == Config.SLIDE_RESOLVED {
+        if slide.status == Config.STATUS_RESOLVED {
             slideStatusLbl.text = "text_resolved".localized()
             slideStatusLbl.backgroundColor = .colorGreen
         }

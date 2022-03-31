@@ -103,15 +103,15 @@ class DialogIncidentViewController: UIViewController {
                         if (medias.contains(Config.IMAGE_MAP)) { continue}
                         if (medias.contains(Config.IMAGE_OPEN)) {
                             if (result.stIncident == Config.INCIDENT_STATUS_REGISTERED) {
-                                slides.append(IncidentImageSlide(status: Config.SLIDE_REGISTERED, tpImage: result.tpImage, mediaURL: medias))
+                                slides.append(IncidentImageSlide(status: Config.STATUS_REGISTERED, tpImage: result.tpImage, mediaURL: medias))
                             } else {
-                                slides.append(IncidentImageSlide(status: Config.SLIDE_OPEN, tpImage: result.tpImage, mediaURL: medias))
+                                slides.append(IncidentImageSlide(status: Config.STATUS_OPEN, tpImage: result.tpImage, mediaURL: medias))
                             }
                         } else {
                             if (result.stIncident == Config.INCIDENT_STATUS_REGISTERED) {
-                                slides.append(IncidentImageSlide(status: Config.SLIDE_REGISTERED, tpImage: result.tpImage, mediaURL: medias))
+                                slides.append(IncidentImageSlide(status: Config.STATUS_REGISTERED, tpImage: result.tpImage, mediaURL: medias))
                             } else {
-                                slides.append(IncidentImageSlide(status: Config.SLIDE_RESOLVED, tpImage: result.tpImage, mediaURL: medias))
+                                slides.append(IncidentImageSlide(status: Config.STATUS_RESOLVED, tpImage: result.tpImage, mediaURL: medias))
                             }
                         }
                     }

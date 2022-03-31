@@ -14,6 +14,7 @@
 		6F499269277A373700C2515F /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F499268277A373700C2515F /* UIViewExtension.swift */; };
 		6F573203276F9FE2007CF84C /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F573202276F9FE2007CF84C /* PhotoViewController.swift */; };
 		6F5732052770A36B007CF84C /* DialogIncidentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5732042770A36B007CF84C /* DialogIncidentViewController.swift */; };
+		6F5CEB6427F4E8D5004C9AA3 /* IncidentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5CEB6327F4E8D5004C9AA3 /* IncidentTableViewCell.swift */; };
 		6F66DDA22763A4C100FE0A7B /* LocationHome.gpx in Resources */ = {isa = PBXBuildFile; fileRef = B2D3EE38F3162EC9AE1EAEBE /* LocationHome.gpx */; };
 		6F72E8962774CDBE008C30F8 /* IncidentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F72E8952774CDBE008C30F8 /* IncidentCollectionViewCell.swift */; };
 		6F8E4E172787391500D11B67 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F8E4E192787391500D11B67 /* Localizable.strings */; };
@@ -48,6 +49,7 @@
 		B2D3E7237D3B243ED42B4D73 /* GPSLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3ED601C88EF9BE044AECD /* GPSLocation.swift */; };
 		B2D3E7262F2984F7F2139C93 /* GraphqlScalarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3EE9A537C746BDEFEFAA2 /* GraphqlScalarExtension.swift */; };
 		B2D3E7B24377AAF36C7DD538 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E431C955F0AB91490A2C /* UITextFieldExtension.swift */; };
+		B2D3E82C464E8EDB57C76FC1 /* IncidentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3EC4D2D3944AD7EF3AC19 /* IncidentData.swift */; };
 		B2D3EA4FDC9FDC616736301C /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E2C851417C8BAFE9F5C4 /* Login.swift */; };
 		B2D3EAA0F043354C8A46A05D /* SetOpenIncident.graphql in Resources */ = {isa = PBXBuildFile; fileRef = B2D3EDFB1FD064F089E33109 /* SetOpenIncident.graphql */; };
 		B2D3EB3238FBCFBD1D57E56E /* ProfileTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E45F360670433B85C816 /* ProfileTabbarController.swift */; };
@@ -67,6 +69,7 @@
 		6F499268277A373700C2515F /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		6F573202276F9FE2007CF84C /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		6F5732042770A36B007CF84C /* DialogIncidentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogIncidentViewController.swift; sourceTree = "<group>"; };
+		6F5CEB6327F4E8D5004C9AA3 /* IncidentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentTableViewCell.swift; sourceTree = "<group>"; };
 		6F72E8952774CDBE008C30F8 /* IncidentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentCollectionViewCell.swift; sourceTree = "<group>"; };
 		6F8E4E13278711AF00D11B67 /* GetIncidentsById.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = GetIncidentsById.graphql; sourceTree = "<group>"; };
 		6F8E4E182787391500D11B67 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -116,6 +119,7 @@
 		B2D3E8D79BEF72A040E4CBD7 /* Pods-qzela.release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-qzela.release.xcconfig"; path = "Target Support Files/Pods-qzela/Pods-qzela.release.xcconfig"; sourceTree = "<group>"; };
 		B2D3EC006E813BCEDD5AB701 /* Pods-qzela.debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-qzela.debug.xcconfig"; path = "Target Support Files/Pods-qzela/Pods-qzela.debug.xcconfig"; sourceTree = "<group>"; };
 		B2D3EC3FA1A2DFB430A52E3A /* LocationOther.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = LocationOther.gpx; sourceTree = "<group>"; };
+		B2D3EC4D2D3944AD7EF3AC19 /* IncidentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentData.swift; sourceTree = "<group>"; };
 		B2D3ED601C88EF9BE044AECD /* GPSLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPSLocation.swift; sourceTree = "<group>"; };
 		B2D3EDF848DDF994819940A2 /* OccurrenceSegmentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OccurrenceSegmentCell.swift; sourceTree = "<group>"; };
 		B2D3EDFB1FD064F089E33109 /* SetOpenIncident.graphql */ = {isa = PBXFileReference; lastKnownFileType = file.graphql; path = SetOpenIncident.graphql; sourceTree = "<group>"; };
@@ -144,6 +148,14 @@
 				2646426392D359D0DDEE7FDF /* Pods-qzela.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		6F5CEB6227F4E887004C9AA3 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				6F5CEB6327F4E8D5004C9AA3 /* IncidentTableViewCell.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		6F72E8942774A823008C30F8 /* Extensions */ = {
@@ -354,6 +366,14 @@
 			path = "Tabbar Controllers";
 			sourceTree = "<group>";
 		};
+		B2D3E2F26C849A469DB0F90C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B2D3EC4D2D3944AD7EF3AC19 /* IncidentData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		B2D3E3A2664ECBC7681F2938 /* Profile Fragment */ = {
 			isa = PBXGroup;
 			children = (
@@ -374,7 +394,9 @@
 		B2D3E694DE9B65DECC7202CF /* Dashboard Fragment */ = {
 			isa = PBXGroup;
 			children = (
+				6F5CEB6227F4E887004C9AA3 /* Helper */,
 				B2D3E63EE4256D00455D7EB1 /* DashboardTabbarController.swift */,
+				B2D3E2F26C849A469DB0F90C /* Models */,
 			);
 			path = "Dashboard Fragment";
 			sourceTree = "<group>";
@@ -577,6 +599,7 @@
 				6F9C2B3D279B470200A87D66 /* SpinnerViewController.swift in Sources */,
 				6FDE7622274816AE0050510C /* SceneDelegate.swift in Sources */,
 				6F905AC627BE92FB003E7ED1 /* SegmentsCell.swift in Sources */,
+				6F5CEB6427F4E8D5004C9AA3 /* IncidentTableViewCell.swift in Sources */,
 				6F2FC9BB27622EE9004FDF52 /* NetworkManager.swift in Sources */,
 				6FDE764E27498EA80050510C /* SplashViewController.swift in Sources */,
 				6F9E8FAC27C656B800AEE2B6 /* LocationViewController.swift in Sources */,
@@ -596,6 +619,7 @@
 				B2D3EA4FDC9FDC616736301C /* Login.swift in Sources */,
 				B2D3EB3238FBCFBD1D57E56E /* ProfileTabbarController.swift in Sources */,
 				B2D3EC6910D4FCC55DB6CEF3 /* DashboardTabbarController.swift in Sources */,
+				B2D3E82C464E8EDB57C76FC1 /* IncidentData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

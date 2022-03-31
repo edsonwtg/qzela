@@ -112,8 +112,7 @@ class SegmentViewController: UIViewController {
                     for segments in result {
                         segmentsItens.append(SegmentData(
                                 segmentId: segments.cdSegment,
-                                segmentName: segments.dcSegment,
-                                segmentImage: String(segments.cdSegment))
+                                segmentName: segments.dcSegment)
                         )
                     }
                     let indexPaths = [IndexPath(item: segmentsItens.count - 1, section: 0)]

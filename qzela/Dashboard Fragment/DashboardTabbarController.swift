@@ -8,7 +8,8 @@
 import UIKit
 
 class DashboardTabbarController: UIViewController {
-    
+
+    var incidentItens: [IncidentData] = []
 
     @IBOutlet weak var openStackView: UIStackView!
     @IBOutlet weak var closeStackView: UIStackView!
@@ -40,9 +41,14 @@ class DashboardTabbarController: UIViewController {
     @IBOutlet weak var actionConfirmIcon: UIImageView!
     @IBOutlet weak var actionConfirmLabel: UILabel!
     @IBOutlet weak var actionConfirmLine: UIView!
+    
+    @IBOutlet weak var incidentTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        incidentTableView.delegate = self
+        incidentTableView.dataSource = self
 
         openStackView.layer.borderWidth = 2
         openStackView.layer.cornerRadius = 12
@@ -105,6 +111,30 @@ class DashboardTabbarController: UIViewController {
         actionConfirmIcon.isUserInteractionEnabled = true
         actionConfirmIcon.addGestureRecognizer(tapActionConfirm)
 
+        incidentItens.append(IncidentData(
+                SegmentName: "#EuCuidoDoMeuQuadrado",
+                ActionName: Config.STATUS_OPEN,
+                IncidentDate: "3/30/22",
+                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
+                typeImage: Config.TYPE_IMAGE_PHOTO
+        ))
+        incidentItens.append(IncidentData(
+                SegmentName: "Árvore",
+                ActionName: Config.STATUS_RESOLVED,
+                IncidentDate: "12/5/21",
+                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
+                typeImage: Config.TYPE_IMAGE_PHOTO
+        ))
+        incidentItens.append(IncidentData(
+                SegmentName: "Rede de Telecomunicações",
+                ActionName: Config.STATUS_REGISTERED,
+                IncidentDate: "12/30/21",
+                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
+                typeImage: Config.TYPE_IMAGE_PHOTO
+        ))
+
+//        setIncidentsTableView()
+
     }
 
     @objc func tapGestureImage (_ sender: UITapGestureRecognizer) {
@@ -136,6 +166,35 @@ class DashboardTabbarController: UIViewController {
         }
     }
 
+    func setIncidentsTableView() {
+        incidentItens.append(IncidentData(
+                SegmentName: "#EuCuidoDoMeuQuadrado",
+                ActionName: Config.STATUS_OPEN,
+                IncidentDate: "3/30/22",
+                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
+                typeImage: Config.TYPE_IMAGE_PHOTO
+        ))
+        incidentItens.append(IncidentData(
+                SegmentName: "Árvore",
+                ActionName: Config.STATUS_RESOLVED,
+                IncidentDate: "12/5/21",
+                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
+                typeImage: Config.TYPE_IMAGE_PHOTO
+        ))
+        incidentItens.append(IncidentData(
+                SegmentName: "Rede de Telecomunicações",
+                ActionName: Config.STATUS_REGISTERED,
+                IncidentDate: "12/30/21",
+                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
+                typeImage: Config.TYPE_IMAGE_PHOTO
+        ))
+
+        let indexPaths = [IndexPath(item: incidentItens.count - 1, section: 0)]
+        incidentTableView.performBatchUpdates({ () -> Void in
+            incidentTableView.insertRows(at: indexPaths, with: .automatic)
+        }, completion: nil)
+
+    }
     func gotoNewRootViewController(viewController: String) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let viewController = storyBoard.instantiateViewController(withIdentifier: viewController)
@@ -148,5 +207,22 @@ class DashboardTabbarController: UIViewController {
         nextViewController.modalPresentationStyle = .fullScreen
         nextViewController.modalTransitionStyle = .flipHorizontal
         self.present(nextViewController, animated:true)
+    }
+}
+
+extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return incidentItens.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = incidentTableView.dequeueReusableCell(withIdentifier: "IncidentCell") as! IncidentTableViewCell
+        cell.setIncidents(incidentItens[indexPath.row])
+        cell.layer.borderWidth = 2
+        cell.layer.borderColor = UIColor.colorGray.cgColor
+        cell.layer.cornerRadius = 15
+
+        return cell
     }
 }

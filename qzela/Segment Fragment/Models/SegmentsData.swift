@@ -7,5 +7,4 @@ import UIKit
 struct SegmentData {
     let segmentId: Int
     let segmentName: String
-    let segmentImage: String
 }
