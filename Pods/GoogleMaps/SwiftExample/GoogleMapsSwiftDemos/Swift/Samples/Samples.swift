@@ -24,7 +24,7 @@ struct Section {
 }
 
 enum Samples {
-  static func allSamples() -> [Section] {
+  static func allSamples() -> [IncidentsSection] {
     let mapSamples = [
       Sample(viewControllerClass: BasicMapViewController.self, title: "Basic Map"),
       Sample(viewControllerClass: MapTypesViewController.self, title: "Map Types"),
@@ -79,11 +79,11 @@ enum Samples {
         viewControllerClass: StructuredGeocoderViewController.self, title: "Structured Geocoder"),
     ]
     return [
-      Section(name: "Map", samples: mapSamples),
-      Section(name: "Panorama", samples: panoramaSamples),
-      Section(name: "Overlays", samples: overlaySamples),
-      Section(name: "Camera", samples: cameraSamples),
-      Section(name: "Services", samples: serviceSamples),
+      IncidentsSection(name: "Map", samples: mapSamples),
+      IncidentsSection(name: "Panorama", samples: panoramaSamples),
+      IncidentsSection(name: "Overlays", samples: overlaySamples),
+      IncidentsSection(name: "Camera", samples: cameraSamples),
+      IncidentsSection(name: "Services", samples: serviceSamples),
     ]
   }
 }

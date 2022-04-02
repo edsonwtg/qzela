@@ -9,7 +9,8 @@ import UIKit
 
 class DashboardTabbarController: UIViewController {
 
-    var incidentItens: [IncidentData] = []
+    var incidentData = [IncidentData]()
+    var incidentSection = [IncidentsSection]()
 
     @IBOutlet weak var openStackView: UIStackView!
     @IBOutlet weak var closeStackView: UIStackView!
@@ -46,7 +47,7 @@ class DashboardTabbarController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         incidentTableView.delegate = self
         incidentTableView.dataSource = self
 
@@ -111,30 +112,7 @@ class DashboardTabbarController: UIViewController {
         actionConfirmIcon.isUserInteractionEnabled = true
         actionConfirmIcon.addGestureRecognizer(tapActionConfirm)
 
-        incidentItens.append(IncidentData(
-                SegmentName: "#EuCuidoDoMeuQuadrado",
-                ActionName: Config.STATUS_OPEN,
-                IncidentDate: "3/30/22",
-                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
-                typeImage: Config.TYPE_IMAGE_PHOTO
-        ))
-        incidentItens.append(IncidentData(
-                SegmentName: "Árvore",
-                ActionName: Config.STATUS_RESOLVED,
-                IncidentDate: "12/5/21",
-                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
-                typeImage: Config.TYPE_IMAGE_PHOTO
-        ))
-        incidentItens.append(IncidentData(
-                SegmentName: "Rede de Telecomunicações",
-                ActionName: Config.STATUS_REGISTERED,
-                IncidentDate: "12/30/21",
-                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
-                typeImage: Config.TYPE_IMAGE_PHOTO
-        ))
-
-//        setIncidentsTableView()
-
+        getSavedIncidentes()
     }
 
     @objc func tapGestureImage (_ sender: UITapGestureRecognizer) {
@@ -166,35 +144,60 @@ class DashboardTabbarController: UIViewController {
         }
     }
 
-    func setIncidentsTableView() {
-        incidentItens.append(IncidentData(
+    func getSavedIncidentes() {
+        incidentSection.removeAll()
+        incidentData.removeAll()
+        incidentData.append(IncidentData(
+                IncidentId: "Saved 1",
                 SegmentName: "#EuCuidoDoMeuQuadrado",
                 ActionName: Config.STATUS_OPEN,
-                IncidentDate: "3/30/22",
+                IncidentDate: "3/30/22 10:22",
                 IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
                 typeImage: Config.TYPE_IMAGE_PHOTO
         ))
-        incidentItens.append(IncidentData(
+        incidentData.append(IncidentData(
+                IncidentId: "Saved 2",
                 SegmentName: "Árvore",
                 ActionName: Config.STATUS_RESOLVED,
-                IncidentDate: "12/5/21",
+                IncidentDate: "12/5/21 23:00",
                 IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
                 typeImage: Config.TYPE_IMAGE_PHOTO
         ))
-        incidentItens.append(IncidentData(
+        incidentSection.append(IncidentsSection(name: "Saved Incidents", items: incidentData))
+        getIncidents()
+    }
+
+    func getIncidents() {
+
+        incidentData.removeAll()
+        incidentData.append(IncidentData(
+                IncidentId: "Incident 1",
                 SegmentName: "Rede de Telecomunicações",
                 ActionName: Config.STATUS_REGISTERED,
                 IncidentDate: "12/30/21",
                 IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
                 typeImage: Config.TYPE_IMAGE_PHOTO
         ))
-
-        let indexPaths = [IndexPath(item: incidentItens.count - 1, section: 0)]
-        incidentTableView.performBatchUpdates({ () -> Void in
-            incidentTableView.insertRows(at: indexPaths, with: .automatic)
-        }, completion: nil)
-
+        incidentData.append(IncidentData(
+                IncidentId: "Incident 2",
+                SegmentName: "Estradas",
+                ActionName: Config.STATUS_OPEN,
+                IncidentDate: "12/30/21",
+                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
+                typeImage: Config.TYPE_IMAGE_PHOTO
+        ))
+        incidentData.append(IncidentData(
+                IncidentId: "Incident 3",
+                SegmentName: "Animais",
+                ActionName: Config.STATUS_RESOLVED,
+                IncidentDate: "12/30/21",
+                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
+                typeImage: Config.TYPE_IMAGE_PHOTO
+        ))
+        incidentSection.append(IncidentsSection(name: "My Incidents", items: incidentData))
+        incidentTableView.reloadData()
     }
+
     func gotoNewRootViewController(viewController: String) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let viewController = storyBoard.instantiateViewController(withIdentifier: viewController)
@@ -212,17 +215,75 @@ class DashboardTabbarController: UIViewController {
 
 extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource {
 
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return incidentSection.count
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return incidentItens.count
+        return incidentSection[section].items.count ?? 0
+   }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.incidentSection[section].name
+    }
+
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        (view as! UITableViewHeaderFooterView).contentView.backgroundColor = UIColor.qzelaDarkBlue
+        (view as! UITableViewHeaderFooterView).textLabel?.textColor = UIColor.colorWhite
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = incidentTableView.dequeueReusableCell(withIdentifier: "IncidentCell") as! IncidentTableViewCell
-        cell.setIncidents(incidentItens[indexPath.row])
+
+        cell.setIncidents(section: indexPath.section, incidentSection[indexPath.section].items[indexPath.row])
         cell.layer.borderWidth = 2
         cell.layer.borderColor = UIColor.colorGray.cgColor
         cell.layer.cornerRadius = 15
-
+        cell.separatorInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+        let solverAction = UIContextualAction(style: .normal, title: "text_solver".localized(), handler: { (action, view, success) in
+            print(self.incidentData[indexPath.row].SegmentName)
+        })
+        solverAction.image = UIImage(systemName: "checkmark.circle.trianglebadge.exclamationmark")
+        solverAction.backgroundColor = UIColor.colorGreen
+
+        let newAction = UIContextualAction(style: .destructive, title: "text_new".localized(), handler: { (action, view, success) in
+            print("New")
+        })
+//        newAction.image = UIImage(systemName: "square.and.arrow.up.trianglebadge.exclamationmark")
+        newAction.image = UIImage(systemName: "square.and.arrow.up.trianglebadge.exclamationmark")
+        newAction.backgroundColor = UIColor.qzelaOrange
+
+        let viewAction = UIContextualAction(style: .normal, title: "text_view".localized(), handler: { (action, view, success) in
+            print("View: \(self.incidentData[indexPath.row].IncidentId)")
+            self.incidentTableView.reloadRows(at: [indexPath], with: .automatic)
+        })
+        viewAction.image = UIImage(systemName: "eye")
+        viewAction.backgroundColor = UIColor.qzelaDarkBlue
+
+        let deleteAction = UIContextualAction(style: .normal, title: "text_delete".localized(), handler: { (action, view, success) in
+            print("Delete")
+            self.incidentData.remove(at: indexPath.row)
+            self.incidentTableView.deleteRows(at: [indexPath], with: .automatic)
+        })
+        deleteAction.image = UIImage(systemName: "trash.fill")
+        deleteAction.backgroundColor = UIColor.colorRed
+
+        var configuration = UISwipeActionsConfiguration()
+        if (indexPath.section == 0) {
+            configuration = UISwipeActionsConfiguration(actions: [deleteAction, viewAction, newAction, solverAction])
+        } else {
+            configuration = UISwipeActionsConfiguration(actions: [viewAction])
+        }
+        configuration.performsFirstActionWithFullSwipe = false
+        return configuration
     }
 }

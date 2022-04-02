@@ -11,17 +11,35 @@ class IncidentTableViewCell: UITableViewCell {
 
     let config = Config()
 
-@IBOutlet weak var segmentLabel: UILabel!
+    @IBOutlet weak var segmentLabel: UILabel!
     @IBOutlet weak var actionLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var ImageView: UIImageView!
 
-    func setIncidents(_ data: IncidentData) {
-        segmentLabel.text = data.SegmentName
+    func setIncidents(section: Int, _ data: IncidentData) {
+
+        if (section == 0) {
+            segmentLabel.text = "Image(s) saved on:"
+            actionLabel.visibility = .invisible
+        } else {
+            segmentLabel.text = data.SegmentName
+            if data.ActionName == Config.STATUS_OPEN {
+                actionLabel.text = "text_open".localized()
+                actionLabel.backgroundColor = .qzelaOrange
+            }
+            if data.ActionName == Config.STATUS_REGISTERED {
+                actionLabel.text = "text_registered".localized()
+                actionLabel.backgroundColor = .colorBlue
+            }
+            if data.ActionName == Config.STATUS_RESOLVED {
+                actionLabel.text = "text_resolved".localized()
+                actionLabel.backgroundColor = .colorGreen
+            }
+            actionLabel.textColor = .colorWhite
+            actionLabel.font = UIFont.boldSystemFont(ofSize: 12.0)
+        }
         dateLabel.text = data.IncidentDate
 
-        actionLabel.textColor = .colorWhite
-        actionLabel.font = UIFont.boldSystemFont(ofSize: 12.0)
         if (data.typeImage == Config.TYPE_IMAGE_PHOTO) {
             ImageView.image = getImages(urlString: data.IncidentImage)
         } else {
@@ -30,22 +48,6 @@ class IncidentTableViewCell: UITableViewCell {
             ImageView.layer.borderColor = UIColor.colorGray.cgColor
             ImageView.backgroundColor = UIColor.qzelaOrange
             ImageView.tintColor = UIColor.colorWhite
-        }
-
-
-
-
-        if data.ActionName == Config.STATUS_OPEN {
-            actionLabel.text = "text_open".localized()
-            actionLabel.backgroundColor = .qzelaOrange
-        }
-        if data.ActionName == Config.STATUS_REGISTERED {
-            actionLabel.text = "text_registered".localized()
-            actionLabel.backgroundColor = .colorBlue
-        }
-        if data.ActionName == Config.STATUS_RESOLVED {
-            actionLabel.text = "text_resolved".localized()
-            actionLabel.backgroundColor = .colorGreen
         }
     }
 

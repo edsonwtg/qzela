@@ -4,7 +4,13 @@
 
 import UIKit
 
+struct IncidentsSection {
+    let name : String
+    var items: [IncidentData]
+}
+
 struct IncidentData {
+    let IncidentId: String
     let SegmentName: String
     let ActionName: String
     let IncidentDate: String
@@ -12,3 +18,4 @@ struct IncidentData {
     let typeImage: String
 
 }
+
