@@ -15,7 +15,6 @@ class NotificationViewController: UIViewController {
     
     @IBAction func btBacktoTabbar(_ sender: Any) {
         let tabBarController = self.view.window?.windowScene?.keyWindow?.rootViewController as! UITabBarController
-
         tabBarController.selectedIndex = Config.MENU_ITEM_DASHBOARD
 //        self.presentingViewController!.presentingViewController!.dismiss(animated: false, completion: nil)
         self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)

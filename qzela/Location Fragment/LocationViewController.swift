@@ -242,7 +242,11 @@ class LocationViewController: UIViewController {
                     DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
                         self.LoadingStop()
                         Config.backSaveIncident = true
-                        self.gotoNewRootViewController(viewController: "TabBarController")
+                        Config.backChangeDashboard = true
+                        Config.deletePhoto = 0
+                        let tabBarController = self.view.window?.windowScene?.keyWindow?.rootViewController as! UITabBarController
+                        tabBarController.selectedIndex = Config.MENU_ITEM_MAP
+                        self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
                     }
                 }
             }

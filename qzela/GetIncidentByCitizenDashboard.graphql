@@ -1,0 +1,17 @@
+query GetIncidentByCitizenDashboard ($citizenId : ID!, $tpIncident: IncidentType!){
+    getIncidentsByCitizenId (
+        citizenId: $citizenId,
+        tpIncident: $tpIncident
+    )
+    {
+        data {
+            _id
+            stIncident
+            dtDate,
+            segments {
+                dcSegment
+            }
+            mediaUrls
+        }
+    }
+}

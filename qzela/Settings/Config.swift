@@ -61,6 +61,7 @@ class Config {
 
     // Variables for pass data from/to view controllers
     static var backSaveIncident = false
+    static var backChangeDashboard = false
     static var deletePhoto = 0
     // *******
 
@@ -190,6 +191,7 @@ class Config {
     static let STATUS_OPEN = "Open"
     static let STATUS_RESOLVED = "Resolved"
     static let STATUS_REGISTERED = "Registered"
+    static let STATUS_SAVED = "Saved"
 
     static let INCIDENT_STATUS_OPEN_WITHOUT_CLIENT = 0
     static let INCIDENT_STATUS_CLOSE_WITHOUT_CLIENT = 1

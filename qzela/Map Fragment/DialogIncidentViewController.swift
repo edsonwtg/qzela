@@ -91,8 +91,31 @@ class DialogIncidentViewController: UIViewController {
         }
         // print("******** GetIncidentById - START **********")
 
+        getIncident()
 
-        ApolloIOS.shared.apollo.fetch(query: GetIncidentByIdQuery(id: incidentId!)) { [unowned self] result in
+    }
+
+    @IBAction func btnClick(_ sender: UIButton) {
+
+        switch sender.restorationIdentifier {
+        case "btClose":
+            dismiss(animated: true, completion: nil)
+        case "btLike":
+            print("btLike")
+         case "btDisLike":
+            print("btDislike")
+        case "btSolver":
+            print("btSolver")
+        case "btFeedback":
+            print("btFeedback")
+        default:
+            break
+        }
+    }
+
+    func getIncident() {
+
+        ApolloIOS.shared.apollo.fetch(query: GetIncidentByIdQuery(id: incidentId!), cachePolicy: .fetchIgnoringCacheData) { [unowned self] result in
             switch result {
             case .success(let graphQLResult):
 //                print("Success! Result: \(graphQLResult)")
@@ -166,13 +189,39 @@ class DialogIncidentViewController: UIViewController {
                         lblProtocol.text = result._id
                         pbStepIncident.setProgress(0, animated: true)
                     }
-                    
+
                     // print("_id \(result._id)")
                     // print("cdSegment \(result.cdSegment)")
                     // print("dcAddress \(result.dcAddress)")
 
                     // print("******** GetViewport - END **********")
                 } else if let errors = graphQLResult.errors{
+                    if (errors.first?.message == "1 - You must supply a valid token to access this resource!") {
+                        print("******** LOGIN AGAIN **********")
+                        let login  = Login()
+                        login.getLogin(
+                                email: Config.SAV_DC_EMAIL,
+                                password: Config.SAV_DC_SENHA,
+                                notificationId: Config.SAV_NOTIFICATION_ID
+                        ){ result in
+                            if !(login.getMessage() == "Login Ok") {
+                                self.showAlert(title: "text_warning".localized(),
+                                        message: login.getMessage().localized(),
+                                        type: .attention,
+                                        actionTitles: ["text_got_it".localized()],
+                                        style: [.default],
+                                        actions: [nil]
+                                )
+                                return
+                            } else {
+                                Config.SAV_ACCESS_TOKEN = login.getAccessToken()
+                                Config.SAV_CD_USUARIO = login.getUserId()
+                                Config.userDefaults.set(Config.SAV_ACCESS_TOKEN, forKey: "accessToken")
+                                Config.userDefaults.set(Config.SAV_CD_USUARIO, forKey: "cdUser")
+                                self.getIncident()
+                            }
+                        }
+                    }
                     print("******** ERROR Loading DATA**********")
                     print(errors)
                     config.stopLoadingData()
@@ -184,26 +233,8 @@ class DialogIncidentViewController: UIViewController {
                 dismiss(animated: true, completion: nil)
             }
         }
-        
+
         // print("******** GetIncidentById - END **********")
-    }
-
-    @IBAction func btnClick(_ sender: UIButton) {
-
-        switch sender.restorationIdentifier {
-        case "btClose":
-            dismiss(animated: true, completion: nil)
-        case "btLike":
-            print("btLike")
-         case "btDisLike":
-            print("btDislike")
-        case "btSolver":
-            print("btSolver")
-        case "btFeedback":
-            print("btFeedback")
-        default:
-            break
-        }
     }
 
     func showImage(imageFilePath: String, bVideo: Bool) {

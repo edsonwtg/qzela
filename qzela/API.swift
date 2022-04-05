@@ -4,6 +4,67 @@
 import Apollo
 import Foundation
 
+public enum IncidentType: RawRepresentable, Equatable, Hashable, CaseIterable, Apollo.JSONDecodable, Apollo.JSONEncodable {
+  public typealias RawValue = String
+  /// Status do incident para o dashboard do usuario do APP.
+  case all
+  case `open`
+  case close
+  case closeregistered
+  case registered
+  case interaction
+  /// Auto generated constant for unknown enum values
+  case __unknown(RawValue)
+
+  public init?(rawValue: RawValue) {
+    switch rawValue {
+      case "ALL": self = .all
+      case "OPEN": self = .open
+      case "CLOSE": self = .close
+      case "CLOSEREGISTERED": self = .closeregistered
+      case "REGISTERED": self = .registered
+      case "INTERACTION": self = .interaction
+      default: self = .__unknown(rawValue)
+    }
+  }
+
+  public var rawValue: RawValue {
+    switch self {
+      case .all: return "ALL"
+      case .open: return "OPEN"
+      case .close: return "CLOSE"
+      case .closeregistered: return "CLOSEREGISTERED"
+      case .registered: return "REGISTERED"
+      case .interaction: return "INTERACTION"
+      case .__unknown(let value): return value
+    }
+  }
+
+  public static func == (lhs: IncidentType, rhs: IncidentType) -> Bool {
+    switch (lhs, rhs) {
+      case (.all, .all): return true
+      case (.open, .open): return true
+      case (.close, .close): return true
+      case (.closeregistered, .closeregistered): return true
+      case (.registered, .registered): return true
+      case (.interaction, .interaction): return true
+      case (.__unknown(let lhsValue), .__unknown(let rhsValue)): return lhsValue == rhsValue
+      default: return false
+    }
+  }
+
+  public static var allCases: [IncidentType] {
+    return [
+      .all,
+      .open,
+      .close,
+      .closeregistered,
+      .registered,
+      .interaction,
+    ]
+  }
+}
+
 public enum TPMEDIA_ENUM: RawRepresentable, Equatable, Hashable, CaseIterable, Apollo.JSONDecodable, Apollo.JSONEncodable {
   public typealias RawValue = String
   case photo
@@ -41,6 +102,272 @@ public enum TPMEDIA_ENUM: RawRepresentable, Equatable, Hashable, CaseIterable, A
       .photo,
       .video,
     ]
+  }
+}
+
+public final class GetCitizenByIdQuery: GraphQLQuery {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    query getCitizenById($id: ID!) {
+      getCitizenById(_id: $id) {
+        __typename
+        dcCitizen
+        qtQZelas
+        qtOpen
+        qtClose
+        qtInteraction
+        subscribedEvents {
+          __typename
+          idEvent
+          totalQtEarnedEvents
+        }
+        earningsHistory {
+          __typename
+          _idIncident
+          dcAction
+        }
+      }
+    }
+    """
+
+  public let operationName: String = "getCitizenById"
+
+  public var id: GraphQLID
+
+  public init(id: GraphQLID) {
+    self.id = id
+  }
+
+  public var variables: GraphQLMap? {
+    return ["id": id]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Query"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("getCitizenById", arguments: ["_id": GraphQLVariable("id")], type: .nonNull(.object(GetCitizenById.selections))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(getCitizenById: GetCitizenById) {
+      self.init(unsafeResultMap: ["__typename": "Query", "getCitizenById": getCitizenById.resultMap])
+    }
+
+    /// Lista o cidadao pelo ID.
+    public var getCitizenById: GetCitizenById {
+      get {
+        return GetCitizenById(unsafeResultMap: resultMap["getCitizenById"]! as! ResultMap)
+      }
+      set {
+        resultMap.updateValue(newValue.resultMap, forKey: "getCitizenById")
+      }
+    }
+
+    public struct GetCitizenById: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["Citizen"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("dcCitizen", type: .nonNull(.scalar(String.self))),
+          GraphQLField("qtQZelas", type: .nonNull(.scalar(Int.self))),
+          GraphQLField("qtOpen", type: .nonNull(.scalar(Int.self))),
+          GraphQLField("qtClose", type: .nonNull(.scalar(Int.self))),
+          GraphQLField("qtInteraction", type: .nonNull(.scalar(Int.self))),
+          GraphQLField("subscribedEvents", type: .list(.object(SubscribedEvent.selections))),
+          GraphQLField("earningsHistory", type: .list(.object(EarningsHistory.selections))),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(dcCitizen: String, qtQZelas: Int, qtOpen: Int, qtClose: Int, qtInteraction: Int, subscribedEvents: [SubscribedEvent?]? = nil, earningsHistory: [EarningsHistory?]? = nil) {
+        self.init(unsafeResultMap: ["__typename": "Citizen", "dcCitizen": dcCitizen, "qtQZelas": qtQZelas, "qtOpen": qtOpen, "qtClose": qtClose, "qtInteraction": qtInteraction, "subscribedEvents": subscribedEvents.flatMap { (value: [SubscribedEvent?]) -> [ResultMap?] in value.map { (value: SubscribedEvent?) -> ResultMap? in value.flatMap { (value: SubscribedEvent) -> ResultMap in value.resultMap } } }, "earningsHistory": earningsHistory.flatMap { (value: [EarningsHistory?]) -> [ResultMap?] in value.map { (value: EarningsHistory?) -> ResultMap? in value.flatMap { (value: EarningsHistory) -> ResultMap in value.resultMap } } }])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var dcCitizen: String {
+        get {
+          return resultMap["dcCitizen"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "dcCitizen")
+        }
+      }
+
+      public var qtQZelas: Int {
+        get {
+          return resultMap["qtQZelas"]! as! Int
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "qtQZelas")
+        }
+      }
+
+      public var qtOpen: Int {
+        get {
+          return resultMap["qtOpen"]! as! Int
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "qtOpen")
+        }
+      }
+
+      public var qtClose: Int {
+        get {
+          return resultMap["qtClose"]! as! Int
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "qtClose")
+        }
+      }
+
+      public var qtInteraction: Int {
+        get {
+          return resultMap["qtInteraction"]! as! Int
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "qtInteraction")
+        }
+      }
+
+      public var subscribedEvents: [SubscribedEvent?]? {
+        get {
+          return (resultMap["subscribedEvents"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [SubscribedEvent?] in value.map { (value: ResultMap?) -> SubscribedEvent? in value.flatMap { (value: ResultMap) -> SubscribedEvent in SubscribedEvent(unsafeResultMap: value) } } }
+        }
+        set {
+          resultMap.updateValue(newValue.flatMap { (value: [SubscribedEvent?]) -> [ResultMap?] in value.map { (value: SubscribedEvent?) -> ResultMap? in value.flatMap { (value: SubscribedEvent) -> ResultMap in value.resultMap } } }, forKey: "subscribedEvents")
+        }
+      }
+
+      public var earningsHistory: [EarningsHistory?]? {
+        get {
+          return (resultMap["earningsHistory"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [EarningsHistory?] in value.map { (value: ResultMap?) -> EarningsHistory? in value.flatMap { (value: ResultMap) -> EarningsHistory in EarningsHistory(unsafeResultMap: value) } } }
+        }
+        set {
+          resultMap.updateValue(newValue.flatMap { (value: [EarningsHistory?]) -> [ResultMap?] in value.map { (value: EarningsHistory?) -> ResultMap? in value.flatMap { (value: EarningsHistory) -> ResultMap in value.resultMap } } }, forKey: "earningsHistory")
+        }
+      }
+
+      public struct SubscribedEvent: GraphQLSelectionSet {
+        public static let possibleTypes: [String] = ["Events"]
+
+        public static var selections: [GraphQLSelection] {
+          return [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("idEvent", type: .nonNull(.scalar(GraphQLID.self))),
+            GraphQLField("totalQtEarnedEvents", type: .nonNull(.scalar(Int.self))),
+          ]
+        }
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(idEvent: GraphQLID, totalQtEarnedEvents: Int) {
+          self.init(unsafeResultMap: ["__typename": "Events", "idEvent": idEvent, "totalQtEarnedEvents": totalQtEarnedEvents])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var idEvent: GraphQLID {
+          get {
+            return resultMap["idEvent"]! as! GraphQLID
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "idEvent")
+          }
+        }
+
+        public var totalQtEarnedEvents: Int {
+          get {
+            return resultMap["totalQtEarnedEvents"]! as! Int
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "totalQtEarnedEvents")
+          }
+        }
+      }
+
+      public struct EarningsHistory: GraphQLSelectionSet {
+        public static let possibleTypes: [String] = ["Earnings"]
+
+        public static var selections: [GraphQLSelection] {
+          return [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("_idIncident", type: .nonNull(.scalar(GraphQLID.self))),
+            GraphQLField("dcAction", type: .nonNull(.scalar(String.self))),
+          ]
+        }
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(_idIncident: GraphQLID, dcAction: String) {
+          self.init(unsafeResultMap: ["__typename": "Earnings", "_idIncident": _idIncident, "dcAction": dcAction])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var _idIncident: GraphQLID {
+          get {
+            return resultMap["_idIncident"]! as! GraphQLID
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "_idIncident")
+          }
+        }
+
+        public var dcAction: String {
+          get {
+            return resultMap["dcAction"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "dcAction")
+          }
+        }
+      }
+    }
   }
 }
 
@@ -83,6 +410,232 @@ public final class GetHealthQuery: GraphQLQuery {
       }
       set {
         resultMap.updateValue(newValue, forKey: "health")
+      }
+    }
+  }
+}
+
+public final class GetIncidentByCitizenDashboardQuery: GraphQLQuery {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    query GetIncidentByCitizenDashboard($citizenId: ID!, $tpIncident: IncidentType!) {
+      getIncidentsByCitizenId(citizenId: $citizenId, tpIncident: $tpIncident) {
+        __typename
+        data {
+          __typename
+          _id
+          stIncident
+          dtDate
+          segments {
+            __typename
+            dcSegment
+          }
+          mediaUrls
+        }
+      }
+    }
+    """
+
+  public let operationName: String = "GetIncidentByCitizenDashboard"
+
+  public var citizenId: GraphQLID
+  public var tpIncident: IncidentType
+
+  public init(citizenId: GraphQLID, tpIncident: IncidentType) {
+    self.citizenId = citizenId
+    self.tpIncident = tpIncident
+  }
+
+  public var variables: GraphQLMap? {
+    return ["citizenId": citizenId, "tpIncident": tpIncident]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Query"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("getIncidentsByCitizenId", arguments: ["citizenId": GraphQLVariable("citizenId"), "tpIncident": GraphQLVariable("tpIncident")], type: .nonNull(.object(GetIncidentsByCitizenId.selections))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(getIncidentsByCitizenId: GetIncidentsByCitizenId) {
+      self.init(unsafeResultMap: ["__typename": "Query", "getIncidentsByCitizenId": getIncidentsByCitizenId.resultMap])
+    }
+
+    /// Exibe o Incidente pelo ID do Cidadão (citizenId).
+    public var getIncidentsByCitizenId: GetIncidentsByCitizenId {
+      get {
+        return GetIncidentsByCitizenId(unsafeResultMap: resultMap["getIncidentsByCitizenId"]! as! ResultMap)
+      }
+      set {
+        resultMap.updateValue(newValue.resultMap, forKey: "getIncidentsByCitizenId")
+      }
+    }
+
+    public struct GetIncidentsByCitizenId: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["IncidentPagination"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("data", type: .nonNull(.list(.nonNull(.object(Datum.selections))))),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(data: [Datum]) {
+        self.init(unsafeResultMap: ["__typename": "IncidentPagination", "data": data.map { (value: Datum) -> ResultMap in value.resultMap }])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      /// Propriedades que compõem o corpo das informações da Paginação.
+      public var data: [Datum] {
+        get {
+          return (resultMap["data"] as! [ResultMap]).map { (value: ResultMap) -> Datum in Datum(unsafeResultMap: value) }
+        }
+        set {
+          resultMap.updateValue(newValue.map { (value: Datum) -> ResultMap in value.resultMap }, forKey: "data")
+        }
+      }
+
+      public struct Datum: GraphQLSelectionSet {
+        public static let possibleTypes: [String] = ["Incident"]
+
+        public static var selections: [GraphQLSelection] {
+          return [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+            GraphQLField("stIncident", type: .nonNull(.scalar(Int.self))),
+            GraphQLField("dtDate", type: .scalar(ISODate.self)),
+            GraphQLField("segments", type: .nonNull(.list(.nonNull(.object(Segment.selections))))),
+            GraphQLField("mediaUrls", type: .list(.nonNull(.scalar(String.self)))),
+          ]
+        }
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(_id: GraphQLID, stIncident: Int, dtDate: ISODate? = nil, segments: [Segment], mediaUrls: [String]? = nil) {
+          self.init(unsafeResultMap: ["__typename": "Incident", "_id": _id, "stIncident": stIncident, "dtDate": dtDate, "segments": segments.map { (value: Segment) -> ResultMap in value.resultMap }, "mediaUrls": mediaUrls])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        /// Propriedades que compõem o corpo do Incidente.
+        public var _id: GraphQLID {
+          get {
+            return resultMap["_id"]! as! GraphQLID
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "_id")
+          }
+        }
+
+        public var stIncident: Int {
+          get {
+            return resultMap["stIncident"]! as! Int
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "stIncident")
+          }
+        }
+
+        public var dtDate: ISODate? {
+          get {
+            return resultMap["dtDate"] as? ISODate
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "dtDate")
+          }
+        }
+
+        public var segments: [Segment] {
+          get {
+            return (resultMap["segments"] as! [ResultMap]).map { (value: ResultMap) -> Segment in Segment(unsafeResultMap: value) }
+          }
+          set {
+            resultMap.updateValue(newValue.map { (value: Segment) -> ResultMap in value.resultMap }, forKey: "segments")
+          }
+        }
+
+        public var mediaUrls: [String]? {
+          get {
+            return resultMap["mediaUrls"] as? [String]
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "mediaUrls")
+          }
+        }
+
+        public struct Segment: GraphQLSelectionSet {
+          public static let possibleTypes: [String] = ["Occurrence"]
+
+          public static var selections: [GraphQLSelection] {
+            return [
+              GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+              GraphQLField("dcSegment", type: .nonNull(.scalar(String.self))),
+            ]
+          }
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(dcSegment: String) {
+            self.init(unsafeResultMap: ["__typename": "Occurrence", "dcSegment": dcSegment])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          public var dcSegment: String {
+            get {
+              return resultMap["dcSegment"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "dcSegment")
+            }
+          }
+        }
       }
     }
   }

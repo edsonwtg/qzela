@@ -1,0 +1,19 @@
+query getCitizenById ( $id: ID! ) {
+    getCitizenById(
+        _id: $id
+    ) {
+        dcCitizen,
+        qtQZelas
+        qtOpen
+        qtClose,
+        qtInteraction,
+        subscribedEvents {
+            idEvent
+            totalQtEarnedEvents
+        }
+        earningsHistory {
+            _idIncident,
+            dcAction
+        }
+    }
+}

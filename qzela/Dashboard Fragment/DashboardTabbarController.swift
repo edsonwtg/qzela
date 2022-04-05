@@ -11,6 +11,10 @@ class DashboardTabbarController: UIViewController {
 
     var incidentData = [IncidentData]()
     var incidentSection = [IncidentsSection]()
+    var mediasUrl = Array<String>()
+
+    let config = Config()
+    let networkListener = NetworkListener()
 
     @IBOutlet weak var openStackView: UIStackView!
     @IBOutlet weak var closeStackView: UIStackView!
@@ -45,7 +49,15 @@ class DashboardTabbarController: UIViewController {
     
     @IBOutlet weak var incidentTableView: UITableView!
 
-    override func viewDidLoad() {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // print("***** DashboardTabbarController viewDidAppear *****")
+        if (Config.backChangeDashboard) {
+            getCitizen()
+            Config.backChangeDashboard = false
+        }
+    }
+     override func viewDidLoad() {
         super.viewDidLoad()
 
         incidentTableView.delegate = self
@@ -112,11 +124,17 @@ class DashboardTabbarController: UIViewController {
         actionConfirmIcon.isUserInteractionEnabled = true
         actionConfirmIcon.addGestureRecognizer(tapActionConfirm)
 
-        getSavedIncidentes()
+        getCitizen()
+
     }
 
     @objc func tapGestureImage (_ sender: UITapGestureRecognizer) {
 
+        guard let section = incidentSection.firstIndex(where: {$0.name == "My Incidents"}) else {
+            return
+        }
+        incidentSection.remove(at: section)
+        incidentTableView.deleteSections(IndexSet(integer: section), with: .automatic)
         switch sender.view?.restorationIdentifier {
         case "actionOpenIcon":
             actionOpenLabel.visibility = .visible
@@ -125,6 +143,7 @@ class DashboardTabbarController: UIViewController {
             actionResolvedLine.visibility = .invisible
             actionConfirmLabel.visibility = .invisible
             actionConfirmLine.visibility = .invisible
+            getIncidents(incidentType: IncidentType.open)
         case "actionResolvedIcon":
             actionOpenLabel.visibility = .invisible
             actionOpenLine.visibility = .invisible
@@ -132,6 +151,7 @@ class DashboardTabbarController: UIViewController {
             actionResolvedLine.visibility = .visible
             actionConfirmLabel.visibility = .invisible
             actionConfirmLine.visibility = .invisible
+            getIncidents(incidentType: IncidentType.closeregistered)
         case "actionConfirmIcon":
             actionOpenLabel.visibility = .invisible
             actionOpenLine.visibility = .invisible
@@ -139,63 +159,255 @@ class DashboardTabbarController: UIViewController {
             actionResolvedLine.visibility = .invisible
             actionConfirmLabel.visibility = .visible
             actionConfirmLine.visibility = .visible
+            getIncidents(incidentType: IncidentType.interaction)
         default:
             break
         }
     }
 
-    func getSavedIncidentes() {
+    func getCitizen() {
         incidentSection.removeAll()
-        incidentData.removeAll()
-        incidentData.append(IncidentData(
-                IncidentId: "Saved 1",
-                SegmentName: "#EuCuidoDoMeuQuadrado",
-                ActionName: Config.STATUS_OPEN,
-                IncidentDate: "3/30/22 10:22",
-                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
-                typeImage: Config.TYPE_IMAGE_PHOTO
-        ))
-        incidentData.append(IncidentData(
-                IncidentId: "Saved 2",
-                SegmentName: "Árvore",
-                ActionName: Config.STATUS_RESOLVED,
-                IncidentDate: "12/5/21 23:00",
-                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
-                typeImage: Config.TYPE_IMAGE_PHOTO
-        ))
-        incidentSection.append(IncidentsSection(name: "Saved Incidents", items: incidentData))
-        getIncidents()
+        getSavedIncidentes()
+        if (!networkListener.isNetworkAvailable()) {
+            // print("******** NO INTERNET CONNECTION *********")
+            let actionHandler: (UIAlertAction) -> Void = { (action) in
+                return
+            }
+            showAlert(title: "text_no_internet".localized(),
+                    message: "text_internet_off".localized(),
+                    type: .attention,
+                    actionTitles: ["text_got_it".localized()],
+                    style: [.default],
+                    actions: [actionHandler])
+        }
+        config.startLoadingData(view: view, color: .qzelaDarkBlue)
+        print("****** GETCITIZEN *******")
+        ApolloIOS.shared.apollo.fetch(query: GetCitizenByIdQuery(id: Config.SAV_CD_USUARIO), cachePolicy: .fetchIgnoringCacheData) { [unowned self] result in
+            switch result {
+            case .success(let graphQLResult):
+                print("Success! Result: \(graphQLResult)")
+                if let result = graphQLResult.data?.getCitizenById {
+                    openPointsLabel.text = String(result.qtOpen)
+                    closePointsLabel.text = String(result.qtClose)
+                    interPointsLabel.text = String(result.qtInteraction)
+                    totQzelasPointsLabel.text = String(result.qtQZelas)
+                    let subscribedEvents = result.subscribedEvents
+                    var totEvents = 0
+                    if (subscribedEvents?.count ?? 0 > 0) {
+                        for events in subscribedEvents! {
+                            totEvents += events!.totalQtEarnedEvents
+                        }
+                    }
+                    totEventsPointsLabel.text = String(totEvents)
+                    config.stopLoadingData()
+                    getIncidents(incidentType: IncidentType.open)
+                    // print("******** GetCitizen - END **********")
+                } else if let errors = graphQLResult.errors{
+                    if (errors.first?.message == "1 - You must supply a valid token to access this resource!") {
+                        print("******** LOGIN AGAIN **********")
+                        let login  = Login()
+                        login.getLogin(
+                                email: Config.SAV_DC_EMAIL,
+                                password: Config.SAV_DC_SENHA,
+                                notificationId: Config.SAV_NOTIFICATION_ID
+                        ){ result in
+                            if !(login.getMessage() == "Login Ok") {
+                                self.showAlert(title: "text_warning".localized(),
+                                        message: login.getMessage().localized(),
+                                        type: .attention,
+                                        actionTitles: ["text_got_it".localized()],
+                                        style: [.default],
+                                        actions: [nil]
+                                )
+                                return
+                            } else {
+                                Config.SAV_ACCESS_TOKEN = login.getAccessToken()
+                                Config.SAV_CD_USUARIO = login.getUserId()
+                                Config.userDefaults.set(Config.SAV_ACCESS_TOKEN, forKey: "accessToken")
+                                Config.userDefaults.set(Config.SAV_CD_USUARIO, forKey: "cdUser")
+                                self.getCitizen()
+                            }
+                        }
+                    }
+                    print("******** ERROR Loading DATA**********")
+                    print(errors)
+                    config.stopLoadingData()
+                    dismiss(animated: true, completion: nil)
+                }
+            case .failure(let error):
+                config.stopLoadingData()
+                print("Failure! Error: \(error)")
+                dismiss(animated: true, completion: nil)
+            }
+        }
+
+        // print("******** GetIncidentById - END **********")
     }
 
-    func getIncidents() {
+    func getSavedIncidentes() {
+        print("****** GETSAVEDINCIDENTS *******")
+        if (Config.saveQtdIncidents > 0) {
+            incidentData.removeAll()
+            mediasUrl.removeAll()
+            for incident in Config.saveIncidents {
+                let dateFormatter = DateFormatter()
+                dateFormatter.locale = Locale(identifier: Config.CURRENT_LANGUAGE)
+                dateFormatter.dateStyle = .short
+                dateFormatter.timeStyle = .short
+                for medias in incident.savedImages {
+                    mediasUrl.append(medias.fileImage)
+                }
+                incidentData.append(IncidentData(
+                        IncidentId: String(incident.id),
+                        SegmentName: "",
+                        ActionName: Config.STATUS_SAVED,
+                        IncidentDate: dateFormatter.string(from: incident.dateTime),
+                        IncidentImage: Config.PATH_SAVED_FILES+"/"+mediasUrl.first!,
+                        typeImage: incident.imageType
+                ))
+            }
+//            incidentData.append(IncidentData(
+//                    IncidentId: "Saved 1",
+//                    SegmentName: "#EuCuidoDoMeuQuadrado",
+//                    ActionName: Config.STATUS_OPEN,
+//                    IncidentDate: "3/30/22 10:22",
+//                    IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
+//                    typeImage: Config.TYPE_IMAGE_PHOTO
+//            ))
+//            incidentData.append(IncidentData(
+//                    IncidentId: "Saved 2",
+//                    SegmentName: "Árvore",
+//                    ActionName: Config.STATUS_RESOLVED,
+//                    IncidentDate: "12/5/21 23:00",
+//                    IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
+//                    typeImage: Config.TYPE_IMAGE_PHOTO
+//            ))
+            incidentSection.append(IncidentsSection(name: "Saved Incidents", items: incidentData))
+        }
+        print("****** END GETSAVEDINCIDENTS *******")
+    }
 
+    func getIncidents(incidentType: IncidentType) {
+        print("****** GETCINCIDENTS *******")
+        config.startLoadingData(view: view, color: .qzelaDarkBlue)
         incidentData.removeAll()
-        incidentData.append(IncidentData(
-                IncidentId: "Incident 1",
-                SegmentName: "Rede de Telecomunicações",
-                ActionName: Config.STATUS_REGISTERED,
-                IncidentDate: "12/30/21",
-                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
-                typeImage: Config.TYPE_IMAGE_PHOTO
-        ))
-        incidentData.append(IncidentData(
-                IncidentId: "Incident 2",
-                SegmentName: "Estradas",
-                ActionName: Config.STATUS_OPEN,
-                IncidentDate: "12/30/21",
-                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
-                typeImage: Config.TYPE_IMAGE_PHOTO
-        ))
-        incidentData.append(IncidentData(
-                IncidentId: "Incident 3",
-                SegmentName: "Animais",
-                ActionName: Config.STATUS_RESOLVED,
-                IncidentDate: "12/30/21",
-                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
-                typeImage: Config.TYPE_IMAGE_PHOTO
-        ))
-        incidentSection.append(IncidentsSection(name: "My Incidents", items: incidentData))
-        incidentTableView.reloadData()
+        mediasUrl.removeAll()
+        ApolloIOS.shared.apollo.fetch(query: GetIncidentByCitizenDashboardQuery(
+                citizenId: Config.SAV_CD_USUARIO,
+                tpIncident: incidentType), cachePolicy: .fetchIgnoringCacheData) { [unowned self] result in
+            switch result {
+            case .success(let graphQLResult):
+                print("Success! Result: \(graphQLResult)")
+                if let result = graphQLResult.data?.getIncidentsByCitizenId.data {
+                    for incident in result {
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.locale = Locale(identifier: Config.CURRENT_LANGUAGE)
+                        dateFormatter.dateStyle = .short
+                        for medias in incident.mediaUrls! {
+                            if (medias.contains(Config.IMAGE_MAP)) { continue}
+                            mediasUrl.append(medias)
+                        }
+                        var action: String!
+                        switch (incident.stIncident) {
+                        case 0, 2:
+                            action = "text_open".localized()
+                            break;
+                        case 1, 4:
+                            action = "text_resolved".localized()
+                            break;
+                        case 5, 6:
+                            action = "text_interaction".localized()
+                           break;
+                        case 7:
+                            action = "text_registered".localized()
+                            break;
+                        default:
+                            break
+                        }
+                        let imageType: String!
+                        if (mediasUrl.first!.contains("img_")) {
+                            imageType = Config.TYPE_IMAGE_PHOTO
+                        } else {
+                            imageType = Config.TYPE_IMAGE_VIDEO
+                        }
+                        incidentData.append(IncidentData(
+                                IncidentId: incident._id,
+                                SegmentName: incident.segments[0].dcSegment,
+                                ActionName: action,
+                                IncidentDate: dateFormatter.string(from: incident.dtDate!),
+                                IncidentImage: mediasUrl.first!,
+                                typeImage: imageType
+                        ))
+                    }
+                    incidentSection.append(IncidentsSection(name: "My Incidents", items: incidentData))
+                    incidentTableView.reloadData()
+                    config.stopLoadingData()
+                    // print("******** GetCitizen - END **********")
+                } else if let errors = graphQLResult.errors{
+                    if (errors.first?.message == "1 - You must supply a valid token to access this resource!") {
+                        print("******** LOGIN AGAIN **********")
+                        let login  = Login()
+                        login.getLogin(
+                                email: Config.SAV_DC_EMAIL,
+                                password: Config.SAV_DC_SENHA,
+                                notificationId: Config.SAV_NOTIFICATION_ID
+                        ){ result in
+                            if !(login.getMessage() == "Login Ok") {
+                                self.showAlert(title: "text_warning".localized(),
+                                        message: login.getMessage().localized(),
+                                        type: .attention,
+                                        actionTitles: ["text_got_it".localized()],
+                                        style: [.default],
+                                        actions: [nil]
+                                )
+                                return
+                            } else {
+                                Config.SAV_ACCESS_TOKEN = login.getAccessToken()
+                                Config.SAV_CD_USUARIO = login.getUserId()
+                                Config.userDefaults.set(Config.SAV_ACCESS_TOKEN, forKey: "accessToken")
+                                Config.userDefaults.set(Config.SAV_CD_USUARIO, forKey: "cdUser")
+                                self.getCitizen()
+                            }
+                        }
+                    }
+                    print("******** ERROR Loading DATA**********")
+                    print(errors)
+                    config.stopLoadingData()
+                    dismiss(animated: true, completion: nil)
+                }
+            case .failure(let error):
+                config.stopLoadingData()
+                print("Failure! Error: \(error)")
+                dismiss(animated: true, completion: nil)
+            }
+        }
+        print("****** END GETCINCIDENTS *******")
+//        incidentData.append(IncidentData(
+//                IncidentId: "Incident 1",
+//                SegmentName: "Rede de Telecomunicações",
+//                ActionName: Config.STATUS_REGISTERED,
+//                IncidentDate: "12/30/21",
+//                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
+//                typeImage: Config.TYPE_IMAGE_PHOTO
+//        ))
+//        incidentData.append(IncidentData(
+//                IncidentId: "Incident 2",
+//                SegmentName: "Estradas",
+//                ActionName: Config.STATUS_OPEN,
+//                IncidentDate: "12/30/21",
+//                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
+//                typeImage: Config.TYPE_IMAGE_PHOTO
+//        ))
+//        incidentData.append(IncidentData(
+//                IncidentId: "Incident 3",
+//                SegmentName: "Animais",
+//                ActionName: Config.STATUS_RESOLVED,
+//                IncidentDate: "12/30/21",
+//                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
+//                typeImage: Config.TYPE_IMAGE_PHOTO
+//        ))
+//        incidentSection.append(IncidentsSection(name: "My Incidents", items: incidentData))
+//        incidentTableView.reloadData()
     }
 
     func gotoNewRootViewController(viewController: String) {
@@ -220,7 +432,7 @@ extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource 
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return incidentSection[section].items.count ?? 0
+        return incidentSection[section].items.count
    }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -250,13 +462,16 @@ extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
         let solverAction = UIContextualAction(style: .normal, title: "text_solver".localized(), handler: { (action, view, success) in
+            print("Solver")
             print(self.incidentData[indexPath.row].SegmentName)
+            success(true)
         })
         solverAction.image = UIImage(systemName: "checkmark.circle.trianglebadge.exclamationmark")
         solverAction.backgroundColor = UIColor.colorGreen
 
         let newAction = UIContextualAction(style: .destructive, title: "text_new".localized(), handler: { (action, view, success) in
             print("New")
+            success(true)
         })
 //        newAction.image = UIImage(systemName: "square.and.arrow.up.trianglebadge.exclamationmark")
         newAction.image = UIImage(systemName: "square.and.arrow.up.trianglebadge.exclamationmark")
@@ -264,21 +479,28 @@ extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource 
 
         let viewAction = UIContextualAction(style: .normal, title: "text_view".localized(), handler: { (action, view, success) in
             print("View: \(self.incidentData[indexPath.row].IncidentId)")
-            self.incidentTableView.reloadRows(at: [indexPath], with: .automatic)
+            success(true)
         })
         viewAction.image = UIImage(systemName: "eye")
         viewAction.backgroundColor = UIColor.qzelaDarkBlue
 
         let deleteAction = UIContextualAction(style: .normal, title: "text_delete".localized(), handler: { (action, view, success) in
             print("Delete")
-            self.incidentData.remove(at: indexPath.row)
+
+            self.incidentSection[indexPath.section].items.remove(at: indexPath.row)
             self.incidentTableView.deleteRows(at: [indexPath], with: .automatic)
+            if (self.incidentSection[indexPath.section].items.count == 0) {
+                self.incidentSection.remove(at: indexPath.section)
+                self.incidentTableView.reloadData()
+            } else {
+                self.incidentTableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
+            }
         })
         deleteAction.image = UIImage(systemName: "trash.fill")
         deleteAction.backgroundColor = UIColor.colorRed
 
         var configuration = UISwipeActionsConfiguration()
-        if (indexPath.section == 0) {
+        if (incidentSection[indexPath.section].items[indexPath.row].ActionName == Config.STATUS_SAVED) {
             configuration = UISwipeActionsConfiguration(actions: [deleteAction, viewAction, newAction, solverAction])
         } else {
             configuration = UISwipeActionsConfiguration(actions: [viewAction])

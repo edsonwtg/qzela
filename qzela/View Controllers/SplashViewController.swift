@@ -47,9 +47,9 @@ class SplashViewController: UIViewController {
 
 //        print("************** getUserDefaults ************", #file.components(separatedBy: "/").last!, #line)
         config.getUserDefaults()
-//        print(Config.saveQtdIncidents)
-//        print(Config.saveIncidents)
-//        config.listDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
+        print(Config.saveQtdIncidents)
+        print(Config.saveIncidents)
+        config.listDirectory(fileManager: fileManager, path: Config.PATH_SAVED_FILES)
 
         // Delete files saved more 1 day.
         if (Config.saveQtdIncidents > 0) {

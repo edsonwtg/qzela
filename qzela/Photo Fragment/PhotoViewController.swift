@@ -418,6 +418,7 @@ class PhotoViewController: UIViewController {
                     photoImage1.image = nil
                     bPhoto1 = false
                     filePhoto1 = ""
+
                 }
                 if (bPhoto2) {
                     let fileSaved = Config.PATH_SAVED_FILES+"/"+filePhoto2.components(separatedBy: "/").last!
@@ -476,6 +477,8 @@ class PhotoViewController: UIViewController {
             let actionHandler: (UIAlertAction) -> Void = { (action) in
                 //Back to Map
                 Config.backSaveIncident = true
+                Config.backChangeDashboard = true
+                Config.deletePhoto = 0
                 self.dismiss(animated: true, completion: nil)
                 // print("****** EXIT ******")
             }

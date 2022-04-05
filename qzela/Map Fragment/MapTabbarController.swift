@@ -330,7 +330,7 @@ class MapTabbarController: UIViewController {
                 already: alreadyGetIncidents), cachePolicy: .fetchIgnoringCacheData){ [unowned self] result in
             switch result {
             case .success(let graphQLResult):
-                print("Success! Result: \(graphQLResult)")
+//                print("Success! Result: \(graphQLResult)")
                 if let viewport = graphQLResult.data?.getIncidentsByViewport.data.compactMap({ $0 }) {
                     for resultApi in viewport {
                         alreadyGetIncidents.append(resultApi._id);
