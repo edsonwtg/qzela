@@ -60,7 +60,7 @@ class SplashViewController: UIViewController {
                     Config.saveQtdIncidents -= 1
                     Config.saveIncidents.remove(at: countIncident)
                     for imageSave in incident.savedImages {
-                        let fileDelete = Config.PATH_SAVED_FILES+"/"+imageSave.fileImage
+                        let fileDelete = Config.PATH_SAVED_FILES + "/" + imageSave.fileImage
                         config.deleteImage(fileManager: fileManager, pathFileFrom: fileDelete)
                     }
                 } else {

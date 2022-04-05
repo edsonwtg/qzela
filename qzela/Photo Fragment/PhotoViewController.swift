@@ -477,7 +477,7 @@ class PhotoViewController: UIViewController {
             let actionHandler: (UIAlertAction) -> Void = { (action) in
                 //Back to Map
                 Config.backSaveIncident = true
-                Config.backChangeDashboard = true
+                Config.backSavedDashboard = true
                 Config.deletePhoto = 0
                 self.dismiss(animated: true, completion: nil)
                 // print("****** EXIT ******")

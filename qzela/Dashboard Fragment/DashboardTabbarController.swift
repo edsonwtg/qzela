@@ -52,12 +52,16 @@ class DashboardTabbarController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // print("***** DashboardTabbarController viewDidAppear *****")
-        if (Config.backChangeDashboard) {
+        if (Config.backIncidentDashboard) {
+            Config.backIncidentDashboard = false
             getCitizen()
-            Config.backChangeDashboard = false
+        }
+        if (Config.backSavedDashboard) {
+            Config.backSavedDashboard = false
+            getSavedIncidentes()
         }
     }
-     override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         incidentTableView.delegate = self
@@ -124,8 +128,8 @@ class DashboardTabbarController: UIViewController {
         actionConfirmIcon.isUserInteractionEnabled = true
         actionConfirmIcon.addGestureRecognizer(tapActionConfirm)
 
+        getSavedIncidentes()
         getCitizen()
-
     }
 
     @objc func tapGestureImage (_ sender: UITapGestureRecognizer) {
@@ -166,8 +170,6 @@ class DashboardTabbarController: UIViewController {
     }
 
     func getCitizen() {
-        incidentSection.removeAll()
-        getSavedIncidentes()
         if (!networkListener.isNetworkAvailable()) {
             // print("******** NO INTERNET CONNECTION *********")
             let actionHandler: (UIAlertAction) -> Void = { (action) in
@@ -200,6 +202,12 @@ class DashboardTabbarController: UIViewController {
                     }
                     totEventsPointsLabel.text = String(totEvents)
                     config.stopLoadingData()
+                    actionOpenLabel.visibility = .visible
+                    actionOpenLine.visibility = .visible
+                    actionResolvedLabel.visibility = .invisible
+                    actionResolvedLine.visibility = .invisible
+                    actionConfirmLabel.visibility = .invisible
+                    actionConfirmLine.visibility = .invisible
                     getIncidents(incidentType: IncidentType.open)
                     // print("******** GetCitizen - END **********")
                 } else if let errors = graphQLResult.errors{
@@ -246,6 +254,13 @@ class DashboardTabbarController: UIViewController {
 
     func getSavedIncidentes() {
         print("****** GETSAVEDINCIDENTS *******")
+        var section: Int!
+        if (incidentTableView.numberOfSections > 0) {
+            section = incidentSection.firstIndex(where: { $0.name == "Saved Incidents" })
+            if (section != nil) {
+                incidentSection.remove(at: section)
+            }
+        }
         if (Config.saveQtdIncidents > 0) {
             incidentData.removeAll()
             mediasUrl.removeAll()
@@ -282,7 +297,12 @@ class DashboardTabbarController: UIViewController {
 //                    IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
 //                    typeImage: Config.TYPE_IMAGE_PHOTO
 //            ))
-            incidentSection.append(IncidentsSection(name: "Saved Incidents", items: incidentData))
+            incidentSection.insert(IncidentsSection(name: "Saved Incidents", items: incidentData), at: 0)
+            if (section != nil) {
+                incidentTableView.reloadSections(IndexSet(integer: section), with: .automatic)
+            } else {
+                incidentTableView.reloadData()
+            }
         }
         print("****** END GETSAVEDINCIDENTS *******")
     }
@@ -290,6 +310,13 @@ class DashboardTabbarController: UIViewController {
     func getIncidents(incidentType: IncidentType) {
         print("****** GETCINCIDENTS *******")
         config.startLoadingData(view: view, color: .qzelaDarkBlue)
+        var section: Int!
+        if (incidentTableView.numberOfSections > 0) {
+            section = incidentSection.firstIndex(where: { $0.name == "My Incidents" })
+            if (section != nil) {
+                incidentSection.remove(at: section)
+            }
+        }
         incidentData.removeAll()
         mediasUrl.removeAll()
         ApolloIOS.shared.apollo.fetch(query: GetIncidentByCitizenDashboardQuery(
@@ -340,7 +367,11 @@ class DashboardTabbarController: UIViewController {
                         ))
                     }
                     incidentSection.append(IncidentsSection(name: "My Incidents", items: incidentData))
-                    incidentTableView.reloadData()
+                    if (section != nil) {
+                        incidentTableView.reloadSections(IndexSet(integer: section), with: .automatic)
+                    } else {
+                        incidentTableView.reloadData()
+                    }
                     config.stopLoadingData()
                     // print("******** GetCitizen - END **********")
                 } else if let errors = graphQLResult.errors{
@@ -436,7 +467,12 @@ extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource 
    }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.incidentSection[section].name
+
+        if (incidentSection[section].name == "My Incidents") {
+            return "text_my_incidents".localized()
+        } else {
+            return "text_saved_incidents".localized()
+        }
     }
 
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -487,13 +523,26 @@ extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource 
         let deleteAction = UIContextualAction(style: .normal, title: "text_delete".localized(), handler: { (action, view, success) in
             print("Delete")
 
+            // Delete files saved.
+            qzela.Config.saveQtdIncidents -= 1
+            for imageSave in Config.saveIncidents[indexPath.row].savedImages {
+                let fileManager = FileManager.default
+                let fileDelete = Config.PATH_SAVED_FILES+"/"+imageSave.fileImage
+                self.config.deleteImage(fileManager: fileManager, pathFileFrom: fileDelete)
+            }
+            // Save user defaults
+            Config.saveIncidents.remove(at: indexPath.row)
+            let data = try! JSONEncoder().encode(Config.saveIncidents)
+            Config.userDefaults.set(data, forKey: "incidentSaved")
+            Config.userDefaults.set(Config.saveQtdIncidents, forKey: "qtdIncidentSaved")
+            // Remove cell
             self.incidentSection[indexPath.section].items.remove(at: indexPath.row)
             self.incidentTableView.deleteRows(at: [indexPath], with: .automatic)
             if (self.incidentSection[indexPath.section].items.count == 0) {
                 self.incidentSection.remove(at: indexPath.section)
                 self.incidentTableView.reloadData()
-            } else {
-                self.incidentTableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
+//            } else {
+//                self.incidentTableView.reloadSections(IndexSet(integer: indexPath.section as Int), with: .automatic)
             }
         })
         deleteAction.image = UIImage(systemName: "trash.fill")

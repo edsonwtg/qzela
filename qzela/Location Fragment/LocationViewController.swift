@@ -241,8 +241,8 @@ class LocationViewController: UIViewController {
                     config.cleanDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
                     DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
                         self.LoadingStop()
-                        Config.backSaveIncident = true
-                        Config.backChangeDashboard = true
+                        Config.backIncidentSend = true
+                        Config.backIncidentDashboard = true
                         Config.deletePhoto = 0
                         let tabBarController = self.view.window?.windowScene?.keyWindow?.rootViewController as! UITabBarController
                         tabBarController.selectedIndex = Config.MENU_ITEM_MAP

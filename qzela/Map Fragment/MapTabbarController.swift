@@ -58,10 +58,10 @@ class MapTabbarController: UIViewController {
 //            print("***** startLocationUpdates *****")
             gpsLocation.startLocationUpdates()
         }
-        if (Config.backSaveIncident) {
+        if (Config.backIncidentSend) {
             clearMarkers()
             gotoMyLocation()
-            Config.backSaveIncident = false
+            Config.backIncidentSend = false
         }
     }
 

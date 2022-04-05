@@ -60,8 +60,10 @@ class Config {
     }
 
     // Variables for pass data from/to view controllers
+    static var backIncidentSend = false
     static var backSaveIncident = false
-    static var backChangeDashboard = false
+    static var backIncidentDashboard = false
+    static var backSavedDashboard = false
     static var deletePhoto = 0
     // *******
 
