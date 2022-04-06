@@ -228,7 +228,21 @@ class Config {
     func startLoadingData(view: UIView, color: UIColor) {
         let midX = view.center.x
         let midY = view.center.y
-        let frame = CGRect(x: (midX - 25), y: (midY - 225), width: 50, height: 50)
+        let frame = CGRect(x: (midX - 25), y: (midY), width: 50, height: 50)
+        Config.aiLoadingData = NVActivityIndicatorView(frame: frame, type: .ballRotateChase, color: color)
+        view.addSubview(Config.aiLoadingData)
+        Config.aiLoadingData.startAnimating()
+    }
+
+    func startLoadingData(view: UIView, color: UIColor, centerPosition: Int) {
+        let midX = view.center.x
+        let midY = view.center.y
+        var frame: CGRect
+        if (centerPosition > 0) {
+            frame = CGRect(x: (midX - 25), y: (midY + CGFloat(centerPosition)), width: 50, height: 50)
+        } else {
+            frame = CGRect(x: (midX - 25), y: (midY - CGFloat(centerPosition)), width: 50, height: 50)
+        }
         Config.aiLoadingData = NVActivityIndicatorView(frame: frame, type: .ballRotateChase, color: color)
         view.addSubview(Config.aiLoadingData)
         Config.aiLoadingData.startAnimating()

@@ -73,6 +73,7 @@ class DashboardTabbarController: UIViewController {
         openStackView.layoutMargins = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
         openStackView.isLayoutMarginsRelativeArrangement = true
         openLabel.text = "text_openings".localized()
+        actionOpenLine.backgroundColor = UIColor.qzelaOrange
         closeStackView.layer.borderWidth = 2
         closeStackView.layer.cornerRadius = 12
         closeStackView.layer.borderColor = UIColor.lightGray.cgColor
@@ -80,6 +81,7 @@ class DashboardTabbarController: UIViewController {
         closeStackView.layoutMargins = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
         closeStackView.isLayoutMarginsRelativeArrangement = true
         closeLabel.text = "text_closures".localized()
+        actionResolvedLine.backgroundColor = UIColor.qzelaOrange
 
         interStackView.layer.borderWidth = 2
         interStackView.layer.cornerRadius = 12
@@ -88,6 +90,7 @@ class DashboardTabbarController: UIViewController {
         interStackView.layoutMargins = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
         interStackView.isLayoutMarginsRelativeArrangement = true
         interLabel.text = "text_interactions".localized()
+        actionConfirmLine.backgroundColor = UIColor.qzelaOrange
 
         qzelasStackView.layer.borderWidth = 2
         qzelasStackView.layer.cornerRadius = 12
@@ -182,7 +185,7 @@ class DashboardTabbarController: UIViewController {
                     style: [.default],
                     actions: [actionHandler])
         }
-        config.startLoadingData(view: view, color: .qzelaDarkBlue)
+        config.startLoadingData(view: view, color: .qzelaDarkBlue,centerPosition: -200)
         print("****** GETCITIZEN *******")
         ApolloIOS.shared.apollo.fetch(query: GetCitizenByIdQuery(id: Config.SAV_CD_USUARIO), cachePolicy: .fetchIgnoringCacheData) { [unowned self] result in
             switch result {
@@ -263,12 +266,12 @@ class DashboardTabbarController: UIViewController {
         }
         if (Config.saveQtdIncidents > 0) {
             incidentData.removeAll()
-            mediasUrl.removeAll()
             for incident in Config.saveIncidents {
                 let dateFormatter = DateFormatter()
                 dateFormatter.locale = Locale(identifier: Config.CURRENT_LANGUAGE)
                 dateFormatter.dateStyle = .short
                 dateFormatter.timeStyle = .short
+                mediasUrl.removeAll()
                 for medias in incident.savedImages {
                     mediasUrl.append(medias.fileImage)
                 }
@@ -309,7 +312,7 @@ class DashboardTabbarController: UIViewController {
 
     func getIncidents(incidentType: IncidentType) {
         print("****** GETCINCIDENTS *******")
-        config.startLoadingData(view: view, color: .qzelaDarkBlue)
+        config.startLoadingData(view: view, color: .qzelaDarkBlue,centerPosition: -200)
         var section: Int!
         if (incidentTableView.numberOfSections > 0) {
             section = incidentSection.firstIndex(where: { $0.name == "My Incidents" })
@@ -318,7 +321,6 @@ class DashboardTabbarController: UIViewController {
             }
         }
         incidentData.removeAll()
-        mediasUrl.removeAll()
         ApolloIOS.shared.apollo.fetch(query: GetIncidentByCitizenDashboardQuery(
                 citizenId: Config.SAV_CD_USUARIO,
                 tpIncident: incidentType), cachePolicy: .fetchIgnoringCacheData) { [unowned self] result in
@@ -330,6 +332,7 @@ class DashboardTabbarController: UIViewController {
                         let dateFormatter = DateFormatter()
                         dateFormatter.locale = Locale(identifier: Config.CURRENT_LANGUAGE)
                         dateFormatter.dateStyle = .short
+                        mediasUrl.removeAll()
                         for medias in incident.mediaUrls! {
                             if (medias.contains(Config.IMAGE_MAP)) { continue}
                             mediasUrl.append(medias)
@@ -469,7 +472,13 @@ extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 
         if (incidentSection[section].name == "My Incidents") {
-            return "text_my_incidents".localized()
+            if (actionOpenLabel.visibility == .visible) {
+                return "text_my_incidents".localized() + " " + "text_openings".localized()
+            } else if (actionResolvedLabel.visibility == .visible) {
+                return "text_my_incidents".localized() + " " + "text_resolved".localized()
+            } else {
+                return "text_my_incidents".localized() + " " + "text_confirmed".localized()
+            }
         } else {
             return "text_saved_incidents".localized()
         }
@@ -483,11 +492,13 @@ extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = incidentTableView.dequeueReusableCell(withIdentifier: "IncidentCell") as! IncidentTableViewCell
 
-        cell.setIncidents(section: indexPath.section, incidentSection[indexPath.section].items[indexPath.row])
         cell.layer.borderWidth = 2
         cell.layer.borderColor = UIColor.colorGray.cgColor
         cell.layer.cornerRadius = 15
         cell.separatorInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        DispatchQueue.main.async {
+            cell.setIncidents(section: indexPath.section, self.incidentSection[indexPath.section].items[indexPath.row])
+        }
         return cell
     }
 
@@ -514,7 +525,12 @@ extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource 
         newAction.backgroundColor = UIColor.qzelaOrange
 
         let viewAction = UIContextualAction(style: .normal, title: "text_view".localized(), handler: { (action, view, success) in
-            print("View: \(self.incidentData[indexPath.row].IncidentId)")
+            print("View")
+            if (self.incidentSection[indexPath.section].items[indexPath.row].typeImage == Config.TYPE_IMAGE_VIDEO) {
+                self.showImage(imageFilePath: self.incidentSection[indexPath.section].items[indexPath.row].IncidentImage, bVideo: true)
+            } else {
+                self.showImage(imageFilePath: self.incidentSection[indexPath.section].items[indexPath.row].IncidentImage, bVideo: false)
+            }
             success(true)
         })
         viewAction.image = UIImage(systemName: "eye")
@@ -523,27 +539,40 @@ extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource 
         let deleteAction = UIContextualAction(style: .normal, title: "text_delete".localized(), handler: { (action, view, success) in
             print("Delete")
 
-            // Delete files saved.
-            qzela.Config.saveQtdIncidents -= 1
-            for imageSave in Config.saveIncidents[indexPath.row].savedImages {
-                let fileManager = FileManager.default
-                let fileDelete = Config.PATH_SAVED_FILES+"/"+imageSave.fileImage
-                self.config.deleteImage(fileManager: fileManager, pathFileFrom: fileDelete)
+            let okActionCancel: (UIAlertAction) -> Void = { (action) in
+                success(true)
             }
-            // Save user defaults
-            Config.saveIncidents.remove(at: indexPath.row)
-            let data = try! JSONEncoder().encode(Config.saveIncidents)
-            Config.userDefaults.set(data, forKey: "incidentSaved")
-            Config.userDefaults.set(Config.saveQtdIncidents, forKey: "qtdIncidentSaved")
-            // Remove cell
-            self.incidentSection[indexPath.section].items.remove(at: indexPath.row)
-            self.incidentTableView.deleteRows(at: [indexPath], with: .automatic)
-            if (self.incidentSection[indexPath.section].items.count == 0) {
-                self.incidentSection.remove(at: indexPath.section)
-                self.incidentTableView.reloadData()
+            let okActionHandler: (UIAlertAction) -> Void = {(action) in
+                // Delete files saved.
+                qzela.Config.saveQtdIncidents -= 1
+                for imageSave in Config.saveIncidents[indexPath.row].savedImages {
+                    let fileManager = FileManager.default
+                    let fileDelete = Config.PATH_SAVED_FILES+"/"+imageSave.fileImage
+                    self.config.deleteImage(fileManager: fileManager, pathFileFrom: fileDelete)
+                }
+                // Save user defaults
+                Config.saveIncidents.remove(at: indexPath.row)
+                let data = try! JSONEncoder().encode(Config.saveIncidents)
+                Config.userDefaults.set(data, forKey: "incidentSaved")
+                Config.userDefaults.set(Config.saveQtdIncidents, forKey: "qtdIncidentSaved")
+                // Remove cell
+                self.incidentSection[indexPath.section].items.remove(at: indexPath.row)
+                self.incidentTableView.deleteRows(at: [indexPath], with: .automatic)
+                if (self.incidentSection[indexPath.section].items.count == 0) {
+                    self.incidentSection.remove(at: indexPath.section)
+                    self.incidentTableView.reloadData()
 //            } else {
 //                self.incidentTableView.reloadSections(IndexSet(integer: indexPath.section as Int), with: .automatic)
+                }
             }
+            self.showAlert(
+                    title: "text_attention".localized(),
+                    message: "text_delete_incident".localized(),
+                    type: .attention,
+                    actionTitles: ["text_cancel".localized(), "text_confirm".localized()],
+                    style: [.cancel, .destructive],
+                    actions: [okActionCancel, okActionHandler]
+            )
         })
         deleteAction.image = UIImage(systemName: "trash.fill")
         deleteAction.backgroundColor = UIColor.colorRed
@@ -557,4 +586,17 @@ extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource 
         configuration.performsFirstActionWithFullSwipe = false
         return configuration
     }
+
+    func showImage(imageFilePath: String, bVideo: Bool) {
+        let controller = storyboard?.instantiateViewController(withIdentifier: "PreviewViewController") as! PreviewViewController
+        controller.modalPresentationStyle = .fullScreen
+        controller.modalTransitionStyle = .flipHorizontal
+        // pass data to view controller
+        controller.imageFilePath = imageFilePath
+        controller.bUrl = true
+        controller.bShow = true
+        controller.bVideo = bVideo
+        present(controller, animated: true)
+    }
+
 }

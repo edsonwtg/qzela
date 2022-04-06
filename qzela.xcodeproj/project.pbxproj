@@ -35,13 +35,13 @@
 		6FDE7646274976950050510C /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE7645274976950050510C /* Config.swift */; };
 		6FDE764827498E6C0050510C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE764727498E6C0050510C /* LoginViewController.swift */; };
 		6FDE764A27498E830050510C /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE764927498E830050510C /* NotificationViewController.swift */; };
-		6FDE764C27498E940050510C /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE764B27498E940050510C /* PreviewViewController.swift */; };
 		6FDE764E27498EA80050510C /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE764D27498EA80050510C /* SplashViewController.swift */; };
 		B2D3E0FA6A3C5700EFF2A2A9 /* LocationOther.gpx in Resources */ = {isa = PBXBuildFile; fileRef = B2D3EC3FA1A2DFB430A52E3A /* LocationOther.gpx */; };
 		B2D3E1C5E88C94235F28CAFF /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E653E237C2B851CBE136 /* UIViewControllerExtension.swift */; };
 		B2D3E3518B63C2035ABBDB71 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2D3E22C054A35B8E76D21EC /* Main.storyboard */; };
 		B2D3E4E7EE493C86327BD114 /* OccurrencesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3EFC4FCA5CEEBC79A1FF1 /* OccurrencesData.swift */; };
 		B2D3E4F87AA88C5CE6D9C655 /* SegmentsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3EF074CD0ED95359732D0 /* SegmentsData.swift */; };
+		B2D3E541FB5FE7BF24ACE7DD /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3EBCDB04874BA7E37C4F9 /* PreviewViewController.swift */; };
 		B2D3E556D83D200B40C4F280 /* HomeMoving.gpx in Resources */ = {isa = PBXBuildFile; fileRef = B2D3E12913FCACC0982F50C2 /* HomeMoving.gpx */; };
 		B2D3E58AD8499D2AFA343C58 /* LoginCitizen.graphql in Resources */ = {isa = PBXBuildFile; fileRef = B2D3E0D96DB45256ED141B9A /* LoginCitizen.graphql */; };
 		B2D3E606B79624A8328A4765 /* NearHome.gpx in Resources */ = {isa = PBXBuildFile; fileRef = B2D3E77BAEA6EF84235E53B8 /* NearHome.gpx */; };
@@ -102,7 +102,6 @@
 		6FDE7645274976950050510C /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		6FDE764727498E6C0050510C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		6FDE764927498E830050510C /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
-		6FDE764B27498E940050510C /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		6FDE764D27498EA80050510C /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		885B18319CAA7E194A5AE6FC /* Pods_qzela.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_qzela.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2D3E046968EF6A49E0AAF99 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
@@ -119,6 +118,7 @@
 		B2D3E77BAEA6EF84235E53B8 /* NearHome.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = NearHome.gpx; sourceTree = "<group>"; };
 		B2D3E8B34787366AAD1F4377 /* Logout.graphql */ = {isa = PBXFileReference; lastKnownFileType = file.graphql; path = Logout.graphql; sourceTree = "<group>"; };
 		B2D3E8D79BEF72A040E4CBD7 /* Pods-qzela.release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-qzela.release.xcconfig"; path = "Target Support Files/Pods-qzela/Pods-qzela.release.xcconfig"; sourceTree = "<group>"; };
+		B2D3EBCDB04874BA7E37C4F9 /* PreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		B2D3EC006E813BCEDD5AB701 /* Pods-qzela.debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-qzela.debug.xcconfig"; path = "Target Support Files/Pods-qzela/Pods-qzela.debug.xcconfig"; sourceTree = "<group>"; };
 		B2D3EC3FA1A2DFB430A52E3A /* LocationOther.gpx */ = {isa = PBXFileReference; lastKnownFileType = file.gpx; path = LocationOther.gpx; sourceTree = "<group>"; };
 		B2D3EC4D2D3944AD7EF3AC19 /* IncidentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentData.swift; sourceTree = "<group>"; };
@@ -231,14 +231,6 @@
 			path = "Login Fragment";
 			sourceTree = "<group>";
 		};
-		6FA420D427BD74A500C85C50 /* Generic Fagments */ = {
-			isa = PBXGroup;
-			children = (
-				6FDE764B27498E940050510C /* PreviewViewController.swift */,
-			);
-			path = "Generic Fagments";
-			sourceTree = "<group>";
-		};
 		6FA420D527BD74BE00C85C50 /* Segment Fragment */ = {
 			isa = PBXGroup;
 			children = (
@@ -316,7 +308,6 @@
 				B2D3E694DE9B65DECC7202CF /* Dashboard Fragment */,
 				6F9E8FAA27C6569600AEE2B6 /* Location Fragment */,
 				6FA420D527BD74BE00C85C50 /* Segment Fragment */,
-				6FA420D427BD74A500C85C50 /* Generic Fagments */,
 				6FA420D327BD749400C85C50 /* Login Fragment */,
 				6FA420D227BD748200C85C50 /* Map Fragment */,
 				6FA420D127BD745E00C85C50 /* Photo Fragment */,
@@ -352,6 +343,7 @@
 			children = (
 				6FDE764927498E830050510C /* NotificationViewController.swift */,
 				6FDE764D27498EA80050510C /* SplashViewController.swift */,
+				B2D3EBCDB04874BA7E37C4F9 /* PreviewViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -594,7 +586,6 @@
 				6FC0E18F27888953006B8772 /* OccurrenceCollectionViewCell.swift in Sources */,
 				6F499269277A373700C2515F /* UIViewExtension.swift in Sources */,
 				6FDE7624274816AE0050510C /* TabBarController.swift in Sources */,
-				6FDE764C27498E940050510C /* PreviewViewController.swift in Sources */,
 				6F499267277A31D500C2515F /* UILabelExtension.swift in Sources */,
 				6FDE7646274976950050510C /* Config.swift in Sources */,
 				6F4992652779D90700C2515F /* IncidentImageSlide.swift in Sources */,
@@ -628,6 +619,7 @@
 				B2D3EB3238FBCFBD1D57E56E /* ProfileTabbarController.swift in Sources */,
 				B2D3EC6910D4FCC55DB6CEF3 /* DashboardTabbarController.swift in Sources */,
 				B2D3E82C464E8EDB57C76FC1 /* IncidentData.swift in Sources */,
+				B2D3E541FB5FE7BF24ACE7DD /* PreviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

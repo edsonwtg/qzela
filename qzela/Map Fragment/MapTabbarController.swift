@@ -70,8 +70,12 @@ class MapTabbarController: UIViewController {
         // print("******* RECEIVED Notification MapTabbarController - Network Listener \(type) ********")
         if (type as! String == "unknown") {
             config.showHideNoInternet(view: ivNoInternet, show: true)
+            tabBarController!.tabBar.items?[Config.MENU_ITEM_DASHBOARD].isEnabled = false
+            tabBarController!.tabBar.items?[Config.MENU_ITEM_PROFILE].isEnabled = false
         } else {
             config.showHideNoInternet(view: ivNoInternet, show: false)
+            tabBarController!.tabBar.items?[Config.MENU_ITEM_DASHBOARD].isEnabled = true
+            tabBarController!.tabBar.items?[Config.MENU_ITEM_PROFILE].isEnabled = true
         }
     }
 
@@ -89,7 +93,7 @@ class MapTabbarController: UIViewController {
 
         ivNoInternet.visibility = .invisible
 
-        // TODO: Pass thisd functionality to initialize APP function
+        // TODO: Pass this functionality to initialize APP function
         // check if simulator or device
 //        #if (arch(i386) || arch(x86_64)) && (!os(macOS))
 //            Config.isSimulator = true
@@ -101,7 +105,8 @@ class MapTabbarController: UIViewController {
         btSavedImage.visibility = .invisible
 
         let qzelaPoints = 1000
-        lbQzelaPoints.addTrailing(image: UIImage(named: "ic_trophy") ?? UIImage(), text: String(qzelaPoints) + " ")
+        lbQzelaPoints.addTrailing(image: (UIImage(named: "ic_trophy")!.withRenderingMode(.alwaysTemplate)),
+                text: String(qzelaPoints) + " ")
 
         // GPSLocation by protocol delegate
         gpsLocation.delegate = self

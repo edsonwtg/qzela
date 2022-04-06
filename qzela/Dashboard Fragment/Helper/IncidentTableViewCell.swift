@@ -42,7 +42,9 @@ class IncidentTableViewCell: UITableViewCell {
         dateLabel.text = data.IncidentDate
 
         if (data.typeImage == Config.TYPE_IMAGE_PHOTO) {
-            ImageView.image = getImages(status: data.ActionName, urlString: data.IncidentImage)
+            DispatchQueue.main.async {
+                self.ImageView.image = self.getImages(status: data.ActionName, urlString: data.IncidentImage)
+            }
         } else {
             ImageView.image = UIImage(systemName: "play.rectangle.fill")
             ImageView.layer.borderWidth = 2

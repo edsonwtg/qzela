@@ -55,8 +55,11 @@ class PreviewViewController: UIViewController {
         } else {
             progressView.visibility = .invisible
             if (bUrl!) {
-                guard let url = URL(string: imageFilePath!)else {
-                    return
+                var url: URL
+                if imageFilePath!.contains("QZela_SAV") {
+                    url = URL(fileURLWithPath: imageFilePath!)
+                } else {
+                    url = URL(string: imageFilePath!)!
                 }
                 DispatchQueue.global().async { [weak self] in
                     if let data = try? Data(contentsOf: url) {
@@ -76,7 +79,11 @@ class PreviewViewController: UIViewController {
     func playVideo(videoFilePath: String) {
 
         progressView.progress = 0.0
-        player = AVPlayer(url: URL(string: videoFilePath)!)
+        if videoFilePath.contains("QZela_SAV") {
+            player = AVPlayer(url: URL(fileURLWithPath: videoFilePath))
+        } else {
+            player = AVPlayer(url: URL(string: videoFilePath)!)
+        }
         videoController.player = player
         videoController.showsPlaybackControls = false
         // print(player.currentTime().value)

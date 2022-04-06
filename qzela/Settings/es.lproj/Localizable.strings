@@ -83,3 +83,4 @@
 "text_last_actions" = "Sus últimas acciones";
 "text_my_incidents" = "My Incidentes";
 "text_saved_incidents" = "Incidentes salvados";
+"text_delete_incident" = "¿Confirmar la eliminación del incidente?";

@@ -19,6 +19,7 @@ class TabBarController: UITabBarController {
         super.viewDidLoad()
         self.view.window?.rootViewController = tabBarController
         selectedIndex = Config.MENU_ITEM_DASHBOARD
+        tabBar.unselectedItemTintColor = UIColor.colorWhite
     }
 
 

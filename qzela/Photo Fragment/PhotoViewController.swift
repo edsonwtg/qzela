@@ -412,26 +412,32 @@ class PhotoViewController: UIViewController {
             if (bPhoto) {
                 imageType = "photo"
                 if (bPhoto1) {
-                    let fileSaved = Config.PATH_SAVED_FILES+"/"+filePhoto1.components(separatedBy: "/").last!
-                    config.moveImage(fileManager: fileManager, pathFileFrom: filePhoto1, pathFileTo: fileSaved)
-                    Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: fileSaved.components(separatedBy: "/").last!))
+                    let fileImage = filePhoto1.components(separatedBy: "/").last!
+                    let pathFileFrom = Config.PATH_TEMP_FILES+"/"+fileImage
+                    let fileSaved = Config.PATH_SAVED_FILES+"/"+fileImage
+                    config.moveImage(fileManager: fileManager, pathFileFrom: pathFileFrom, pathFileTo: fileSaved)
+                    Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: fileImage))
                     photoImage1.image = nil
                     bPhoto1 = false
                     filePhoto1 = ""
 
                 }
                 if (bPhoto2) {
-                    let fileSaved = Config.PATH_SAVED_FILES+"/"+filePhoto2.components(separatedBy: "/").last!
-                    config.moveImage(fileManager: fileManager, pathFileFrom: filePhoto2, pathFileTo: fileSaved)
-                    Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: fileSaved.components(separatedBy: "/").last!))
+                    let fileImage = filePhoto2.components(separatedBy: "/").last!
+                    let pathFileFrom = Config.PATH_TEMP_FILES+"/"+fileImage
+                    let fileSaved = Config.PATH_SAVED_FILES+"/"+fileImage
+                    config.moveImage(fileManager: fileManager, pathFileFrom: pathFileFrom, pathFileTo: fileSaved)
+                    Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: fileImage))
                     photoImage2.image = nil
                     bPhoto2 = false
                     filePhoto2 = ""
                 }
                 if (bPhoto3) {
-                    let fileSaved = Config.PATH_SAVED_FILES+"/"+filePhoto3.components(separatedBy: "/").last!
-                    config.moveImage(fileManager: fileManager, pathFileFrom: filePhoto3, pathFileTo: fileSaved)
-                    Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: fileSaved.components(separatedBy: "/").last!))
+                    let fileImage = filePhoto3.components(separatedBy: "/").last!
+                    let pathFileFrom = Config.PATH_TEMP_FILES+"/"+fileImage
+                    let fileSaved = Config.PATH_SAVED_FILES+"/"+fileImage
+                    config.moveImage(fileManager: fileManager, pathFileFrom: pathFileFrom, pathFileTo: fileSaved)
+                    Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: fileImage))
                     photoImage3.image = nil
                     bPhoto1 = false
                     filePhoto3 = ""
@@ -439,9 +445,11 @@ class PhotoViewController: UIViewController {
             } else {
                 imageType = "video"
                 if (bShootVideo) {
-                    let fileSaved = Config.PATH_SAVED_FILES+"/"+fileVideo.components(separatedBy: "/").last!
-                    config.moveImage(fileManager: fileManager, pathFileFrom: fileVideo, pathFileTo: fileSaved)
-                    Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: fileSaved.components(separatedBy: "/").last!))
+                    let fileImage = fileVideo.components(separatedBy: "/").last!
+                    let pathFileFrom = Config.PATH_TEMP_FILES+"/"+fileImage
+                    let fileSaved = Config.PATH_SAVED_FILES+"/"+fileImage
+                    config.moveImage(fileManager: fileManager, pathFileFrom: pathFileFrom, pathFileTo: fileSaved)
+                    Config.saveImages.append(Config.SaveIncidents.SavedImages(fileImage: fileImage))
                     videoImage.image = nil
                     bShootVideo = false
                     fileVideo = ""
