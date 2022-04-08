@@ -357,9 +357,9 @@ class MapTabbarController: UIViewController {
                                 email: Config.SAV_DC_EMAIL,
                                 password: Config.SAV_DC_SENHA,
                                 notificationId: Config.SAV_NOTIFICATION_ID
-                        ){ result in
+                        ){ [self] result in
                             if !(login.getMessage() == "Login Ok") {
-                                self.showAlert(title: "text_warning".localized(),
+                                showAlert(title: "text_warning".localized(),
                                         message: login.getMessage().localized(),
                                         type: .attention,
                                         actionTitles: ["text_got_it".localized()],
@@ -372,7 +372,7 @@ class MapTabbarController: UIViewController {
                                 Config.SAV_CD_USUARIO = login.getUserId()
                                 Config.userDefaults.set(Config.SAV_ACCESS_TOKEN, forKey: "accessToken")
                                 Config.userDefaults.set(Config.SAV_CD_USUARIO, forKey: "cdUser")
-                                self.getIncidentViewport()
+                                getIncidentViewport()
                            }
                         }
                     }

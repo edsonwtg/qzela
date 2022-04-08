@@ -14,7 +14,7 @@ struct IncidentData {
     let SegmentName: String
     let ActionName: String
     let IncidentDate: String
-    let IncidentImage: String
+    let IncidentImage: [String]
     let typeImage: String
 
 }

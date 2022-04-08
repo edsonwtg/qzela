@@ -43,7 +43,7 @@ class IncidentTableViewCell: UITableViewCell {
 
         if (data.typeImage == Config.TYPE_IMAGE_PHOTO) {
             DispatchQueue.main.async {
-                self.ImageView.image = self.getImages(status: data.ActionName, urlString: data.IncidentImage)
+                self.ImageView.image = self.getImages(status: data.ActionName, urlString: data.IncidentImage.first!)
             }
         } else {
             ImageView.image = UIImage(systemName: "play.rectangle.fill")

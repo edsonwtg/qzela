@@ -176,7 +176,7 @@ class DashboardTabbarController: UIViewController {
         if (!networkListener.isNetworkAvailable()) {
             // print("******** NO INTERNET CONNECTION *********")
             let actionHandler: (UIAlertAction) -> Void = { (action) in
-                return
+
             }
             showAlert(title: "text_no_internet".localized(),
                     message: "text_internet_off".localized(),
@@ -221,9 +221,9 @@ class DashboardTabbarController: UIViewController {
                                 email: Config.SAV_DC_EMAIL,
                                 password: Config.SAV_DC_SENHA,
                                 notificationId: Config.SAV_NOTIFICATION_ID
-                        ){ result in
+                        ){ [self] result in
                             if !(login.getMessage() == "Login Ok") {
-                                self.showAlert(title: "text_warning".localized(),
+                                showAlert(title: "text_warning".localized(),
                                         message: login.getMessage().localized(),
                                         type: .attention,
                                         actionTitles: ["text_got_it".localized()],
@@ -236,7 +236,7 @@ class DashboardTabbarController: UIViewController {
                                 Config.SAV_CD_USUARIO = login.getUserId()
                                 Config.userDefaults.set(Config.SAV_ACCESS_TOKEN, forKey: "accessToken")
                                 Config.userDefaults.set(Config.SAV_CD_USUARIO, forKey: "cdUser")
-                                self.getCitizen()
+                                getCitizen()
                             }
                         }
                     }
@@ -251,7 +251,6 @@ class DashboardTabbarController: UIViewController {
                 dismiss(animated: true, completion: nil)
             }
         }
-
         // print("******** GetIncidentById - END **********")
     }
 
@@ -273,33 +272,17 @@ class DashboardTabbarController: UIViewController {
                 dateFormatter.timeStyle = .short
                 mediasUrl.removeAll()
                 for medias in incident.savedImages {
-                    mediasUrl.append(medias.fileImage)
+                    mediasUrl.append(Config.PATH_SAVED_FILES+"/"+medias.fileImage)
                 }
                 incidentData.append(IncidentData(
                         IncidentId: String(incident.id),
                         SegmentName: "",
                         ActionName: Config.STATUS_SAVED,
                         IncidentDate: dateFormatter.string(from: incident.dateTime),
-                        IncidentImage: Config.PATH_SAVED_FILES+"/"+mediasUrl.first!,
+                        IncidentImage: mediasUrl,
                         typeImage: incident.imageType
                 ))
             }
-//            incidentData.append(IncidentData(
-//                    IncidentId: "Saved 1",
-//                    SegmentName: "#EuCuidoDoMeuQuadrado",
-//                    ActionName: Config.STATUS_OPEN,
-//                    IncidentDate: "3/30/22 10:22",
-//                    IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
-//                    typeImage: Config.TYPE_IMAGE_PHOTO
-//            ))
-//            incidentData.append(IncidentData(
-//                    IncidentId: "Saved 2",
-//                    SegmentName: "Árvore",
-//                    ActionName: Config.STATUS_RESOLVED,
-//                    IncidentDate: "12/5/21 23:00",
-//                    IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
-//                    typeImage: Config.TYPE_IMAGE_PHOTO
-//            ))
             incidentSection.insert(IncidentsSection(name: "Saved Incidents", items: incidentData), at: 0)
             if (section != nil) {
                 incidentTableView.reloadSections(IndexSet(integer: section), with: .automatic)
@@ -365,7 +348,7 @@ class DashboardTabbarController: UIViewController {
                                 SegmentName: incident.segments[0].dcSegment,
                                 ActionName: action,
                                 IncidentDate: dateFormatter.string(from: incident.dtDate!),
-                                IncidentImage: mediasUrl.first!,
+                                IncidentImage: mediasUrl,
                                 typeImage: imageType
                         ))
                     }
@@ -385,9 +368,9 @@ class DashboardTabbarController: UIViewController {
                                 email: Config.SAV_DC_EMAIL,
                                 password: Config.SAV_DC_SENHA,
                                 notificationId: Config.SAV_NOTIFICATION_ID
-                        ){ result in
+                        ){ [self] result in
                             if !(login.getMessage() == "Login Ok") {
-                                self.showAlert(title: "text_warning".localized(),
+                                showAlert(title: "text_warning".localized(),
                                         message: login.getMessage().localized(),
                                         type: .attention,
                                         actionTitles: ["text_got_it".localized()],
@@ -400,7 +383,7 @@ class DashboardTabbarController: UIViewController {
                                 Config.SAV_CD_USUARIO = login.getUserId()
                                 Config.userDefaults.set(Config.SAV_ACCESS_TOKEN, forKey: "accessToken")
                                 Config.userDefaults.set(Config.SAV_CD_USUARIO, forKey: "cdUser")
-                                self.getCitizen()
+                                getCitizen()
                             }
                         }
                     }
@@ -416,57 +399,17 @@ class DashboardTabbarController: UIViewController {
             }
         }
         print("****** END GETCINCIDENTS *******")
-//        incidentData.append(IncidentData(
-//                IncidentId: "Incident 1",
-//                SegmentName: "Rede de Telecomunicações",
-//                ActionName: Config.STATUS_REGISTERED,
-//                IncidentDate: "12/30/21",
-//                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
-//                typeImage: Config.TYPE_IMAGE_PHOTO
-//        ))
-//        incidentData.append(IncidentData(
-//                IncidentId: "Incident 2",
-//                SegmentName: "Estradas",
-//                ActionName: Config.STATUS_OPEN,
-//                IncidentDate: "12/30/21",
-//                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
-//                typeImage: Config.TYPE_IMAGE_PHOTO
-//        ))
-//        incidentData.append(IncidentData(
-//                IncidentId: "Incident 3",
-//                SegmentName: "Animais",
-//                ActionName: Config.STATUS_RESOLVED,
-//                IncidentDate: "12/30/21",
-//                IncidentImage: "https://storage.googleapis.com/qz-user-data/images/stg/2021/10/8/20211008110135-0300/img_open_0.jpg",
-//                typeImage: Config.TYPE_IMAGE_PHOTO
-//        ))
-//        incidentSection.append(IncidentsSection(name: "My Incidents", items: incidentData))
-//        incidentTableView.reloadData()
-    }
-
-    func gotoNewRootViewController(viewController: String) {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let viewController = storyBoard.instantiateViewController(withIdentifier: viewController)
-        self.view.window?.rootViewController = viewController
-        self.view.window?.makeKeyAndVisible()
-    }
-    func gotoViewControllerWithBack(viewController: String) {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let nextViewController = storyBoard.instantiateViewController(withIdentifier: viewController)
-        nextViewController.modalPresentationStyle = .fullScreen
-        nextViewController.modalTransitionStyle = .flipHorizontal
-        self.present(nextViewController, animated:true)
     }
 }
 
 extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return incidentSection.count
+        incidentSection.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return incidentSection[section].items.count
+        incidentSection[section].items.count
    }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -503,7 +446,7 @@ extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource 
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        true
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -526,10 +469,14 @@ extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource 
 
         let viewAction = UIContextualAction(style: .normal, title: "text_view".localized(), handler: { (action, view, success) in
             print("View")
+            var bSaved = false
+            if (self.incidentSection[indexPath.section].items[indexPath.row].ActionName == "Saved") {
+                bSaved = true
+            }
             if (self.incidentSection[indexPath.section].items[indexPath.row].typeImage == Config.TYPE_IMAGE_VIDEO) {
-                self.showImage(imageFilePath: self.incidentSection[indexPath.section].items[indexPath.row].IncidentImage, bVideo: true)
+                self.showImage(imageFilePath: self.incidentSection[indexPath.section].items[indexPath.row].IncidentImage, bVideo: true, bSaved: bSaved)
             } else {
-                self.showImage(imageFilePath: self.incidentSection[indexPath.section].items[indexPath.row].IncidentImage, bVideo: false)
+                self.showImage(imageFilePath: self.incidentSection[indexPath.section].items[indexPath.row].IncidentImage, bVideo: false, bSaved: bSaved)
             }
             success(true)
         })
@@ -587,15 +534,16 @@ extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource 
         return configuration
     }
 
-    func showImage(imageFilePath: String, bVideo: Bool) {
+    func showImage(imageFilePath: [String], bVideo: Bool, bSaved: Bool) {
         let controller = storyboard?.instantiateViewController(withIdentifier: "PreviewViewController") as! PreviewViewController
         controller.modalPresentationStyle = .fullScreen
         controller.modalTransitionStyle = .flipHorizontal
         // pass data to view controller
-        controller.imageFilePath = imageFilePath
+        controller.imagesFilesPath = imageFilePath
         controller.bUrl = true
         controller.bShow = true
         controller.bVideo = bVideo
+        controller.bSaved = bSaved
         present(controller, animated: true)
     }
 

@@ -268,25 +268,29 @@ class PhotoViewController: UIViewController {
     let tapV = UITapGestureRecognizer(target: PhotoViewController.self, action: #selector(tapGestureImage))
     @objc func tapGestureImage (_ sender: UITapGestureRecognizer) {
 
+        var imageFilePath: [String]? = []
         switch sender.view?.restorationIdentifier {
         case "photoImage1":
             if (bPhoto1) {
                 Config.deletePhoto = 1
-                showImage(imageFilePath: filePhoto1, bVideo: false)
+                imageFilePath?.append(filePhoto1)
+                showImage(imageFilePath: imageFilePath!, bVideo: false)
             } else {
                 return
             }
         case "photoImage2":
             if (bPhoto2) {
                 Config.deletePhoto = 2
-                showImage(imageFilePath: filePhoto2, bVideo: false)
+                imageFilePath?.append(filePhoto2)
+                showImage(imageFilePath: imageFilePath!, bVideo: false)
             } else {
                 return
             }
         case "photoImage3":
             if (bPhoto3) {
                 Config.deletePhoto = 3
-                showImage(imageFilePath: filePhoto3, bVideo: false)
+                imageFilePath?.append(filePhoto3)
+                showImage(imageFilePath: imageFilePath!, bVideo: false)
             } else {
                 return
             }
@@ -294,7 +298,8 @@ class PhotoViewController: UIViewController {
             // print("VIDEO ******")
             if (bShootVideo) {
                 Config.deletePhoto = 4
-                showImage(imageFilePath: fileVideo, bVideo: true)
+                imageFilePath?.append(fileVideo)
+                showImage(imageFilePath: imageFilePath!, bVideo: true)
             }
         default:
             break
@@ -726,7 +731,6 @@ class PhotoViewController: UIViewController {
                 enableDisablePhotoButton(enable: false)
                 Config.deletePhoto = 3
             }
-//            showImage(imageFilePath: urlString, bVideo: false)
         } else {
             startVideoRecordTimer()
         }
@@ -777,12 +781,12 @@ class PhotoViewController: UIViewController {
         }
     }
 
-    func showImage(imageFilePath: String, bVideo: Bool) {
+    func showImage(imageFilePath: [String], bVideo: Bool) {
         let controller = storyboard?.instantiateViewController(withIdentifier: "PreviewViewController") as! PreviewViewController
         controller.modalPresentationStyle = .fullScreen
         controller.modalTransitionStyle = .flipHorizontal
         // pass data to view controller
-        controller.imageFilePath = imageFilePath
+        controller.imagesFilesPath = imageFilePath
         controller.bUrl = false
         controller.bShow = false
         controller.bVideo = bVideo
