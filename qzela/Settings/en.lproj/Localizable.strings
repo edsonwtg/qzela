@@ -67,7 +67,7 @@
 "text_wrong_email_auth_facebook" = "This email is registered via Facebook";
 "text_wrong_email_auth_apple" = "This email is registered via Apple";
 "text_wrong_email_auth_email" = "This e-mail is registered via E-mail, Please enter your E-mail and password to login.";
-"text_signout" = "Disconected!";
+"text_signout" = "Disconnected!";
 "text_revoke_access" = "Register revoked";
 "text_new_user" = "New user? Register Now";
 "text_other_methods" = "Use Other Methods";
@@ -84,3 +84,7 @@
 "text_my_incidents" = "My Incidents";
 "text_saved_incidents" = "Saved Incidents";
 "text_delete_incident" = "Confirm the elimination of the incident?";
+"text_new_incident" = "New Incident!";
+"text_new_saved"= "Would you like to create the incident?";
+"text_solver_incident" = "Solver Incident!";
+"text_solver_saved"= "Would you like to solver the incident?";

@@ -84,3 +84,7 @@
 "text_my_incidents" = "My Incidentes";
 "text_saved_incidents" = "Incidentes salvados";
 "text_delete_incident" = "¿Confirmar la eliminación del incidente?";
+"text_new_incident" = "Nuevo Incidente";
+"text_new_saved"= "¿Quiere crear el incidente?";
+"text_solver_incident" = "Resolver Incident!";
+"text_solver_saved"= "¿Quiere resolver un incidente?";

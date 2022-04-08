@@ -114,9 +114,6 @@ class LocationViewController: UIViewController {
 //        print("OccurrencesIds: \(occurrencesItem)")
 //        print("Commentary: \(String(describing: commentary))")
 
-        // TODO: Remove after implemented Dashboard
-        Config.saveIncidentPosition = 0
-        // **************
         if (Config.SAVED_INCIDENT) {
             let incidentImages = Config.saveIncidents[Config.saveIncidentPosition]
             saveCoordinate = CLLocationCoordinate2D(latitude: incidentImages.latitude, longitude: incidentImages.longitude)

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MapKit
 
 class DashboardTabbarController: UIViewController {
 
@@ -453,7 +454,33 @@ extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource 
 
         let solverAction = UIContextualAction(style: .normal, title: "text_solver".localized(), handler: { (action, view, success) in
             print("Solver")
-            print(self.incidentData[indexPath.row].SegmentName)
+            if (!self.networkListener.isNetworkAvailable()) {
+                // print("******** NO INTERNET CONNECTION *********")
+                let actionHandler: (UIAlertAction) -> Void = { (action) in }
+                self.showAlert(title: "text_no_internet".localized(),
+                        message: "text_internet_off".localized(),
+                        type: .attention,
+                        actionTitles: ["text_got_it".localized()],
+                        style: [.default],
+                        actions: [actionHandler])
+            } else {
+                let actionHandler: (UIAlertAction) -> Void = { (action) in
+                    Config.SAVED_INCIDENT = true
+                    Config.saveIncidentPosition = indexPath.row
+                    Config.savCoordinate = CLLocationCoordinate2D(
+                            latitude: Config.saveIncidents[indexPath.row].latitude,
+                            longitude: Config.saveIncidents[indexPath.row].longitude)
+                    // Go to Map View Controller
+                    self.tabBarController!.selectedIndex = Config.MENU_ITEM_MAP
+                }
+                self.showAlert(title: "text_solver_incident".localized(),
+                        message: "text_solver_saved".localized(),
+                        type: .attention,
+                        actionTitles: ["text_cancel".localized(), "text_continue".localized()],
+                        style: [.cancel, .destructive],
+                        actions: [nil, actionHandler]
+                )
+            }
             success(true)
         })
         solverAction.image = UIImage(systemName: "checkmark.circle.trianglebadge.exclamationmark")
@@ -461,6 +488,33 @@ extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource 
 
         let newAction = UIContextualAction(style: .destructive, title: "text_new".localized(), handler: { (action, view, success) in
             print("New")
+            if (!self.networkListener.isNetworkAvailable()) {
+                // print("******** NO INTERNET CONNECTION *********")
+                let actionHandler: (UIAlertAction) -> Void = { (action) in }
+                self.showAlert(title: "text_no_internet".localized(),
+                        message: "text_internet_off".localized(),
+                        type: .attention,
+                        actionTitles: ["text_got_it".localized()],
+                        style: [.default],
+                        actions: [actionHandler])
+            } else {
+                let actionHandler: (UIAlertAction) -> Void = { (action) in
+                    Config.SAVED_INCIDENT = true
+                    Config.saveIncidentPosition = indexPath.row
+                    // Go to Segment View Controller
+                    let controller = self.storyboard?.instantiateViewController(withIdentifier: "SegmentViewController") as! SegmentViewController
+                    controller.modalPresentationStyle = .fullScreen
+                    controller.modalTransitionStyle = .crossDissolve
+                    self.present(controller, animated: true)
+                }
+                self.showAlert(title: "text_new_incident".localized(),
+                        message: "text_new_saved".localized(),
+                        type: .attention,
+                        actionTitles: ["text_cancel".localized(), "text_continue".localized()],
+                        style: [.cancel, .destructive],
+                        actions: [nil, actionHandler]
+                )
+            }
             success(true)
         })
 //        newAction.image = UIImage(systemName: "square.and.arrow.up.trianglebadge.exclamationmark")
