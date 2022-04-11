@@ -53,6 +53,11 @@ class DialogIncidentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if (Config.SAVED_INCIDENT) {
+
+        }else {
+
+        }
         stackViewForwarded.visibility = .invisible
         stackViewProtocol.visibility = .invisible
         btFeedback.visibility = .invisible

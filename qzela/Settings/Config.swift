@@ -31,12 +31,18 @@ class Config {
     static let ZOOM_LOCATION: Float = 19.0
     static let MIN_ZOOM_LOCATION: Float = 19.0
     static let MIN_ZOOM_MAP: Float = 16.5
-    static let MAX_ZOOM_MAP: Float = 20.0
-    static let PERCENTAGE_DISTANCE_BOUNDS: Double = 300.0 // Percentage load incidents to markers from center viewport
-    static let LOCATION_DISTANCE: Double = 50.0 // Max Location distance create incidents near your location
-    static let LOCATION_RESTRICT_DISTANCE: Double = 100.0 // Max distance to show incidents on map in near location
-    static let LATLNG_REDUCE_BOUNDS_PERCENTAGE: Double = 15 // Reduce bonds percentage of view port
-    static let LATLNG_REDUCE_BOUNDS_PERCENTAGE_SAVED_INCIDENT: Double = 30 // Reduce bonds percentage of view port for saved incidents
+    static let MAX_ZOOM_MAP: Float = 20.5
+    // API data load distance in meters from map view center.
+    // PS: (wide distance because the device is in motion. The MARKER_RESTRICT_DISTANCE parameter limits the incidents shown)
+    static let PERCENTAGE_DISTANCE_BOUNDS: Double = 300.0
+    // API data load distance from map view center for Saved incidentes
+    static let PERCENTAGE_DISTANCE_BOUNDS_SAVED_INCIDENT: Double = 20.0
+
+    static let LOCATION_DISTANCE: Double = 20.0 // Max Location distance create incidents near your location
+    static let MAP_MOVE_BOUNDS_DISTANCE: Double = 20.0 // Max Map move distance from center location
+    static let MAP_MOVE_BOUNDS_DISTANCE_SAVED_INCIDENT: Double = 0.0 // Max Map move distance from center location
+    static let MARKER_RESTRICT_DISTANCE: Double = 100.0 // Max distance to show marker incidents on map in near location
+    static let MARKER_RESTRICT_DISTANCE_SAVED_INCIDENT: Double = 20.0 // Max distance to show marker incidents on map in near location for Saved Incident
 
     static let SEGMENT_OCEAN: Array<Int> = [36]
     static let SEGMENT_RIVER: Array<Int> = [36]

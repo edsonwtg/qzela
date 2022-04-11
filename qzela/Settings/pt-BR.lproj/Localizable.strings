@@ -88,3 +88,4 @@
 "text_new_saved"= "Gostaria de criar o incidente?";
 "text_solver_incident" = "Resolver Incidente!";
 "text_solver_saved"= "Gostaria de resolver um incidente?";
+"text_solver_map" = "Escolha o incidente que foi resolvido!";

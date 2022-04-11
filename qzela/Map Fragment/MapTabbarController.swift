@@ -31,13 +31,29 @@ class MapTabbarController: UIViewController {
     @IBOutlet weak var ivNoGps: UIImageView!
     @IBOutlet weak var btNewIncident: UIButton!
     @IBOutlet weak var btSavedImage: UIButton!
-
+    @IBOutlet weak var solverLabel: EdgeInsetLabel!
+    @IBOutlet weak var btCancel: UIButton!
+    
     @IBOutlet weak var aiLoadingData: NVActivityIndicatorView!
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         aiLoadingData.type = .ballRotateChase
         aiLoadingData.color = .blue
         return .darkContent
+    }
+
+    @objc func changeStatusInternet(notification: NSNotification) {
+        guard let type = notification.userInfo!["type"] else { return }
+        // print("******* RECEIVED Notification MapTabbarController - Network Listener \(type) ********")
+        if (type as! String == "unknown") {
+            config.showHideNoInternet(view: ivNoInternet, show: true)
+            tabBarController!.tabBar.items?[Config.MENU_ITEM_DASHBOARD].isEnabled = false
+            tabBarController!.tabBar.items?[Config.MENU_ITEM_PROFILE].isEnabled = false
+        } else {
+            config.showHideNoInternet(view: ivNoInternet, show: false)
+            tabBarController!.tabBar.items?[Config.MENU_ITEM_DASHBOARD].isEnabled = true
+            tabBarController!.tabBar.items?[Config.MENU_ITEM_PROFILE].isEnabled = true
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -65,20 +81,6 @@ class MapTabbarController: UIViewController {
         }
     }
 
-    @objc func changeStatusInternet(notification: NSNotification) {
-        guard let type = notification.userInfo!["type"] else { return }
-        // print("******* RECEIVED Notification MapTabbarController - Network Listener \(type) ********")
-        if (type as! String == "unknown") {
-            config.showHideNoInternet(view: ivNoInternet, show: true)
-            tabBarController!.tabBar.items?[Config.MENU_ITEM_DASHBOARD].isEnabled = false
-            tabBarController!.tabBar.items?[Config.MENU_ITEM_PROFILE].isEnabled = false
-        } else {
-            config.showHideNoInternet(view: ivNoInternet, show: false)
-            tabBarController!.tabBar.items?[Config.MENU_ITEM_DASHBOARD].isEnabled = true
-            tabBarController!.tabBar.items?[Config.MENU_ITEM_PROFILE].isEnabled = true
-        }
-    }
-
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         UIApplication.shared.isIdleTimerDisabled = false
@@ -87,10 +89,48 @@ class MapTabbarController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if (Config.SAVED_INCIDENT) {
+            tabBarController?.tabBar.isHidden = true
+            clearMarkers();
+            gpsLocation.stopLocationUpdates()
+            gpsLocation.delegate = nil
+            lbQzelaPoints.visibility = .invisible
+            btNewIncident.visibility = .invisible
+            btSavedImage.visibility = .invisible
+            solverLabel.visibility = .visible
+            btCancel.visibility = .visible
+            mapView.setMinZoom(Config.ZOOM_LOCATION, maxZoom: Config.MAX_ZOOM_MAP)
+            mapView.isMyLocationEnabled = false
+            gotoMyLocation();
+        }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if (Config.SAVED_INCIDENT) {
+            Config.SAVED_INCIDENT = false
+            lbQzelaPoints.visibility = .visible
+            btNewIncident.visibility = .visible
+            btSavedImage.visibility = .visible
+            solverLabel.visibility = .invisible
+            btCancel.visibility = .invisible
+            self.tabBarController?.tabBar.isHidden = false
+            mapView.isMyLocationEnabled = true
+            gpsLocation.delegate = self
+            gpsLocation.startLocationUpdates()
+        }
+    }
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // print("***** viewDidLoad *****")
-
+        solverLabel.text = "text_solver_map".localized()
+        solverLabel.borderColorV = UIColor.qzelaDarkBlue
+        solverLabel.visibility = .invisible
+        btCancel.visibility = .invisible
         ivNoInternet.visibility = .invisible
 
         // TODO: Pass this functionality to initialize APP function
@@ -195,6 +235,10 @@ class MapTabbarController: UIViewController {
         case "btSavedImage":
             // print("btSavedImage ShowMarkers")
             showMarkers()
+        case "btCancel":
+            print("btCancel")
+            // Go to Dashboard View Controller
+            self.tabBarController!.selectedIndex = Config.MENU_ITEM_DASHBOARD
         default:
             print(sender.restorationIdentifier ?? "no restoration Identifier defined")
         }
@@ -221,7 +265,7 @@ class MapTabbarController: UIViewController {
         // Set camera bounds for limit map view
         mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
                 centerCoordinate: Config.savCoordinate,
-                radiusInMeter: Config.LOCATION_DISTANCE
+                radiusInMeter: Config.MAP_MOVE_BOUNDS_DISTANCE
         )
         mapView.camera = GMSCameraPosition.camera(
                 withLatitude: Config.savCoordinate.latitude,
@@ -234,10 +278,21 @@ class MapTabbarController: UIViewController {
     func gotoMyLocation() {
 
         // print("********* gotoMyLocation - START ********")
-
         if gpsLocation.isGpsEnable() {
-            Config.savCoordinate = gpsLocation.getCoordinate()
-            // If not load data from API opn Start.
+            if (Config.SAVED_INCIDENT) {
+                mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
+                        centerCoordinate: Config.savCoordinate,
+                        radiusInMeter: Config.MAP_MOVE_BOUNDS_DISTANCE_SAVED_INCIDENT
+                )
+                mapView.camera = GMSCameraPosition.camera(
+                        withLatitude: Config.savCoordinate.latitude,
+                        longitude: Config.savCoordinate.longitude, zoom: Config.ZOOM_INITIAL
+                )
+
+            } else {
+                Config.savCoordinate = gpsLocation.getCoordinate()
+            }
+            // If not load data from API on Start.
             if (markerIcon.count == 0) {
                 Config.savApiCoordinate = nil
             }
@@ -264,7 +319,7 @@ class MapTabbarController: UIViewController {
         // print("******** getIncidentViewport - START **********")
 
         // check if App start
-        if Config.savApiCoordinate != nil {
+        if Config.savApiCoordinate != nil && !Config.SAVED_INCIDENT {
             let distance = gpsLocation.getDistanceInMeters(
                     coordinateOrigin: Config.savCoordinate,
                     coordinateDestiny: Config.savApiCoordinate!)
@@ -303,20 +358,27 @@ class MapTabbarController: UIViewController {
 
         aiLoadingData.startAnimating()
 
-        let bounds = gpsLocation.increaseBounds(
-                bounds: GMSCoordinateBounds(region: mapView.projection.visibleRegion()),
-                percentage: Config.PERCENTAGE_DISTANCE_BOUNDS
-        )
-
-        let neCoord: Coordinate = [bounds!.northEast.longitude, bounds!.northEast.latitude]
-        let swCoord: Coordinate = [bounds!.southWest.longitude, bounds!.southWest.latitude]
+        var bounds = GMSCoordinateBounds()
+        if (Config.SAVED_INCIDENT) {
+            bounds = gpsLocation.increaseBounds(
+                    bounds: GMSCoordinateBounds(region: mapView.projection.visibleRegion()),
+                    percentage: Config.PERCENTAGE_DISTANCE_BOUNDS_SAVED_INCIDENT
+            )!
+        } else {
+            bounds = gpsLocation.increaseBounds(
+                    bounds: GMSCoordinateBounds(region: mapView.projection.visibleRegion()),
+                    percentage: Config.PERCENTAGE_DISTANCE_BOUNDS
+            )!
+        }
+        let neCoord: Coordinate = [bounds.northEast.longitude, bounds.northEast.latitude]
+        let swCoord: Coordinate = [bounds.southWest.longitude, bounds.southWest.latitude]
 
         if (alreadyGetIncidents.isEmpty) {
             clearMap()
         } else {
             var index = 0
             while index < markerIcon.count {
-                if (!(bounds!.contains(markerIcon[index].position))) {
+                if (!(bounds.contains(markerIcon[index].position))) {
                     markerIcon[index].map = nil
                     markerIcon.remove(at: index)
                     markerCircle[index].map = nil
@@ -337,7 +399,11 @@ class MapTabbarController: UIViewController {
             case .success(let graphQLResult):
 //                print("Success! Result: \(graphQLResult)")
                 if let viewport = graphQLResult.data?.getIncidentsByViewport.data.compactMap({ $0 }) {
+                    print("Viewport Count: \(viewport.count)")
                     for resultApi in viewport {
+                        if Config.SAVED_INCIDENT && !(resultApi.stIncident == 0 || resultApi.stIncident == 2) {
+                            continue
+                        }
                         alreadyGetIncidents.append(resultApi._id);
                         mapAddMarkers(
                                 latitude: resultApi.vlLatitude,
@@ -366,7 +432,6 @@ class MapTabbarController: UIViewController {
                                         style: [.default],
                                         actions: [nil]
                                 )
-                                return
                             } else {
                                 Config.SAV_ACCESS_TOKEN = login.getAccessToken()
                                 Config.SAV_CD_USUARIO = login.getUserId()
@@ -413,6 +478,12 @@ class MapTabbarController: UIViewController {
                 coordinateOrigin: Config.savCoordinate,
                 coordinateDestiny: coordinate)
 
+        var restrictDistance: Double = 0
+        if (Config.SAVED_INCIDENT) {
+            restrictDistance = Config.MARKER_RESTRICT_DISTANCE_SAVED_INCIDENT
+        } else {
+            restrictDistance = Config.MARKER_RESTRICT_DISTANCE
+        }
 
         if (segmentIcon[segment] != nil) {
             var marker = GMSMarker()
@@ -422,7 +493,7 @@ class MapTabbarController: UIViewController {
             marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
             marker.groundAnchor = CGPoint(x: 0.5, y: 1.15)
             markerIcon.append(marker)
-            if (distance <= Config.LOCATION_RESTRICT_DISTANCE) {
+            if (distance <= restrictDistance) {
                 marker.map = mapView
             }
             // Incident status Circle Marker
@@ -432,7 +503,7 @@ class MapTabbarController: UIViewController {
             marker.icon = markerStatus
             marker.setIconSize(scaledToSize: .init(width: 12, height: 12))
             markerCircle.append(marker)
-            if (distance <= Config.LOCATION_RESTRICT_DISTANCE) {
+            if (distance <= restrictDistance) {
                 marker.map = mapView
             }
         } else {
@@ -452,7 +523,7 @@ class MapTabbarController: UIViewController {
                     marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
                     marker.groundAnchor = CGPoint(x: 0.5, y: 1.15)
                     self.markerIcon.append(marker)
-                    if (distance <= Config.LOCATION_RESTRICT_DISTANCE) {
+                    if (distance <= restrictDistance) {
                         marker.map = self.mapView
                     }
                     // Incident status Circle Marker
@@ -462,7 +533,7 @@ class MapTabbarController: UIViewController {
                     marker.icon = markerStatus
                     marker.setIconSize(scaledToSize: .init(width: 12, height: 12))
                     self.markerCircle.append(marker)
-                    if (distance <= Config.LOCATION_RESTRICT_DISTANCE) {
+                    if (distance <= restrictDistance) {
                         marker.map = self.mapView
                     }
                 }
@@ -476,7 +547,13 @@ class MapTabbarController: UIViewController {
             let distance = gpsLocation.getDistanceInMeters(
                     coordinateOrigin: Config.savCoordinate,
                     coordinateDestiny: markerIcon[index].position)
-            if (distance <= Config.LOCATION_RESTRICT_DISTANCE) {
+            var restrictDistance: Double = 0
+            if (Config.SAVED_INCIDENT) {
+                restrictDistance = Config.MARKER_RESTRICT_DISTANCE_SAVED_INCIDENT
+            } else {
+                restrictDistance = Config.MARKER_RESTRICT_DISTANCE
+            }
+            if (distance <= restrictDistance) {
                 markerIcon[index].map = mapView
                 markerCircle[index].map = mapView
             } else {
@@ -553,16 +630,6 @@ class MapTabbarController: UIViewController {
     }
 }
 
-extension GMSMarker {
-    func setIconSize(scaledToSize newSize: CGSize) {
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
-        icon?.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
-        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        icon = newImage
-    }
-}
-
 // get Update Position from GPSLocation by Protocol
 extension MapTabbarController: GPSLocationDelegate {
 
@@ -575,7 +642,8 @@ extension MapTabbarController: GPSLocationDelegate {
 
     func GPSLocation(didUpdate locations: [CLLocation]) {
 
-        // print("******** MapTabbarController - Delegate GPS Location")
+        print("******** MapTabbarController - Delegate GPS Location")
+
 
         guard let location = locations.first else { return }
         
@@ -601,7 +669,7 @@ extension MapTabbarController: GPSLocationDelegate {
                 withLatitude: Config.savCoordinate.latitude,
                 longitude: Config.savCoordinate.longitude, zoom: Config.savCurrentZoom, bearing: gpsLocation.getHeading(), viewingAngle: 0.0))
         mapView.cameraTargetBounds = gpsLocation.getLatLngBounds(
-                centerCoordinate: Config.savCoordinate, radiusInMeter: Config.LOCATION_DISTANCE
+                centerCoordinate: Config.savCoordinate, radiusInMeter: Config.MAP_MOVE_BOUNDS_DISTANCE
         )
     }
 }
@@ -611,28 +679,33 @@ extension MapTabbarController: GMSMapViewDelegate {
 
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
 
-        // print("****** MAP IDLE *****")
-        Config.savCurrentZoom =  mapView.camera.zoom
-//        mapView.animate(toBearing: gpsLocation.getHeading())
-        // print("******* Current Zoom: \(Config.savCurrentZoom)")
-        getIncidentViewport()
+        if !(Config.SAVED_INCIDENT) {
+            print("****** MAP IDLE *****")
+            Config.savCurrentZoom = mapView.camera.zoom
+            // print("******* Current Zoom: \(Config.savCurrentZoom)")
+            getIncidentViewport()
+        }
     }
 
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
 
         // print("****** CLICK MARKER *****")
-
         let controller = storyboard?.instantiateViewController(withIdentifier: "DialogIncidentViewController") as! DialogIncidentViewController
         controller.modalTransitionStyle = .flipHorizontal
         // pass data to view controller
         controller.incidentId = marker.snippet
         present(controller, animated: true)
-
         // return false - show marker info, return true - not show
         return true
     }
+}
 
-    open func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        // print("****** CLICK ON MAP *******")
+extension GMSMarker {
+    func setIconSize(scaledToSize newSize: CGSize) {
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+        icon?.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        icon = newImage
     }
 }
