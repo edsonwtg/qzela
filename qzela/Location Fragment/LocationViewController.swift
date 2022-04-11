@@ -29,24 +29,24 @@ class LocationViewController: UIViewController {
     var saveCoordinate: CLLocationCoordinate2D!
     var placeCoordinate: CLLocation!
 
-    struct Geocoding: Codable {
-        var completeAddress: String = ""
-        var address: String = ""
-        var number: String = ""
-        var country: String = ""
-        var state: String = ""
-        var city: String = ""
-        var district: String = ""
-        var postalCode: String = ""
-        var inlandWater: String = ""
-        var ocean: String = ""
-        var areasOfInterest: [String] = []
-    }
+//    struct Geocoding: Codable {
+//        var completeAddress: String = ""
+//        var address: String = ""
+//        var number: String = ""
+//        var country: String = ""
+//        var state: String = ""
+//        var city: String = ""
+//        var district: String = ""
+//        var postalCode: String = ""
+//        var inlandWater: String = ""
+//        var ocean: String = ""
+//        var areasOfInterest: [String] = []
+//    }
 
-//    var googleGeocoding = Geocoding()
-    var appleGeocoding = Geocoding()
-    var webGeocoding = Geocoding()
-    var addressGeocoding = Geocoding()
+//    var googleGeocoding = Config.Geocoding()
+    var appleGeocoding = Config.Geocoding()
+    var webGeocoding = Config.Geocoding()
+    var addressGeocoding = Config.Geocoding()
 
     let networkListener = NetworkListener()
     let gpsLocation = qzela.GPSLocation()
@@ -192,10 +192,10 @@ class LocationViewController: UIViewController {
                         actions: [nil])
                 return
             }
-            LoadingStart(title: "Please wait...",
-                    message: "Send your incident!",
-                    style: .alert,
-                    type: .loading)
+//            LoadingStart(title: "Please wait...",
+//                    message: "Send your incident!",
+//                    style: .alert,
+//                    type: .loading)
             btContinue.isEnabled = false
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyyMMdd_HHmmss"
@@ -208,6 +208,26 @@ class LocationViewController: UIViewController {
             )!
             imageFiles = imageFiles.sorted()
             imageFiles.append(mapImageFile)
+
+            let sendData = SendIncident()
+            sendData.sendOpenIncident(view: self,
+                    segmentId: segmentId,
+                    occurrencesItem: occurrencesItem,
+                    commentary: commentary,
+                    placeCoordinate: placeCoordinate,
+                    addressGeocoding: addressGeocoding,
+                    imageFiles: imageFiles,
+                    imageType: imageType) { result in
+                print(result)
+                Config.backIncidentSend = true
+                Config.backIncidentDashboard = true
+                Config.deletePhoto = 0
+                let tabBarController = self.view.window?.windowScene?.keyWindow?.rootViewController as! UITabBarController
+                tabBarController.selectedIndex = Config.MENU_ITEM_MAP
+                self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
+            }
+
+
 //            print("************ PREPARE FOR INSERT INCIDENT ***************")
 //            print("CitizenID: \(Config.SAV_CD_USUARIO)")
 //            print("SegmentId: \(segmentId!)")
@@ -225,28 +245,29 @@ class LocationViewController: UIViewController {
 //            print("Cidade: \(addressGeocoding.city)");
 //            print("Bairro: \(addressGeocoding.district)");
 //            print("CEP: \(addressGeocoding.postalCode)")
-            sendImages(imageFiles: imageFiles) { [self] result in
-//                print("IMAGE SEND: \(result)")
-                downloadUrlImageFiles = downloadUrlImageFiles.sorted()
-                sendIncident() { [self] result in
-                    self.LoadingStop()
-                    let secondsToDelay = 3.0
-                    self.LoadingStart(title: "Obrigado",
-                            message: "Incident enviado",
-                            style: .alert,
-                            type: .message)
-                    config.cleanDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-                        self.LoadingStop()
-                        Config.backIncidentSend = true
-                        Config.backIncidentDashboard = true
-                        Config.deletePhoto = 0
-                        let tabBarController = self.view.window?.windowScene?.keyWindow?.rootViewController as! UITabBarController
-                        tabBarController.selectedIndex = Config.MENU_ITEM_MAP
-                        self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
-                    }
-                }
-            }
+
+//            sendImages(imageFiles: imageFiles) { [self] result in
+////                print("IMAGE SEND: \(result)")
+//                downloadUrlImageFiles = downloadUrlImageFiles.sorted()
+//                sendIncident() { [self] result in
+//                    self.LoadingStop()
+//                    let secondsToDelay = 3.0
+//                    self.LoadingStart(title: "Obrigado",
+//                            message: "Incident enviado",
+//                            style: .alert,
+//                            type: .message)
+//                    config.cleanDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
+//                        self.LoadingStop()
+//                        Config.backIncidentSend = true
+//                        Config.backIncidentDashboard = true
+//                        Config.deletePhoto = 0
+//                        let tabBarController = self.view.window?.windowScene?.keyWindow?.rootViewController as! UITabBarController
+//                        tabBarController.selectedIndex = Config.MENU_ITEM_MAP
+//                        self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
+//                    }
+//                }
+//            }
 
         case "btOk":
             if (Config.SEGMENT_HIGHWAY.contains(segmentId) && postalcodeTextField.text == "") {
@@ -528,7 +549,7 @@ class LocationViewController: UIViewController {
 //                    }
 //                } else {
 //                    print("GEOCODE: nil in places")
-//                    self.googleGeocoding = Geocoding()
+//                    self.googleGeocoding = Config.Geocoding()
 //                }
 //                print("************ GOOGLE GEOCODING ***************")
 //                print("Endereço Completo: \(self.googleGeocoding.completeAddress)");
@@ -739,15 +760,15 @@ extension LocationViewController: GMSMapViewDelegate {
                     actions: [nil])
             return
         }
-        appleGeocoding = Geocoding()
-        webGeocoding = Geocoding()
+        appleGeocoding = Config.Geocoding()
+        webGeocoding = Config.Geocoding()
 
         getAppleAddress(coordinates: placeCoordinate)
         getWebGoogleAddress(latitude: placeCoordinate.coordinate.latitude, longitude: placeCoordinate.coordinate.longitude)
 
         dispatchGroupGeocoding.notify(queue: .main) {
             DispatchQueue.main.async {
-                self.addressGeocoding = Geocoding()
+                self.addressGeocoding = Config.Geocoding()
                 self.addressTextView.text = ""
 
                 if (self.appleGeocoding.areasOfInterest.count > 0 || self.appleGeocoding.areasOfInterest.count > 0) {

@@ -56,6 +56,7 @@
 		B2D3EAA0F043354C8A46A05D /* SetOpenIncident.graphql in Resources */ = {isa = PBXBuildFile; fileRef = B2D3EDFB1FD064F089E33109 /* SetOpenIncident.graphql */; };
 		B2D3EB3238FBCFBD1D57E56E /* ProfileTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E45F360670433B85C816 /* ProfileTabbarController.swift */; };
 		B2D3EC20D55F8424E47351D4 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E046968EF6A49E0AAF99 /* UIColorExtension.swift */; };
+		B2D3EC63F5ACEDEEDC4B484F /* SendIncident.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E55A63CDB361FAAAE794 /* SendIncident.swift */; };
 		B2D3EC6910D4FCC55DB6CEF3 /* DashboardTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E63EE4256D00455D7EB1 /* DashboardTabbarController.swift */; };
 		B2D3ECB81EA2E05970A48DA1 /* OccurrenceSegmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3EDF848DDF994819940A2 /* OccurrenceSegmentCell.swift */; };
 		B2D3ED42769AEFDDC100F4CF /* LocalizationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D3E0D39CCE03E6C8736CF7 /* LocalizationExtension.swift */; };
@@ -112,6 +113,7 @@
 		B2D3E2C851417C8BAFE9F5C4 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		B2D3E431C955F0AB91490A2C /* UITextFieldExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
 		B2D3E45F360670433B85C816 /* ProfileTabbarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTabbarController.swift; sourceTree = "<group>"; };
+		B2D3E55A63CDB361FAAAE794 /* SendIncident.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendIncident.swift; sourceTree = "<group>"; };
 		B2D3E63EE4256D00455D7EB1 /* DashboardTabbarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardTabbarController.swift; sourceTree = "<group>"; };
 		B2D3E653E237C2B851CBE136 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		B2D3E7542E8F732C5F399FA3 /* NetworkListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkListener.swift; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 				B2D3E7542E8F732C5F399FA3 /* NetworkListener.swift */,
 				6F9C2B3C279B470200A87D66 /* SpinnerViewController.swift */,
 				B2D3E2C851417C8BAFE9F5C4 /* Login.swift */,
+				B2D3E55A63CDB361FAAAE794 /* SendIncident.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -620,6 +623,7 @@
 				B2D3EC6910D4FCC55DB6CEF3 /* DashboardTabbarController.swift in Sources */,
 				B2D3E82C464E8EDB57C76FC1 /* IncidentData.swift in Sources */,
 				B2D3E541FB5FE7BF24ACE7DD /* PreviewViewController.swift in Sources */,
+				B2D3EC63F5ACEDEEDC4B484F /* SendIncident.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

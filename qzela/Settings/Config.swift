@@ -65,6 +65,21 @@ class Config {
         }
     }
 
+    struct Geocoding: Codable {
+        var completeAddress: String = ""
+        var address: String = ""
+        var number: String = ""
+        var country: String = ""
+        var state: String = ""
+        var city: String = ""
+        var district: String = ""
+        var postalCode: String = ""
+        var inlandWater: String = ""
+        var ocean: String = ""
+        var areasOfInterest: [String] = []
+    }
+
+
     // Variables for pass data from/to view controllers
     static var backIncidentSend = false
     static var backSaveIncident = false

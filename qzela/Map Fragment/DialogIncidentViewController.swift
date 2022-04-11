@@ -33,7 +33,6 @@ class DialogIncidentViewController: UIViewController {
     @IBOutlet weak var btFeedback: UIButton!
     @IBOutlet weak var stackViewButtons: UIStackView!
     @IBOutlet weak var btLike: UIButton!
-    @IBOutlet weak var btDisLike: UIButton!
     @IBOutlet weak var btSolver: UIButton!
     
     var slides: [IncidentImageSlide] =  []
@@ -53,26 +52,18 @@ class DialogIncidentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if (Config.SAVED_INCIDENT) {
-
-        }else {
-
-        }
         stackViewForwarded.visibility = .invisible
         stackViewProtocol.visibility = .invisible
-        btFeedback.visibility = .invisible
 
         btLike.configuration?.baseForegroundColor = UIColor.qzelaDarkBlue
         btLike.configuration?.background.strokeColor = UIColor.qzelaDarkBlue
 
-        btDisLike.configuration?.baseForegroundColor = UIColor.colorRed
-        btDisLike.configuration?.background.strokeColor = UIColor.colorRed
-
         btSolver.configuration?.baseForegroundColor = UIColor.colorGreen
         btSolver.configuration?.background.strokeColor = UIColor.colorGreen
 
-//        btDisLike.isEnabled = false
-//        btDisLike.configuration?.background.strokeColor = UIColor.lightGray
+        btLike.visibility = .invisible
+        btSolver.visibility = .invisible
+        btFeedback.visibility = .invisible
 
         imageResolved.tintColor = UIColor.systemGray3
         pbStepIncident.setProgress(0.0, animated: true)
@@ -107,8 +98,6 @@ class DialogIncidentViewController: UIViewController {
             dismiss(animated: true, completion: nil)
         case "btLike":
             print("btLike")
-         case "btDisLike":
-            print("btDislike")
         case "btSolver":
             print("btSolver")
         case "btFeedback":
@@ -126,7 +115,23 @@ class DialogIncidentViewController: UIViewController {
 //                print("Success! Result: \(graphQLResult)")
                 if let result = graphQLResult.data?.getIncidentById {
                     var indexPaths: [IndexPath] = []
-
+                    if (Config.SAVED_INCIDENT) {
+                        btSolver.visibility = .visible
+                    }else {
+                        switch result.stIncident {
+                            case 0,2:
+                                if (result._idOpenCitizen != Config.SAV_CD_USUARIO) {
+                                    btLike.visibility = .visible
+                                }
+                                btSolver.visibility = .visible
+                                break
+                            case 1,4:
+                                if !(result.closureConfirms.contains(Config.SAV_CD_USUARIO)) {
+                                    btFeedback.visibility = .visible
+                                }
+                            default: break
+                        }
+                    }
                     for medias in result.mediaUrls! {
                         if (medias.contains(Config.IMAGE_MAP)) { continue}
                         if (medias.contains(Config.IMAGE_OPEN)) {
