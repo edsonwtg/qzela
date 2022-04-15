@@ -9,6 +9,10 @@
 
 */
 
+"text_item_dashboard" = "Panel";
+"text_item_map" = "Mapa";
+"text_item_event" = "Eventos";
+"text_item_profile" = "Perfil";
 "text_got_it" = "Entendido!";
 "text_ok" = "Ok";
 "text_cancel" = "Cancelar";
@@ -40,6 +44,8 @@
 "text_image_save" = "Imagen guardada exitosamente!\nRecordando que tienes 24 Horas para generar las incidencias, pasado ese período las imágenes se borrarán automáticamente.";
 "text_video_save" = "Vídeo guardada exitosamente!\nRecordando que tienes 24 Horas para generar las incidencias, pasdo ese período el vídeo se borrará automáticamente.";
 "text_video_record" = "Vídeo grabado con éxito!";
+"text_saved_image1" = "Tú tienes";
+"text_saved_image2" = "imagen (s) guardadas.\n¿Le gustaría crear o resolver un incidente ahora?";
 "text_attention" = "Atención!";
 "text_change_video" = "Hay un vídeo grabado. Lo perderás.";
 "text_change_photo" = "Se han tomado fotos. Los perderás.";

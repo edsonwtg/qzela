@@ -64,7 +64,9 @@ class MapTabbarController: UIViewController {
             gpsLocation.delegate = nil
             lbQzelaPoints.visibility = .invisible
             btNewIncident.visibility = .invisible
-            btSavedImage.visibility = .invisible
+            if (Config.saveQtdIncidents > 0) {
+                btSavedImage.visibility = .visible
+            }
             solverLabel.visibility = .visible
             btCancel.visibility = .visible
             mapView.setMinZoom(Config.ZOOM_LOCATION, maxZoom: Config.MAX_ZOOM_MAP)
@@ -104,7 +106,7 @@ class MapTabbarController: UIViewController {
             Config.SAVED_INCIDENT = false
             lbQzelaPoints.visibility = .visible
             btNewIncident.visibility = .visible
-            btSavedImage.visibility = .visible
+            btSavedImage.visibility = .invisible
             solverLabel.visibility = .invisible
             btCancel.visibility = .invisible
             self.tabBarController?.tabBar.isHidden = false
@@ -241,12 +243,7 @@ class MapTabbarController: UIViewController {
                         actions: [nil, actionHandler])
            }
 
-        case "btSavedImage":
-            // print("btSavedImage ShowMarkers")
-            showMarkers()
-        case "btCancel":
-            print("btCancel")
-            // Go to Dashboard View Controller
+        case "btSavedImage","btCancel":
             self.tabBarController!.selectedIndex = Config.MENU_ITEM_DASHBOARD
         default:
             print(sender.restorationIdentifier ?? "no restoration Identifier defined")
@@ -257,7 +254,6 @@ class MapTabbarController: UIViewController {
 
         print("applicationWillTerminate")
     }
-
 
     func mapInit() {
         // print("***** MAP INIT - START *****")
@@ -288,6 +284,24 @@ class MapTabbarController: UIViewController {
         )
         // Google Maps events delegate
         mapView.delegate = self
+
+        if (Config.saveQtdIncidents > 0 && self.networkListener.isNetworkAvailable()) {
+            self.btSavedImage.visibility = .visible
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                let okSettings: (UIAlertAction) -> Void = { (action) in
+                    //Redirect to Settings app
+                    self.tabBarController!.selectedIndex = Config.MENU_ITEM_DASHBOARD
+                }
+                self.showAlert(title: "text_attention".localized(),
+                        message: "text_saved_image1".localized() + " \(Config.saveQtdIncidents)" + "text_saved_image2".localized(),
+                        type: .error,
+                        actionTitles: ["text_ok".localized(), "text_cancel".localized()],
+                        style: [.default, .cancel],
+                        actions: [okSettings, nil],
+                        preferredActionIndex: 1
+                )
+            }
+        }
     }
 
     func gotoMyLocation() {
@@ -347,8 +361,8 @@ class MapTabbarController: UIViewController {
             // check if need load data from API
             if (distance > (Config.PERCENTAGE_DISTANCE_BOUNDS * 1.5)) {
                 Config.savApiCoordinate = Config.savCoordinate
-//            } else {
-//                return
+            } else {
+                return
             }
         } else {
             Config.savApiCoordinate = Config.savCoordinate

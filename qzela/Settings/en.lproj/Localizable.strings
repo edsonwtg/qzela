@@ -9,6 +9,10 @@
 
 */
 
+"text_item_dashboard" = "Dashboard";
+"text_item_map" = "Map";
+"text_item_event" = "Events";
+"text_item_profile" = "Profile";
 "text_got_it" = "Got it!";
 "text_ok" = "Ok";
 "text_cancel" = "Cancel";
@@ -40,6 +44,8 @@
 "text_image_save" = "Image saved successfully!\nRemembering that you have 24 Hours to generate the incidents, after that period the images will be deleted automatically.";
 "text_video_save" = "Video saved successflly!\nRemembering that you have 24 Hours to generate the incidents, after that period the video will be deleted automatically.";
 "text_video_record" = "Video recorded with successful";
+"text_saved_image1" = "You have";
+"text_saved_image2" = "saved image(s).\nWould you like to create or resolve an incident now?";
 "text_attention" = "Attention!";
 "text_change_video" = "There is a recorded video. You will lose it.";
 "text_change_photo" = "There are pictures taken. You will lose them.";

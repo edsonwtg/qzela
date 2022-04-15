@@ -25,7 +25,8 @@ class Config {
 
     static let MENU_ITEM_DASHBOARD: Int = 0
     static let MENU_ITEM_MAP: Int = 1
-    static let MENU_ITEM_PROFILE: Int = 2
+    static let MENU_ITEM_EVENT: Int = 2
+    static let MENU_ITEM_PROFILE: Int = 3
 
     static let ZOOM_INITIAL: Float = 19.0
     static let ZOOM_LOCATION: Float = 19.0

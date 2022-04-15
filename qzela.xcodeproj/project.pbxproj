@@ -27,6 +27,7 @@
 		6FA6AA92275D27240099F318 /* ApolloIOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA6AA91275D27240099F318 /* ApolloIOS.swift */; };
 		6FA6AAA1275D725C0099F318 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA6AAA0275D725C0099F318 /* API.swift */; };
 		6FC0E18F27888953006B8772 /* OccurrenceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC0E18E27888953006B8772 /* OccurrenceCollectionViewCell.swift */; };
+		6FDBB626280A180D0028A513 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBB625280A180D0028A513 /* EventViewController.swift */; };
 		6FDE7620274816AE0050510C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE761F274816AE0050510C /* AppDelegate.swift */; };
 		6FDE7622274816AE0050510C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE7621274816AE0050510C /* SceneDelegate.swift */; };
 		6FDE7624274816AE0050510C /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE7623274816AE0050510C /* TabBarController.swift */; };
@@ -94,6 +95,7 @@
 		6FA6AAA3275E45B20099F318 /* GetSegments.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = GetSegments.graphql; sourceTree = "<group>"; };
 		6FAFB9B3276D270300CD5C23 /* GetHealth.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = GetHealth.graphql; sourceTree = "<group>"; };
 		6FC0E18E27888953006B8772 /* OccurrenceCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OccurrenceCollectionViewCell.swift; sourceTree = "<group>"; };
+		6FDBB625280A180D0028A513 /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
 		6FDE761C274816AE0050510C /* qzela.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qzela.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FDE761F274816AE0050510C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6FDE7621274816AE0050510C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -286,6 +288,14 @@
 			path = Graphql;
 			sourceTree = "<group>";
 		};
+		6FDBB624280A17BF0028A513 /* Event Fragment */ = {
+			isa = PBXGroup;
+			children = (
+				6FDBB625280A180D0028A513 /* EventViewController.swift */,
+			);
+			path = "Event Fragment";
+			sourceTree = "<group>";
+		};
 		6FDE7613274816AD0050510C = {
 			isa = PBXGroup;
 			children = (
@@ -310,6 +320,7 @@
 		6FDE761E274816AE0050510C /* qzela */ = {
 			isa = PBXGroup;
 			children = (
+				6FDBB624280A17BF0028A513 /* Event Fragment */,
 				B2D3E694DE9B65DECC7202CF /* Dashboard Fragment */,
 				6F9E8FAA27C6569600AEE2B6 /* Location Fragment */,
 				6FA420D527BD74BE00C85C50 /* Segment Fragment */,
@@ -594,6 +605,7 @@
 				6F499269277A373700C2515F /* UIViewExtension.swift in Sources */,
 				6FDE7624274816AE0050510C /* TabBarController.swift in Sources */,
 				6F499267277A31D500C2515F /* UILabelExtension.swift in Sources */,
+				6FDBB626280A180D0028A513 /* EventViewController.swift in Sources */,
 				6FDE7646274976950050510C /* Config.swift in Sources */,
 				6F4992652779D90700C2515F /* IncidentImageSlide.swift in Sources */,
 				6FA6AA92275D27240099F318 /* ApolloIOS.swift in Sources */,
