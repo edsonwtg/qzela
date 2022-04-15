@@ -14,15 +14,8 @@ class LoginViewController: UIViewController {
 
     @IBAction func btGotoTabbar(_ sender: Any) {
         
-        gotoNewRootViewController(viewController: "TabBarController")
+        config.gotoNewRootViewController(view: view, withReuseIdentifier: "TabBarController")
      }
-
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//
-//        // print("GO TO TabBar *********")
-//        gotoNewRootViewController(viewController: "TabBarController")
-//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,7 +81,7 @@ class LoginViewController: UIViewController {
                 Config.userDefaults.set(Config.SAV_DC_EMAIL, forKey: "dcEmail")
                 Config.userDefaults.set(Config.SAV_DC_SENHA, forKey: "dcSenha")
                 Config.userDefaults.set(Config.SAV_OUTER_AUTH, forKey: "outherOAuth")
-                self.gotoNewRootViewController(viewController: "TabBarController")
+                self.config.gotoNewRootViewController(view: self.view, withReuseIdentifier: "TabBarController")
             }
         }
 
@@ -106,11 +99,11 @@ class LoginViewController: UIViewController {
 //                if (graphQLResult.data != nil) {
 //                    Config.SAV_ACCESS_TOKEN = (graphQLResult.data?.loginCitizen.accessToken)!
 //                    Config.SAV_CD_USUARIO = (graphQLResult.data?.loginCitizen.userId)!
-//                    self.gotoNewRootViewController(viewController: "TabBarController")
+//                    self.config.gotoNewRootViewController(view: self.view, withReuseIdentifier: "TabBarController")
 //                }
 //                if (graphQLResult.errors != nil) {
 //                    if (graphQLResult.errors?.description == "[You are already logged in!]") {
-//                        self.gotoNewRootViewController(viewController: "TabBarController")
+//                        self.config.gotoNewRootViewController(view: self.view, withReuseIdentifier: "TabBarController")
 //                    }
 //                    print("ERROR: \(String(describing: graphQLResult.errors?.description))")
 //                }
@@ -119,19 +112,4 @@ class LoginViewController: UIViewController {
 //            }
 //        }
     }
-
-    func gotoNewRootViewController(viewController: String) {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let viewController = storyBoard.instantiateViewController(withIdentifier: viewController)
-        self.view.window?.rootViewController = viewController
-        self.view.window?.makeKeyAndVisible()
-    }
-    func gotoViewControllerWithBack(viewController: String) {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let nextViewController = storyBoard.instantiateViewController(withIdentifier: viewController)
-        nextViewController.modalPresentationStyle = .fullScreen
-        nextViewController.modalTransitionStyle = .flipHorizontal
-        self.present(nextViewController, animated:true)
-    }
-
 }

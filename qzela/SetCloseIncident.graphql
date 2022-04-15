@@ -1,0 +1,17 @@
+mutation SetCloseIncident(
+    $incidentId: ID!
+    $dtClose: ISODate!
+    $mediaData: [Upload!]
+    $tpAction: CLOSE_ACTION_ENUM!
+    $tpMedia: TPMEDIA_ENUM!
+    $citizenId: ID!
+) {
+    closeIncident(
+        incidentId: $incidentId
+        dtClose: $dtClose
+        mediaData: $mediaData
+        tpAction: $tpAction
+        tpMedia: $tpMedia
+        citizenId: $citizenId,
+    )
+}

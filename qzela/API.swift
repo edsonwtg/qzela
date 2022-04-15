@@ -65,6 +65,46 @@ public enum IncidentType: RawRepresentable, Equatable, Hashable, CaseIterable, A
   }
 }
 
+public enum CLOSE_ACTION_ENUM: RawRepresentable, Equatable, Hashable, CaseIterable, Apollo.JSONDecodable, Apollo.JSONEncodable {
+  public typealias RawValue = String
+  case close
+  case closeConfirm
+  /// Auto generated constant for unknown enum values
+  case __unknown(RawValue)
+
+  public init?(rawValue: RawValue) {
+    switch rawValue {
+      case "close": self = .close
+      case "close_confirm": self = .closeConfirm
+      default: self = .__unknown(rawValue)
+    }
+  }
+
+  public var rawValue: RawValue {
+    switch self {
+      case .close: return "close"
+      case .closeConfirm: return "close_confirm"
+      case .__unknown(let value): return value
+    }
+  }
+
+  public static func == (lhs: CLOSE_ACTION_ENUM, rhs: CLOSE_ACTION_ENUM) -> Bool {
+    switch (lhs, rhs) {
+      case (.close, .close): return true
+      case (.closeConfirm, .closeConfirm): return true
+      case (.__unknown(let lhsValue), .__unknown(let rhsValue)): return lhsValue == rhsValue
+      default: return false
+    }
+  }
+
+  public static var allCases: [CLOSE_ACTION_ENUM] {
+    return [
+      .close,
+      .closeConfirm,
+    ]
+  }
+}
+
 public enum TPMEDIA_ENUM: RawRepresentable, Equatable, Hashable, CaseIterable, Apollo.JSONDecodable, Apollo.JSONEncodable {
   public typealias RawValue = String
   case photo
@@ -1660,6 +1700,74 @@ public final class LogoutMutation: GraphQLMutation {
       }
       set {
         resultMap.updateValue(newValue, forKey: "logoutCitizen")
+      }
+    }
+  }
+}
+
+public final class SetCloseIncidentMutation: GraphQLMutation {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    mutation SetCloseIncident($incidentId: ID!, $dtClose: ISODate!, $mediaData: [Upload!], $tpAction: CLOSE_ACTION_ENUM!, $tpMedia: TPMEDIA_ENUM!, $citizenId: ID!) {
+      closeIncident(
+        incidentId: $incidentId
+        dtClose: $dtClose
+        mediaData: $mediaData
+        tpAction: $tpAction
+        tpMedia: $tpMedia
+        citizenId: $citizenId
+      )
+    }
+    """
+
+  public let operationName: String = "SetCloseIncident"
+
+  public var incidentId: GraphQLID
+  public var dtClose: ISODate
+  public var mediaData: [Upload]?
+  public var tpAction: CLOSE_ACTION_ENUM
+  public var tpMedia: TPMEDIA_ENUM
+  public var citizenId: GraphQLID
+
+  public init(incidentId: GraphQLID, dtClose: ISODate, mediaData: [Upload]?, tpAction: CLOSE_ACTION_ENUM, tpMedia: TPMEDIA_ENUM, citizenId: GraphQLID) {
+    self.incidentId = incidentId
+    self.dtClose = dtClose
+    self.mediaData = mediaData
+    self.tpAction = tpAction
+    self.tpMedia = tpMedia
+    self.citizenId = citizenId
+  }
+
+  public var variables: GraphQLMap? {
+    return ["incidentId": incidentId, "dtClose": dtClose, "mediaData": mediaData, "tpAction": tpAction, "tpMedia": tpMedia, "citizenId": citizenId]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Mutation"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("closeIncident", arguments: ["incidentId": GraphQLVariable("incidentId"), "dtClose": GraphQLVariable("dtClose"), "mediaData": GraphQLVariable("mediaData"), "tpAction": GraphQLVariable("tpAction"), "tpMedia": GraphQLVariable("tpMedia"), "citizenId": GraphQLVariable("citizenId")], type: .nonNull(.scalar(Bool.self))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(closeIncident: Bool) {
+      self.init(unsafeResultMap: ["__typename": "Mutation", "closeIncident": closeIncident])
+    }
+
+    public var closeIncident: Bool {
+      get {
+        return resultMap["closeIncident"]! as! Bool
+      }
+      set {
+        resultMap.updateValue(newValue, forKey: "closeIncident")
       }
     }
   }

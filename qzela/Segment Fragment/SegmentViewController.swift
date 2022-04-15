@@ -40,6 +40,8 @@ class SegmentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        Config.deletePhoto = 0
+
         aiLoadingData.type = .ballRotateChase
         aiLoadingData.color = .blue
 

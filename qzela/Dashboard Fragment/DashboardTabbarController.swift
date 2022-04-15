@@ -184,7 +184,8 @@ class DashboardTabbarController: UIViewController {
                     type: .attention,
                     actionTitles: ["text_got_it".localized()],
                     style: [.default],
-                    actions: [actionHandler])
+                    actions: [actionHandler]
+            )
         }
         config.startLoadingData(view: view, color: .qzelaDarkBlue,centerPosition: -200)
         print("****** GETCITIZEN *******")
@@ -452,8 +453,8 @@ extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource 
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
-        let solverAction = UIContextualAction(style: .normal, title: "text_solver".localized(), handler: { (action, view, success) in
-            print("Solver")
+        let solverAction = UIContextualAction(style: .normal, title: "text_resolve".localized(), handler: { (action, view, success) in
+            print("Resolve")
             if (!self.networkListener.isNetworkAvailable()) {
                 // print("******** NO INTERNET CONNECTION *********")
                 let actionHandler: (UIAlertAction) -> Void = { (action) in }
@@ -473,8 +474,8 @@ extension DashboardTabbarController: UITableViewDelegate, UITableViewDataSource 
                     // Go to Map View Controller
                     self.tabBarController!.selectedIndex = Config.MENU_ITEM_MAP
                 }
-                self.showAlert(title: "text_solver_incident".localized(),
-                        message: "text_solver_saved".localized(),
+                self.showAlert(title: "text_resolver_incident".localized(),
+                        message: "text_resolver_saved".localized(),
                         type: .attention,
                         actionTitles: ["text_cancel".localized(), "text_continue".localized()],
                         style: [.cancel, .destructive],

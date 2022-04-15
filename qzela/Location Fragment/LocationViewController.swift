@@ -12,8 +12,6 @@ import CoreLocation
 import Contacts
 import Alamofire
 import AnyFormatKit
-import FirebaseStorage
-import Apollo
 
 class LocationViewController: UIViewController {
 
@@ -24,24 +22,9 @@ class LocationViewController: UIViewController {
     // ************
     var mapImageFile: String!
     var imageFiles: Array<String> = []
-    var downloadUrlImageFiles: Array<String> = []
     var imageType: String!
     var saveCoordinate: CLLocationCoordinate2D!
     var placeCoordinate: CLLocation!
-
-//    struct Geocoding: Codable {
-//        var completeAddress: String = ""
-//        var address: String = ""
-//        var number: String = ""
-//        var country: String = ""
-//        var state: String = ""
-//        var city: String = ""
-//        var district: String = ""
-//        var postalCode: String = ""
-//        var inlandWater: String = ""
-//        var ocean: String = ""
-//        var areasOfInterest: [String] = []
-//    }
 
 //    var googleGeocoding = Config.Geocoding()
     var appleGeocoding = Config.Geocoding()
@@ -63,7 +46,6 @@ class LocationViewController: UIViewController {
     // Create Firebase Bucket Directory
     let dateIncident = Date()
     let dateFormatter = DateFormatter()
-    var buketDirectory: String!
 
     @IBOutlet weak var addressTextView: UITextView!
     @IBOutlet weak var mapView: GMSMapView!
@@ -90,16 +72,6 @@ class LocationViewController: UIViewController {
         super.viewDidLoad()
 
         hideKeyboardWhenTappedAround()
-
-        dateFormatter.dateFormat = "yyyy"
-        let year = dateFormatter.string(from: dateIncident) + "/"
-        dateFormatter.dateFormat = "MM"
-        let month = dateFormatter.string(from: dateIncident) + "/"
-        dateFormatter.dateFormat = "dd"
-        let day = dateFormatter.string(from: dateIncident) + "/"
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        buketDirectory = year + month + day + dateFormatter.string(from: dateIncident) + "/"
-
 
         // TODO: Remove after test
 //        segmentId = 6
@@ -189,85 +161,52 @@ class LocationViewController: UIViewController {
                         type: .attention,
                         actionTitles: ["text_got_it".localized()],
                         style: [.default],
-                        actions: [nil])
-                return
+                        actions: [nil]
+                )
+            } else {
+                btContinue.isEnabled = false
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyyMMdd_HHmmss"
+                let imageFileName = "MAP_" + formatter.string(from: Date()) + ".jpg"
+                mapImageFile = config.saveImage(
+                        fileManager: fileManager,
+                        path: Config.PATH_TEMP_FILES,
+                        fileName: imageFileName,
+                        image: mapSnapshot()
+                )!
+                imageFiles = imageFiles.sorted()
+                imageFiles.append(mapImageFile)
+
+                // Send Image and Data for QZela API
+                let sendData = SendIncident()
+                sendData.sendOpenIncident(view: self,
+                        segmentId: segmentId,
+                        occurrencesItem: occurrencesItem,
+                        commentary: commentary,
+                        placeCoordinate: placeCoordinate,
+                        addressGeocoding: addressGeocoding,
+                        imageFiles: imageFiles,
+                        imageType: imageType) { result in
+                    // Data send to SPI
+                    if (result) {
+                        Config.backIncidentSend = true
+                        Config.backIncidentDashboard = true
+                        Config.deletePhoto = 0
+                        self.config.gotoNewRootViewController(view: self.view, withReuseIdentifier: "TabBarController")
+                    } else {
+                        let okActionHandler: (UIAlertAction) -> Void = { (action) in
+                            self.btContinue.isEnabled = true
+                        }
+                        self.showAlert(title: "text_service_out".localized(),
+                                message: "text_service_unavailable".localized(),
+                                type: .attention,
+                                actionTitles: ["text_got_it".localized()],
+                                style: [.default],
+                                actions: [okActionHandler]
+                        )
+                    }
+                }
             }
-//            LoadingStart(title: "Please wait...",
-//                    message: "Send your incident!",
-//                    style: .alert,
-//                    type: .loading)
-            btContinue.isEnabled = false
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyyMMdd_HHmmss"
-            let imageFileName = "MAP_" + formatter.string(from: Date()) + ".jpg"
-            mapImageFile = config.saveImage(
-                    fileManager: fileManager,
-                    path: Config.PATH_TEMP_FILES,
-                    fileName: imageFileName,
-                    image: mapSnapshot()
-            )!
-            imageFiles = imageFiles.sorted()
-            imageFiles.append(mapImageFile)
-
-            let sendData = SendIncident()
-            sendData.sendOpenIncident(view: self,
-                    segmentId: segmentId,
-                    occurrencesItem: occurrencesItem,
-                    commentary: commentary,
-                    placeCoordinate: placeCoordinate,
-                    addressGeocoding: addressGeocoding,
-                    imageFiles: imageFiles,
-                    imageType: imageType) { result in
-                print(result)
-                Config.backIncidentSend = true
-                Config.backIncidentDashboard = true
-                Config.deletePhoto = 0
-                let tabBarController = self.view.window?.windowScene?.keyWindow?.rootViewController as! UITabBarController
-                tabBarController.selectedIndex = Config.MENU_ITEM_MAP
-                self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
-            }
-
-
-//            print("************ PREPARE FOR INSERT INCIDENT ***************")
-//            print("CitizenID: \(Config.SAV_CD_USUARIO)")
-//            print("SegmentId: \(segmentId!)")
-//            print("OccurrencesIds: \(occurrencesItem)")
-//            print("Commentary: \(String(describing: commentary))")
-//            print("Latitude: \(placeCoordinate.coordinate.latitude)")
-//            print("Longitude: \(placeCoordinate.coordinate.longitude)")
-//            print("IMAGE Type: \(String(describing: imageType))")
-//            print("IMAGE Files: \(imageFiles)")
-//            print("Endereço Completo: \(addressGeocoding.completeAddress + " " + addressGeocoding.number)");
-//            print("Endereço: \(addressGeocoding.address)");
-//            print("Numero: \(addressGeocoding.number)");
-//            print("Pais: \(addressGeocoding.country)");
-//            print("Estado: \(addressGeocoding.state)");
-//            print("Cidade: \(addressGeocoding.city)");
-//            print("Bairro: \(addressGeocoding.district)");
-//            print("CEP: \(addressGeocoding.postalCode)")
-
-//            sendImages(imageFiles: imageFiles) { [self] result in
-////                print("IMAGE SEND: \(result)")
-//                downloadUrlImageFiles = downloadUrlImageFiles.sorted()
-//                sendIncident() { [self] result in
-//                    self.LoadingStop()
-//                    let secondsToDelay = 3.0
-//                    self.LoadingStart(title: "Obrigado",
-//                            message: "Incident enviado",
-//                            style: .alert,
-//                            type: .message)
-//                    config.cleanDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + secondsToDelay) {
-//                        self.LoadingStop()
-//                        Config.backIncidentSend = true
-//                        Config.backIncidentDashboard = true
-//                        Config.deletePhoto = 0
-//                        let tabBarController = self.view.window?.windowScene?.keyWindow?.rootViewController as! UITabBarController
-//                        tabBarController.selectedIndex = Config.MENU_ITEM_MAP
-//                        self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
-//                    }
-//                }
-//            }
 
         case "btOk":
             if (Config.SEGMENT_HIGHWAY.contains(segmentId) && postalcodeTextField.text == "") {
@@ -320,99 +259,19 @@ class LocationViewController: UIViewController {
         marker.icon = markerImageView.image
         marker.setIconSize(scaledToSize: .init(width: 40, height: 65))
         marker.groundAnchor = CGPoint(x: 0.5, y: 1.15)
-        marker.map = self.mapView
+        marker.map = mapView
 
         marker = GMSMarker()
         marker.position = placeCoordinate.coordinate
         marker.icon = UIImage(named: "circle_black")
         marker.setIconSize(scaledToSize: .init(width: 12, height: 12))
-        marker.map = self.mapView
+        marker.map = mapView
         var image = UIGraphicsImageRenderer(size: mapView.bounds.size).image { _ in
             mapView.drawHierarchy(in: mapView.bounds, afterScreenUpdates: true)
         }
         image = config.resizeImage(image: image, newWidth: 540.0)
         image = config.cropToBounds(image: image, width: 540, height: 540)
         return image
-    }
-
-    func sendImages(imageFiles: [String], completion: @escaping ([String]) -> Void) {
-
-        var totSend = 0
-        // Create Storage
-        let storage = Storage.storage(url: Config.FIREBASE_INCIDENTS_BUCKET_URI)
-        let metadata = StorageMetadata()
-        let storageRef = storage.reference()
-
-        for i in 0..<imageFiles.count {
-
-            // Create a root reference
-            var fileRef: StorageReference!
-
-            let url = NSURL(fileURLWithPath: imageFiles[i])
-            if (imageFiles[i].contains("MAP_")) {
-                metadata.contentType = "image/jpeg"
-                fileRef = storageRef.child(Config.INCIDENTS_IMAGES_PATH + buketDirectory + "map.jpg")
-            } else if (imageType == Config.TYPE_IMAGE_PHOTO) {
-                metadata.contentType = "image/jpeg"
-                fileRef = storageRef.child(Config.INCIDENTS_IMAGES_PATH + buketDirectory + "img_open_" + String(i) + ".jpg")
-            } else {
-                metadata.contentType = "video/mp4"
-                fileRef = storageRef.child(Config.INCIDENTS_IMAGES_PATH + buketDirectory + "vid_open_" + String(i) + ".jpg")
-            }
-            fileRef.putFile(from: url as URL, metadata: metadata) { metadata, error in
-                guard metadata != nil else {
-                    print("Uh-oh, an error occurred!")
-                    return
-                }
-//                print("URL: \(metadata)")
-                // You can also access to download URL after upload.
-                fileRef.downloadURL { (url, error) in
-                    guard let downloadURL = url else {
-                        // Uh-oh, an error occurred!
-                        return
-                    }
-//                    print("Image URL: \(downloadURL.description)")
-                    self.downloadUrlImageFiles.append(downloadURL.description)
-                    totSend += 1
-                    if (totSend == imageFiles.count) {
-                        completion(self.downloadUrlImageFiles)
-                    }
-                }
-            }
-        }
-    }
-
-    func sendIncident(completion: @escaping (Bool) -> Void) {
-        ApolloIOS.shared.apollo.perform(mutation: SetOpenIncidentMutation(
-                cdSegment: segmentId,
-                locCoord: [placeCoordinate.coordinate.latitude, placeCoordinate.coordinate.longitude],
-                dcAddress: addressGeocoding.address + "," + addressGeocoding.number,
-                dcCity: addressGeocoding.city,
-                dcState: addressGeocoding.state,
-                dcCountry: addressGeocoding.country,
-                dcNeighborhood: addressGeocoding.district,
-                dcZipCode: addressGeocoding.postalCode,
-                occurrencesIds: occurrencesItem,
-                citizenId: Config.SAV_CD_USUARIO,
-                dtOpen: ISODate.now,
-                txComment: commentary,
-                tpMedia: imageType == Config.TYPE_IMAGE_PHOTO ? TPMEDIA_ENUM.photo : TPMEDIA_ENUM.video,
-                mediaData: downloadUrlImageFiles)
-        ) { result in
-            switch result {
-            case .success(let graphQLResult):
-//                print("Success! Result: \(String(describing: graphQLResult.data?.openIncident.description))")
-                if (graphQLResult.errors != nil) {
-                    print("ERROR: \(String(describing: graphQLResult.errors?.description))")
-                    completion(false)
-                } else {
-                    completion(true)
-                }
-            case .failure(let error):
-                print("Failure! Error: \(error)")
-                completion(false)
-            }
-        }
     }
 
     func getFirebaseSegmentMarker(segmentId: Int) {
@@ -665,14 +524,8 @@ class LocationViewController: UIViewController {
             self.dispatchGroupGeocoding.leave()
         }
     }
-
-    func gotoNewRootViewController(viewController: String) {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyBoard.instantiateViewController(withIdentifier: viewController)
-        self.view.window?.rootViewController = viewController
-        self.view.window?.makeKeyAndVisible()
-    }
 }
+// Events Google Places
 extension LocationViewController: GMSAutocompleteViewControllerDelegate {
 
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {

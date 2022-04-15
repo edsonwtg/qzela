@@ -13,6 +13,8 @@
 "text_ok" = "Ok";
 "text_cancel" = "Cancelar";
 "text_confirm" = "Confirme";
+"text_thankyou" = "Obrigado";
+"text_please_wait" = "Por favor, espere...";
 "text_no_internet" = "Sem Internet";
 "text_internet_off" = "Não podemos aceder à Internet, por favor verifique a sua ligação à Internet e tente novamente mais tarde.";
 "text_only_save_occurrence" = "Sem acesso à Internet.\nCancelar ou guarde o incidente para a geração posterior";
@@ -32,7 +34,7 @@
 "text_forwarded" = "Encaminhado";
 "text_resolved" = "Resolvido";
 "text_registered" = "Registrado";
-"text_solver"="Resolver";
+"text_resolve"="Resolver";
 "text_save" = "Salvar";
 "text_success" = "Sucesso";
 "text_image_save" = "Imagem guardada com sucesso!\nRecordando que tem 24 Horas para gerar os incidentes, após esse período as imagens serão apagadas automaticamente.";
@@ -86,6 +88,9 @@
 "text_delete_incident" = "Confirma a eliminação do incidente?";
 "text_new_incident" = "Novo Incidente";
 "text_new_saved"= "Gostaria de criar o incidente?";
-"text_solver_incident" = "Resolver Incidente!";
-"text_solver_saved"= "Gostaria de resolver um incidente?";
-"text_solver_map" = "Escolha o incidente que foi resolvido!";
+"text_resolver_incident" = "Resolver Incidente!";
+"text_resolver_saved"= "Gostaria de resolver um incidente?";
+"text_resolver_map" = "Escolha o incidente que foi resolvido!";
+"text_send_incident"= "Enviando o incidente";
+"text_incident_resolved" = "Incidente resolvido.";
+"text_incident_send" = "Incidente enviado.";

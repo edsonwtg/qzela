@@ -234,14 +234,26 @@ class PhotoViewController: UIViewController {
         let tap3 = UITapGestureRecognizer(target: self, action: #selector(tapGestureImage))
         photoImage3.addGestureRecognizer(tap3)
 
-        btRecordVideo.visibility = .invisible
-
         btSave.setTitle("text_save".localized(), for: .normal)
         btSave.isEnabled = false
         btContinue.setTitle("text_continue".localized(), for: .normal)
         btContinue.isEnabled = false
 
-        // TODO: Pass this functionality to initialize APP function
+        btRecordVideo.visibility = .invisible
+
+        if (Config.CLOSE_INCIDENT) {
+            btSave.visibility = .invisible
+            btPhotoVideo.visibility = .invisible
+            btContinue.setTitle("text_confirm".localized(), for: .normal)
+            if (Config.SAV_CLOSE_TP_IMAGE == Config.TYPE_IMAGE_VIDEO) {
+                bPhoto = true
+            } else {
+                bPhoto = false
+            }
+            changePhotoVideo()
+        }
+
+// TODO: Pass this functionality to initialize APP function
 //        #if (arch(i386) || arch(x86_64)) && (!os(macOS))
 //            Config.isSimulator = true
 //        #else
@@ -307,12 +319,14 @@ class PhotoViewController: UIViewController {
     }
 
     @IBAction func btBacktoTabBar(_ sender: Any) {
+
         if (bShootVideo) {
             let okActionHandler: (UIAlertAction) -> Void = {(action) in
                 self.config.cleanDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
                 // print("************** PATH_TEMP_FILES ************")
                 // self.config.listDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
-                self.tabBarController?.selectedIndex = 2
+//                self.tabBarController?.selectedIndex = 2
+                Config.CLOSE_INCIDENT = false
                 self.dismiss(animated: true, completion: nil)
             }
             showAlert(title:  "text_attention".localized(),
@@ -326,6 +340,7 @@ class PhotoViewController: UIViewController {
                 self.config.cleanDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
                 // print("************** PATH_TEMP_FILES ************")
                 // self.config.listDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
+                Config.CLOSE_INCIDENT = false
                 self.tabBarController?.selectedIndex = 2
                 self.dismiss(animated: true, completion: nil)
             }
@@ -513,11 +528,51 @@ class PhotoViewController: UIViewController {
             } else {
                 Config.IMAGE_CAPTURED = Config.TYPE_IMAGE_VIDEO
             }
-            // Go to Segment View Controller
-            let controller = storyboard?.instantiateViewController(withIdentifier: "SegmentViewController") as! SegmentViewController
-            controller.modalPresentationStyle = .fullScreen
-            controller.modalTransitionStyle = .crossDissolve
-            present(controller, animated: true)
+            if (Config.CLOSE_INCIDENT) {
+                var imageFiles: Array<String> = []
+                do {
+                    let items = try fileManager.contentsOfDirectory(atPath: Config.PATH_TEMP_FILES)
+                    for item in items {
+//                    print("Found \(Config.PATH_TEMP_FILES + "/" + item)")
+                        imageFiles.append(Config.PATH_TEMP_FILES + "/" + item)
+                    }
+                    let send = SendIncident()
+                    send.sendCloseIncident(view: self,
+                            incidentId: Config.SAV_CLOSE_INCIDENT_ID,
+                            citizenId: Config.SAV_CD_USUARIO,
+                            imageFiles: imageFiles,
+                            imageType: Config.SAV_CLOSE_TP_IMAGE
+                    ) { [self] result in
+                        // Data send to SPI
+                        if (result) {
+                            // Delete files
+                            config.cleanDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
+                            Config.backIncidentSend = true
+                            Config.backIncidentDashboard = true
+                            Config.deletePhoto = 0
+                            Config.CLOSE_INCIDENT = false
+                            self.config.gotoNewRootViewController(view: self.view, withReuseIdentifier: "TabBarController")
+                        } else {
+                            self.showAlert(title: "text_service_out".localized(),
+                                    message: "text_service_unavailable".localized(),
+                                    type: .attention,
+                                    actionTitles: ["text_got_it".localized()],
+                                    style: [.default],
+                                    actions: [nil]
+                            )
+                        }
+                    }
+                } catch {
+                    print("Error File Path \(Config.PATH_TEMP_FILES)")
+                }
+
+            } else {
+                // Go to Segment View Controller
+                let controller = storyboard?.instantiateViewController(withIdentifier: "SegmentViewController") as! SegmentViewController
+                controller.modalPresentationStyle = .fullScreen
+                controller.modalTransitionStyle = .crossDissolve
+                present(controller, animated: true)
+            }
 
 //            config.cleanDirectory(fileManager: fileManager, path: Config.PATH_TEMP_FILES)
 //            print("************** PATH_TEMP_FILES ************")

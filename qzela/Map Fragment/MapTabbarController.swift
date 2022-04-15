@@ -18,8 +18,8 @@ class MapTabbarController: UIViewController {
 
     let config = Config()
 
-    var gpsLocation = qzela.GPSLocation()
-    var networkListener = NetworkListener()
+    let gpsLocation = qzela.GPSLocation()
+    let networkListener = NetworkListener()
     var alreadyGetIncidents: Array<String> = []
     var markerIcon: Array<GMSMarker> = []
     var markerCircle: Array<GMSMarker> = []
@@ -37,8 +37,6 @@ class MapTabbarController: UIViewController {
     @IBOutlet weak var aiLoadingData: NVActivityIndicatorView!
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        aiLoadingData.type = .ballRotateChase
-        aiLoadingData.color = .blue
         return .darkContent
     }
 
@@ -53,6 +51,25 @@ class MapTabbarController: UIViewController {
             config.showHideNoInternet(view: ivNoInternet, show: false)
             tabBarController!.tabBar.items?[Config.MENU_ITEM_DASHBOARD].isEnabled = true
             tabBarController!.tabBar.items?[Config.MENU_ITEM_PROFILE].isEnabled = true
+        }
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // print("***** MapTabbarController viewWillAppear *****")
+        if (Config.SAVED_INCIDENT) {
+            tabBarController?.tabBar.isHidden = true
+            clearMarkers();
+            gpsLocation.stopLocationUpdates()
+            gpsLocation.delegate = nil
+            lbQzelaPoints.visibility = .invisible
+            btNewIncident.visibility = .invisible
+            btSavedImage.visibility = .invisible
+            solverLabel.visibility = .visible
+            btCancel.visibility = .visible
+            mapView.setMinZoom(Config.ZOOM_LOCATION, maxZoom: Config.MAX_ZOOM_MAP)
+            mapView.isMyLocationEnabled = false
+            gotoMyLocation();
         }
     }
 
@@ -81,32 +98,6 @@ class MapTabbarController: UIViewController {
         }
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        UIApplication.shared.isIdleTimerDisabled = false
-        // print("***** MapTabbarController viewDidDisappear *****")
-        gpsLocation.stopLocationUpdates()
-        NotificationCenter.default.removeObserver(self)
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if (Config.SAVED_INCIDENT) {
-            tabBarController?.tabBar.isHidden = true
-            clearMarkers();
-            gpsLocation.stopLocationUpdates()
-            gpsLocation.delegate = nil
-            lbQzelaPoints.visibility = .invisible
-            btNewIncident.visibility = .invisible
-            btSavedImage.visibility = .invisible
-            solverLabel.visibility = .visible
-            btCancel.visibility = .visible
-            mapView.setMinZoom(Config.ZOOM_LOCATION, maxZoom: Config.MAX_ZOOM_MAP)
-            mapView.isMyLocationEnabled = false
-            gotoMyLocation();
-        }
-    }
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if (Config.SAVED_INCIDENT) {
@@ -123,11 +114,25 @@ class MapTabbarController: UIViewController {
         }
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        UIApplication.shared.isIdleTimerDisabled = false
+        // print("***** MapTabbarController viewDidDisappear *****")
+        gpsLocation.stopLocationUpdates()
+        NotificationCenter.default.removeObserver(self)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // print("***** viewDidLoad *****")
-        solverLabel.text = "text_solver_map".localized()
+
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
+
+        aiLoadingData.type = .ballRotateChase
+        aiLoadingData.color = .blue
+
+        solverLabel.text = "text_resolver_map".localized()
         solverLabel.borderColorV = UIColor.qzelaDarkBlue
         solverLabel.visibility = .invisible
         btCancel.visibility = .invisible
@@ -166,6 +171,10 @@ class MapTabbarController: UIViewController {
 
 //        c.type = .ballRotateChase
 //        aiLoadingData.color = .blue
+    }
+
+    @objc func appMovedToBackground() {
+        print("App moved to background!")
     }
 
     @IBAction func btnClick(_ sender: UIButton) {
@@ -244,6 +253,12 @@ class MapTabbarController: UIViewController {
         }
     }
 
+    func applicationWillTerminate(_ application: UIApplication) {
+
+        print("applicationWillTerminate")
+    }
+
+
     func mapInit() {
         // print("***** MAP INIT - START *****")
         // Load Map style from json file
@@ -291,6 +306,11 @@ class MapTabbarController: UIViewController {
 
             } else {
                 Config.savCoordinate = gpsLocation.getCoordinate()
+                Config.savCurrentZoom = Config.ZOOM_INITIAL
+                mapView.camera = GMSCameraPosition.camera(
+                        withLatitude: Config.savCoordinate.latitude,
+                        longitude: Config.savCoordinate.longitude, zoom: Config.ZOOM_INITIAL
+                )
             }
             // If not load data from API on Start.
             if (markerIcon.count == 0) {
@@ -327,8 +347,8 @@ class MapTabbarController: UIViewController {
             // check if need load data from API
             if (distance > (Config.PERCENTAGE_DISTANCE_BOUNDS * 1.5)) {
                 Config.savApiCoordinate = Config.savCoordinate
-            } else {
-                return
+//            } else {
+//                return
             }
         } else {
             Config.savApiCoordinate = Config.savCoordinate
@@ -399,7 +419,7 @@ class MapTabbarController: UIViewController {
             case .success(let graphQLResult):
 //                print("Success! Result: \(graphQLResult)")
                 if let viewport = graphQLResult.data?.getIncidentsByViewport.data.compactMap({ $0 }) {
-                    print("Viewport Count: \(viewport.count)")
+                    // print("Viewport Count: \(viewport.count)")
                     for resultApi in viewport {
                         if Config.SAVED_INCIDENT && !(resultApi.stIncident == 0 || resultApi.stIncident == 2) {
                             continue
@@ -462,7 +482,7 @@ class MapTabbarController: UIViewController {
         case 3:
             markerStatus = UIImage(named: "circle_orange")
             break;
-        case 4:
+        case 1,4:
             markerStatus = UIImage(named: "circle_green")
             break;
         case 7:
@@ -586,21 +606,6 @@ class MapTabbarController: UIViewController {
         return newImage
     }
 
-    func gotoNewRootViewController(viewController: String) {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyBoard.instantiateViewController(withIdentifier: viewController)
-        view.window?.rootViewController = viewController
-        view.window?.makeKeyAndVisible()
-    }
-
-    func gotoViewControllerWithBack(viewController: String) {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let nextViewController = storyBoard.instantiateViewController(withIdentifier: viewController)
-//        nextViewController.modalPresentationStyle = .fullScreen
-        nextViewController.modalTransitionStyle = .flipHorizontal
-        present(nextViewController, animated: true)
-    }
-
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
 
@@ -642,7 +647,7 @@ extension MapTabbarController: GPSLocationDelegate {
 
     func GPSLocation(didUpdate locations: [CLLocation]) {
 
-        print("******** MapTabbarController - Delegate GPS Location")
+        // print("******** MapTabbarController - Delegate GPS Location")
 
 
         guard let location = locations.first else { return }
@@ -680,7 +685,7 @@ extension MapTabbarController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
 
         if !(Config.SAVED_INCIDENT) {
-            print("****** MAP IDLE *****")
+            // print("****** MAP IDLE *****")
             Config.savCurrentZoom = mapView.camera.zoom
             // print("******* Current Zoom: \(Config.savCurrentZoom)")
             getIncidentViewport()
@@ -692,6 +697,7 @@ extension MapTabbarController: GMSMapViewDelegate {
         // print("****** CLICK MARKER *****")
         let controller = storyboard?.instantiateViewController(withIdentifier: "DialogIncidentViewController") as! DialogIncidentViewController
         controller.modalTransitionStyle = .flipHorizontal
+        Config.SAV_CLOSE_MARKER_ID = markerIcon.firstIndex(of: marker)!
         // pass data to view controller
         controller.incidentId = marker.snippet
         present(controller, animated: true)

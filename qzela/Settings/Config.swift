@@ -93,6 +93,12 @@ class Config {
     static var saveQtdIncidents = 0
     static var saveIncidentPosition = 0
     static var SAVED_INCIDENT = false
+    static var CLOSE_INCIDENT = false
+    static var SAV_CLOSE_BUCKET: String = ""
+    static var SAV_CLOSE_INCIDENT_ID: String = ""
+    static var SAV_CLOSE_MARKER_ID: Int = -1
+    static var SAV_CLOSE_TP_IMAGE: String = ""
+    static var SAV_CLOSE_IMAGE_DIRECTORY: String = ""
 
     static var SAV_ACCESS_TOKEN: String = ""
     static var SAV_CD_USUARIO: String = ""
@@ -163,15 +169,18 @@ class Config {
         Config.saveIncidents = [SaveIncidents]()
     }
 
-    static var savApiCoordinate: CLLocationCoordinate2D?
-    static var savCoordinate: CLLocationCoordinate2D!
+    static var savApiCoordinate: CLLocationCoordinate2D? // Used to check if the device is in motion
+    static var savCoordinate: CLLocationCoordinate2D! // Used for save location of device
     static var savCurrentZoom: Float = ZOOM_INITIAL
 
     // FIREBASE GOOGLE CLOUD
+    static let FIREBASE_INCIDENTS_BUCKET = "qz-user-data"
+    static let FIREBASE_INCIDENTS_BUCKET_LEGACY = "westars-qzela.appspot.com"
     static let FIREBASE_INCIDENTS_BUCKET_URI: String = "gs://qz-user-data/"
+    static let FIREBASE_INCIDENTS_BUCKET_URI_LEGACY: String = "gs://westars-qzela.appspot.com/"
     static let FIREBASE_INCIDENTS_SIGNED_URL: String = "https://storage.cloud.google.com/qz-user-data/"
     static let FIREBASE_INCIDENTS_PUBLIC_URL: String = "https://storage.googleapis.com/qz-user-data/"
-    static let FIREBASE_BUCKET_URI: String = "gs://assets.qzela.com.br/"
+    static let FIREBASE_ICONS_BUCKET_URI: String = "gs://assets.qzela.com.br/"
 //    static let INCIDENTS_IMAGES_PATH: String = "images/dev/"
     static let INCIDENTS_IMAGES_PATH: String = "images/stg/"
 //    static let INCIDENTS_IMAGES_PATH: String = "images/prd/"
@@ -180,7 +189,7 @@ class Config {
     static let MAXBYTES: Int64 = 1 * 160 * 160
 
     static let FIREBASE_INCIDENTS_STORAGE = Storage.storage(url: FIREBASE_INCIDENTS_BUCKET_URI).reference()
-    static let FIREBASE_ICONS_STORAGE = Storage.storage(url: FIREBASE_BUCKET_URI).reference()
+    static let FIREBASE_ICONS_STORAGE = Storage.storage(url: FIREBASE_ICONS_BUCKET_URI).reference()
 
     // CONNECTION QZELA GRAPHQL API
     // Develpment
@@ -442,4 +451,21 @@ class Config {
         let image: UIImage = UIImage(cgImage: imageRef, scale: image.scale, orientation: image.imageOrientation)
         return image
     }
+
+    func gotoNewRootViewController(view: UIView, withReuseIdentifier: String) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyBoard.instantiateViewController(withIdentifier: withReuseIdentifier)
+        view.window?.rootViewController = viewController
+        view.window?.makeKeyAndVisible()
+    }
+
+    func gotoViewControllerWithBack(viewController: UIViewController, withReuseIdentifier: String) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let nextViewController = storyBoard.instantiateViewController(withIdentifier: withReuseIdentifier)
+        nextViewController.modalPresentationStyle = .fullScreen
+        nextViewController.modalTransitionStyle = .flipHorizontal
+        viewController.present(nextViewController, animated: true)
+    }
+
+
 }

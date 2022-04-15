@@ -10,6 +10,18 @@ import AVKit
 
 class DialogIncidentViewController: UIViewController {
 
+    var slides: [IncidentImageSlide] =  []
+    var occurrenceTag: [String] = []
+
+    let config = Config()
+    let gpsLocation = qzela.GPSLocation()
+    let networkListener = NetworkListener()
+
+    // var to receive data from MapTabbarController
+    var incidentId: String?
+    var imageFiles: [String] = []
+    var imageType: String!
+
     @IBOutlet weak var sliderCollectionView: UICollectionView!
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var lblSegment: UILabel!
@@ -34,17 +46,7 @@ class DialogIncidentViewController: UIViewController {
     @IBOutlet weak var stackViewButtons: UIStackView!
     @IBOutlet weak var btLike: UIButton!
     @IBOutlet weak var btSolver: UIButton!
-    
-    var slides: [IncidentImageSlide] =  []
-    var occurrenceTag: [String] = []
 
-//    let newVideoView = AVPlayerViewController()
-
-    let config = Config()
-
-    // var to receive data from MapTabbarController
-    var incidentId: String?
-    
     // Block rotate iPhone
     override var shouldAutorotate: Bool {
         false
@@ -69,7 +71,7 @@ class DialogIncidentViewController: UIViewController {
         pbStepIncident.setProgress(0.0, animated: true)
         lblHeadAddress.text = "text_location".localized()
         lblHeadComments.text = "text_comments".localized()
-        btSolver.setTitle("text_solver".localized(), for: .normal)
+        btSolver.setTitle("text_resolve".localized(), for: .normal)
 
         config.startLoadingData(view: view, color: .qzelaDarkBlue)
 
@@ -100,6 +102,103 @@ class DialogIncidentViewController: UIViewController {
             print("btLike")
         case "btSolver":
             print("btSolver")
+            if (Config.SAVED_INCIDENT) {
+                let send = SendIncident()
+                let incidentImages = Config.saveIncidents[Config.saveIncidentPosition]
+                imageType = incidentImages.imageType
+                for imageSave in incidentImages.savedImages {
+                    imageFiles.append(Config.PATH_SAVED_FILES + "/" + imageSave.fileImage)
+                }
+                send.sendCloseIncident(view: self,
+                        incidentId: incidentId!,
+                        citizenId: Config.SAV_CD_USUARIO,
+                        imageFiles: imageFiles,
+                        imageType: imageType
+                ) { [self] result in
+                    // Data send to SPI
+                    if (result) {
+                        // Delete files saved.
+                        qzela.Config.saveQtdIncidents -= 1
+                        for imageSave in Config.saveIncidents[Config.saveIncidentPosition].savedImages {
+                            let fileManager = FileManager.default
+                            let fileDelete = Config.PATH_SAVED_FILES + "/" + imageSave.fileImage
+                            self.config.deleteImage(fileManager: fileManager, pathFileFrom: fileDelete)
+                        }
+                        // Save user defaults
+                        Config.saveIncidents.remove(at: Config.saveIncidentPosition)
+                        let data = try! JSONEncoder().encode(Config.saveIncidents)
+                        Config.userDefaults.set(data, forKey: "incidentSaved")
+                        Config.userDefaults.set(Config.saveQtdIncidents, forKey: "qtdIncidentSaved")
+                        Config.saveIncidentPosition = -1
+                        Config.SAVED_INCIDENT = false
+                        Config.backIncidentSend = true
+                        Config.backSavedDashboard = true
+//                        let tabBarController = self.view.window?.windowScene?.keyWindow?.rootViewController as! UITabBarController
+//                        tabBarController.selectedIndex = Config.MENU_ITEM_DASHBOARD
+//                        self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
+                        self.dismiss(animated: true, completion: nil)
+                        self.tabBarController!.selectedIndex = Config.MENU_ITEM_DASHBOARD
+                    } else {
+                        self.showAlert(title: "text_service_out".localized(),
+                                message: "text_service_unavailable".localized(),
+                                type: .attention,
+                                actionTitles: ["text_got_it".localized()],
+                                style: [.default],
+                                actions: [nil]
+                        )
+                    }
+                }
+            } else {
+                // check Internet
+                if (!networkListener.isNetworkAvailable()) {
+                    showAlert(title: "text_no_internet".localized(),
+                            message: "text_internet_off".localized(),
+                            type: .attention,
+                            actionTitles: ["text_got_it".localized()],
+                            style: [.default],
+                            actions: [nil]
+                    )
+                } else {
+                    // check GPS
+                    if (gpsLocation.isGpsEnable()) {
+                        // check camera permission
+                        if (config.checkCameraPermissions()) {
+                            Config.savCoordinate = gpsLocation.getCoordinate()
+                            Config.CLOSE_INCIDENT = true
+                            Config.SAV_CLOSE_INCIDENT_ID = incidentId!
+                            // Go to Photo View Controller
+                            let controller = storyboard?.instantiateViewController(withIdentifier: "PhotoViewController") as! PhotoViewController
+                            controller.modalPresentationStyle = .fullScreen
+                            controller.modalTransitionStyle = .crossDissolve
+                            present(controller, animated: true)
+                        } else {
+                            let actionHandler: (UIAlertAction) -> Void = { (action) in
+                                //Redirect to Settings app
+                                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                            }
+                            showAlert(title: "text_no_camera_permission".localized(),
+                                    message: "text_camera_never_permission".localized(),
+                                    type: .error,
+                                    actionTitles: ["text_settings".localized(), "text_cancel".localized()],
+                                    style: [.default, .cancel],
+                                    actions: [actionHandler, nil]
+                            )
+                        }
+                    } else {
+                        let actionHandler: (UIAlertAction) -> Void = { (action) in
+                            //Redirect to Settings app
+                            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                        }
+                        showAlert(title: "text_no_gps_permission".localized(),
+                                message: "text_gps_never_permission".localized(),
+                                type: .error,
+                                actionTitles: ["text_settings".localized(), "text_cancel".localized()],
+                                style: [.default, .cancel],
+                                actions: [actionHandler, nil]
+                        )
+                    }
+                }
+            }
         case "btFeedback":
             print("btFeedback")
         default:
@@ -118,22 +217,28 @@ class DialogIncidentViewController: UIViewController {
                     if (Config.SAVED_INCIDENT) {
                         btSolver.visibility = .visible
                     }else {
+                        // For Close incident
+                        Config.SAV_CLOSE_TP_IMAGE = result.tpImage
+                        // *******
                         switch result.stIncident {
-                            case 0,2:
-                                if (result._idOpenCitizen != Config.SAV_CD_USUARIO) {
-                                    btLike.visibility = .visible
-                                }
-                                btSolver.visibility = .visible
-                                break
-                            case 1,4:
-                                if !(result.closureConfirms.contains(Config.SAV_CD_USUARIO)) {
-                                    btFeedback.visibility = .visible
-                                }
-                            default: break
+                        case 0,2:
+                            if (result._idOpenCitizen != Config.SAV_CD_USUARIO) {
+                                btLike.visibility = .visible
+                            }
+                            btSolver.visibility = .visible
+                            break
+                        case 1,4:
+                            if !(result.closureConfirms.contains(Config.SAV_CD_USUARIO)) {
+                                btFeedback.visibility = .visible
+                            }
+                        default: break
                         }
                     }
                     for medias in result.mediaUrls! {
                         if (medias.contains(Config.IMAGE_MAP)) { continue}
+                        if (Config.ARRAY_INCIDENT_ALL_STATUS_OPEN.contains(result.stIncident)) {
+                            getDirectory(filePath: medias)
+                        }
                         if (medias.contains(Config.IMAGE_OPEN)) {
                             if (result.stIncident == Config.INCIDENT_STATUS_REGISTERED) {
                                 slides.append(IncidentImageSlide(status: Config.STATUS_REGISTERED, tpImage: result.tpImage, mediaURL: medias))
@@ -213,7 +318,7 @@ class DialogIncidentViewController: UIViewController {
                                 email: Config.SAV_DC_EMAIL,
                                 password: Config.SAV_DC_SENHA,
                                 notificationId: Config.SAV_NOTIFICATION_ID
-                        ){ result in
+                        ){ [self] result in
                             if !(login.getMessage() == "Login Ok") {
                                 self.showAlert(title: "text_warning".localized(),
                                         message: login.getMessage().localized(),
@@ -228,7 +333,7 @@ class DialogIncidentViewController: UIViewController {
                                 Config.SAV_CD_USUARIO = login.getUserId()
                                 Config.userDefaults.set(Config.SAV_ACCESS_TOKEN, forKey: "accessToken")
                                 Config.userDefaults.set(Config.SAV_CD_USUARIO, forKey: "cdUser")
-                                self.getIncident()
+                                getIncident()
                             }
                         }
                     }
@@ -247,10 +352,60 @@ class DialogIncidentViewController: UIViewController {
         // print("******** GetIncidentById - END **********")
     }
 
+    func getDirectory(filePath: String) {
+
+        // Caminhos dos arquivos de images na Google Storage
+        // "https://firebasestorage.googleapis.com/v0/b/qz-user-data/o/videos/prd/2020/6/5/open/2020-06-05T14:30:31.970Z-8/video.mp4?alt=media&token=b81d29e8-fb70-49ee-8545-c7df80f6cd68"
+        // "https://firebasestorage.googleapis.com/v0/b/westars-qzela.appspot.com/o/videos/prd/2020/9/1/2020-09-01T10:32:26.105Z-4/video_open.mp4?alt=media&token=e3c56d77-e8dc-4e68-a160-999e409ce879"
+        // "https://firebasestorage.googleapis.com:443/v0/b/qz-user-data/o/images/stg/2022/04/06/2022-04-06T13:09:20/vid_open_0.jpg?alt=media&token=5cb1b296-99f8-4746-b25d-b90516672a7a"
+        // "https://firebasestorage.googleapis.com:443/v0/b/qz-user-data/o/images/stg/2022/04/11/2022-04-11T17:03:15/img_open_0.jpg?alt=media&token=e84ebdff-a405-415c-ae3a-5ffb30035f92"
+        // "https://storage.googleapis.com/qz-user-data/legacy/5d4dd2fc8101561e3bf47168/open_img_1.jpg"
+        // "https://firebasestorage.googleapis.com/v0/b/qz-user-data/o/images/prd/2020/8/7/open/2020-08-07T14:33:08.966Z-3/img_0?alt=media&token=325db349-2a7b-4d2c-afaf-2cbacf753450"
+        // "https://storage.googleapis.com/qz-user-data/legacy/5f04a970497deb2df56b4ef1/open_img_0.jpg"
+
+        let urlDecode = filePath.removingPercentEncoding!
+        print(urlDecode)
+        var startIndex: String.Index!
+        var subStrEnd: String!
+        if (urlDecode.contains(Config.FIREBASE_INCIDENTS_BUCKET)) {
+            Config.SAV_CLOSE_BUCKET = Config.FIREBASE_INCIDENTS_BUCKET
+        } else {
+            Config.SAV_CLOSE_BUCKET = Config.FIREBASE_INCIDENTS_BUCKET_LEGACY
+        }
+        startIndex = urlDecode.range(of: Config.SAV_CLOSE_BUCKET+"/")?.lowerBound
+        if (urlDecode.contains("/video.")) {
+            subStrEnd = "/video."
+        } else if (urlDecode.contains("/video_")) {
+            subStrEnd = "/video_"
+        } else if (urlDecode.contains("/vid_open")) {
+            subStrEnd = "/vid_open"
+        } else if (urlDecode.contains("/img_open")) {
+            subStrEnd = "/img_open"
+        } else if (urlDecode.contains("/open_img")) {
+            subStrEnd = "/open_img"
+        } else if (urlDecode.contains("/img_0")) {
+            subStrEnd = "/img_0"
+        } else {
+            print("ERROR: Not find subStrEnd : \(urlDecode)")
+            return
+        }
+        let endIndex = urlDecode.range(of: subStrEnd)?.lowerBound
+        Config.SAV_CLOSE_IMAGE_DIRECTORY = String(urlDecode[startIndex!..<endIndex!])
+        print("urlDecode: ", String(urlDecode[startIndex!..<endIndex!]))
+        if (Config.SAV_CLOSE_IMAGE_DIRECTORY.contains("/o/")) {
+            Config.SAV_CLOSE_IMAGE_DIRECTORY = Config.SAV_CLOSE_IMAGE_DIRECTORY.replacingOccurrences(of: Config.SAV_CLOSE_BUCKET+"/o/", with: "")
+        } else {
+            Config.SAV_CLOSE_IMAGE_DIRECTORY = Config.SAV_CLOSE_IMAGE_DIRECTORY.replacingOccurrences(of: Config.SAV_CLOSE_BUCKET+"/", with: "")
+        }
+        print("Bucket: ", Config.SAV_CLOSE_BUCKET)
+        print("Directory: ", Config.SAV_CLOSE_IMAGE_DIRECTORY)
+
+    }
+
     func showImage(imageFilePath: [String], bVideo: Bool, imageNumber: Int) {
         let controller = storyboard?.instantiateViewController(withIdentifier: "PreviewViewController") as! PreviewViewController
         controller.modalPresentationStyle = .fullScreen
-        controller.modalTransitionStyle = .flipHorizontal
+        controller.modalTransitionStyle = .crossDissolve
         // pass data to view controller
         controller.imagesFilesPath = imageFilePath
         controller.bUrl = true
