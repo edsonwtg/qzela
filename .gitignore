@@ -120,3 +120,4 @@ iOSInjectionProject/
 
 # Additions AppCode
 .idea/
+/Pods/
