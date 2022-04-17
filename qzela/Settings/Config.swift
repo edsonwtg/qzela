@@ -80,7 +80,6 @@ class Config {
         var areasOfInterest: [String] = []
     }
 
-
     // Variables for pass data from/to view controllers
     static var backIncidentSend = false
     static var backSaveIncident = false

@@ -327,6 +327,7 @@ class PhotoViewController: UIViewController {
                 // self.config.listDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
 //                self.tabBarController?.selectedIndex = 2
                 Config.CLOSE_INCIDENT = false
+                Config.deletePhoto = 0
                 self.dismiss(animated: true, completion: nil)
             }
             showAlert(title:  "text_attention".localized(),
@@ -340,6 +341,7 @@ class PhotoViewController: UIViewController {
                 self.config.cleanDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
                 // print("************** PATH_TEMP_FILES ************")
                 // self.config.listDirectory(fileManager: self.fileManager, path: Config.PATH_TEMP_FILES)
+                Config.deletePhoto = 0
                 Config.CLOSE_INCIDENT = false
                 self.tabBarController?.selectedIndex = 2
                 self.dismiss(animated: true, completion: nil)

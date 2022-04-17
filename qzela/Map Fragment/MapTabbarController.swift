@@ -37,7 +37,7 @@ class MapTabbarController: UIViewController {
     @IBOutlet weak var aiLoadingData: NVActivityIndicatorView!
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .darkContent
+        .darkContent
     }
 
     @objc func changeStatusInternet(notification: NSNotification) {
@@ -109,7 +109,7 @@ class MapTabbarController: UIViewController {
             btSavedImage.visibility = .invisible
             solverLabel.visibility = .invisible
             btCancel.visibility = .invisible
-            self.tabBarController?.tabBar.isHidden = false
+            tabBarController?.tabBar.isHidden = false
             mapView.isMyLocationEnabled = true
             gpsLocation.delegate = self
             gpsLocation.startLocationUpdates()
@@ -244,7 +244,7 @@ class MapTabbarController: UIViewController {
            }
 
         case "btSavedImage","btCancel":
-            self.tabBarController!.selectedIndex = Config.MENU_ITEM_DASHBOARD
+            tabBarController!.selectedIndex = Config.MENU_ITEM_DASHBOARD
         default:
             print(sender.restorationIdentifier ?? "no restoration Identifier defined")
         }
@@ -285,8 +285,8 @@ class MapTabbarController: UIViewController {
         // Google Maps events delegate
         mapView.delegate = self
 
-        if (Config.saveQtdIncidents > 0 && self.networkListener.isNetworkAvailable()) {
-            self.btSavedImage.visibility = .visible
+        if (Config.saveQtdIncidents > 0 && networkListener.isNetworkAvailable()) {
+            btSavedImage.visibility = .visible
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 let okSettings: (UIAlertAction) -> Void = { (action) in
                     //Redirect to Settings app
